@@ -1,22 +1,22 @@
 {
-  "name": "iobroker.template",
+  "name": "iobroker.homepilot20",
   "version": "0.0.1",
-  "description": "Template for adapter development",
+  "description": "Homepilot 2.0 adapter",
   "author": {
-    "name": "Author",
-    "email": "author@mail.com"
+    "name": "Christian Koller",
+    "email": "chris.homecineplexx@gmail.com"
   },
-  "homepage": "https://github.com/Author/ioBroker.template",
+  "homepage": "https://github.com/homecineplexx/ioBroker.homepilot20",
   "license": "MIT",
   "keywords": [
     "ioBroker",
-    "template",
+    "homepilot",
     "Smart Home",
     "home automation"
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/Author/ioBroker.template"
+    "url": "https://github.com/homecineplexx/ioBroker.homepilot20"
   },
   "dependencies": {
     "@iobroker/adapter-core": "^1.0.3"
@@ -51,7 +51,7 @@
     "lint": "eslint"
   },
   "bugs": {
-    "url": "https://github.com/Author/ioBroker.template/issues"
+    "url": "https://github.com/homecineplexx/ioBroker.homepilot20"
   },
   "readmeFilename": "README.md"
 }
