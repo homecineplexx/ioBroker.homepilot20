@@ -81,5 +81,101 @@
         "option2": "42"
     },
     "objects": [],
-    "instanceObjects": []
+    "instanceObjects":[  
+        {  
+            "_id":"station",
+            "type":"channel",
+            "common":{  
+                "role":"",
+                "name":""
+            },
+            "native":{
+            }
+        },
+        {  
+            "_id":"station.ip",
+            "type":"state",
+            "common":{  
+                "name":"homepilot IP",
+                "desc":"homepilot station IP adress",
+                "type":"string",
+                "role":"text.url",
+                "read":true,
+                "write":false
+            },
+            "native":{  
+			}
+        },
+        {  
+            "_id":"station.UNREACH",
+            "type":"state",
+            "common":{  
+                "name":"homepilot not connected",
+                "desc":"is homepilot station unreachable or not",
+                "type":"boolean",
+                "role":"indicator.maintenance.unreach",
+                "def":true,
+                "read":true,
+                "write":false
+            },
+            "native":{  
+			}
+        },
+        {  
+            "_id":"Actuator-json",
+            "type":"state",
+            "common":{  
+                "name":"homepilot Actuator JSON",
+                "desc":"homepilot JSON response on http://homepilotip/v4/devices?devtype=Actuator",
+                "type":"string",
+                "role":"json",
+                "read":true,
+                "write":false
+            },
+            "native":{  
+			}
+        },
+		{  
+            "_id":"Sensor-json",
+            "type":"state",
+            "common":{  
+                "name":"homepilot Sensor JSON",
+                "desc":"homepilot JSON response on http://homepilotip/v4/devices?devtype=Sensor",
+                "type":"string",
+                "role":"json",
+                "read":true,
+                "write":false
+            },
+            "native":{  
+			}
+        },
+		{  
+            "_id":"Transmitter-json",
+            "type":"state",
+            "common":{  
+                "name":"homepilot Transmitter JSON",
+                "desc":"homepilot JSON response on http://homepilotip/v4/devices?devtype=Transmitter",
+                "type":"string",
+                "role":"json",
+                "read":true,
+                "write":false
+            },
+            "native":{  
+			}
+        },
+		{  
+            "_id":"Camera-json",
+            "type":"state",
+            "common":{  
+                "name":"homepilot Camera JSON",
+                "desc":"homepilot JSON response on http://homepilotip/v4/devices?devtype=Camera",
+                "type":"string",
+                "role":"json",
+                "read":true,
+                "write":false
+            },
+            "native":{  
+			}
+        }
+    ]
 }
