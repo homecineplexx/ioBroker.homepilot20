@@ -12,7 +12,11 @@
     "ioBroker",
     "homepilot",
     "Smart Home",
-    "home automation"
+    "home automation",
+	"rollo",
+	"rollladen",
+	"rademacher",
+	"homecineplexx"
   ],
   "repository": {
     "type": "git",

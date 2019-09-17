@@ -30,9 +30,13 @@
         ],
         "keywords": [
             "ioBroker",
-            "homepilot",
-            "Smart Home",
-            "home automation"
+			"homepilot",
+			"Smart Home",
+			"home automation",
+			"rollo",
+			"rollladen",
+			"rademacher",
+			"homecineplexx"
         ],
         "license": "MIT",
         "platform": "Javascript/Node.js",

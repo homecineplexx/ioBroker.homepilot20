@@ -9,8 +9,8 @@ request = request.defaults({jar: true})
 var CryptoJS = require("crypto-js");			//used from Rademacher to encrypt the password
 
 var lang = 'de';
-var callReadActuator;
-var callReadSensor;
+var callReadActuator = null;
+var callReadSensor = null;
 var ip = '';
 var sync = 12;
 var password;
@@ -33,7 +33,6 @@ var adapter = utils.Adapter({
     useFormatDate: true,
     stateChange: function(id, state) {
         if (!id || !state || state.ack) return;
-        //if ((!id.match(/\.level\w*$/) || (!id.match(/\.cid\w*$/)) return; // if datapoint is not "level" or not "cid"
         adapter.log.debug('stateChange ' + id + ' ' + JSON.stringify(state));
         adapter.log.debug('input value: ' + state.val.toString());
         controlHomepilot(id, state.val.toString());
@@ -54,8 +53,16 @@ var adapter = utils.Adapter({
 });
 
 function stopReadHomepilot() {
-    clearInterval(callReadActuator);
-	clearInterval(callReadSensor);
+	if (callReadActuator !== null) {
+		clearInterval(callReadActuator);
+		adapter.log.debug('callReadActuator cleared');
+	}
+    
+	if (callReadSensor !== null) {
+		clearInterval(callReadSensor);
+		adapter.log.debug('callReadSensor cleared');
+	}
+
     adapter.log.error('Adapter will be stopped');
 }
 
@@ -1460,7 +1467,7 @@ function writeSensorStates(result, i) {
 
 function readSensor(link) {
     var unreach = true;
-
+	
     //request(link, function(error, response, body) {
 	request({
 			method: 'GET',
