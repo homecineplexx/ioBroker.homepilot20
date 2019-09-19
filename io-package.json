@@ -47,36 +47,16 @@
         "readme": "https://github.com/homecineplexx/ioBroker.homepilot20/blob/master/README.md",
         "loglevel": "info",
         "restartAdapters": [
-            "vis"
         ],
         "mode": "daemon",
         "type": "general",
         "compact": true,
         "materialize": true,
         "materializeTab": true,
-        "adminTab": {
-            "singleton": true,
-            "name": {
-                "en": "Template (JavaScript with VIS)",
-                "de": "Vorlage (JavaScript mit VIS)",
-                "ru": "Шаблон (JavaScript с VIS)",
-                "pt": "Modelo (JavaScript com VIS)",
-                "nl": "Sjabloon (JavaScript met VIS)",
-                "fr": "Modèle (JavaScript avec VIS)",
-                "it": "Template (JavaScript con VIS)",
-                "es": "Plantilla (JavaScript con VIS)",
-                "pl": "Szablon (JavaScript z VIS)",
-                "zh-cn": "模板（带VIS的JavaScript）"
-            },
-            "link": "",
-            "fa-icon": "info"
-        },
-        "supportCustoms": true,
         "dependencies": [
             {
                 "js-controller": ">=1.4.2"
-            },
-            "vis"
+            }
         ]
     },
     "native": {

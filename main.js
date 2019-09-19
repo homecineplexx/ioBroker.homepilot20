@@ -357,10 +357,10 @@ function controlHomepilot(id, input) {
 		deviceNumberId == '32501972' /*DuoFern-Mehrfachwandtaster*/ ||
 		deviceNumberId == '32501772' /*DuoFern-Bewegungsmelder-9484*/) {
 		
-		data = JSON.stringify({"name":"TURN_OFF_CMD"}); 
+		data = {"name":"TURN_OFF_CMD"}; 
 		
 		if (input == 'true') {
-			data = JSON.stringify({"name":"TURN_ON_CMD"});
+			data = {"name":"TURN_ON_CMD"};
 		}
 	//role == level.blind
 	} else if (deviceNumberId == '35000864' /*DuoFern-Connect-Aktor*/ ||
@@ -379,7 +379,7 @@ function controlHomepilot(id, input) {
 			input = 100;
 		}
 		
-		data = JSON.stringify({"name":"GOTO_POS_CMD", "value":"" + parseInt(input) + ""});
+		data = {"name":"GOTO_POS_CMD", "value":"" + parseInt(input) + ""};
 	//role == temperature
 	} else if (deviceNumberId == '35003064' /*DuoFern-Heizkörperstellantrieb*/ ||
 				deviceNumberId == '35002319' /*Z-Wave-Heizkörperstellantrieb*/) {
@@ -394,7 +394,7 @@ function controlHomepilot(id, input) {
 		
 		val = (val%5<3 ? (val%5===0 ? val : Math.floor(val/5)*5) : Math.ceil(val/5)*5) / 10;
 		
-		data = JSON.stringify({"name":"TARGET_TEMPERATURE_CFG", "value":"" + val + ""});
+		data = {"name":"TARGET_TEMPERATURE_CFG", "value":"" + val + ""};
 	//role == temperature
 	} else if (deviceNumberId == '32501812' /*DuoFern-Raumthermostat*/) {
 		//range 40°C-400°C in 0.5°C steps
@@ -408,7 +408,7 @@ function controlHomepilot(id, input) {
 		
 		val = (val%5<3 ? (val%5===0 ? val : Math.floor(val/5)*5) : Math.ceil(val/5)*5) / 10;
 				
-		data = JSON.stringify({"name":"TARGET_TEMPERATURE_CFG", "value":"" + val + ""});
+		data = {"name":"TARGET_TEMPERATURE_CFG", "value":"" + val + ""};
 	}
 	
 	if (data !== undefined) {
