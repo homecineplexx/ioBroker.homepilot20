@@ -11,6 +11,7 @@ var CryptoJS = require("crypto-js");			//used from Rademacher to encrypt the pas
 var lang = 'de';
 var callReadActuator = null;
 var callReadSensor = null;
+var callReadTransmitter = null;
 var ip = '';
 var sync = 12;
 var password;
@@ -19,6 +20,7 @@ var passwordSalt;
 var cookie;
 
 // needed variable
+var path;
 var pathActuator;
 var pathSensor
 var deviceRole;
@@ -26,6 +28,8 @@ var deviceTypeActuator;
 var deviceTypeSensor;
 var additionalDeviceSettings = [];
 var additionalSensorSettings = [];
+var additionalTransmitterSettings = [];
+var deviceType;
 
 var adapter = utils.Adapter({
     name: 'homepilot20',
@@ -52,6 +56,271 @@ var adapter = utils.Adapter({
     }
 });
 
+function readTransmitter(link) {
+    var unreach = true;
+	
+    //request(link, function(error, response, body) {
+	request({
+			method: 'GET',
+			uri: link,
+			headers: [
+				{ 'Cookie': cookie },
+				{ 'Content-Type': 'application/json' }
+			]
+		},	
+		function(error, response, body) {
+			if (!error && response.statusCode == 200) {
+				var result;
+				try {
+					result = JSON.parse(body);
+					var data = JSON.stringify(result, null, 2);
+					unreach = false;
+					adapter.log.debug('Homepilot transmitter data: ' + data);
+					adapter.setState('Transmitter-json', {
+						val: data,
+						ack: true
+					});
+				} catch (e) {
+					adapter.log.warn('Parse Error: ' + e);
+					unreach = true;
+				}
+
+				if (result) {
+					for (var i = 0; i < result.transmitters.length; i++) {
+						createTransmitterStates(result.transmitters[i], 'Transmitter'); 
+						writeTransmitterStates(result.transmitters[i], 'Transmitter'); 
+					}
+					
+					doAdditional(additionalTransmitterSettings, 'Transmitter');	
+				}
+			} else {
+				adapter.log.warn('Transmitter sensors -> Cannot connect to Homepilot: ' + (error ? error : JSON.stringify(response)));
+				unreach = true;
+			}
+			// Write connection status
+			adapter.setState('station.UNREACH', {
+				val: unreach,
+				ack: true
+			});
+		}
+	); // End request 
+	
+	additionalTransmitterSettings = [];
+	
+    adapter.log.debug('Finished reading Homepilot transmitter data');
+}
+
+function writeTransmitterStates(result, type) {
+	var deviceNumber = deviceNumberNormalize(result.deviceNumber);
+	var deviceId   = result.did;
+	
+	calculatePath(result, type);
+		
+	if (deviceType !== undefined) {
+		adapter.setState(path + '.deviceNumber', {
+			val: deviceNumber,
+			ack: true
+		});
+		
+		adapter.setState(path + '.deviceGroup', {
+			val: result.deviceGroup,
+			ack: true
+		});
+		
+		adapter.setState(path + '.description', {
+			val: result.description,
+			ack: true
+		});
+		
+		adapter.setState(path + '.did', {
+			val: deviceId,
+			ack: true
+		});
+	
+		adapter.setState(path + '.name', {
+			val: result.name,
+			ack: true
+		});
+		
+		adapter.setState(path + '.statusValid', {
+			val: result.statusValid,
+			ack: true
+		});
+		
+		adapter.setState(path + '.visible', {
+			val: result.visible,
+			ack: true
+		});
+		
+		adapter.setState(path + '.uid', {
+			val: result.uid,
+			ack: true
+		});
+
+		if (deviceNumber == '32160211' /*DuoFern-Wandtaster-9494*/ ||
+			deviceNumber == '32501974' /*DuoFern-Mehrfachwandtaster-BAT-9494-1*/ ||
+			deviceNumber == '34810060' /*DuoFern-Handzentrale-9493*/) {
+				adapter.setState(path + '.batteryLow', {
+					val: result.batteryLow,
+					ack: true
+				});
+		}
+		
+		adapter.log.debug(type + ' states for ' + deviceId + ' written');
+	}
+	
+	path = undefined;
+	deviceType = undefined;
+	deviceRole = undefined;
+}
+
+function createTransmitterStates(result, type) {
+	var deviceGroup = result.deviceGroup;
+	var deviceId   = result.did;
+    var deviceName = result.name;
+	var deviceNumber = deviceNumberNormalize(result.deviceNumber);
+	var deviceDescription = result.description;	
+	
+	calculatePath(result, type);
+
+	if (deviceType !== undefined) {
+		// create Channel DeviceID
+		adapter.setObjectNotExists(path, {
+			type: 'channel',
+			common: {
+				name: deviceType + ': ' + deviceName + ' (Device ID ' + deviceId + ')',
+				role: 'text',
+			},
+			native: {}
+		});
+		
+		// create States
+		adapter.setObjectNotExists(path + '.deviceNumber', {
+			type: 'state',
+			common: {
+				name: 'deviceNumber ' + deviceName,
+				desc: 'deviceNumber stored in homepilot for device ' + deviceId,
+				type: 'string',
+				role: 'text',
+				read: true,
+				write: false
+			},
+			native: {}
+		});
+		
+		adapter.setObjectNotExists(path + '.deviceGroup', {
+			type: 'state',
+			common: {
+				name: 'deviceGroup ' + deviceName,
+				desc: 'deviceGroup stored in homepilot for device ' + deviceId,
+				type: 'string',
+				role: 'text',
+				read: true,
+				write: false
+			},
+			native: {}
+		});
+		
+		adapter.setObjectNotExists(path + '.description', {
+			type: 'state',
+			common: {
+				name: 'description ' + deviceName,
+				desc: 'description stored in homepilot for device ' + deviceId,
+				type: 'string',
+				role: 'text',
+				read: true,
+				write: false
+			},
+			native: {}
+		});		
+		
+		adapter.setObjectNotExists(path + '.did', {
+			type: 'state',
+			common: {
+				name: 'did ' + deviceName,
+				desc: 'did stored in homepilot for device ' + deviceId,
+				type: 'string',
+				role: 'text',
+				read: true,
+				write: false
+			},
+			native: {}
+		});
+		
+		adapter.setObjectNotExists(path + '.name', {
+			type: 'state',
+			common: {
+				name: 'name ' + deviceName,
+				desc: 'name stored in homepilot for device ' + deviceId,
+				type: 'string',
+				role: 'text',
+				read: true,
+				write: false
+			},
+			native: {}
+		});
+		
+		adapter.setObjectNotExists(path + '.statusValid', {
+			type: 'state',
+			common: {
+			   name: 'statusValid ' + deviceName,
+				desc: 'statusValid stored in homepilot for device ' + deviceId,
+				type: 'boolean',
+				role: 'text',
+				def: true,
+				read: true,
+				write: false
+			},
+			native: {}
+		});
+				
+		adapter.setObjectNotExists(path + '.visible', {
+			type: 'state',
+			common: {
+			   name: 'visible ' + deviceName,
+				desc: 'visible stored in homepilot for device ' + deviceId,
+				type: 'boolean',
+				role: 'text',
+				def: true,
+				read: true,
+				write: false
+			},
+			native: {}
+		});
+			
+		adapter.setObjectNotExists(path + '.uid', {
+			type: 'state',
+			common: {
+				name: 'uid ' + deviceName,
+				desc: 'uid stored in homepilot for device ' + deviceId,
+				type: 'string',
+				role: 'text',
+				read: true,
+				write: false
+			},
+			native: {}
+		});
+
+		if (deviceNumber == '32160211' /*DuoFern-Wandtaster-9494*/ ||
+			deviceNumber == '32501974' /*DuoFern-Mehrfachwandtaster-BAT-9494-1*/ ||
+			deviceNumber == '34810060' /*DuoFern-Handzentrale-9493*/) {
+				adapter.setObjectNotExists(path + '.batteryLow', {
+					type: 'state',
+					common: {
+					   name: 'batteryLow ' + deviceName,
+						desc: 'batteryLow stored in homepilot for device ' + deviceId,
+						type: 'boolean',
+						role: 'text',
+						def: true,
+						read: true,
+						write: false
+					},
+					native: {}
+				});
+		}	
+	}
+}
+
 function stopReadHomepilot() {
 	if (callReadActuator !== null) {
 		clearInterval(callReadActuator);
@@ -63,6 +332,11 @@ function stopReadHomepilot() {
 		adapter.log.debug('callReadSensor cleared');
 	}
 
+	if (callReadTransmitter !== null) {
+		clearInterval(callReadTransmitter);
+		adapter.log.debug('callReadTransmitter cleared');
+	}
+	
     adapter.log.error('Adapter will be stopped');
 }
 
@@ -72,7 +346,7 @@ function controlHomepilot(id, input) {
 	var controller_array = id.split('.');
 	var deviceIdNumber_array = controller_array[3].split('-');
 	var deviceId = deviceIdNumber_array[0];
-	var deviceNumberId = deviceIdNumber_array[1];
+	var deviceNumberId = deviceNumberNormalize(deviceIdNumber_array[1]);
 	
 	var data; 
 	
@@ -80,7 +354,8 @@ function controlHomepilot(id, input) {
 	if (deviceNumberId == '35002414' /*Z-Wave Steckdose*/ ||
 		deviceNumberId == '35000262' /*DuoFern-2-Kanal-Aktor*/ ||
 		deviceNumberId == '35001164' /*DuoFern-Steckdose*/ ||
-		deviceNumberId == '32501972_A' /*DuoFern-Mehrfachwandtaster*/) {
+		deviceNumberId == '32501972' /*DuoFern-Mehrfachwandtaster*/ ||
+		deviceNumberId == '32501772' /*DuoFern-Bewegungsmelder-9484*/) {
 		
 		data = JSON.stringify({"name":"TURN_OFF_CMD"}); 
 		
@@ -96,8 +371,8 @@ function controlHomepilot(id, input) {
 				deviceNumberId == '27601565' /*DuoFern-Rohrmotor*/ ||
 				deviceNumberId == '35000462' /*DuoFern-Universal-Dimmaktor*/ ||
 				deviceNumberId == '35140462' /*DuoFern-UniversalDimmer-9476*/ ||
-				deviceNumberId == '36500572_A' /*Duofern-Troll-Comfort-5665*/ ||
-				deviceNumberId == '32000064_A' /*DuoFern-Umweltsensor*/) {
+				deviceNumberId == '36500572' /*Duofern-Troll-Comfort-5665*/ ||
+				deviceNumberId == '32000064' /*DuoFern-Umweltsensor*/) {
 		if (0 >= parseInt(input)) {
 			input = 0;
 		} else if (parseInt(input) >= 100) {
@@ -121,7 +396,7 @@ function controlHomepilot(id, input) {
 		
 		data = JSON.stringify({"name":"TARGET_TEMPERATURE_CFG", "value":"" + val + ""});
 	//role == temperature
-	} else if (deviceNumberId == '32501812_A' /*DuoFern-Raumthermostat*/) {
+	} else if (deviceNumberId == '32501812' /*DuoFern-Raumthermostat*/) {
 		//range 40°C-400°C in 0.5°C steps
 		var val = (parseFloat(input)*10);
 		
@@ -183,122 +458,28 @@ function readSettings() {
 	}
 }
 
-function calculateActuatorPathAndRole(result, i) {
-	var deviceId   = result.devices[i].did;
-    var deviceName = result.devices[i].name;
-	var deviceNumber = result.devices[i].deviceNumber;
+function createActuatorStates(result, type) {
+	var deviceGroup = result.deviceGroup;
+	var deviceId   = result.did;
+    var deviceName = result.name;
+	var deviceNumber = deviceNumberNormalize(result.deviceNumber);
+	var deviceDescription = result.description;	
 	
-	pathActuator = 'Actuator.' + deviceId + '-' + deviceNumber;
-
-	switch (deviceNumber) {
-		case "35003064":
-            deviceTypeActuator = 'DuoFernHeizkörperstellantrieb';
-			deviceRole = 'level.temperature';
-			break;
-			
-		case "32501812_A":
-			deviceTypeActuator = 'DuoFernRaumthermostat';
-			deviceRole = 'level.temperature';
-            break;
-        
-		case "35002414":
-            deviceTypeActuator = 'RepeaterMitSchaltfunktionZ-Wave';
-			deviceRole = (deviceName.indexOf('Licht') != -1) ? 'light.switch' : 'switch' ;
-            break;
-			
-        case "35000262":
-			deviceTypeActuator = 'DuoFernUniversal-Aktor2-Kanal';
-			deviceRole = (deviceName.indexOf('Licht') != -1) ? 'light.switch' : 'switch' ;
-            break;
-		
-        case "35001164":
-			deviceTypeActuator = 'DuoFernSteckdose';
-			deviceRole = (deviceName.indexOf('Licht') != -1) ? 'light.switch' : 'switch' ;
-            break;
-		
-		case "32501972_A":
-			deviceTypeActuator = 'DuoFernMehrfachwandtaster';
-			deviceRole = 'switch';
-			additionalDeviceSettings.push(deviceId + 1);
-            break;
-			
-        case "35000864":
-			deviceTypeActuator = 'DuoFernConnect-Aktor';
-			deviceRole = 'level.blind';
-            break;
-		
-		case "14234511":
-			deviceTypeActuator = 'DuoFernRolloTronStandard';
-			deviceRole = 'level.blind';
-            break;
-			
-		case "35000662":
-			deviceTypeActuator = 'DuoFernRohrmotor-Aktor';
-			deviceRole = 'level.blind';
-            break;
-			
-		case "31500162":
-			deviceTypeActuator = 'DuoFern-Rohrmotorsteuerung';
-			deviceRole = 'level.blind';
-			break;
-		
-		case "36500172":
-			deviceTypeActuator = 'DuoFern-TrollBasis';
-			deviceRole = 'level.blind';
-			break;
-			
-		case "27601565":
-			deviceTypeActuator = 'DuoFern-Rohrmotor';
-			deviceRole = 'level.blind';
-			break;
-		
-		case "36500572_A":
-			deviceTypeActuator = 'Duofern-Troll-Comfort-5665';
-			deviceRole = 'level.blind';
-			break;		
-			
-		case "32000064_A":
-			deviceTypeActuator = 'DuoFern-Umweltsensor';
-			deviceRole = 'level.blind';
-			break;	
-			
-		case "35000462":
-			deviceTypeActuator = 'DuoFern-Universal-Dimmaktor';
-			deviceRole = 'level.dimmer';
-			break;	
-			
-		case "35140462":
-			deviceTypeActuator = 'DuoFern-UniversalDimmer-9476';
-			deviceRole = 'level.dimmer';
-			break;	
-			
-        default:
-            adapter.log.warn('Unknown deviceNumber=' + deviceNumber);
-    }
-}
-
-function createActuatorStates(result, i) {
-	var deviceGroup = result.devices[i].deviceGroup;
-	var deviceId   = result.devices[i].did;
-    var deviceName = result.devices[i].name;
-	var deviceNumber = result.devices[i].deviceNumber;
-	var deviceDescription = result.devices[i].description;	
-	
-	calculateActuatorPathAndRole(result, i);
+	calculatePath(result, type);
 	
 	if (deviceRole !== undefined) {
 		// create Channel DeviceID
-		adapter.setObjectNotExists(pathActuator, {
+		adapter.setObjectNotExists(path, {
 			type: 'channel',
 			common: {
-				name: deviceTypeActuator + ': ' + deviceName + ' (Device ID ' + deviceId + ')',
+				name: deviceType + ': ' + deviceName + ' (Device ID ' + deviceId + ')',
 				role: deviceRole,
 			},
 			native: {}
 		});
 		
 		// create States
-		adapter.setObjectNotExists(pathActuator + '.description', {
+		adapter.setObjectNotExists(path + '.description', {
 			type: 'state',
 			common: {
 				name: 'description ' + deviceName,
@@ -311,7 +492,7 @@ function createActuatorStates(result, i) {
 			native: {}
 		});
 		
-		adapter.setObjectNotExists(pathActuator + '.deviceGroup', {
+		adapter.setObjectNotExists(path + '.deviceGroup', {
 			type: 'state',
 			common: {
 				name: 'deviceGroup ' + deviceName,
@@ -324,7 +505,7 @@ function createActuatorStates(result, i) {
 			native: {}
 		});
 		
-		adapter.setObjectNotExists(pathActuator + '.did', {
+		adapter.setObjectNotExists(path + '.did', {
 			type: 'state',
 			common: {
 				name: 'did ' + deviceName,
@@ -337,7 +518,7 @@ function createActuatorStates(result, i) {
 			native: {}
 		});
 		
-		adapter.setObjectNotExists(pathActuator + '.hasErrors', {
+		adapter.setObjectNotExists(path + '.hasErrors', {
 			type: 'state',
 			common: {
 				name: 'number of errors ' + deviceName,
@@ -351,7 +532,7 @@ function createActuatorStates(result, i) {
 			native: {}
 		});
 		
-		adapter.setObjectNotExists(pathActuator + '.name', {
+		adapter.setObjectNotExists(path + '.name', {
 			type: 'state',
 			common: {
 				name: 'name ' + deviceName,
@@ -364,7 +545,7 @@ function createActuatorStates(result, i) {
 			native: {}
 		});
 		
-		adapter.setObjectNotExists(pathActuator + '.statusValid', {
+		adapter.setObjectNotExists(path + '.statusValid', {
 			type: 'state',
 			common: {
 			   name: 'statusValid ' + deviceName,
@@ -378,7 +559,7 @@ function createActuatorStates(result, i) {
 			native: {}
 		});
 		
-		adapter.setObjectNotExists(pathActuator + '.visible', {
+		adapter.setObjectNotExists(path + '.visible', {
 			type: 'state',
 			common: {
 			   name: 'visible ' + deviceName,
@@ -392,7 +573,7 @@ function createActuatorStates(result, i) {
 			native: {}
 		});
 		
-		adapter.setObjectNotExists(pathActuator + '.deviceNumber', {
+		adapter.setObjectNotExists(path + '.deviceNumber', {
 			type: 'state',
 			common: {
 				name: 'deviceNumber ' + deviceName,
@@ -405,7 +586,7 @@ function createActuatorStates(result, i) {
 			native: {}
 		});
 		
-		adapter.setObjectNotExists(pathActuator + '.uid', {
+		adapter.setObjectNotExists(path + '.uid', {
 			type: 'state',
 			common: {
 				name: 'uid ' + deviceName,
@@ -419,7 +600,7 @@ function createActuatorStates(result, i) {
 		});
 	
 		if (deviceRole == 'level.blind' || deviceRole == 'level.dimmer') {
-			adapter.setObjectNotExists(pathActuator + '.Position', {
+			adapter.setObjectNotExists(path + '.Position', {
 				type: 'state',
 				common: {
 					name: 'Position ' + deviceName,
@@ -436,7 +617,7 @@ function createActuatorStates(result, i) {
 			});
 			
 			if (deviceNumber == '36500172') {
-				adapter.setObjectNotExists(pathActuator + '.slatposition', {
+				adapter.setObjectNotExists(path + '.slatposition', {
 					type: 'state',
 					common: {
 						name: 'slatposition ' + deviceName,
@@ -453,8 +634,8 @@ function createActuatorStates(result, i) {
 				});
 			}
 		} else if (deviceRole == 'level.temperature') {
-			if (deviceNumber == '32501812_A') {
-				adapter.setObjectNotExists(pathActuator + '.Position', {
+			if (deviceNumber == '32501812') {
+				adapter.setObjectNotExists(path + '.Position', {
 					type: 'state',
 					common: {
 						name: 'Position ' + deviceName,
@@ -470,7 +651,7 @@ function createActuatorStates(result, i) {
 					native: {}
 				});
 			} else {
-				adapter.setObjectNotExists(pathActuator + '.Position', {
+				adapter.setObjectNotExists(path + '.Position', {
 					type: 'state',
 					common: {
 						name: 'Position ' + deviceName,
@@ -487,7 +668,7 @@ function createActuatorStates(result, i) {
 				});
 			}		
 		} else {
-			adapter.setObjectNotExists(pathActuator + '.Position', {
+			adapter.setObjectNotExists(path + '.Position', {
 				type: 'state',
 				common: {
 				   name: 'Position ' + deviceName,
@@ -503,7 +684,7 @@ function createActuatorStates(result, i) {
 		}
 	
 		if (deviceNumber == '35003064') {
-			adapter.setObjectNotExists(pathActuator + '.batteryStatus', {
+			adapter.setObjectNotExists(path + '.batteryStatus', {
 				type: 'state',
 				common: {
 					name: 'batteryStatus ' + deviceName,
@@ -518,7 +699,7 @@ function createActuatorStates(result, i) {
 				native: {}
 			});
 			
-			adapter.setObjectNotExists(pathActuator + '.batteryLow', {
+			adapter.setObjectNotExists(path + '.batteryLow', {
 				type: 'state',
 				common: {
 				   name: 'batteryLow ' + deviceName,
@@ -532,7 +713,7 @@ function createActuatorStates(result, i) {
 				native: {}
 			});
 			
-			adapter.setObjectNotExists(pathActuator + '.posMin', {
+			adapter.setObjectNotExists(path + '.posMin', {
 				type: 'state',
 				common: {
 					name: 'posMin ' + deviceName,
@@ -546,7 +727,7 @@ function createActuatorStates(result, i) {
 				native: {}
 			});
 			
-			adapter.setObjectNotExists(pathActuator + '.posMax', {
+			adapter.setObjectNotExists(path + '.posMax', {
 				type: 'state',
 				common: {
 					name: 'posMax ' + deviceName,
@@ -561,8 +742,9 @@ function createActuatorStates(result, i) {
 			});	
 		}
 		
-		if (deviceNumber == '35003064' || deviceNumber == '32501812_A') {
-			adapter.setObjectNotExists(pathActuator + '.acttemperatur', {
+		if (deviceNumber == '35003064' ||
+			deviceNumber == '32501812') {
+			adapter.setObjectNotExists(path + '.acttemperatur', {
 				type: 'state',
 				common: {
 					name: 'acttemperatur ' + deviceName,
@@ -576,8 +758,8 @@ function createActuatorStates(result, i) {
 				native: {}
 			});
 			
-			if (deviceNumber == '32501812_A') {
-				adapter.setObjectNotExists(pathActuator + '.relaisstatus', {
+			if (deviceNumber == '32501812') {
+				adapter.setObjectNotExists(path + '.relaisstatus', {
 					type: 'state',
 					common: {
 						name: 'relaisstatus ' + deviceName,
@@ -590,7 +772,7 @@ function createActuatorStates(result, i) {
 					native: {}
 				});
 				
-				adapter.setObjectNotExists(pathActuator + '.automaticvalue', {
+				adapter.setObjectNotExists(path + '.automaticvalue', {
 					type: 'state',
 					common: {
 						name: 'automaticvalue ' + deviceName,
@@ -603,7 +785,7 @@ function createActuatorStates(result, i) {
 					native: {}
 				});
 				
-				adapter.setObjectNotExists(pathActuator + '.manualoverride', {
+				adapter.setObjectNotExists(path + '.manualoverride', {
 					type: 'state',
 					common: {
 						name: 'manualoverride ' + deviceName,
@@ -619,137 +801,138 @@ function createActuatorStates(result, i) {
 		}
 	}
 	
-	pathActuator = undefined;
+	path = undefined;
 	deviceRole = undefined;	
-	deviceTypeActuator = undefined;
+	deviceType = undefined;
 }
 
-function writeActuatorStates(result, i) {
-	var deviceNumber = result.devices[i].deviceNumber;
-	var deviceId   = result.devices[i].did;
+function writeActuatorStates(result, type) {
+	var deviceNumber = deviceNumberNormalize(result.deviceNumber);
+	var deviceId   = result.did;
 	
-	calculateActuatorPathAndRole(result, i);
+	calculatePath(result, type);
 		
-	if (pathActuator !== undefined) {
-		adapter.setState(pathActuator + '.description', {
-			val: result.devices[i].description,
+	if (path !== undefined) {
+		adapter.setState(path + '.description', {
+			val: result.description,
 			ack: true
 		});
 		
-		adapter.setState(pathActuator + '.deviceGroup', {
-			val: result.devices[i].deviceGroup,
+		adapter.setState(path + '.deviceGroup', {
+			val: result.deviceGroup,
 			ack: true
 		});
 	
-		adapter.setState(pathActuator + '.did', {
+		adapter.setState(path + '.did', {
 			val: deviceId,
 			ack: true
 		});
 		
-		adapter.setState(pathActuator + '.hasErrors', {
-			val: result.devices[i].hasErrors,
+		adapter.setState(path + '.hasErrors', {
+			val: result.hasErrors,
 			ack: true
 		});
 		
-		if (result.devices[i].hasErrors > 0) adapter.log.warn('Homepilot Device ' + deviceId + ' reports an error'); // find logic to reduce to one message only
+		if (result.hasErrors > 0) adapter.log.warn('Homepilot Device ' + deviceId + ' reports an error'); // find logic to reduce to one message only
 		
-		adapter.setState(pathActuator + '.name', {
-			val: result.devices[i].name,
+		adapter.setState(path + '.name', {
+			val: result.name,
 			ack: true
 		});
 		
-		adapter.setState(pathActuator + '.statusValid', {
-			val: result.devices[i].statusValid,
+		adapter.setState(path + '.statusValid', {
+			val: result.statusValid,
 			ack: true
 		});
 	
-		adapter.setState(pathActuator + '.visible', {
-			val: result.devices[i].visible,
+		adapter.setState(path + '.visible', {
+			val: result.visible,
 			ack: true
 		});
 		
-		adapter.setState(pathActuator + '.deviceNumber', {
+		adapter.setState(path + '.deviceNumber', {
 			val: deviceNumber,
 			ack: true
 		});
 		
-		adapter.setState(pathActuator + '.uid', {
-			val: result.devices[i].uid,
+		adapter.setState(path + '.uid', {
+			val: result.uid,
 			ack: true
 		});
 		
-		var value = result.devices[i].statusesMap.Position;
+		var value = result.statusesMap.Position;
 		
 		if (deviceRole == 'light.switch' || deviceRole == 'switch') {
-			value = (result.devices[i].statusesMap.Position == '100');
+			value = (result.statusesMap.Position == '100');
 		} else if (deviceRole == 'level.temperature') {
 			value = value / 10;
 		}
 		
-		adapter.setState(pathActuator + '.Position', {
+		adapter.setState(path + '.Position', {
 			val: value,
 			ack: true
 		});
 		
 		if (deviceNumber == '36500172') {
-			adapter.setState(pathActuator + '.slatposition', {
-				val: result.devices[i].statusesMap.slatposition,
+			adapter.setState(path + '.slatposition', {
+				val: result.statusesMap.slatposition,
 				ack: true
 			});
 		}
 		
 		if (deviceNumber == '35003064') {
-			adapter.setState(pathActuator + '.batteryStatus', {
-				val: result.devices[i].batteryStatus,
+			adapter.setState(path + '.batteryStatus', {
+				val: result.batteryStatus,
 				ack: true
 			});
 			
-			adapter.setState(pathActuator + '.batteryLow', {
-				val: result.devices[i].batteryLow,
+			adapter.setState(path + '.batteryLow', {
+				val: result.batteryLow,
 				ack: true
 			});
 			
-			adapter.setState(pathActuator + '.posMin', {
-				val: result.devices[i].posMin,
+			adapter.setState(path + '.posMin', {
+				val: result.posMin,
 				ack: true
 			});
 			
-			adapter.setState(pathActuator + '.posMax', {
-				val: result.devices[i].posMax,
+			adapter.setState(path + '.posMax', {
+				val: result.posMax,
 				ack: true
 			});	
 		}
 	
-		if (deviceNumber == '35003064' || deviceNumber == '32501812_A') {
-			adapter.setState(pathActuator + '.acttemperatur', {
-				val: result.devices[i].statusesMap.acttemperatur / 10,
+		if (deviceNumber == '35003064' ||
+			deviceNumber == '32501812') {
+			adapter.setState(path + '.acttemperatur', {
+				val: result.statusesMap.acttemperatur / 10,
 				ack: true
 			});
 			
-			if (deviceNumber == '32501812_A') {
-				adapter.setState(pathActuator + '.relaisstatus', {
-					val: result.devices[i].statusesMap.relaisstatus,
+			if (deviceNumber == '32501812') {
+				adapter.setState(path + '.relaisstatus', {
+					val: result.statusesMap.relaisstatus,
 					ack: true
 				});
 				
-				adapter.setState(pathActuator + '.automaticvalue', {
-					val: result.devices[i].statusesMap.automaticvalue,
+				adapter.setState(path + '.automaticvalue', {
+					val: result.statusesMap.automaticvalue,
 					ack: true
 				});
 				
-				adapter.setState(pathActuator + '.manualoverride', {
-					val: result.devices[i].statusesMap.manualoverride,
+				adapter.setState(path + '.manualoverride', {
+					val: result.statusesMap.manualoverride,
 					ack: true
 				});
 			}
 		}
 		
-		adapter.log.debug('Actuator states for ' + deviceId + ' written');
+		adapter.log.debug(type + ' states for ' + deviceId + ' written');
 	}
 	
-	pathActuator = undefined;
+	path = undefined;
 	deviceRole = undefined;
-	deviceTypeActuator = undefined;
+	deviceType = undefined;
 }
 
 function readActuator(link) {
@@ -785,74 +968,15 @@ function readActuator(link) {
 				
 				if (result) {
 					for (var i = 0; i < result.devices.length; i++) {
-						createActuatorStates(result, i); 
-						writeActuatorStates(result, i); 
+						createActuatorStates(result.devices[i], 'Actuator'); 
+						writeActuatorStates(result.devices[i], 'Actuator'); 
 					}
 					adapter.setState('station.ip', {
 						val: ip,
 						ack: true
 					});
 					
-					additionalDeviceSettings = unique(additionalDeviceSettings);
-					
-					additionalDeviceSettings.forEach(function(element) {	  
-						//request('http://' + ip + '/devices/' + element, function(error, response, body) {
-						request({
-							method: 'GET',
-							uri: 'http://' + ip + '/devices/' + element,
-							headers: [
-								{ 'Cookie': cookie },
-								{ 'Content-Type': 'application/json' }
-							  ]
-							},	
-							function(error, response, body) {
-								if (!error && response.statusCode == 200) {
-									var result;
-									try {
-										result = JSON.parse(body);
-										var data = JSON.stringify(result, null, 2);
-										adapter.log.debug('Homepilot additional device (' + element + ') data: ' + data);
-									} catch (e) {
-										adapter.log.warn('Parse Error: ' + e);
-										unreach = true;
-									}
-									if (result) {
-										var deviceHelper = (result.payload.device.capabilities.filter((x)=>x.name === "PROD_CODE_DEVICE_LOC"))[0].value;
-										var deviceNumberId = deviceHelper.substring(0, deviceHelper.indexOf("_")) + '_A';
-										
-										switch(deviceNumberId) {
-											case "32501972_A":
-												element = element - 1;
-												
-												var timestamp = (result.payload.device.capabilities.filter((x)=>x.name === "KEY_PUSH_CH1_EVT"))[0].timestamp;
-												doAttribute(element, 'Actuator.' + element + '-' + deviceNumberId + '.Attribute.', 'KEY_PUSH_CH1_EVT', timestamp);
-												
-												timestamp = (result.payload.device.capabilities.filter((x)=>x.name === "KEY_PUSH_CH2_EVT"))[0].timestamp;
-												doAttribute(element, 'Actuator.' + element + '-' + deviceNumberId + '.Attribute.', 'KEY_PUSH_CH2_EVT', timestamp);
-												
-												timestamp = (result.payload.device.capabilities.filter((x)=>x.name === "KEY_PUSH_CH3_EVT"))[0].timestamp;
-												doAttribute(element, 'Actuator.' + element + '-' + deviceNumberId + '.Attribute.', 'KEY_PUSH_CH3_EVT', timestamp);
-												
-												timestamp = (result.payload.device.capabilities.filter((x)=>x.name === "KEY_PUSH_CH4_EVT"))[0].timestamp;
-												doAttribute(element, 'Actuator.' + element + '-' + deviceNumberId + '.Attribute.', 'KEY_PUSH_CH4_EVT', timestamp);
-												
-												timestamp = (result.payload.device.capabilities.filter((x)=>x.name === "KEY_PUSH_CH5_EVT"))[0].timestamp;
-												doAttribute(element, 'Actuator.' + element + '-' + deviceNumberId + '.Attribute.', 'KEY_PUSH_CH5_EVT', timestamp);
-												
-												timestamp = (result.payload.device.capabilities.filter((x)=>x.name === "KEY_PUSH_CH6_EVT"))[0].timestamp;
-												doAttribute(element, 'Actuator.' + element + '-' + deviceNumberId + '.Attribute.', 'KEY_PUSH_CH6_EVT', timestamp);
-											break;
-										}
-									}
-								} else {
-									adapter.log.warn('Read actuator/additional info -> Cannot connect to Homepilot: ' + (error ? error : JSON.stringify(response)));
-									unreach = true;
-								}
-							}
-						); // End request 
-						
-						adapter.log.debug('finished reading Homepilot additional data for deviceId=' + element);
-					});
+					doAdditional(additionalDeviceSettings, 'Actuator');
 				}
 			} else {
 				adapter.log.warn('Read actuator -> Cannot connect to Homepilot: ' + (error ? error : JSON.stringify(response)));
@@ -868,105 +992,51 @@ function readActuator(link) {
 
 	additionalDeviceSettings = [];
 	
-	adapter.log.debug('finished reading Homepilot actuator d');
+	adapter.log.debug('finished reading Homepilot actuator data');
 }
 
-function doAttribute(did, path, name, value) {
-	adapter.setObjectNotExists(path + name, {
+function doAttribute(did, path, name, value, role, description) {
+	adapter.setObjectNotExists(path + name + '-' + description, {
 		type: 'state',
 		common: {
-			name: name,
+			name: name + '-' + description,
 			desc: 'name stored in homepilot for device ' + did,
 			"type": "number",
-			"role": "value.datetime",
+			"role": role,
 			"read": true,
 			"write": false
 		},
 		native: {}
 	});
 	
-	adapter.setState(path + name, {
+	adapter.setState(path + name + '-' + description, {
 		val: value,
 		ack: true
 	});
 }
 
-function calculateSensor(result, i) {
-	var deviceId   = result.meters[i].did;
-    var deviceName = result.meters[i].name;
-	var deviceNumber = result.meters[i].deviceNumber;
+function createSensorStates(result, type) {
+	var deviceGroup = result.deviceGroup;
+	var deviceId   = result.did;
+    var deviceName = result.name;
+	var deviceNumber = deviceNumberNormalize(result.deviceNumber);
+	var deviceDescription = result.description;	
 	
-	pathSensor = 'Sensor.' + deviceId + '-' + deviceNumber;
-
-	switch (deviceNumber) {
-		case "32501812_S":
-            deviceTypeSensor = 'DuoFern-Raumthermostat';
-			break;
+	calculatePath(result, type);
 	
-		case "32002119":
-			deviceTypeSensor = 'Z-Wave-FensterTürkontakt';
-            break;
-			
-		case "32003164":
-			deviceTypeSensor = 'DuoFern-FensterTürkontakt-9431';
-            break;
-			
-		case "36500572_S":
-			deviceTypeSensor = 'DuoFern-Troll-Comfort-5665';
-            break;
-			
-		case "32000064_S":
-			deviceTypeSensor = 'DuoFern-Umweltsensor';
-            break;
-			
-		case "99999998":
-			deviceTypeSensor = 'GeoPilot (Handy)';
-            break;
-			
-		case "32501772_S":
-			deviceTypeSensor = 'DuoFern-Bewegungsmelder-9484';
-            break;	
-			
-		case "32001664":
-			deviceTypeSensor = 'DuoFern-Rauchmelder-9481';
-            break;	
-			
-		case "32000062_S":
-			deviceTypeSensor = 'DuoFern-Funksender-UP-9497';
-            break;	
-		
-		case "32004329":
-			deviceTypeSensor = 'HD-Kamera-9487-A';
-			additionalSensorSettings.push(deviceId);
-            break;		
-			
-        default:
-            adapter.log.warn('Unknown deviceNumber=' + deviceNumber);
-    }
-}
-
-function createSensorStates(result, i) {
-	var deviceGroup = result.meters[i].deviceGroup;
-	var deviceId   = result.meters[i].did;
-    var deviceName = result.meters[i].name;
-	var deviceNumber = result.meters[i].deviceNumber;
-	var deviceDescription = result.meters[i].description;	
-	
-	calculateSensor(result, i);
-	
-	if (deviceTypeSensor !== undefined) {
+	if (deviceType !== undefined) {
 		// create Channel DeviceID
-		adapter.setObjectNotExists(pathSensor, {
+		adapter.setObjectNotExists(path, {
 			type: 'channel',
 			common: {
-				name: deviceTypeSensor + ': ' + deviceName + ' (Device ID ' + deviceId + ')',
+				name: deviceType + ': ' + deviceName + ' (Device ID ' + deviceId + ')',
 				role: 'text',
 			},
 			native: {}
 		});
 		
 		// create States
-		adapter.setObjectNotExists(pathSensor + '.description', {
+		adapter.setObjectNotExists(path + '.description', {
 			type: 'state',
 			common: {
 				name: 'description ' + deviceName,
@@ -979,7 +1049,7 @@ function createSensorStates(result, i) {
 			native: {}
 		});
 		
-		adapter.setObjectNotExists(pathSensor + '.deviceGroup', {
+		adapter.setObjectNotExists(path + '.deviceGroup', {
 			type: 'state',
 			common: {
 				name: 'deviceGroup ' + deviceName,
@@ -992,7 +1062,7 @@ function createSensorStates(result, i) {
 			native: {}
 		});
 		
-		adapter.setObjectNotExists(pathSensor + '.did', {
+		adapter.setObjectNotExists(path + '.did', {
 			type: 'state',
 			common: {
 				name: 'did ' + deviceName,
@@ -1005,7 +1075,7 @@ function createSensorStates(result, i) {
 			native: {}
 		});
 		
-		adapter.setObjectNotExists(pathSensor + '.timestamp', {
+		adapter.setObjectNotExists(path + '.timestamp', {
 			type: 'state',
 			common: {
 				name: 'timestamp ' + deviceName,
@@ -1019,7 +1089,7 @@ function createSensorStates(result, i) {
 			native: {}
 		});
 		
-		adapter.setObjectNotExists(pathSensor + '.name', {
+		adapter.setObjectNotExists(path + '.name', {
 			type: 'state',
 			common: {
 				name: 'name ' + deviceName,
@@ -1032,7 +1102,7 @@ function createSensorStates(result, i) {
 			native: {}
 		});
 		
-		adapter.setObjectNotExists(pathSensor + '.statusValid', {
+		adapter.setObjectNotExists(path + '.statusValid', {
 			type: 'state',
 			common: {
 			   name: 'statusValid ' + deviceName,
@@ -1046,7 +1116,7 @@ function createSensorStates(result, i) {
 			native: {}
 		});
 		
-		adapter.setObjectNotExists(pathSensor + '.deviceNumber', {
+		adapter.setObjectNotExists(path + '.deviceNumber', {
 			type: 'state',
 			common: {
 				name: 'deviceNumber ' + deviceName,
@@ -1059,7 +1129,7 @@ function createSensorStates(result, i) {
 			native: {}
 		});
 				
-		adapter.setObjectNotExists(pathSensor + '.visible', {
+		adapter.setObjectNotExists(path + '.visible', {
 			type: 'state',
 			common: {
 			   name: 'visible ' + deviceName,
@@ -1073,7 +1143,7 @@ function createSensorStates(result, i) {
 			native: {}
 		});
 			
-		adapter.setObjectNotExists(pathSensor + '.uid', {
+		adapter.setObjectNotExists(path + '.uid', {
 			type: 'state',
 			common: {
 				name: 'uid ' + deviceName,
@@ -1087,7 +1157,7 @@ function createSensorStates(result, i) {
 		});	
 
 		if (deviceNumber == '32001664' /*DuoFern-Rauchmelder-9481*/) {
-			adapter.setObjectNotExists(pathSensor + '.smoke_detected', {
+			adapter.setObjectNotExists(path + '.smoke_detected', {
 				type: 'state',
 				common: {
 				   name: 'smoke_detected ' + deviceName,
@@ -1102,9 +1172,9 @@ function createSensorStates(result, i) {
 			});
 		}
 		
-		if (deviceNumber == '32501772_S' /*DuoFern-Bewegungsmelder-9484*/ ||
+		if (deviceNumber == '32501772' /*DuoFern-Bewegungsmelder-9484*/ ||
 			deviceNumber == '32004329' /*HD-Kamera-9487-A*/) {
-			adapter.setObjectNotExists(pathSensor + '.movement_detected', {
+			adapter.setObjectNotExists(path + '.movement_detected', {
 				type: 'state',
 				common: {
 				   name: 'movement_detected ' + deviceName,
@@ -1119,8 +1189,8 @@ function createSensorStates(result, i) {
 			});
 		}
 		
-		if (deviceNumber == '32000064_S' /*DuoFern-Umweltsensor*/) {
-			adapter.setObjectNotExists(pathSensor + '.sun_brightness', {
+		if (deviceNumber == '32000064' /*DuoFern-Umweltsensor*/) {
+			adapter.setObjectNotExists(path + '.sun_brightness', {
 				type: 'state',
 				common: {
 					name: 'sun_brightness ' + deviceName,
@@ -1133,7 +1203,7 @@ function createSensorStates(result, i) {
 				native: {}
 			});
 			
-			adapter.setObjectNotExists(pathSensor + '.sun_direction', {
+			adapter.setObjectNotExists(path + '.sun_direction', {
 				type: 'state',
 				common: {
 					name: 'sun_direction ' + deviceName,
@@ -1146,7 +1216,7 @@ function createSensorStates(result, i) {
 				native: {}
 			});
 			
-			adapter.setObjectNotExists(pathSensor + '.sun_elevation', {
+			adapter.setObjectNotExists(path + '.sun_elevation', {
 				type: 'state',
 				common: {
 					name: 'sun_elevation ' + deviceName,
@@ -1159,7 +1229,7 @@ function createSensorStates(result, i) {
 				native: {}
 			});
 			
-			adapter.setObjectNotExists(pathSensor + '.wind_speed', {
+			adapter.setObjectNotExists(path + '.wind_speed', {
 				type: 'state',
 				common: {
 					name: 'wind_speed ' + deviceName,
@@ -1172,7 +1242,7 @@ function createSensorStates(result, i) {
 				native: {}
 			});
 			
-			adapter.setObjectNotExists(pathSensor + '.rain_detected', {
+			adapter.setObjectNotExists(path + '.rain_detected', {
 				type: 'state',
 				common: {
 				   name: 'rain_detected ' + deviceName,
@@ -1188,7 +1258,7 @@ function createSensorStates(result, i) {
 		}
 		
 		if (deviceNumber == '99999998' /*GeoPilot (Handy)*/) {
-			adapter.setObjectNotExists(pathSensor + '.area_entered', {
+			adapter.setObjectNotExists(path + '.area_entered', {
 				type: 'state',
 				common: {
 				   name: 'area_entered ' + deviceName,
@@ -1203,9 +1273,9 @@ function createSensorStates(result, i) {
 			});
 		}
 		
-		if (deviceNumber == '36500572_S' /*Duofern-Troll-Comfort-5665*/ ||
-			deviceNumber == '32000064_S' /*DuoFern-Umweltsensor*/) {
-			adapter.setObjectNotExists(pathSensor + '.sun_detected', {
+		if (deviceNumber == '36500572' /*Duofern-Troll-Comfort-5665*/ ||
+			deviceNumber == '32000064' /*DuoFern-Umweltsensor*/) {
+			adapter.setObjectNotExists(path + '.sun_detected', {
 				type: 'state',
 				common: {
 				   name: 'sun_detected ' + deviceName,
@@ -1220,8 +1290,9 @@ function createSensorStates(result, i) {
 			});
 		}
 		
-		if (deviceNumber == '32501812_S' /*DuoFern-Raumthermostat*/) {
-			adapter.setObjectNotExists(pathSensor + '.temperature_primary', {
+		if (deviceNumber == '32501812' /*DuoFern-Raumthermostat*/ ||
+			deviceNumber == '32000064' /*DuoFern-Umweltsensor*/) {
+			adapter.setObjectNotExists(path + '.temperature_primary', {
 				type: 'state',
 				common: {
 					name: 'temperature_primary ' + deviceName,
@@ -1234,8 +1305,10 @@ function createSensorStates(result, i) {
 				},
 				native: {}
 			});
-			
-			adapter.setObjectNotExists(pathSensor + '.temperature_target', {
+		}
+		
+		if (deviceNumber == '32501812' /*DuoFern-Raumthermostat*/) {
+			adapter.setObjectNotExists(path + '.temperature_target', {
 				type: 'state',
 				common: {
 					name: 'temperature_target ' + deviceName,
@@ -1252,11 +1325,11 @@ function createSensorStates(result, i) {
 		
 		if (deviceNumber == '32002119' /*Z-Wave-FensterTürkontakt*/ ||
 			deviceNumber == '32003164' /*DuoFern-FensterTürkontakt-9431*/ ||
-			deviceNumber == '32000062_S' /*DuoFern-Funksender-UP-9497*/ ||
+			deviceNumber == '32000062' /*DuoFern-Funksender-UP-9497*/ ||
 			deviceNumber == '32001664' /*DuoFern-Rauchmelder-9481*/) {
 			
 			if (deviceNumber != '32001664' /*DuoFern-Rauchmelder-9481*/) {
-				adapter.setObjectNotExists(pathSensor + '.contact_state', {
+				adapter.setObjectNotExists(path + '.contact_state', {
 					type: 'state',
 					common: {
 						name: 'contact_state ' + deviceName,
@@ -1270,8 +1343,8 @@ function createSensorStates(result, i) {
 				});
 			}
 			
-			if (deviceNumber != '32000062_S' /*DuoFern-Funksender-UP-9497*/) {
-				adapter.setObjectNotExists(pathSensor + '.batteryStatus', {
+			if (deviceNumber != '32000062' /*DuoFern-Funksender-UP-9497*/) {
+				adapter.setObjectNotExists(path + '.batteryStatus', {
 					type: 'state',
 					common: {
 						name: 'batteryStatus ' + deviceName,
@@ -1288,7 +1361,7 @@ function createSensorStates(result, i) {
 			
 			if (deviceNumber == '32003164' /*DuoFern-FensterTürkontakt-9431*/ ||
 				deviceNumber == '32001664' /*DuoFern-Rauchmelder-9481*/) {
-				adapter.setObjectNotExists(pathSensor + '.batteryLow', {
+				adapter.setObjectNotExists(path + '.batteryLow', {
 					type: 'state',
 					common: {
 					   name: 'batteryLow ' + deviceName,
@@ -1305,164 +1378,167 @@ function createSensorStates(result, i) {
 		}	
 	}
 	
-	pathSensor = undefined;
-	deviceTypeSensor = undefined;
+	path = undefined;
+	deviceType = undefined;
 }
 
-function writeSensorStates(result, i) {
-	var deviceNumber = result.meters[i].deviceNumber;
-	var deviceId   = result.meters[i].did;
+function writeSensorStates(result, type) {
+	var deviceNumber = deviceNumberNormalize(result.deviceNumber);
+	var deviceId   = result.did;
 	
-	calculateSensor(result, i);
+	calculatePath(result, type);
 		
-	if (deviceTypeSensor !== undefined) {
-		adapter.setState(pathSensor + '.description', {
-			val: result.meters[i].description,
+	if (deviceType !== undefined) {
+		adapter.setState(path + '.description', {
+			val: result.description,
 			ack: true
 		});
 		
-		adapter.setState(pathSensor + '.deviceGroup', {
-			val: result.meters[i].deviceGroup,
+		adapter.setState(path + '.deviceGroup', {
+			val: result.deviceGroup,
 			ack: true
 		});
 	
-		adapter.setState(pathSensor + '.did', {
+		adapter.setState(path + '.did', {
 			val: deviceId,
 			ack: true
 		});
 		
-		adapter.setState(pathSensor + '.timestamp', {
-			val: result.meters[i].timestamp,
+		adapter.setState(path + '.timestamp', {
+			val: result.timestamp,
 			ack: true
 		});
 				
-		adapter.setState(pathSensor + '.name', {
-			val: result.meters[i].name,
+		adapter.setState(path + '.name', {
+			val: result.name,
 			ack: true
 		});
 		
-		adapter.setState(pathSensor + '.statusValid', {
-			val: result.meters[i].statusValid,
+		adapter.setState(path + '.statusValid', {
+			val: result.statusValid,
 			ack: true
 		});
 		
-		adapter.setState(pathSensor + '.deviceNumber', {
+		adapter.setState(path + '.deviceNumber', {
 			val: deviceNumber,
 			ack: true
 		});
 	
-		adapter.setState(pathSensor + '.uid', {
-			val: result.meters[i].uid,
+		adapter.setState(path + '.uid', {
+			val: result.uid,
 			ack: true
 		});
 		
-		adapter.setState(pathSensor + '.visible', {
-			val: result.meters[i].visible,
+		adapter.setState(path + '.visible', {
+			val: result.visible,
 			ack: true
 		});
 
 		if (deviceNumber == '32001664' /*DuoFern-Rauchmelder-9481*/) {
-			adapter.setState(pathSensor + '.smoke_detected', {
-				val: result.meters[i].readings.smoke_detected,
+			adapter.setState(path + '.smoke_detected', {
+				val: result.readings.smoke_detected,
 				ack: true
 			});
 		}
 		
-		if (deviceNumber == '32501772_S' /*DuoFern-Bewegungsmelder-9484*/ ||
+		if (deviceNumber == '32501772' /*DuoFern-Bewegungsmelder-9484*/ ||
 			deviceNumber == '32004329' /*HD-Kamera-9487-A*/) {
-			adapter.setState(pathSensor + '.movement_detected', {
-				val: result.meters[i].readings.movement_detected,
+			adapter.setState(path + '.movement_detected', {
+				val: result.readings.movement_detected,
 				ack: true
 			});
 		}
 		
-		if (deviceNumber == '32000064_S' /*DuoFern-Umweltsensor*/) {
-			adapter.setState(pathSensor + '.sun_brightness', {
-				val: result.meters[i].readings.sun_brightness,
+		if (deviceNumber == '32000064' /*DuoFern-Umweltsensor*/) {
+			adapter.setState(path + '.sun_brightness', {
+				val: result.readings.sun_brightness,
 				ack: true
 			});
 			
-			adapter.setState(pathSensor + '.sun_direction', {
-				val: result.meters[i].readings.sun_direction,
+			adapter.setState(path + '.sun_direction', {
+				val: result.readings.sun_direction,
 				ack: true
 			});
 			
-			adapter.setState(pathSensor + '.sun_elevation', {
-				val: result.meters[i].readings.sun_elevation,
+			adapter.setState(path + '.sun_elevation', {
+				val: result.readings.sun_elevation,
 				ack: true
 			});
 			
-			adapter.setState(pathSensor + '.wind_speed', {
-				val: result.meters[i].readings.wind_speed,
+			adapter.setState(path + '.wind_speed', {
+				val: result.readings.wind_speed,
 				ack: true
 			});
 			
-			adapter.setState(pathSensor + '.rain_detected', {
-				val: result.meters[i].readings.sun_detected,
+			adapter.setState(path + '.rain_detected', {
+				val: result.readings.sun_detected,
 				ack: true
 			});
 		}
 		
 		if (deviceNumber == '99999998' /*GeoPilot (Handy)*/) {
-			adapter.setState(pathSensor + '.area_entered', {
-				val: result.meters[i].readings.area_entered,
+			adapter.setState(path + '.area_entered', {
+				val: result.readings.area_entered,
 				ack: true
 			});
 		}
 		
-		if (deviceNumber == '36500572_S' /*Duofern-Troll-Comfort-5665*/ ||
-			deviceNumber == '32000064_S' /*DuoFern-Umweltsensor*/) {
-			adapter.setState(pathSensor + '.sun_detected', {
-				val: result.meters[i].readings.sun_detected,
+		if (deviceNumber == '36500572' /*Duofern-Troll-Comfort-5665*/ ||
+			deviceNumber == '32000064' /*DuoFern-Umweltsensor*/) {
+			adapter.setState(path + '.sun_detected', {
+				val: result.readings.sun_detected,
 				ack: true
 			});
 		}
 		
-		if (deviceNumber == '32501812_S' /*DuoFern-Raumthermostat*/) {
-			adapter.setState(pathSensor + '.temperature_primary', {
-				val: result.meters[i].readings.temperature_primary,
+		if (deviceNumber == '32501812' /*DuoFern-Raumthermostat*/ ||
+			deviceNumber == '32000064' /*DuoFern-Umweltsensor*/) {
+			adapter.setState(path + '.temperature_primary', {
+				val: result.readings.temperature_primary,
 				ack: true
 			});
-			
-			adapter.setState(pathSensor + '.temperature_target', {
-				val: result.meters[i].readings.temperature_target,
+		}
+		
+		if (deviceNumber == '32501812' /*DuoFern-Raumthermostat*/) {		
+			adapter.setState(path + '.temperature_target', {
+				val: result.readings.temperature_target,
 				ack: true
 			});
 		} 
 		
 		if (deviceNumber == '32002119' /*Z-Wave-FensterTürkontakt*/ ||
 			deviceNumber == '32003164' /*DuoFern-FensterTürkontakt-9431*/ ||
-			deviceNumber == '32000062_S' /*DuoFern-Funksender-UP-9497*/ ||
+			deviceNumber == '32000062' /*DuoFern-Funksender-UP-9497*/ ||
 			deviceNumber == '32001664' /*DuoFern-Rauchmelder-9481*/) {
 			
 			if (deviceNumber != '32001664' /*DuoFern-Rauchmelder-9481*/) {
-				adapter.setState(pathSensor + '.contact_state', {
-					val: result.meters[i].readings.contact_state,
+				adapter.setState(path + '.contact_state', {
+					val: result.readings.contact_state,
 					ack: true
 				});
 			}
 			
-			if (deviceNumber != '32000062_S' /*DuoFern-Funksender-UP-9497*/) {
-				adapter.setState(pathSensor + '.batteryStatus', {
-					val: result.meters[i].batteryStatus,
+			if (deviceNumber != '32000062' /*DuoFern-Funksender-UP-9497*/) {
+				adapter.setState(path + '.batteryStatus', {
+					val: result.batteryStatus,
 					ack: true
 				});
 			}
 			
 			if (deviceNumber == '32003164' /*DuoFern-FensterTürkontakt-9431*/ ||
 				deviceNumber == '32001664' /*DuoFern-Rauchmelder-9481*/) {
-				adapter.setState(pathSensor + '.batteryLow', {
-					val: result.meters[i].batteryLow,
+				adapter.setState(path + '.batteryLow', {
+					val: result.batteryLow,
 					ack: true
 				});
 			}
 		}
 		
-		adapter.log.debug('Sensor states for ' + deviceId + ' written');
+		adapter.log.debug(type + ' states for ' + deviceId + ' written');
 	}
 	
-	pathSensor = undefined;
-	deviceTypeSensor = undefined;
+	path = undefined;
+	deviceType = undefined;
 }
 
 function readSensor(link) {
@@ -1496,12 +1572,12 @@ function readSensor(link) {
 
 				if (result) {
 					for (var i = 0; i < result.meters.length; i++) {
-						createSensorStates(result, i); 
-						writeSensorStates(result, i); 
+						createSensorStates(result.meters[i], 'Sensor'); 
+						writeSensorStates(result.meters[i], 'Sensor'); 
 					}
+					
+					doAdditional(additionalSensorSettings, 'Sensor');
 				}
-				
-				//ToDo additionalSensorSettings see additionalDeviceSettings
 			} else {
 				adapter.log.warn('Read sensors -> Cannot connect to Homepilot: ' + (error ? error : JSON.stringify(response)));
 				unreach = true;
@@ -1516,6 +1592,136 @@ function readSensor(link) {
 	
 	additionalSensorSettings = [];
     adapter.log.debug('Finished reading Homepilot sensor data');
+}
+
+function doAdditional(toDoList, type) {
+	if (toDoList.length > 0) {
+		toDoList = unique(toDoList);
+	
+		toDoList.forEach(function(element) {	  
+			request({
+				method: 'GET',
+				uri: 'http://' + ip + '/devices/' + element,
+				headers: [
+					{ 'Cookie': cookie },
+					{ 'Content-Type': 'application/json' }
+				  ]
+				},	
+				function(error, response, body) {
+					if (!error && response.statusCode == 200) {
+						var result;
+						try {
+							result = JSON.parse(body);
+							var data = JSON.stringify(result, null, 2);
+							adapter.log.debug('Homepilot additional ' + type + ' (' + element + ') data: ' + data);
+						} catch (e) {
+							adapter.log.warn('Parse Error: ' + e);
+							unreach = true;
+						}
+						if (result) {
+							var deviceHelper = (result.payload.device.capabilities.filter((x)=>x.name === "PROD_CODE_DEVICE_LOC"))[0].value;
+							var deviceNumberId = deviceNumberNormalize(deviceHelper);
+							
+							switch(deviceNumberId) {
+								case "32501772": /*DuoFern-Bewegungsmelder-9484*/													
+									var value = (result.payload.device.capabilities.filter((x)=>x.name === "ON_DURATION_CFG"))[0].value;
+									doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'ON_DURATION_CFG', value, 'text', 'value');
+									
+									value = (result.payload.device.capabilities.filter((x)=>x.name === "ON_DURATION_CFG"))[0].timestamp;
+									doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'ON_DURATION_CFG', value, 'value.datetime', 'timestamp');
+																		
+									value = (result.payload.device.capabilities.filter((x)=>x.name === "BUTTON_MODE_CFG"))[0].value;
+									doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'BUTTON_MODE_CFG', value, 'text', 'value');
+									
+									value = (result.payload.device.capabilities.filter((x)=>x.name === "BUTTON_MODE_CFG"))[0].timestamp;
+									doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'BUTTON_MODE_CFG', value, 'value.datetime', 'timestamp');
+																		
+									value = (result.payload.device.capabilities.filter((x)=>x.name === "SENSOR_SENSITIVITY_CFG"))[0].value;
+									doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'SENSOR_SENSITIVITY_CFG', value, 'text', 'value');
+									
+									value = (result.payload.device.capabilities.filter((x)=>x.name === "SENSOR_SENSITIVITY_CFG"))[0].timestamp;
+									doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'SENSOR_SENSITIVITY_CFG', value, 'value.datetime', 'timestamp');
+									
+									value = (result.payload.device.capabilities.filter((x)=>x.name === "MOVE_STOP_EVT"))[0].timestamp;
+									doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'MOVE_STOP_EVT', value, 'value.datetime', 'timestamp');
+									
+									value = (result.payload.device.capabilities.filter((x)=>x.name === "MOVE_START_EVT"))[0].timestamp;
+									doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'MOVE_START_EVT', value, 'value.datetime', 'timestamp');
+																
+									value = (result.payload.device.capabilities.filter((x)=>x.name === "LIGHT_VAL_LUX_MEA"))[0].value;
+									doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'LIGHT_VAL_LUX_MEA', value, 'text', 'value');
+									
+									value = (result.payload.device.capabilities.filter((x)=>x.name === "LIGHT_VAL_LUX_MEA"))[0].timestamp;
+									doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'LIGHT_VAL_LUX_MEA', value, 'value.datetime', 'timestamp');
+
+									value = (result.payload.device.capabilities.filter((x)=>x.name === "LED_BEHAV_MODE_CFG"))[0].value;
+									doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'LED_BEHAV_MODE_CFG', value, 'text', 'value');
+									
+									value = (result.payload.device.capabilities.filter((x)=>x.name === "LED_BEHAV_MODE_CFG"))[0].timestamp;
+									doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'LED_BEHAV_MODE_CFG', value, 'value.datetime', 'timestamp');
+
+									value = (result.payload.device.capabilities.filter((x)=>x.name === "CURR_BRIGHTN_CFG"))[0].value;
+									doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'CURR_BRIGHTN_CFG', value, 'text', 'value');
+									
+									value = (result.payload.device.capabilities.filter((x)=>x.name === "CURR_BRIGHTN_CFG"))[0].timestamp;
+									doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'CURR_BRIGHTN_CFG', value, 'value.datetime', 'timestamp');
+
+									value = (result.payload.device.capabilities.filter((x)=>x.name === "MOTION_DETECTION_MEA"))[0].value;
+									doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'MOTION_DETECTION_MEA', value, 'text', 'value');
+									
+									value = (result.payload.device.capabilities.filter((x)=>x.name === "MOTION_DETECTION_MEA"))[0].timestamp;
+									doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'MOTION_DETECTION_MEA', value, 'value.datetime', 'timestamp');
+									break;
+								
+								case "32501972": /*DuoFern-Mehrfachwandtaster*/		
+								case "32501974": /*DuoFern-Mehrfachwandtaster-BAT-9494-1*/
+									var timestamp = (result.payload.device.capabilities.filter((x)=>x.name === "KEY_PUSH_CH1_EVT"))[0].timestamp;
+									doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'KEY_PUSH_CH1_EVT', timestamp, 'value.datetime', 'timestamp');
+									
+									timestamp = (result.payload.device.capabilities.filter((x)=>x.name === "KEY_PUSH_CH2_EVT"))[0].timestamp;
+									doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'KEY_PUSH_CH2_EVT', timestamp, 'value.datetime', 'timestamp');
+									
+									timestamp = (result.payload.device.capabilities.filter((x)=>x.name === "KEY_PUSH_CH3_EVT"))[0].timestamp;
+									doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'KEY_PUSH_CH3_EVT', timestamp, 'value.datetime', 'timestamp');
+									
+									timestamp = (result.payload.device.capabilities.filter((x)=>x.name === "KEY_PUSH_CH4_EVT"))[0].timestamp;
+									doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'KEY_PUSH_CH4_EVT', timestamp, 'value.datetime', 'timestamp');
+									
+									timestamp = (result.payload.device.capabilities.filter((x)=>x.name === "KEY_PUSH_CH5_EVT"))[0].timestamp;
+									doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'KEY_PUSH_CH5_EVT', timestamp, 'value.datetime', 'timestamp');
+									
+									timestamp = (result.payload.device.capabilities.filter((x)=>x.name === "KEY_PUSH_CH6_EVT"))[0].timestamp;
+									doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'KEY_PUSH_CH6_EVT', timestamp, 'value.datetime', 'timestamp');
+									break;
+								
+								case "32160211": /*DuoFern-Wandtaster-9494*/
+									var timestamp = (result.payload.device.capabilities.filter((x)=>x.name === "KEY_OFF_CH1_EVT"))[0].timestamp;
+									doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'KEY_OFF_CH1_EVT', timestamp, 'value.datetime', 'timestamp');
+									
+									timestamp = (result.payload.device.capabilities.filter((x)=>x.name === "KEY_OFF_CH2_EVT"))[0].timestamp;
+									doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'KEY_OFF_CH2_EVT', timestamp, 'value.datetime', 'timestamp');
+									
+									timestamp = (result.payload.device.capabilities.filter((x)=>x.name === "KEY_ON_CH1_EVT"))[0].timestamp;
+									doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'KEY_ON_CH1_EVT', timestamp, 'value.datetime', 'timestamp');
+									
+									timestamp = (result.payload.device.capabilities.filter((x)=>x.name === "KEY_ON_CH2_EVT"))[0].timestamp;
+									doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'KEY_ON_CH2_EVT', timestamp, 'value.datetime', 'timestamp');
+									break;
+									
+								default:
+									adapter.log.warn('Unknown ' + type + ' additional for deviceNumber=' + deviceNumber);
+							}
+						}
+					} else {
+						adapter.log.warn('Read ' + type + '/additional info -> Cannot connect to Homepilot: ' + (error ? error : JSON.stringify(response)));
+						unreach = true;
+					}
+				}
+			); // End request 
+			
+			adapter.log.debug('finished reading Homepilot additional ' + type + ' data for deviceId=' + element);
+		});
+	}
 }
 
 function getPasswordSalt() {
@@ -1592,6 +1798,11 @@ function main() {
         adapter.log.debug('reading homepilot sensor JSON ...');
         readSensor('http://' + ip + '/v4/devices?devtype=Sensor');
     }, 3000);
+	
+	callReadTransmitter = setInterval(function() {
+        adapter.log.debug('reading homepilot transmitter JSON ...');
+        readTransmitter('http://' + ip + '/v4/devices?devtype=Transmitter');
+    }, 3000);
 }
 
 function unique(ain) {  
@@ -1607,6 +1818,172 @@ function unique(ain) {
   }  
   
   return aout  
+}
+
+function calculatePath(result, type) {
+	var deviceId   = result.did;
+	var deviceName = result.name;
+	var deviceNumber = deviceNumberNormalize(result.deviceNumber);
+	
+	path = type + '.' + deviceId + '-' + deviceNumber;
+	
+	switch (deviceNumber) {
+		case "35003064":
+            deviceType = 'DuoFern-Heizkörperstellantrieb-9433';
+			deviceRole = 'level.temperature';
+			break;
+			
+		case "32501812":
+			deviceType = 'DuoFern-Raumthermostat-9485';
+			deviceRole = 'level.temperature';
+            break;
+		
+		case "35002319":
+			deviceType = 'ZWave-Heizkörperstellantrieb-8433';
+			deviceRole = 'level.temperature';
+            break;
+        
+		case "35002414":
+            deviceType = 'ZWave-RepeaterMitSchaltfunktion-8434';
+			deviceRole = (deviceName.indexOf('Licht') != -1) ? 'light.switch' : 'switch' ;
+            break;
+			
+        case "35000262":
+			deviceType = 'DuoFernUniversal-Aktor2-Kanal-9470-2';
+			deviceRole = (deviceName.indexOf('Licht') != -1) ? 'light.switch' : 'switch' ;
+            break;
+		
+        case "35001164":
+			deviceType = 'DuoFern-Zwischenstecker-Schalten-9472';
+			deviceRole = (deviceName.indexOf('Licht') != -1) ? 'light.switch' : 'switch' ;
+            break;
+					
+		case "32501772":
+			deviceType = 'DuoFern-Bewegungsmelder-9484';
+			if (type == 'Actuator') {
+				deviceRole = (deviceName.indexOf('Licht') != -1) ? 'light.switch' : 'switch' ;
+			} else {
+				deviceRole = 'text';
+				
+				if (type == 'Sensor') {
+					additionalSensorSettings.push(deviceId);
+				}
+			}
+			
+            break;	
+
+		case "32501972":
+			deviceType = 'DuoFern-Mehrfachwandtaster-230V-9494-2';
+			deviceRole = 'switch';
+			if (type == 'Transmitter') {
+					additionalTransmitterSettings.push(deviceId);
+			}
+            break;
+			
+        case "35000864":
+			deviceType = 'DuoFern-Connect-Aktor-9477';
+			deviceRole = 'level.blind';
+            break;
+		
+		case "14234511":
+			deviceType = 'DuoFern-RolloTron-Standard-1400/1405/1440';
+			deviceRole = 'level.blind';
+            break;
+			
+		case "35000662":
+			deviceType = 'DuoFernRohrmotor-Aktor';
+			deviceRole = 'level.blind';
+            break;
+			
+		case "31500162":
+			deviceType = 'DuoFern-Rohrmotorsteuerung';
+			deviceRole = 'level.blind';
+			break;
+		
+		case "36500172":
+			deviceType = 'DuoFern-Troll-Basis-5615';
+			deviceRole = 'level.blind';
+			break;
+			
+		case "27601565":
+			deviceType = 'DuoFern-Rohrmotor';
+			deviceRole = 'level.blind';
+			break;
+		
+		case "36500572":
+			deviceType = 'DuoFern-Troll-Comfort-5665';
+			deviceRole = 'level.blind';
+			break;		
+			
+		case "32000064":
+			deviceType = 'DuoFern-Umweltsensor-9475';
+			deviceRole = 'level.blind';
+			break;	
+			
+		case "35000462":
+			deviceType = 'DuoFern-Universal-Dimmaktor-UP-9476';
+			deviceRole = 'level.dimmer';
+			break;	
+			
+		case "35140462":
+			deviceType = 'DuoFern-UniversalDimmer-9476';
+			deviceRole = 'level.dimmer';
+			break;
+	
+		case "32002119":
+			deviceType = 'ZWave-Fenster-Türkontakt-8431';
+            break;
+			
+		case "32003164":
+			deviceType = 'DuoFern-Fenster-Türkontakt-9431';
+            break;
+		
+		case "99999998":
+			deviceType = 'GeoPilot-(Handy)';
+            break;
+			
+		case "32001664":
+			deviceType = 'DuoFern-Rauchmelder-9481';
+            break;	
+			
+		case "32000062":
+			deviceType = 'DuoFern-Funksender-UP-9497';
+            break;	
+		
+		case "32004329":
+			deviceType = 'HD-Kamera-9487-A';
+			//additionalSensorSettings.push(deviceId);
+            break;
+		
+		case "32160211":
+            deviceType = 'DuoFern-Wandtaster-9494';
+			if (type == 'Transmitter') {
+				additionalTransmitterSettings.push(deviceId);
+			}
+			break;
+	
+		case "32501974":
+            deviceType = 'DuoFern-Mehrfachwandtaster-BAT-9494-1';
+			if (type == 'Transmitter') {
+				additionalTransmitterSettings.push(deviceId);
+			}
+			break;
+		
+		case "34810060":
+            deviceType = 'DuoFern-Handzentrale-9493';
+			break;
+			
+        default:
+            adapter.log.warn('Unknown ' + type + ' deviceNumber=' + deviceNumber);
+    }
+}
+
+function deviceNumberNormalize(deviceNumber) {
+	if (deviceNumber.indexOf("_") !== -1) {
+		deviceNumber = deviceNumber.substr(0, deviceNumber.indexOf("_"));
+	}
+	
+	return deviceNumber;
 }
 
 //ToDo Delete
