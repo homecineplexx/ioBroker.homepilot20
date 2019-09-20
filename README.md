@@ -1,92 +1,29 @@
-![Logo](admin/template.png)
-# ioBroker.template
+![Logo](admin/homepilot.png)
+# ioBroker20.homepilot
 
-[![NPM version](http://img.shields.io/npm/v/iobroker.template.svg)](https://www.npmjs.com/package/iobroker.template)
-[![Downloads](https://img.shields.io/npm/dm/iobroker.template.svg)](https://www.npmjs.com/package/iobroker.template)
-[![Dependency Status](https://img.shields.io/david/Author/iobroker.template.svg)](https://david-dm.org/Author/iobroker.template)
-[![Known Vulnerabilities](https://snyk.io/test/github/Author/ioBroker.template/badge.svg)](https://snyk.io/test/github/Author/ioBroker.template)
+![Number of Installations](http://iobroker.live/badges/homepilot20-installed.svg) ![Number of Installations](http://iobroker.live/badges/homepilot20-stable.svg) [![NPM version](http://img.shields.io/npm/v/iobroker.homepilot20.svg)](https://www.npmjs.com/package/iobroker.homepilot20)
+[![Downloads](https://img.shields.io/npm/dm/iobroker.homepilot20.svg)](https://www.npmjs.com/package/iobroker.homepilot20)
 
-[![NPM](https://nodei.co/npm/iobroker.template.png?downloads=true)](https://nodei.co/npm/iobroker.template/)
+[![NPM](https://nodei.co/npm/iobroker.homepilot20.png?downloads=true)](https://nodei.co/npm/iobroker.homepilot20/)
 
-**Tests:**: [![Travis-CI](http://img.shields.io/travis/Author/ioBroker.template/master.svg)](https://travis-ci.org/Author/ioBroker.template)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/41e0e541711c47b996f11a2439a6663c)](https://www.codacy.com/app/homecineplexx/ioBroker.homepilot20?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=homecineplexx/ioBroker.homepilot20&amp;utm_campaign=Badge_Grade)
 
-## template adapter for ioBroker
+**Tests:** Linux/Mac: [![Travis-CI](http://img.shields.io/travis/homecineplexx/ioBroker.homepilot20/master.svg)](https://travis-ci.com/homecineplexx/ioBroker.homepilot20)
+Windows: [![AppVeyor](https://ci.appveyor.com/api/projects/status/github/homecineplexx/ioBroker.homepilot20?branch=master&svg=true)](https://ci.appveyor.com/project/homecineplexx/ioBroker-homepilot20/)
 
-Template for adapter development
 
-## Developer manual
-This section is intended for the developer. It can be deleted later
+:de: [Dokumentation](/docs/de/doc_homepilot_de.md)
 
-### Getting started
-
-You are almost done, only a few steps left:
-1. Create a new repository on GitHub with the name `ioBroker.template`
-1. Initialize the current folder as a new git repository:  
-    ```bash
-    git init
-    git add .
-    git commit -m "Initial commit"
-    ```
-1. Link your local repository with the one on GitHub:  
-    ```bash
-    git remote add origin https://github.com/Author/ioBroker.template
-    ```
-
-1. Push all files to the GitHub repo:  
-    ```bash
-    git push origin master
-    ```
-1. Head over to [main.js](main.js) and start programming!
-
-### Scripts in `package.json`
-Several npm scripts are predefined for your convenience. You can run them using `npm run <scriptname>`
-| Script name | Description                                              |
-|-------------|----------------------------------------------------------|
-| `test:js`   | Executes the tests you defined in `*.test.js` files.     |
-| `test:package`    | Ensures your `package.json` and `io-package.json` are valid. |
-| `test` | Performs a minimal test run on package files and your tests. |
-| `coverage` | Generates code coverage using your test files. |
-
-### Writing tests
-When done right, testing code is invaluable, because it gives you the 
-confidence to change your code while knowing exactly if and when 
-something breaks. A good read on the topic of test-driven development 
-is https://hackernoon.com/introduction-to-test-driven-development-tdd-61a13bc92d92. 
-Although writing tests before the code might seem strange at first, but it has very 
-clear upsides.
-
-The template provides you with basic tests for the adapter startup and package files.
-It is recommended that you add your own tests into the mix.
-
-### Publishing the adapter
-See the documentation of [ioBroker.repositories](https://github.com/ioBroker/ioBroker.repositories#requirements-for-adapter-to-get-added-to-the-latest-repository).
-
-### Test the adapter manually on a local ioBroker installation
-In order to install the adapter locally without publishing, the following steps are recommended:
-1. Create a tarball from your dev directory:  
-    ```bash
-    npm pack
-    ```
-1. Upload the resulting file to your ioBroker host
-1. Install it locally (The paths are different on Windows):
-    ```bash
-    cd /opt/iobroker
-    npm i /path/to/tarball.tgz
-    ```
-
-For later updates, the above procedure is not necessary. Just do the following:
-1. Overwrite the changed files in the adapter directory (`/opt/iobroker/node_modules/iobroker.template`)
-1. Execute `iobroker upload template` on the ioBroker host
 
 ## Changelog
 
 ### 0.0.1
-* (Author) initial release
+* (homecineplexx) initial release
 
 ## License
 MIT License
 
-Copyright (c) 2019 Author <author@mail.com>
+Copyright (c) 2019 homecineplexx <chris.homecineplexx@gmail.com>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
