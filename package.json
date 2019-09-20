@@ -1,46 +1,47 @@
 {
-  "name": "iobroker.homepilot20",
-  "version": "0.0.1",
-  "description": "Homepilot 2.0 adapter",
-  "author": {
-    "name": "Christian Koller",
-    "email": "chris.homecineplexx@gmail.com"
-  },
-  "homepage": "https://github.com/homecineplexx/ioBroker.homepilot20",
-  "license": "MIT",
-  "keywords": [
-    "ioBroker",
-    "homepilot",
-    "Smart Home",
-    "home automation",
-	"rollo",
-	"rollladen",
-	"rademacher",
-	"homecineplexx"
-  ],
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/homecineplexx/ioBroker.homepilot20"
-  },
-  "dependencies": {
-    "@iobroker/adapter-core": "^1.0.3",
-	"crypto-js": "^3.1.9-1"
-  },
-  "devDependencies": {
-    "chai": "^4.2.0",
-	"gulp": "^4.0.2",
-	"mocha": "^6.1.4",
-	"@iobroker/testing": "^1.2.5"
-  },
-  "main": "main.js",
-  "scripts": {
-	"test": "npm run test:js && npm run test:package",
-	"test:package": "mocha test/package --exit",
-	"test:unit": "mocha test/unit --exit",
-	"test:integration": "mocha test/integration --exit"
-  },
-  "bugs": {
-    "url": "https://github.com/homecineplexx/ioBroker.homepilot20"
-  },
-  "readmeFilename": "README.md"
+	"version": "0.0.1",
+	"name": "iobroker.homepilot20",
+	"author": {
+		"name": "Christian Koller",
+		"email": "chris.homecineplexx@gmail.com"
+	},
+	"bugs": {
+		"url": "https://github.com/homecineplexx/ioBroker.homepilot20/issues"
+	},
+	"dependencies": {
+		"@iobroker/adapter-core": "^1.0.3",
+		"crypto-js": "^3.1.9-1"
+	},
+	"description": "Homepilot 2.0 adapter",
+	"devDependencies": {
+		"chai": "^4.2.0",
+		"gulp": "^4.0.2",
+		"mocha": "^6.1.4",
+		"@iobroker/testing": "^1.2.5"
+	},
+	"optionalDependencies": {},
+	"homepage": "https://github.com/homecineplexx/ioBroker.homepilot20",
+	"keywords": [
+		"ioBroker",
+		"homepilot",
+		"Smart Home",
+		"home automation",
+		"rollo",
+		"rollladen",
+		"rademacher",
+		"homecineplexx"
+	],
+	"license": "MIT",
+	"main": "main.js",
+	"readmeFilename": "README.md",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/homecineplexx/ioBroker.homepilot20.git"
+	},
+	"scripts": {
+		"test": "npm run test:js && npm run test:package",
+		"test:package": "mocha test/package --exit",
+		"test:unit": "mocha test/unit --exit",
+		"test:integration": "mocha test/integration --exit"
+	}
 }
