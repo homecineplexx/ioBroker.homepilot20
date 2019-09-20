@@ -12,7 +12,7 @@
 Windows: [![AppVeyor](https://ci.appveyor.com/api/projects/status/github/homecineplexx/ioBroker.homepilot20?branch=master&svg=true)](https://ci.appveyor.com/project/homecineplexx/ioBroker-homepilot20/)
 
 
-:de: [Dokumentation](/docs/de/doc_homepilot_de.md)
+:de: [Dokumentation](/docs/de/doc_homepilot20_de.md)
 
 
 ## Changelog

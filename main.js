@@ -352,9 +352,9 @@ function controlHomepilot(id, input) {
 	
 	//role == switch or role == light.switch
 	if (deviceNumberId == '35002414' /*Z-Wave Steckdose*/ ||
-		deviceNumberId == '35000262' /*DuoFern-2-Kanal-Aktor*/ ||
-		deviceNumberId == '35001164' /*DuoFern-Steckdose*/ ||
-		deviceNumberId == '32501972' /*DuoFern-Mehrfachwandtaster*/ ||
+		deviceNumberId == '35000262' /*DuoFern-2-Kanal-Aktor-9470-2*/ ||
+		deviceNumberId == '35001164' /*DuoFern-Zwischenstecker-Schalten-9472*/ ||
+		deviceNumberId == '32501972' /*DuoFern-Mehrfachwandtaster-230V-9494-2*/ ||
 		deviceNumberId == '32501772' /*DuoFern-Bewegungsmelder-9484*/) {
 		
 		//data = {"name":"TURN_OFF_CMD"}; 
@@ -365,11 +365,11 @@ function controlHomepilot(id, input) {
 			data = '{"name":"TURN_ON_CMD"}';
 		}
 	//role == level.blind
-	} else if (deviceNumberId == '35000864' /*DuoFern-Connect-Aktor*/ ||
+	} else if (deviceNumberId == '35000864' /*DuoFern-Connect-Aktor-9477*/ ||
 				deviceNumberId == '14234511' /*DuoFern-RolloTronStandard*/ ||
 				deviceNumberId == '35000662' /*DuoFern-Rohrmotor-Aktor*/ ||
 				deviceNumberId == '31500162' /*DuoFern-Rohrmotorsteuerung*/ ||
-				deviceNumberId == '36500172' /*DuoFern-TrollBasis*/ ||
+				deviceNumberId == '36500172' /*DuoFern-TrollBasis-5615*/ ||
 				deviceNumberId == '27601565' /*DuoFern-Rohrmotor*/ ||
 				deviceNumberId == '35000462' /*DuoFern-Universal-Dimmaktor*/ ||
 				deviceNumberId == '35140462' /*DuoFern-UniversalDimmer-9476*/ ||
@@ -385,8 +385,8 @@ function controlHomepilot(id, input) {
 		data = '{"name":"GOTO_POS_CMD", "value":"' + parseInt(input) + '"}';
 		
 	//role == temperature
-	} else if (deviceNumberId == '35003064' /*DuoFern-Heizkörperstellantrieb*/ ||
-				deviceNumberId == '35002319' /*Z-Wave-Heizkörperstellantrieb*/) {
+	} else if (deviceNumberId == '35003064' /*DuoFern-Heizkörperstellantrieb-9433*/ ||
+				deviceNumberId == '35002319' /*Z-Wave-Heizkörperstellantrieb-8433*/) {
 		//range 40°C-280°C in 0.5°C steps
 		var val = (parseFloat(input)*10);
 		
@@ -401,7 +401,7 @@ function controlHomepilot(id, input) {
 		//data = {"name":"TARGET_TEMPERATURE_CFG", "value":"" + val + ""};
 		data = '{"name":"TARGET_TEMPERATURE_CFG", "value":"' + val + '"}';
 	//role == temperature
-	} else if (deviceNumberId == '32501812' /*DuoFern-Raumthermostat*/) {
+	} else if (deviceNumberId == '32501812' /*DuoFern-Raumthermostat-9485*/) {
 		//range 40°C-400°C in 0.5°C steps
 		var val = (parseFloat(input)*10);
 		
