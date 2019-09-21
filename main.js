@@ -648,8 +648,8 @@ function createActuatorStates(result, type) {
 						desc: 'Position stored in homepilot for device ' + deviceId,
 						type: 'number',
 						role: deviceRole,
-						min: 40,
-						max: 400,
+						min: 4,
+						max: 40,
 						unit: '°C',
 						read: true,
 						write: true
@@ -664,8 +664,8 @@ function createActuatorStates(result, type) {
 						desc: 'Position stored in homepilot for device ' + deviceId,
 						type: 'number',
 						role: deviceRole,
-						min: 40,
-						max: 280,
+						min: 4,
+						max: 28,
 						unit: '°C',
 						read: true,
 						write: true
@@ -726,7 +726,7 @@ function createActuatorStates(result, type) {
 					desc: 'posMin stored in homepilot for device ' + deviceId,
 					type: 'number',
 					role: 'value',
-					min: 40,
+					min: 4,
 					read: true,
 					write: false
 				},
@@ -740,7 +740,7 @@ function createActuatorStates(result, type) {
 					desc: 'posMax stored in homepilot for device ' + deviceId,
 					type: 'number',
 					role: 'value',
-					min: 280,
+					min: 28,
 					read: true,
 					write: false
 				},
@@ -898,12 +898,12 @@ function writeActuatorStates(result, type) {
 			});
 			
 			adapter.setState(path + '.posMin', {
-				val: result.posMin,
+				val: result.posMin / 10,
 				ack: true
 			});
 			
 			adapter.setState(path + '.posMax', {
-				val: result.posMax,
+				val: result.posMax / 10,
 				ack: true
 			});	
 		}
