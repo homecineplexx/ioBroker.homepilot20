@@ -1263,7 +1263,8 @@ function createSensorStates(result, type) {
 			});
 		}
 		
-		if (deviceNumber == '99999998' /*GeoPilot (Handy)*/) {
+		if (deviceNumber == '99999998' /*GeoPilot (Handy)*/ ||
+			deviceNumber == '99999999' /*GeoPilot (Handy)*/) {
 			adapter.setObjectNotExists(path + '.area_entered', {
 				type: 'state',
 				common: {
@@ -1482,7 +1483,8 @@ function writeSensorStates(result, type) {
 			});
 		}
 		
-		if (deviceNumber == '99999998' /*GeoPilot (Handy)*/) {
+		if (deviceNumber == '99999998' /*GeoPilot (Handy)*/ ||
+			deviceNumber == '99999999' /*GeoPilot (Handy)*/) {
 			adapter.setState(path + '.area_entered', {
 				val: result.readings.area_entered,
 				ack: true
@@ -1945,6 +1947,7 @@ function calculatePath(result, type) {
             break;
 		
 		case "99999998":
+		case "99999999":
 			deviceType = 'GeoPilot-(Handy)';
             break;
 			
