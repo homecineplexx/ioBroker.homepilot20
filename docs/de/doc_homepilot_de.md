@@ -42,7 +42,8 @@ Für Sensor und Transmitter ist hartkodiert 3s eingestellt. Cameras werden momen
 |   32002119    |  Z-Wave-FensterTürkontakt                  |                            | text                   |  8431   | Sensor               |            |
 |   32004329    |  HD-Kamera                                 |                            | text                   |  9487   | Sensor               |            |
 |   99999998    |  GeoPilot IOS (Handy)                      |                            | text                   |         | Sensor               |            |
-|   99999999    |  GeoPilot Android (Hand                    |                            | text                   |         | Sensor               |            |
+|   99999999    |  GeoPilot Android (Handy)                  |                            | text                   |         | Sensor               |            |
+|   32000069    |  DuoFern Sonnensensor                      |                            | text                   |  9478   | Sensor               |            |
 
 
 ## Einstellungen

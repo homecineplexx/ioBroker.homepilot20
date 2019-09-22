@@ -1281,7 +1281,8 @@ function createSensorStates(result, type) {
 		}
 		
 		if (deviceNumber == '36500572' /*Duofern-Troll-Comfort-5665*/ ||
-			deviceNumber == '32000064' /*DuoFern-Umweltsensor*/) {
+			deviceNumber == '32000064' /*DuoFern-Umweltsensor*/ ||
+			deviceNumber == '32000069' /*DuoFern-Sonnensensor-9478*/) {
 			adapter.setObjectNotExists(path + '.sun_detected', {
 				type: 'state',
 				common: {
@@ -1478,7 +1479,7 @@ function writeSensorStates(result, type) {
 			});
 			
 			adapter.setState(path + '.rain_detected', {
-				val: result.readings.sun_detected,
+				val: result.readings.rain_detected,
 				ack: true
 			});
 		}
@@ -1492,7 +1493,8 @@ function writeSensorStates(result, type) {
 		}
 		
 		if (deviceNumber == '36500572' /*Duofern-Troll-Comfort-5665*/ ||
-			deviceNumber == '32000064' /*DuoFern-Umweltsensor*/) {
+			deviceNumber == '32000064' /*DuoFern-Umweltsensor*/ ||
+			deviceNumber == '32000069' /*DuoFern-Sonnensensor-9478*/) {
 			adapter.setState(path + '.sun_detected', {
 				val: result.readings.sun_detected,
 				ack: true
@@ -1980,6 +1982,10 @@ function calculatePath(result, type) {
 		
 		case "34810060":
             deviceType = 'DuoFern-Handzentrale-9493';
+			break;
+
+		case "32000069":
+			deviceType = 'DuoFern-Sonnensensor-9478';
 			break;
 			
         default:
