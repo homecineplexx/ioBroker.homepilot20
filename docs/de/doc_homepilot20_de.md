@@ -53,5 +53,5 @@ Die IP Adresse der Homepilot Basisstation im lokalen Netzwerk. Ohne Eingabe verw
 ### Synchronisation
 Dauer zwischen den Abfragen der Homepilot Basistation durch ioBroker. Die Eingabe ist optional. Standard ist 12s.
 
-###Sicherheit
+### Sicherheit
 Seit dieser Version des Homepilot2 gibt es auch die Möglichkeit ein lokales Passwort zu setzen, welches dann hier im Adapter ebenfalls gleich gesetzt werden muß.
