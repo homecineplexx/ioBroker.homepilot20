@@ -46,6 +46,11 @@ Für Sensor und Transmitter ist hartkodiert 3s eingestellt. Cameras werden momen
 |   32000069    |  DuoFern Sonnensensor                      |                            | text                   |  9478   | Sensor               |            |
 
 
+__level.blind__ hat einen eigenen Datenpunkt namens __Action__ erhalten. Hier sind folgende Werte erlaubt: 
+RAUF/UP/HOCH/REIN/IN
+RUNTER/DOWN/RAUS/OUT
+STOPP/STOP
+
 ## Einstellungen
 ### IP und Port
 Die IP Adresse der Homepilot Basisstation im lokalen Netzwerk. Ohne Eingabe verwendet der Adapter __homepilot.local__. Die Portnummer ist optional und wird nur bei Eingabe einer IP-Adresse berücksichtigt.

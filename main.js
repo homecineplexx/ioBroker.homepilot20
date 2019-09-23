@@ -351,70 +351,81 @@ function controlHomepilot(id, input) {
 	var data; 
 	
 	//role == switch or role == light.switch
-	if (deviceNumberId == '35002414' /*Z-Wave Steckdose*/ ||
-		deviceNumberId == '35000262' /*DuoFern-2-Kanal-Aktor-9470-2*/ ||
-		deviceNumberId == '35001164' /*DuoFern-Zwischenstecker-Schalten-9472*/ ||
-		deviceNumberId == '32501972' /*DuoFern-Mehrfachwandtaster-230V-9494-2*/ ||
-		deviceNumberId == '32501772' /*DuoFern-Bewegungsmelder-9484*/) {
-		
-		//data = {"name":"TURN_OFF_CMD"}; 
-		data = '{"name":"TURN_OFF_CMD"}'; 
-		
-		if (input == 'true') {
-			//data = {"name":"TURN_ON_CMD"};
-			data = '{"name":"TURN_ON_CMD"}';
+	if (id.indexOf('Position') !== -1) {
+		if (deviceNumberId == '35002414' /*Z-Wave Steckdose*/ ||
+			deviceNumberId == '35000262' /*DuoFern-2-Kanal-Aktor-9470-2*/ ||
+			deviceNumberId == '35001164' /*DuoFern-Zwischenstecker-Schalten-9472*/ ||
+			deviceNumberId == '32501972' /*DuoFern-Mehrfachwandtaster-230V-9494-2*/ ||
+			deviceNumberId == '32501772' /*DuoFern-Bewegungsmelder-9484*/) {
+			
+			data = '{"name":"TURN_OFF_CMD"}'; 
+			
+			if (input == 'true') {
+				data = '{"name":"TURN_ON_CMD"}';
+			}
+		//role == level.blind
+		} else if (deviceNumberId == '35000864' /*DuoFern-Connect-Aktor-9477*/ ||
+					deviceNumberId == '14234511' /*DuoFern-RolloTronStandard*/ ||
+					deviceNumberId == '35000662' /*DuoFern-Rohrmotor-Aktor*/ ||
+					deviceNumberId == '31500162' /*DuoFern-Rohrmotorsteuerung*/ ||
+					deviceNumberId == '36500172' /*DuoFern-TrollBasis-5615*/ ||
+					deviceNumberId == '27601565' /*DuoFern-Rohrmotor*/ ||
+					deviceNumberId == '35000462' /*DuoFern-Universal-Dimmaktor*/ ||
+					deviceNumberId == '35140462' /*DuoFern-UniversalDimmer-9476*/ ||
+					deviceNumberId == '36500572' /*Duofern-Troll-Comfort-5665*/ ||
+					deviceNumberId == '32000064' /*DuoFern-Umweltsensor*/) {
+			if (0 >= parseInt(input)) {
+				input = 0;
+			} else if (parseInt(input) >= 100) {
+				input = 100;
+			}
+			
+			data = '{"name":"GOTO_POS_CMD", "value":"' + parseInt(input) + '"}';
+			
+		//role == temperature
+		} else if (deviceNumberId == '35003064' /*DuoFern-Heizkörperstellantrieb-9433*/ ||
+					deviceNumberId == '35002319' /*Z-Wave-Heizkörperstellantrieb-8433*/) {
+			//range 40°C-280°C in 0.5°C steps
+			var val = (parseFloat(input)*10);
+			
+			if (val < 40) {
+				val = 40;
+			} else if (val > 280) {
+				val = 280;
+			}
+			
+			val = (val%5<3 ? (val%5===0 ? val : Math.floor(val/5)*5) : Math.ceil(val/5)*5) / 10;
+			
+			data = '{"name":"TARGET_TEMPERATURE_CFG", "value":"' + val + '"}';
+		//role == temperature
+		} else if (deviceNumberId == '32501812' /*DuoFern-Raumthermostat-9485*/) {
+			//range 40°C-400°C in 0.5°C steps
+			var val = (parseFloat(input)*10);
+			
+			if (val < 40) {
+				val = 40;
+			} else if (val > 400) {
+				val = 400;
+			}
+			
+			val = (val%5<3 ? (val%5===0 ? val : Math.floor(val/5)*5) : Math.ceil(val/5)*5) / 10;
+					
+			data = '{"name":"TARGET_TEMPERATURE_CFG", "value":"' + val + '"}';
 		}
-	//role == level.blind
-	} else if (deviceNumberId == '35000864' /*DuoFern-Connect-Aktor-9477*/ ||
-				deviceNumberId == '14234511' /*DuoFern-RolloTronStandard*/ ||
-				deviceNumberId == '35000662' /*DuoFern-Rohrmotor-Aktor*/ ||
-				deviceNumberId == '31500162' /*DuoFern-Rohrmotorsteuerung*/ ||
-				deviceNumberId == '36500172' /*DuoFern-TrollBasis-5615*/ ||
-				deviceNumberId == '27601565' /*DuoFern-Rohrmotor*/ ||
-				deviceNumberId == '35000462' /*DuoFern-Universal-Dimmaktor*/ ||
-				deviceNumberId == '35140462' /*DuoFern-UniversalDimmer-9476*/ ||
-				deviceNumberId == '36500572' /*Duofern-Troll-Comfort-5665*/ ||
-				deviceNumberId == '32000064' /*DuoFern-Umweltsensor*/) {
-		if (0 >= parseInt(input)) {
-			input = 0;
-		} else if (parseInt(input) >= 100) {
-			input = 100;
+	} else if (id.indexOf('Action') !== -1) {
+		input = input.toUpperCase().trim();
+		
+		if (input == 'RAUF' || input == 'UP' || input == 'HOCH' || input == 'REIN' || input == 'IN') {			
+			data = '{"name":"POS_UP_CMD"}';
+		} else if (input == 'RUNTER' || input == 'DOWN' || input == 'RAUS' || input == 'OUT') {			
+			data = '{"name":"POS_DOWN_CMD"}';
+		} else if (input == 'STOPP' || input == 'STOP') {
+			data = '{"name":"STOP_CMD"}';
+		} else {
+			adapter.log.error( 'Command=' + input + ' is not allowed. Allowed values are RAUF/RAUS/REIN/RUNTER/STOPP.');
 		}
-		
-		//data = {"name":"GOTO_POS_CMD", "value":"" + parseInt(input) + ""};
-		data = '{"name":"GOTO_POS_CMD", "value":"' + parseInt(input) + '"}';
-		
-	//role == temperature
-	} else if (deviceNumberId == '35003064' /*DuoFern-Heizkörperstellantrieb-9433*/ ||
-				deviceNumberId == '35002319' /*Z-Wave-Heizkörperstellantrieb-8433*/) {
-		//range 40°C-280°C in 0.5°C steps
-		var val = (parseFloat(input)*10);
-		
-		if (val < 40) {
-			val = 40;
-		} else if (val > 280) {
-			val = 280;
-		}
-		
-		val = (val%5<3 ? (val%5===0 ? val : Math.floor(val/5)*5) : Math.ceil(val/5)*5) / 10;
-		
-		//data = {"name":"TARGET_TEMPERATURE_CFG", "value":"" + val + ""};
-		data = '{"name":"TARGET_TEMPERATURE_CFG", "value":"' + val + '"}';
-	//role == temperature
-	} else if (deviceNumberId == '32501812' /*DuoFern-Raumthermostat-9485*/) {
-		//range 40°C-400°C in 0.5°C steps
-		var val = (parseFloat(input)*10);
-		
-		if (val < 40) {
-			val = 40;
-		} else if (val > 400) {
-			val = 400;
-		}
-		
-		val = (val%5<3 ? (val%5===0 ? val : Math.floor(val/5)*5) : Math.ceil(val/5)*5) / 10;
-				
-		//data = {"name":"TARGET_TEMPERATURE_CFG", "value":"" + val + ""};
-		data = '{"name":"TARGET_TEMPERATURE_CFG", "value":"' + val + '"}';
+	} else {
+		adapter.log.warn(id + ' can not be changed.');
 	}
 	
 	if (data !== undefined) {
@@ -621,6 +632,22 @@ function createActuatorStates(result, type) {
 				},
 				native: {}
 			});
+			
+			if (deviceRole == 'level.blind') {
+				adapter.setObjectNotExists(path + '.Action', {
+					type: 'state',
+					common: {
+						name: 'RAUF/RAUS/REIN/RUNTER/STOPP',
+						desc: 'RAUF/RAUS/REIN/RUNTER/STOPP',
+						type: 'string',
+						role: 'text',
+						def: '',
+						read: true,
+						write: true
+					},
+					native: {}
+				});
+			}
 			
 			if (deviceNumber == '36500172') {
 				adapter.setObjectNotExists(path + '.slatposition', {
@@ -1786,7 +1813,9 @@ function getPasswordSalt() {
 }
 
 function main() {
-    adapter.subscribeStates('*'); 
+    //adapter.subscribeStates('*'); 
+	adapter.subscribeStates('*Position');
+	adapter.subscribeStates('*Action');
     readSettings();
     adapter.log.debug('Homepilot adapter started...');
 	
