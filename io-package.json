@@ -38,6 +38,7 @@
 			"rademacher",
 			"homecineplexx"
         ],
+		"compact": true,
         "license": "MIT",
         "platform": "Javascript/Node.js",
         "main": "main.js",

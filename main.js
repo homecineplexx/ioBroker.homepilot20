@@ -31,6 +31,40 @@ var additionalSensorSettings = [];
 var additionalTransmitterSettings = [];
 var deviceType;
 
+
+let adapter;
+function startAdapter(options) {
+	options = options || {};
+	Object.assign(options, {
+		name: 'homepilot20',
+		systemConfig: true,
+		useFormatDate: true,
+		stateChange: function(id, state) {
+        if (!id || !state || state.ack) return;
+			adapter.log.debug('stateChange ' + id + ' ' + JSON.stringify(state));
+			adapter.log.debug('input value: ' + state.val.toString());
+			controlHomepilot(id, state.val.toString());
+		},
+		unload: function(callback) {
+			try {
+				adapter.log.info('terminating homepilot20 adapter');
+				stopReadHomepilot();
+				callback();
+			} catch (e) {
+				callback();
+			}
+		},
+		ready: function() {
+			adapter.log.debug('initializing objects');
+			main();
+		}
+		});
+	adapter = new utils.Adapter(options);
+
+	return adapter;
+};
+ 
+/*
 var adapter = utils.Adapter({
     name: 'homepilot20',
     systemConfig: true,
@@ -55,7 +89,7 @@ var adapter = utils.Adapter({
         main();
     }
 });
-
+*/
 function readTransmitter(link) {
     var unreach = true;
 	
@@ -2048,3 +2082,11 @@ function deviceNumberNormalize(deviceNumber) {
             return data[i].value + '-' + data[i].timestamp;
     }
 */
+
+// If started as allInOne/compact mode => return function to create instance
+if (module && module.parent) {
+    module.exports = startAdapter;
+} else {
+    // or start the instance directly
+    startAdapter();
+} 
