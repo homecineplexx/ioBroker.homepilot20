@@ -1309,7 +1309,8 @@ function createSensorStates(result, type) {
 		
 		if (deviceNumber == '36500572' /*Duofern-Troll-Comfort-5665*/ ||
 			deviceNumber == '32000064' /*DuoFern-Umweltsensor*/ ||
-			deviceNumber == '32000069' /*DuoFern-Sonnensensor-9478*/) {
+			deviceNumber == '32000069' /*DuoFern-Sonnensensor-9478*/ ||
+			deviceNumber == '16234511' /*DuoFern-RolloTron-Comfort-1800/1805/1840*/) {
 			adapter.setObjectNotExists(path + '.sun_detected', {
 				type: 'state',
 				common: {
@@ -1521,7 +1522,8 @@ function writeSensorStates(result, type) {
 		
 		if (deviceNumber == '36500572' /*Duofern-Troll-Comfort-5665*/ ||
 			deviceNumber == '32000064' /*DuoFern-Umweltsensor*/ ||
-			deviceNumber == '32000069' /*DuoFern-Sonnensensor-9478*/) {
+			deviceNumber == '32000069' /*DuoFern-Sonnensensor-9478*/ ||
+			deviceNumber == '16234511' /*DuoFern-RolloTron-Comfort-1800/1805/1840*/) {
 			adapter.setState(path + '.sun_detected', {
 				val: result.readings.sun_detected,
 				ack: true
@@ -1958,6 +1960,13 @@ function calculatePath(result, type) {
 			deviceType = 'DuoFern-Umweltsensor-9475';
 			deviceRole = 'level.blind';
 			break;	
+		
+		case "16234511":
+			deviceType = 'DuoFern-RolloTron-Comfort-1800/1805/1840';
+			if (type == 'Actuator') {
+				deviceRole = 'level.blind';
+			}
+			break;
 			
 		case "35000462":
 			deviceType = 'DuoFern-Universal-Dimmaktor-UP-9476';
@@ -2016,7 +2025,7 @@ function calculatePath(result, type) {
 		case "32000069":
 			deviceType = 'DuoFern-Sonnensensor-9478';
 			break;
-			
+		
         default:
             adapter.log.warn('Unknown ' + type + ' deviceNumber=' + deviceNumber);
     }
