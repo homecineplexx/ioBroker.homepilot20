@@ -64,32 +64,6 @@ function startAdapter(options) {
 	return adapter;
 };
  
-/*
-var adapter = utils.Adapter({
-    name: 'homepilot20',
-    systemConfig: true,
-    useFormatDate: true,
-    stateChange: function(id, state) {
-        if (!id || !state || state.ack) return;
-        adapter.log.debug('stateChange ' + id + ' ' + JSON.stringify(state));
-        adapter.log.debug('input value: ' + state.val.toString());
-        controlHomepilot(id, state.val.toString());
-    },
-    unload: function(callback) {
-        try {
-            adapter.log.info('terminating homepilot20 adapter');
-            stopReadHomepilot();
-            callback();
-        } catch (e) {
-            callback();
-        }
-    },
-    ready: function() {
-        adapter.log.debug('initializing objects');
-        main();
-    }
-});
-*/
 function readTransmitter(link) {
     var unreach = true;
 	
@@ -407,7 +381,8 @@ function controlHomepilot(id, input) {
 					deviceNumberId == '35000462' /*DuoFern-Universal-Dimmaktor*/ ||
 					deviceNumberId == '35140462' /*DuoFern-UniversalDimmer-9476*/ ||
 					deviceNumberId == '36500572' /*Duofern-Troll-Comfort-5665*/ ||
-					deviceNumberId == '32000064' /*DuoFern-Umweltsensor*/) {
+					deviceNumberId == '32000064' /*DuoFern-Umweltsensor*/ ||
+					deviceNumberId == '16234511' /*DuoFern-RolloTron-Comfort-1800/1805/1840*/) {
 			if (0 >= parseInt(input)) {
 				input = 0;
 			} else if (parseInt(input) >= 100) {
@@ -2073,15 +2048,6 @@ function deviceNumberNormalize(deviceNumber) {
 	return deviceNumber;
 }
 
-//ToDo Delete
-/*function getData(data, name) {
-    var length = data.length;
-
-    for (var i = 0; i < length; i += 1) {
-        if (data[i].name == name)
-            return data[i].value + '-' + data[i].timestamp;
-    }
-*/
 
 // If started as allInOne/compact mode => return function to create instance
 if (module && module.parent) {
@@ -2089,4 +2055,4 @@ if (module && module.parent) {
 } else {
     // or start the instance directly
     startAdapter();
-} 
+}
