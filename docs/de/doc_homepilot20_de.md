@@ -31,6 +31,7 @@ Für Sensor und Transmitter ist hartkodiert 3s eingestellt. Cameras werden momen
 |   31500162    |  DuoFern Rohrmotorsteuerung                |                            | level.blind            |         | Actuator             | 0 - 100 %  |
 |   36500172    |  DuoFern TrollBasis                        |                            | level.blind            |  5615   | Actuator             | 0 - 100 %  |
 |   27601565    |  DuoFern Rohrmotor                         |                            | level.blind            |         | Actuator             | 0 - 100 %  |
+|   14236011    |  DuoFern RolloTron Pro Comfort             |                            | level.blind            |  9800   | Actuator             | 0 - 100 %  |
 |   35000462    |  DuoFern Universal Dimmaktor UP            |                            | light.switch           |  9476   | Actuator             | 0 - 100 %  |
 |   35140462    |  DuoFern UniversalDimmer                   |                            | light.switch           |  9476   | Actuator             | 0 - 100 %  |
 |   36500572    |  Duofern Troll Comfort                     |                            | level.blind            |  5665   | Actuator             | 0 - 100 %  |

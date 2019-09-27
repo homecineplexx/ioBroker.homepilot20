@@ -359,7 +359,15 @@ function controlHomepilot(id, input) {
 	var data; 
 	
 	//role == switch or role == light.switch
-	if (id.indexOf('Position') !== -1) {
+	if (id.indexOf('Position_inverted') !== -1) {
+		if (0 >= parseInt(input)) {
+			input = 0;
+		} else if (parseInt(input) >= 100) {
+			input = 100;
+		}
+
+		data = '{"name":"GOTO_POS_CMD", "value":"' + (100 - parseInt(input)) + '"}';		 
+	} else if (id.indexOf('Position') !== -1) {
 		if (deviceNumberId == '35002414' /*Z-Wave Steckdose*/ ||
 			deviceNumberId == '35000262' /*DuoFern-2-Kanal-Aktor-9470-2*/ ||
 			deviceNumberId == '35001164' /*DuoFern-Zwischenstecker-Schalten-9472*/ ||
@@ -382,13 +390,14 @@ function controlHomepilot(id, input) {
 					deviceNumberId == '35140462' /*DuoFern-UniversalDimmer-9476*/ ||
 					deviceNumberId == '36500572' /*Duofern-Troll-Comfort-5665*/ ||
 					deviceNumberId == '32000064' /*DuoFern-Umweltsensor*/ ||
-					deviceNumberId == '16234511' /*DuoFern-RolloTron-Comfort-1800/1805/1840*/) {
+					deviceNumberId == '16234511' /*DuoFern-RolloTron-Comfort-1800/1805/1840*/ ||
+					deviceNumberId == '14236011' /*DuoFern-RolloTron-Pro-Comfort-9800*/) {
 			if (0 >= parseInt(input)) {
 				input = 0;
 			} else if (parseInt(input) >= 100) {
 				input = 100;
 			}
-			
+
 			data = '{"name":"GOTO_POS_CMD", "value":"' + parseInt(input) + '"}';
 			
 		//role == temperature
@@ -433,14 +442,6 @@ function controlHomepilot(id, input) {
 		} else {
 			adapter.log.error( 'Command=' + input + ' is not allowed. Allowed values are RAUF/RAUS/REIN/RUNTER/STOPP.');
 		}
-	} else if (id.indexOf('Position_inverted') !== -1) {
-		if (0 >= parseInt(input)) {
-			input = 0;
-		} else if (parseInt(input) >= 100) {
-			input = 100;
-		}
-
-		data = '{"name":"GOTO_POS_CMD", "value":"' + (100 - parseInt(input)) + '"}';		 
 	} else {
 		adapter.log.warn(id + ' can not be changed.');
 	}
@@ -2007,6 +2008,11 @@ function calculatePath(result, type) {
 			if (type == 'Actuator') {
 				deviceRole = 'level.blind';
 			}
+			break;
+		
+		case "14236011":
+			deviceType = 'DuoFern-RolloTron-Pro-Comfort-9800';
+			deviceRole = 'level.blind';
 			break;
 			
 		case "35000462":
