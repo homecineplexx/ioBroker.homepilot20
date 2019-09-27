@@ -433,6 +433,14 @@ function controlHomepilot(id, input) {
 		} else {
 			adapter.log.error( 'Command=' + input + ' is not allowed. Allowed values are RAUF/RAUS/REIN/RUNTER/STOPP.');
 		}
+	} else if (id.indexOf('Position_inverted') !== -1) {
+		if (0 >= parseInt(input)) {
+			input = 0;
+		} else if (parseInt(input) >= 100) {
+			input = 100;
+		}
+
+		data = '{"name":"GOTO_POS_CMD", "value":"' + (100 - parseInt(input)) + '"}';		 
 	} else {
 		adapter.log.warn(id + ' can not be changed.');
 	}
@@ -651,6 +659,22 @@ function createActuatorStates(result, type) {
 						type: 'string',
 						role: 'text',
 						def: '',
+						read: true,
+						write: true
+					},
+					native: {}
+				});
+				
+				adapter.setObjectNotExists(path + '.Position_inverted', {
+					type: 'state',
+					common: {
+						name: 'Position_inverted ' + deviceName,
+						desc: 'Position_inverted stored in homepilot for device ' + deviceId,
+						type: 'number',
+						role: deviceRole,
+						min: 0,
+						max: 100,
+						unit: '%',
 						read: true,
 						write: true
 					},
@@ -914,6 +938,13 @@ function writeActuatorStates(result, type) {
 			val: value,
 			ack: true
 		});
+		
+		if (deviceRole == 'level.blind') {
+			adapter.setState(path + '.Position_inverted', {
+				val: (100 -value),
+				ack: true
+			});
+		}
 		
 		if (deviceNumber == '36500172') {
 			adapter.setState(path + '.slatposition', {
@@ -1826,6 +1857,7 @@ function getPasswordSalt() {
 function main() {
     //adapter.subscribeStates('*'); 
 	adapter.subscribeStates('*Position');
+	adapter.subscribeStates('*Position_inverted');
 	adapter.subscribeStates('*Action');
     readSettings();
     adapter.log.debug('Homepilot adapter started...');
