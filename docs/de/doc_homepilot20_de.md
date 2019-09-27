@@ -1,6 +1,9 @@
 ![Logo](../../admin/homepilot.png)
 # ioBroker.homepilot20
 
+## Gültigkeit
+Dieser Adpter gilt ab der Version 5.0.39 des Rademacher Homepilot2.
+
 ## Beschreibung
 Dieser Adapter verbindet ioBroker mit der Rademacher Homepilot Basistation 9496 (1/2) über TCP/IP, um Rademacher DuoFern Geräte zu steuern, auf Basis der neuen RESTful API. DuoFern sendet übrigens auf 434,5 MHz.
 Bei dieser neuen Version des Homepilot werden folgende Devices unterschieden:
