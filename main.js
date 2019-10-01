@@ -1614,6 +1614,8 @@ function writeTransmitterStates(result, type) {
 
 
 function doAdditional(toDoList, type) {
+	var unreach = true;
+	
 	if (toDoList.length > 0) {
 		toDoList = unique(toDoList);
 	
@@ -1739,6 +1741,12 @@ function doAdditional(toDoList, type) {
 			); // End request 
 			
 			adapter.log.debug('finished reading Homepilot additional ' + type + ' data for deviceId=' + element);
+		});
+		
+		// Write connection status
+		adapter.setState('station.UNREACH', {
+			val: unreach,
+			ack: true
 		});
 	}
 }
