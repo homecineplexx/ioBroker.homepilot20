@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "homepilot20",
-        "version": "0.0.1",
+        "version": "0.0.2",
         "news": {
+			"0.0.2":{  
+                "en":"a lot of bug fixes",
+                "de":"viele Bugfixes",
+                "ru":"много исправлений ошибок",
+				"pt": "muitas correções de bugs",
+                "nl": "veel bugfixes",
+                "fr": "beaucoup de corrections de bugs",
+                "it": "molte correzioni di bug",
+                "es": "muchas correcciones de errores",
+                "pl": "wiele naprawionych błędów",
+                "zh-cn": "许多错误修复"
+            },
             "0.0.1": {
                 "en": "initial release",
                 "de": "Erstveröffentlichung",
@@ -19,11 +31,27 @@
         "title": "Homepilot 2.0",
         "titleLang": {
             "en": "Homepilot 2.0",
-            "de": "Homepilot 2.0"
+            "de": "Homepilot 2.0",
+			"ru": "Homepilot 2.0",
+			"pt": "Homepilot 2.0",
+			"nl": "Homepilot 2.0",
+			"fr": "Homepilot 2.0",
+			"it": "Homepilot 2.0",
+			"es": "Homepilot 2.0",
+			"pl": "Homepilot 2.0",
+			"zh-cn": "Homepilot 2.0"
         },
         "desc": {
             "en": "Rademacher Homepilot Adapter",
-            "de": "Rademacher Homepilot adapter"
+            "de": "Rademacher Homepilot Adapter",
+			"ru": "Rademacher Homepilot Adapter",
+			"pt": "Rademacher Homepilot Adapter",
+			"nl": "Rademacher Homepilot Adapter",
+			"fr": "Rademacher Homepilot Adapter",
+			"it": "Rademacher Homepilot Adapter",
+			"es": "Rademacher Homepilot Adapter",
+			"pl": "Rademacher Homepilot Adapter",
+			"zh-cn": "Rademacher Homepilot Adapter"
         },
         "authors": [
             "Christian Koller <chris.homecineplexx@gmail.com>"

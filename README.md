@@ -17,6 +17,9 @@ Windows: [![AppVeyor](https://ci.appveyor.com/api/projects/status/github/homecin
 
 ## Changelog
 
+### 0.0.2
+* (homecineplexx) a lot of bug fixes
+
 ### 0.0.1
 * (homecineplexx) initial release
 
