@@ -334,7 +334,7 @@ function readActuator(link) {
 					unreach = true;
 				}
 				
-				if (result) {
+				if (result) {					
 					for (var i = 0; i < result.devices.length; i++) {
 						createActuatorStates(result.devices[i], 'Actuator'); 
 						writeActuatorStates(result.devices[i], 'Actuator'); 
@@ -661,7 +661,6 @@ function createCommon(result) {
 		native: {}
 	});
 
-	// create States
 	adapter.setObjectNotExists(path + '.deviceNumber', {
 		type: 'state',
 		common: {
@@ -787,6 +786,19 @@ function createActuatorStates(result, type) {
 				type: 'number',
 				role: 'value',
 				min: 0,
+				read: true,
+				write: false
+			},
+			native: {}
+		});
+	
+		adapter.setObjectNotExists(path + '.messages', {
+			type: 'state',
+			common: {
+				name: 'messages ' + deviceName,
+				desc: 'messages stored in homepilot for device ' + deviceId,
+				type: 'string',
+				role: 'text',
 				read: true,
 				write: false
 			},
@@ -1377,8 +1389,20 @@ function writeActuatorStates(result, type) {
 			ack: true
 		});
 		
-		if (result.hasErrors > 0) adapter.log.warn('Homepilot Device ' + deviceId + ' reports an error'); // find logic to reduce to one message only
-		
+		if (result.hasErrors > 0) {
+			adapter.log.info('Homepilot Device ' + deviceId + ' reports ' + result.hasErrors + ' error: ' + JSON.stringify(result.messages)); 
+			
+			adapter.setState(path + '.messages', {
+				val: JSON.stringify(result.messages),
+				ack: true
+			});
+		} else {
+			adapter.setState(path + '.messages', {
+				val: '',
+				ack: true
+			});
+		}
+				
 		var value = result.statusesMap.Position;
 		
 		if (deviceRole == 'light.switch' || deviceRole == 'switch') {
