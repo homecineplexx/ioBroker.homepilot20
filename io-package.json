@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "homepilot20",
-        "version": "0.0.2",
+        "version": "0.0.3",
         "news": {
+			"0.0.3":{  
+                "en":"added scenes and error messages to the datapoint",
+                "de":"Dem Datenpunkt wurden Szenen und Fehlermeldungen hinzugefügt",
+                "ru":"добавлены сцены и сообщения об ошибках в точку данных",
+				"pt": "cenas adicionadas e mensagens de erro ao ponto de dados",
+                "nl": "scènes en foutmeldingen toegevoegd aan het datapunt",
+                "fr": "ajout de scènes et de messages d'erreur au point de donnée",
+                "it": "aggiunte scene e messaggi di errore al punto dati",
+                "es": "escenas agregadas y mensajes de error al punto de datos",
+                "pl": "dodano sceny i komunikaty o błędach do punktu danych",
+                "zh-cn": "向数据点添加了场景和错误消息"
+            },
 			"0.0.2":{  
                 "en":"a lot of bug fixes",
                 "de":"viele Bugfixes",
