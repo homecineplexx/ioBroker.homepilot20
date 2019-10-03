@@ -190,6 +190,20 @@
             },
             "native":{  
 			}
+        },
+		{  
+            "_id":"Scene-json",
+            "type":"state",
+            "common":{  
+                "name":"homepilot Scene JSON",
+                "desc":"homepilot JSON response on http://homepilotip/v4/scene",
+                "type":"string",
+                "role":"json",
+                "read":true,
+                "write":false
+            },
+            "native":{  
+			}
         }
     ]
 }

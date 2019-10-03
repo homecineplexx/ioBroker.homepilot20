@@ -24,6 +24,7 @@ var additionalTransmitterSettings = [];
 var callReadActuator = null;
 var callReadSensor = null;
 var callReadTransmitter = null;
+var calReadScenes = null;
 
 request = request.defaults({jar: true})
 
@@ -62,15 +63,29 @@ function startAdapter(options) {
 function controlHomepilot(id, input) {
 	adapter.log.debug('id ' + id + '  command: ' + input);
 	
+	var sid;
+	var deviceIdNumber_array;
+	var deviceId;
+	var deviceNumberId;
 	var controller_array = id.split('.');
-	var deviceIdNumber_array = controller_array[3].split('-');
-	var deviceId = deviceIdNumber_array[0];
-	var deviceNumberId = deviceNumberNormalize(deviceIdNumber_array[1]);
-	
+	var calcMethod = 'PUT';
 	var data; 
+	var calcUri;
 	
+	if (id.indexOf('.Scene.') !== -1) {
+		sid = controller_array[3];
+		calcUri = 'http://' + ip + '/scenes/' + sid + '/actions';
+		calcMethod = 'POST';
+	} else {
+		deviceIdNumber_array = controller_array[3].split('-');
+		deviceId = deviceIdNumber_array[0];
+		deviceNumberId = deviceNumberNormalize(deviceIdNumber_array[1]);
+	}
+		
 	//role == switch or role == light.switch
 	if (id.indexOf('Position_inverted') !== -1) {
+		calcUri = 'http://' + ip + '/devices/' + deviceId;
+		
 		if (0 >= parseInt(input)) {
 			input = 0;
 		} else if (parseInt(input) >= 100) {
@@ -79,6 +94,8 @@ function controlHomepilot(id, input) {
 
 		data = '{"name":"GOTO_POS_CMD", "value":"' + (100 - parseInt(input)) + '"}';		 
 	} else if (id.indexOf('Position') !== -1) {
+		calcUri = 'http://' + ip + '/devices/' + deviceId;
+		
 		if (deviceNumberId == '35002414' /*Z-Wave Steckdose*/ ||
 			deviceNumberId == '35000262' /*DuoFern-2-Kanal-Aktor-9470-2*/ ||
 			deviceNumberId == '35001164' /*DuoFern-Zwischenstecker-Schalten-9472*/ ||
@@ -142,6 +159,8 @@ function controlHomepilot(id, input) {
 			data = '{"name":"TARGET_TEMPERATURE_CFG", "value":"' + val + '"}';
 		}
 	} else if (id.indexOf('Action') !== -1) {
+		calcUri = 'http://' + ip + '/devices/' + deviceId;
+		
 		input = input.toUpperCase().trim();
 		
 		if (input == 'RAUF' || input == 'UP' || input == 'HOCH' || input == 'REIN' || input == 'IN') {			
@@ -153,26 +172,36 @@ function controlHomepilot(id, input) {
 		} else {
 			adapter.log.error( 'Command=' + input + ' is not allowed. Allowed values are RAUF/RAUS/REIN/RUNTER/STOPP.');
 		}
+	} else if (id.indexOf('active') !== -1) {
+		data = '{"request_type":"SWITCHSCENE","trigger_event":"SCENE_MODE_CMD","value":' + input + '}';
+		adapter.log.debug('fuck1: ' + data);
+	} else if (id.indexOf('execute') !== -1) {
+		data = '{"request_type":"EXECUTESCENE","trigger_event":"TRIGGER_SCENE_MANUALLY_EVT"}';
+		adapter.log.debug('fuck2: ' + data);
 	} else {
 		adapter.log.warn(id + ' can not be changed.');
 	}
 	
 	if (data !== undefined) {
+		adapter.log.debug('fuck3 ' + calcUri);
+		adapter.log.debug('fuck4 ' + calcMethod);
+		
+	
 		request({
-			method: 'PUT',
-			uri: 'http://' + ip + '/devices/' + deviceId,
+			method: calcMethod,
+			uri: calcUri,
 			headers: [
-				{
-					'Content-Type': 'application/json',
-				}
-			  ],
+				{ 'Cookie': cookie },
+				{ 'Content-Type': 'application/json' }
+			],
 			body: data
 		  },
 		  function (error, response, body) {
 			if (error) {
 				return adapter.log.error('Change Request Error:', error);
 			} else {
-				return adapter.log.debug('Change Request OK');
+				adapter.log.debug("fuck5 response: " + JSON.stringify(response));
+				return adapter.log.debug('Change Request OK body:' + body);
 			}
 		});
 	} else {
@@ -220,6 +249,11 @@ function stopReadHomepilot() {
 		adapter.log.debug('callReadTransmitter cleared');
 	}
 	
+	if (calReadScenes !== null) {
+		clearInterval(calReadScenes);
+		adapter.log.debug('calReadScenes cleared');
+	}
+	
     adapter.log.error('Adapter will be stopped');
 }
 
@@ -228,6 +262,9 @@ function main() {
 	adapter.subscribeStates('*Position');
 	adapter.subscribeStates('*Position_inverted');
 	adapter.subscribeStates('*Action');
+	adapter.subscribeStates('*active');
+	adapter.subscribeStates('*execute');
+	
     readSettings();
     adapter.log.debug('Homepilot adapter started...');
 	
@@ -254,6 +291,11 @@ function main() {
         adapter.log.debug('reading homepilot transmitter JSON ...');
         readTransmitter('http://' + ip + '/v4/devices?devtype=Transmitter');
     }, 3000);
+	
+	calReadScenes = setInterval(function() {
+        adapter.log.debug('reading homepilot scenes JSON ...');
+        readScenes('http://' + ip + '/v4/scenes');
+    }, 5000);
 }
 
 
@@ -311,10 +353,8 @@ function readActuator(link) {
 			method: 'GET',
 			uri: link,
 			headers: [
-				{ 
-					'Content-Type': 'application/json',
-					'Cookie': cookie
-				}
+				{ 'Cookie': cookie },
+				{ 'Content-Type': 'application/json' }
 			]
 		},
 		function(error, response, body) {
@@ -470,8 +510,67 @@ function readTransmitter(link) {
     adapter.log.debug('Finished reading Homepilot transmitter data');
 }
 
+function readScenes(link) {
+    var unreach = true;
+	
+	request({
+			method: 'GET',
+			uri: link,
+			headers: [
+				{ 'Cookie': cookie },
+				{ 'Content-Type': 'application/json' }
+			]
+		},	
+		function(error, response, body) {
+			if (!error && response.statusCode == 200) {
+				var result;
+				try {
+					result = JSON.parse(body);
+					var data = JSON.stringify(result, null, 2);
+					unreach = false;
+					adapter.log.debug('Homepilot scene data: ' + data);
+					adapter.setState('Scene-json', {
+						val: data,
+						ack: true
+					});
+				} catch (e) {
+					adapter.log.warn('Parse Error: ' + e);
+					unreach = true;
+				}
+
+				if (result) {
+					for (var i = 0; i < result.scenes.length; i++) {
+						createSceneStates(result.scenes[i], 'Scene'); 
+						writeSceneStates(result.scenes[i], 'Scene'); 
+					}					
+				}
+			} else {
+				adapter.log.warn('Scenes -> Cannot connect to Homepilot: ' + (error ? error : JSON.stringify(response)));
+				unreach = true;
+			}
+			// Write connection status
+			adapter.setState('station.UNREACH', {
+				val: unreach,
+				ack: true
+			});
+		}
+	); // End request 
+	
+    adapter.log.debug('Finished reading Homepilot scene data');
+}
+
 
 function calculatePath(result, type) {
+	if (type == 'Scene') {
+		var sid = result.sid;
+		deviceType = 'Scene';
+		deviceRole = 'switch';
+		
+		path = type + '.' + sid;
+		
+		return;
+	}
+	
 	var deviceId   = result.did;
 	var deviceName = result.name;
 	var deviceNumber = deviceNumberNormalize(result.deviceNumber);
@@ -1332,6 +1431,96 @@ function createTransmitterStates(result, type) {
 	deviceType = undefined;
 }
 
+function createSceneStates(result, type) {
+	calculatePath(result, type);
+
+	if (deviceType !== undefined) {
+		var sid   = result.sid;
+		
+		// create Channel DeviceID
+		adapter.setObjectNotExists(path, {
+			type: 'channel',
+			common: {
+				name: result.name.substr(0, 25),
+				role: 'text',
+			},
+			native: {}
+		});
+		
+		adapter.setObjectNotExists(path + '.description', {
+			type: 'state',
+			common: {
+				name: 'description ' + sid,
+				desc: 'description stored in homepilot for scene ' + sid,
+				type: 'string',
+				role: 'text',
+				read: true,
+				write: false
+			},
+			native: {}
+		});
+
+		adapter.setObjectNotExists(path + '.active', {
+			type: 'state',
+			common: {
+			   name: 'active ' + sid,
+				desc: 'active stored in homepilot for scene ' + sid,
+				type: 'boolean',
+				role: deviceRole,
+				def: false,
+				read: true,
+				write: true
+			},
+			native: {}
+		});
+		
+		adapter.setObjectNotExists(path + '.isExecutable', {
+			type: 'state',
+			common: {
+			   name: 'isExecutable ' + sid,
+				desc: 'isExecutable stored in homepilot for scene ' + sid,
+				type: 'boolean',
+				role: 'text',
+				def: true,
+				read: true,
+				write: false
+			},
+			native: {}
+		});
+		
+		adapter.setObjectNotExists(path + '.name', {
+			type: 'state',
+			common: {
+				name: 'name ' + sid,
+				desc: 'name stored in homepilot for scene ' + sid,
+				type: 'string',
+				role: 'text',
+				read: true,
+				write: false
+			},
+			native: {}
+		});
+		
+		adapter.setObjectNotExists(path + '.execute', {
+			type: 'state',
+			common: {
+			   name: 'execute ' + sid,
+				desc: 'execute stored in homepilot for scene ' + sid,
+				type: 'boolean',
+				role: 'button',
+				def: false,
+				read: true,
+				write: true
+			},
+			native: {}
+		});
+	}
+	
+	path = undefined;
+	deviceRole = undefined;	
+	deviceType = undefined;
+}
+
 
 function writeCommon(result) {
 	adapter.setState(path + '.deviceNumber', {
@@ -1636,6 +1825,33 @@ function writeTransmitterStates(result, type) {
 	deviceRole = undefined;
 }
 
+function writeSceneStates(result, type) {
+	calculatePath(result, type);
+		
+	if (deviceType !== undefined) {
+		var sid   = result.sid;
+		
+		adapter.setState(path + '.description', {
+			val: result.description,
+			ack: true
+		});
+		
+		adapter.setState(path + '.active', {
+			val: result.active,
+			ack: true
+		});
+		
+		adapter.setState(path + '.isExecutable', {
+			val: result.isExecutable,
+			ack: true
+		});
+		
+		adapter.setState(path + '.name', {
+			val: result.name,
+			ack: true
+		});
+	}
+}
 
 function doAdditional(toDoList, type) {
 	var unreach = true;
@@ -1650,8 +1866,8 @@ function doAdditional(toDoList, type) {
 				headers: [
 					{ 'Cookie': cookie },
 					{ 'Content-Type': 'application/json' }
-				  ]
-				},	
+				]
+			},	
 				function(error, response, body) {
 					if (!error && response.statusCode == 200) {
 						var result;
