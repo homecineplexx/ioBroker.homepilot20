@@ -50,10 +50,18 @@ Für Sensor und Transmitter ist hartkodiert 3s eingestellt. Cameras werden momen
 |   32000069    |  DuoFern Sonnensensor                      |                            | text                   |  9478   | Sensor               |            |
 |   16234511    |  DuoFern RolloTron Comfort 1800/1805/1840  |                            | level.blind            |         | Actuator/Sensor      | 0 - 100 %  |
 
-__level.blind__ hat einen eigenen Datenpunkt namens __Action__ erhalten. Hier sind folgende Werte erlaubt: 
+
+__level.blind__ hat nicht nur den Datenpunkt __Action__ sondern auch einen Datenpunkt __Position_inverted__ und zusätzlich einen Datenpunkt namens __Action__ erhalten. 
+Hier sind folgende Werte erlaubt: 
 RAUF/UP/HOCH/REIN/IN
 RUNTER/DOWN/RAUS/OUT
 STOPP/STOP
+
+## Szenen
+Ab Version __0.0.3_ sind auch die Szenen vom Homepilot 2 abgebildet. Hier gibt es 2 Datenpunkte:
+* active - hier wird nur angezeigt ob die Szene aktiv ist (true/false) und kann gegenfalls geändert werden
+* execute - hier kann man durch setzen auf __true__ diese Szene ausführen lassen
+
 
 ## Einstellungen
 ### IP und Port

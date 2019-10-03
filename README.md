@@ -16,6 +16,10 @@ Windows: [![AppVeyor](https://ci.appveyor.com/api/projects/status/github/homecin
 
 
 ## Changelog
+### 0.0.3
+* (homecineplexx) added device error messages to datapoints
+* (homecineplexx) added scenes from Homepilot2
+* (homecineplexx) documentation adapted (README)
 
 ### 0.0.2
 * (homecineplexx) a lot of bug fixes
