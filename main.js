@@ -736,6 +736,10 @@ function calculatePath(result, type) {
             deviceType = 'DuoFern-Handzentrale-9493';
 			break;
 
+		case "32480366":
+            deviceType = 'DuoFern-Handsender-Standard-9491';
+			break;
+			
 		case "32000069":
 			deviceType = 'DuoFern-Sonnensensor-9478';
 			break;
@@ -1409,7 +1413,8 @@ function createTransmitterStates(result, type) {
 
 		if (deviceNumber == '32160211' /*DuoFern-Wandtaster-9494*/ ||
 			deviceNumber == '32501974' /*DuoFern-Mehrfachwandtaster-BAT-9494-1*/ ||
-			deviceNumber == '34810060' /*DuoFern-Handzentrale-9493*/) {
+			deviceNumber == '34810060' /*DuoFern-Handzentrale-9493*/ ||
+			deviceNumber == '32480366' /*DuoFern-Handsender-Standard-9491*/) {
 				adapter.setObjectNotExists(path + '.batteryLow', {
 					type: 'state',
 					common: {
@@ -1810,7 +1815,8 @@ function writeTransmitterStates(result, type) {
 
 		if (deviceNumber == '32160211' /*DuoFern-Wandtaster-9494*/ ||
 			deviceNumber == '32501974' /*DuoFern-Mehrfachwandtaster-BAT-9494-1*/ ||
-			deviceNumber == '34810060' /*DuoFern-Handzentrale-9493*/) {
+			deviceNumber == '34810060' /*DuoFern-Handzentrale-9493*/ ||
+			deviceNumber == '32480366' /*DuoFern-Handsender-Standard-9491*/) {
 				adapter.setState(path + '.batteryLow', {
 					val: result.batteryLow,
 					ack: true
