@@ -174,19 +174,13 @@ function controlHomepilot(id, input) {
 		}
 	} else if (id.indexOf('active') !== -1) {
 		data = '{"request_type":"SWITCHSCENE","trigger_event":"SCENE_MODE_CMD","value":' + input + '}';
-		adapter.log.debug('fuck1: ' + data);
 	} else if (id.indexOf('execute') !== -1) {
 		data = '{"request_type":"EXECUTESCENE","trigger_event":"TRIGGER_SCENE_MANUALLY_EVT"}';
-		adapter.log.debug('fuck2: ' + data);
 	} else {
 		adapter.log.warn(id + ' can not be changed.');
 	}
 	
 	if (data !== undefined) {
-		adapter.log.debug('fuck3 ' + calcUri);
-		adapter.log.debug('fuck4 ' + calcMethod);
-		
-	
 		request({
 			method: calcMethod,
 			uri: calcUri,
@@ -200,7 +194,6 @@ function controlHomepilot(id, input) {
 			if (error) {
 				return adapter.log.error('Change Request Error:', error);
 			} else {
-				adapter.log.debug("fuck5 response: " + JSON.stringify(response));
 				return adapter.log.debug('Change Request OK body:' + body);
 			}
 		});
@@ -346,7 +339,7 @@ function getPasswordSalt() {
 
 
 function readActuator(link) {
-    var unreach = true;
+    var unreach = false;
 	
 	//request(link, function(error, response, body) {
     request({
@@ -363,7 +356,6 @@ function readActuator(link) {
 				try {
 					result = JSON.parse(body);
 					var data = JSON.stringify(result, null, 2);
-					unreach = false;
 					adapter.log.debug('Homepilot actuator data: ' + data);
 					adapter.setState('Actuator-json', {
 						val: data,
@@ -404,7 +396,7 @@ function readActuator(link) {
 }
 
 function readSensor(link) {
-    var unreach = true;
+    var unreach = false;
 	
     //request(link, function(error, response, body) {
 	request({
@@ -421,7 +413,6 @@ function readSensor(link) {
 				try {
 					result = JSON.parse(body);
 					var data = JSON.stringify(result, null, 2);
-					unreach = false;
 					adapter.log.debug('Homepilot sensor data: ' + data);
 					adapter.setState('Sensor-json', {
 						val: data,
@@ -457,7 +448,7 @@ function readSensor(link) {
 }
 
 function readTransmitter(link) {
-    var unreach = true;
+    var unreach = false;
 	
     //request(link, function(error, response, body) {
 	request({
@@ -474,7 +465,6 @@ function readTransmitter(link) {
 				try {
 					result = JSON.parse(body);
 					var data = JSON.stringify(result, null, 2);
-					unreach = false;
 					adapter.log.debug('Homepilot transmitter data: ' + data);
 					adapter.setState('Transmitter-json', {
 						val: data,
@@ -511,7 +501,7 @@ function readTransmitter(link) {
 }
 
 function readScenes(link) {
-    var unreach = true;
+    var unreach = false;
 	
 	request({
 			method: 'GET',
@@ -527,7 +517,6 @@ function readScenes(link) {
 				try {
 					result = JSON.parse(body);
 					var data = JSON.stringify(result, null, 2);
-					unreach = false;
 					adapter.log.debug('Homepilot scene data: ' + data);
 					adapter.setState('Scene-json', {
 						val: data,
@@ -1860,7 +1849,7 @@ function writeSceneStates(result, type) {
 }
 
 function doAdditional(toDoList, type) {
-	var unreach = true;
+	var unreach = false;
 	
 	if (toDoList.length > 0) {
 		toDoList = unique(toDoList);

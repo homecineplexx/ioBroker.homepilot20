@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "homepilot20",
-        "version": "0.0.3",
+        "version": "0.0.4",
         "news": {
+			"0.0.4":{  
+                "en":"fixed wrong unreach state of Homepilot 2",
+                "de":"Falscher Unreach-Status von Homepilot 2 behoben",
+                "ru":"исправлено неправильное состояние недоступности Homepilot 2",
+				"pt": "Corrigido estado incorreto de não alcance da Homepilot 2",
+                "nl": "foutieve onbereikbare status van Homepilot 2 opgelost",
+                "fr": "correction du mauvais état non atteint de Homepilot 2",
+                "it": "risolto lo stato irraggiungibile di Homepilot 2",
+                "es": "Se corrigió el estado de incumplimiento incorrecto de Homepilot 2",
+                "pl": "naprawiono zły stan nieosiągnięcia Homepilota 2",
+                "zh-cn": "修复Homepilot 2的错误未到达状态"
+            },
 			"0.0.3":{  
                 "en":"added scenes and error messages to the datapoint",
                 "de":"Dem Datenpunkt wurden Szenen und Fehlermeldungen hinzugefügt",

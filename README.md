@@ -16,6 +16,9 @@ Windows: [![AppVeyor](https://ci.appveyor.com/api/projects/status/github/homecin
 
 
 ## Changelog
+### 0.0.4
+* (homecineplexx) fixed wrong unreach state of Homepilot 2
+
 ### 0.0.3
 * (homecineplexx) added device error messages to datapoints
 * (homecineplexx) added scenes from Homepilot2
