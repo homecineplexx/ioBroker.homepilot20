@@ -36,6 +36,7 @@ Für Sensor und Transmitter ist hartkodiert 3s eingestellt. Cameras werden momen
 |   14236011    |  DuoFern RolloTron Pro Comfort             |                            | level.blind            |  9800   | Actuator             | 0 - 100 %  |
 |   16234511    |  DuoFern RolloTron Comfort 1800/1805/1840  |                            | level.blind            |         | Actuator/Sensor      | 0 - 100 %  |
 |   36500572    |  Duofern Troll Comfort                     |                            | level.blind            |  5665   | Actuator             | 0 - 100 %  |
+|   45059071    |  RolloPort-SX5-DuoFern-RP-SX5DF-900N-3     |                            | level.blind            |         | Actuator             | 0 - 100 %  |
 |   32000064    |  DuoFern Umweltsensor                      |                            | level.blind/text       |  5665   | Actuator/Sensor      | 0 - 100 %  |
 |   35003064    |  DuoFern Heizkörperstellantrieb            |                            | level.temperature      |  9433   | Actuator             | 4 - 28°C   |
 |   32501812    |  DuoFern Raumthermostat                    |                            | level.temperature/text |  9485   | Actuator/Sensor      | 4 - 40°C   |
@@ -44,10 +45,12 @@ Für Sensor und Transmitter ist hartkodiert 3s eingestellt. Cameras werden momen
 |   32000062    |  DuoFern Funksender UP                     |                            | text                   |  9497   | Sensor               |            |
 |   32000069    |  DuoFern Sonnensensor                      |                            | text                   |  9478   | Sensor               |            |
 |   32480366    |  DuoFern Handsender Standard 9491          |                            | text                   |  9491   | Transmitter          |            |
+|   32480361    |  DuoFern-Handsender-Standard-9491-2        |                            | text                   |  9491-2 | Transmitter          |            |
 |   35002414    |  Z-Wave Steckdose                          |                            | switch/light.switch    |  8434   | Actuator             | true/false |
 |   35002319    |  Z-Wave Heizkörperstellantrieb             |                            | level.temperature      |  8433   | Actuator             | 4 - 28°C   |
 |   32002119    |  Z-Wave-FensterTürkontakt                  |                            | text                   |  8431   | Sensor               |            |
 |   32004329    |  HD-Kamera                                 |                            | text                   |  9487   | Sensor               |            |
+|   32004119    |  IP-Kamera                                 |                            | text                   |  9483   | Sensor               |            |
 |   99999998    |  GeoPilot IOS (Handy)                      |                            | text                   |         | Sensor               |            |
 |   99999999    |  GeoPilot Android (Handy)                  |                            | text                   |         | Sensor               |            |
 

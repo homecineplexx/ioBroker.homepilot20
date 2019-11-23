@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "homepilot20",
-        "version": "0.0.4",
+        "version": "0.0.5",
         "news": {
+			"0.0.5":{  
+                "en":"Added 3 more devices",
+                "de":"3 weitere Geräte hinzugefügt",
+                "ru":"Добавлено еще 3 устройства",
+				"pt": "Adicionado mais 3 dispositivos",
+                "nl": "Nog 3 apparaten toegevoegd",
+                "fr": "Ajout de 3 appareils supplémentaires",
+                "it": "Aggiunti altri 3 dispositivi",
+                "es": "Se agregaron 3 dispositivos más",
+                "pl": "Dodano 3 kolejne urządzenia",
+                "zh-cn": "增加了3个设备"
+            },
 			"0.0.4":{  
                 "en":"fixed wrong unreach state of Homepilot 2",
                 "de":"Falscher Unreach-Status von Homepilot 2 behoben",

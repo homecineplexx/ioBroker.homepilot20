@@ -16,6 +16,12 @@ Windows: [![AppVeyor](https://ci.appveyor.com/api/projects/status/github/homecin
 
 
 ## Changelog
+### 0.0.5
+* (homecineplexx) added 3 more devices:
+* 32480361 DuoFern Handsender Standard 9491-2
+* 32004119 IP Kamera 9483
+* 45059071 RolloPort SX5 DuoFern RP-SX5DF-900N-3
+
 ### 0.0.4
 * (homecineplexx) fixed wrong unreach state of Homepilot 2
 

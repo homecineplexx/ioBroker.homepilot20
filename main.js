@@ -114,6 +114,7 @@ function controlHomepilot(id, input) {
 					deviceNumberId == '31500162' /*DuoFern-Rohrmotorsteuerung*/ ||
 					deviceNumberId == '36500172' /*DuoFern-TrollBasis-5615*/ ||
 					deviceNumberId == '27601565' /*DuoFern-Rohrmotor*/ ||
+					deviceNumberId == '45059071' /*RolloPort-SX5-DuoFern-RP-SX5DF-900N-3*/ ||
 					deviceNumberId == '35000462' /*DuoFern-Universal-Dimmaktor*/ ||
 					deviceNumberId == '35140462' /*DuoFern-UniversalDimmer-9476*/ ||
 					deviceNumberId == '36500572' /*Duofern-Troll-Comfort-5665*/ ||
@@ -649,6 +650,11 @@ function calculatePath(result, type) {
 			deviceRole = 'level.blind';
 			break;
 		
+		case "45059071":
+			deviceType = 'RolloPort-SX5-DuoFern-RP-SX5DF-900N-3';
+			deviceRole = 'level.blind';
+			break;
+		
 		case "36500572":
 			deviceType = 'DuoFern-Troll-Comfort-5665';
 			deviceRole = 'level.blind';
@@ -707,6 +713,10 @@ function calculatePath(result, type) {
 			//additionalSensorSettings.push(deviceId);
             break;
 		
+		case "32004119":
+			deviceType = 'IP-Kamera 9483';
+            break;
+	
 		case "32160211":
             deviceType = 'DuoFern-Wandtaster-9494';
 			if (type == 'Transmitter') {
@@ -728,7 +738,11 @@ function calculatePath(result, type) {
 		case "32480366":
             deviceType = 'DuoFern-Handsender-Standard-9491';
 			break;
-			
+		
+		case "32480361":
+			deviceType = 'DuoFern-Handsender-Standard-9491-2';
+			break;
+  
 		case "32000069":
 			deviceType = 'DuoFern-Sonnensensor-9478';
 			break;
@@ -1177,7 +1191,8 @@ function createSensorStates(result, type) {
 		}
 		
 		if (deviceNumber == '32501772' /*DuoFern-Bewegungsmelder-9484*/ ||
-			deviceNumber == '32004329' /*HD-Kamera-9487-A*/) {
+			deviceNumber == '32004329' /*HD-Kamera-9487-A*/ ||
+			deviceNumber == '32004119' /*IP-Kamera 9483*/) {
 			adapter.setObjectNotExists(path + '.movement_detected', {
 				type: 'state',
 				common: {
@@ -1403,7 +1418,8 @@ function createTransmitterStates(result, type) {
 		if (deviceNumber == '32160211' /*DuoFern-Wandtaster-9494*/ ||
 			deviceNumber == '32501974' /*DuoFern-Mehrfachwandtaster-BAT-9494-1*/ ||
 			deviceNumber == '34810060' /*DuoFern-Handzentrale-9493*/ ||
-			deviceNumber == '32480366' /*DuoFern-Handsender-Standard-9491*/) {
+			deviceNumber == '32480366' /*DuoFern-Handsender-Standard-9491*/ ||
+			deviceNumber == '32480361' /*DuoFern-Handsender-Standard-9491-2*/) {
 				adapter.setObjectNotExists(path + '.batteryLow', {
 					type: 'state',
 					common: {
@@ -1690,7 +1706,8 @@ function writeSensorStates(result, type) {
 		}
 		
 		if (deviceNumber == '32501772' /*DuoFern-Bewegungsmelder-9484*/ ||
-			deviceNumber == '32004329' /*HD-Kamera-9487-A*/) {
+			deviceNumber == '32004329' /*HD-Kamera-9487-A*/ ||
+			deviceNumber == '32004119' /*IP-Kamera 9483*/) {
 			adapter.setState(path + '.movement_detected', {
 				val: result.readings.movement_detected,
 				ack: true
@@ -1805,7 +1822,8 @@ function writeTransmitterStates(result, type) {
 		if (deviceNumber == '32160211' /*DuoFern-Wandtaster-9494*/ ||
 			deviceNumber == '32501974' /*DuoFern-Mehrfachwandtaster-BAT-9494-1*/ ||
 			deviceNumber == '34810060' /*DuoFern-Handzentrale-9493*/ ||
-			deviceNumber == '32480366' /*DuoFern-Handsender-Standard-9491*/) {
+			deviceNumber == '32480366' /*DuoFern-Handsender-Standard-9491*/ ||
+			deviceNumber == '32480361' /*DuoFern-Handsender-Standard-9491-2*/) {
 				adapter.setState(path + '.batteryLow', {
 					val: result.batteryLow,
 					ack: true
