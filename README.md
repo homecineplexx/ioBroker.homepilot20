@@ -16,6 +16,14 @@ Windows: [![AppVeyor](https://ci.appveyor.com/api/projects/status/github/homecin
 
 
 ## Changelog
+### 0.0.6
+* (homecineplexx) added 5 more devices:
+* 99999980 Philips Hue Bridge
+* 99999983 Philips Hue RGB Lamp
+* 32004219 HD Kamera (innen) 9486
+* 32501973 DuoFern Wandtaster 1-Kanal 9494-3
+* 23602075 DuoFern-S-Line-Motor-Typ-SLDM-10/16-PZ
+
 ### 0.0.5
 * (homecineplexx) added 3 more devices:
 * 32480361 DuoFern Handsender Standard 9491-2

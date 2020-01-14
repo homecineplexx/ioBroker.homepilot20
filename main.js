@@ -61,7 +61,7 @@ function startAdapter(options) {
 };
 
 function controlHomepilot(id, input) {
-	adapter.log.debug('id ' + id + '  command: ' + input);
+	adapter.log.debug('id: ' + id + ', command: ' + input);
 	
 	var sid;
 	var deviceIdNumber_array;
@@ -120,7 +120,8 @@ function controlHomepilot(id, input) {
 					deviceNumberId == '36500572' /*Duofern-Troll-Comfort-5665*/ ||
 					deviceNumberId == '32000064' /*DuoFern-Umweltsensor*/ ||
 					deviceNumberId == '16234511' /*DuoFern-RolloTron-Comfort-1800/1805/1840*/ ||
-					deviceNumberId == '14236011' /*DuoFern-RolloTron-Pro-Comfort-9800*/) {
+					deviceNumberId == '14236011' /*DuoFern-RolloTron-Pro-Comfort-9800*/ ||
+					deviceNumberId == '23602075' /*DuoFern-S-Line-Motor-Typ-SLDM-10/16-PZ*/) {
 			if (0 >= parseInt(input)) {
 				input = 0;
 			} else if (parseInt(input) >= 100) {
@@ -158,21 +159,58 @@ function controlHomepilot(id, input) {
 			val = (val%5<3 ? (val%5===0 ? val : Math.floor(val/5)*5) : Math.ceil(val/5)*5) / 10;
 					
 			data = '{"name":"TARGET_TEMPERATURE_CFG", "value":"' + val + '"}';
+		// Philips Hue (99999983)
+		} else if (deviceNumberId == '99999983' /*Philips-Hue-RGB-Lampe*/) {
+			if (0 >= parseInt(input)) {
+				input = 0;
+			} else if (parseInt(input) >= 100) {
+				input = 100;
+			}
+			
+			data = '{"name":"GOTO_POS_CMD", "value":"' + parseInt(input) + '"}';
 		}
+	
+	// Philips Hue (99999983)
+	} else if (id.indexOf('ColorTemperature') !== -1) {
+		if (153 >= parseInt(input)) {
+			input = 153;
+		} else if (parseInt(input) >= 500) {
+			input = 500;
+		}
+			
+		calcUri = 'http://' + ip + '/devices/' + deviceId;
+		data = '{"name":"SET_COLOR_TEMP_CMD", "value":"' + parseInt(input) + '"}';
+	// Philips Hue (99999983)	
+	} else if (id.indexOf('RGB') !== -1) {
+		input = '0x' + input; 
+		
+		calcUri = 'http://' + ip + '/devices/' + deviceId;
+		data = '{"name":"SET_RGB_CMD", "value":"' + input + '"}';
 	} else if (id.indexOf('Action') !== -1) {
 		calcUri = 'http://' + ip + '/devices/' + deviceId;
 		
 		input = input.toUpperCase().trim();
 		
-		if (input == 'RAUF' || input == 'UP' || input == 'HOCH' || input == 'REIN' || input == 'IN') {			
-			data = '{"name":"POS_UP_CMD"}';
-		} else if (input == 'RUNTER' || input == 'DOWN' || input == 'RAUS' || input == 'OUT') {			
-			data = '{"name":"POS_DOWN_CMD"}';
-		} else if (input == 'STOPP' || input == 'STOP') {
-			data = '{"name":"STOP_CMD"}';
+		if (deviceNumberId == '99999983' /*Philips-Hue-RGB-Lampe*/) {
+			if (input == 'AN' || input == 'ON') {			
+				data = '{"name":"TURN_ON_CMD"}';
+			} else if (input == 'AUS' || input == 'OFF') {			
+				data = '{"name":"TURN_OFF_CMD"}';
+			} else {
+				adapter.log.error( 'Command=' + input + ' is not allowed. Allowed values are AN/ON/AUS/OFF.');
+			}
 		} else {
-			adapter.log.error( 'Command=' + input + ' is not allowed. Allowed values are RAUF/RAUS/REIN/RUNTER/STOPP.');
+			if (input == 'RAUF' || input == 'UP' || input == 'HOCH' || input == 'REIN' || input == 'IN') {			
+				data = '{"name":"POS_UP_CMD"}';
+			} else if (input == 'RUNTER' || input == 'DOWN' || input == 'RAUS' || input == 'OUT') {			
+				data = '{"name":"POS_DOWN_CMD"}';
+			} else if (input == 'STOPP' || input == 'STOP') {
+				data = '{"name":"STOP_CMD"}';
+			} else {
+				adapter.log.error( 'Command=' + input + ' is not allowed. Allowed values are RAUF/RAUS/REIN/RUNTER/STOPP.');
+			}
 		}
+		
 	} else if (id.indexOf('active') !== -1) {
 		data = '{"request_type":"SWITCHSCENE","trigger_event":"SCENE_MODE_CMD","value":' + input + '}';
 	} else if (id.indexOf('execute') !== -1) {
@@ -193,7 +231,7 @@ function controlHomepilot(id, input) {
 		  },
 		  function (error, response, body) {
 			if (error) {
-				return adapter.log.error('Change Request Error:', error);
+				return adapter.log.error('Change Request Error:' +  error + ', Body: ' + body);
 			} else {
 				return adapter.log.debug('Change Request OK body:' + body);
 			}
@@ -258,6 +296,8 @@ function main() {
 	adapter.subscribeStates('*Action');
 	adapter.subscribeStates('*active');
 	adapter.subscribeStates('*execute');
+	adapter.subscribeStates('*ColorTemperature');
+	adapter.subscribeStates('*RGB');
 	
     readSettings();
     adapter.log.debug('Homepilot adapter started...');
@@ -272,7 +312,7 @@ function main() {
 	}
 	
     callReadActuator = setInterval(function() {
-        adapter.log.debug('reading homepilot JSON ...');
+        adapter.log.debug('reading homepilot actuator JSON ...');
         readActuator('http://' + ip + '/v4/devices?devtype=Actuator');
     }, sync * 1000);
 	
@@ -665,6 +705,11 @@ function calculatePath(result, type) {
 			deviceRole = 'level.blind';
 			break;	
 		
+		case "23602075":
+			deviceType = 'DuoFern-S-Line-Motor-Typ-SLDM-10/16-PZ';
+			deviceRole = 'level.blind';
+			break;
+			
 		case "16234511":
 			deviceType = 'DuoFern-RolloTron-Comfort-1800/1805/1840';
 			if (type == 'Actuator') {
@@ -731,6 +776,13 @@ function calculatePath(result, type) {
 			}
 			break;
 		
+		case "32501973":
+            deviceType = 'DuoFern-Wandtaster-1-Kanal-9494-3';
+			if (type == 'Transmitter') {
+				additionalTransmitterSettings.push(deviceId);
+			}
+			break;
+			
 		case "34810060":
             deviceType = 'DuoFern-Handzentrale-9493';
 			break;
@@ -747,6 +799,18 @@ function calculatePath(result, type) {
 			deviceType = 'DuoFern-Sonnensensor-9478';
 			break;
 		
+		case "99999980":
+			deviceType = 'Philips-Hue-Bridge';
+            break;
+		
+		case "99999983":
+			deviceType = 'Philips-Hue-RGB-Lampe';
+            break;
+			
+		case "32004219":
+			deviceType = 'HD-Kamera-9486';
+            break;
+			
         default:
             adapter.log.warn('Unknown ' + type + ' deviceNumber=' + deviceNumber);
     }
@@ -1012,19 +1076,22 @@ function createActuatorStates(result, type) {
 				});
 			}		
 		} else {
-			adapter.setObjectNotExists(path + '.Position', {
-				type: 'state',
-				common: {
-				   name: 'Position ' + deviceName,
-					desc: 'Position stored in homepilot for device ' + deviceId,
-					type: 'boolean',
-					role: deviceRole,
-					def: false,
-					read: true,
-					write: true
-				},
-				native: {}
-			});
+			if (deviceNumber != '99999983' /*Philips-Hue-RGB-Lampe*/ &&
+				deviceNumber != '99999980' /*Philips-Hue-Bridge*/) {
+				adapter.setObjectNotExists(path + '.Position', {
+					type: 'state',
+					common: {
+					   name: 'Position ' + deviceName,
+						desc: 'Position stored in homepilot for device ' + deviceId,
+						type: 'boolean',
+						role: deviceRole,
+						def: false,
+						read: true,
+						write: true
+					},
+					native: {}
+				});
+			}
 		}
 	
 		if (deviceNumber == '35003064') {
@@ -1143,6 +1210,66 @@ function createActuatorStates(result, type) {
 				});
 			}
 		}
+		
+		if (deviceNumber == '99999983' /*Philips-Hue-RGB-Lampe*/) {
+			adapter.setObjectNotExists(path + '.Position', {
+				type: 'state',
+				common: {
+					name: 'Position ' + deviceName,
+					desc: 'Position stored in homepilot for device ' + deviceId,
+					type: 'number',
+					role: 'level.dimmer',
+					min: 0,
+					max: 100,
+					unit: '%',
+					read: true,
+					write: true
+				},
+				native: {}
+			});
+			
+			adapter.setObjectNotExists(path + '.ColorTemperature', {
+				type: 'state',
+				common: {
+					name: 'ColorTemperature ' + deviceName,
+					desc: 'ColorTemperature stored in homepilot for device ' + deviceId,
+					type: 'number',
+					role: 'level.color.temperature',
+					min: 153,
+					max: 500,
+					read: true,
+					write: true
+				},
+				native: {}
+			});
+			
+			adapter.setObjectNotExists(path + '.RGB', {
+				type: 'state',
+				common: {
+					name: 'RGB' + deviceName,
+					desc: 'RGB stored in homepilot for device ' + deviceId,
+					type: 'string',
+					role: 'level.rgb',
+					read: true,
+					write: true
+				},
+				native: {}
+			});
+			
+			adapter.setObjectNotExists(path + '.Action', {
+				type: 'state',
+				common: {
+					name: 'AN/AUS/ON/OFF',
+					desc: 'AN/AUS/ON/OFF',
+					type: 'string',
+					role: 'text',
+					def: '',
+					read: true,
+					write: true
+				},
+				native: {}
+			});
+		}
 	}
 	
 	path = undefined;
@@ -1192,7 +1319,8 @@ function createSensorStates(result, type) {
 		
 		if (deviceNumber == '32501772' /*DuoFern-Bewegungsmelder-9484*/ ||
 			deviceNumber == '32004329' /*HD-Kamera-9487-A*/ ||
-			deviceNumber == '32004119' /*IP-Kamera 9483*/) {
+			deviceNumber == '32004119' /*IP-Kamera 9483*/ ||
+			deviceNumber == '32004219' /*HD-Kamera-9486*/) {
 			adapter.setObjectNotExists(path + '.movement_detected', {
 				type: 'state',
 				common: {
@@ -1419,7 +1547,8 @@ function createTransmitterStates(result, type) {
 			deviceNumber == '32501974' /*DuoFern-Mehrfachwandtaster-BAT-9494-1*/ ||
 			deviceNumber == '34810060' /*DuoFern-Handzentrale-9493*/ ||
 			deviceNumber == '32480366' /*DuoFern-Handsender-Standard-9491*/ ||
-			deviceNumber == '32480361' /*DuoFern-Handsender-Standard-9491-2*/) {
+			deviceNumber == '32480361' /*DuoFern-Handsender-Standard-9491-2*/ ||
+			deviceNumber == '32501973' /*DuoFern-Wandtaster-1-Kanal-9494-3*/) {
 				adapter.setObjectNotExists(path + '.batteryLow', {
 					type: 'state',
 					common: {
@@ -1576,8 +1705,9 @@ function writeCommon(result) {
 
 function writeActuatorStates(result, type) {
 	calculatePath(result, type);
-		
-	if (deviceRole !== undefined) {
+	
+	//if (deviceRole !== undefined) {	
+	if (deviceType !== undefined) {
 		var deviceNumber = deviceNumberNormalize(result.deviceNumber);
 		var deviceId   = result.did;
 		
@@ -1610,10 +1740,13 @@ function writeActuatorStates(result, type) {
 			value = value / 10;
 		}
 		
-		adapter.setState(path + '.Position', {
-			val: value,
-			ack: true
-		});
+		if (deviceNumber != '99999983' /*Philips-Hue-RGB-Lampe*/ &&
+			deviceNumber != '99999980' /*Philips-Hue-Bridge*/) {
+			adapter.setState(path + '.Position', {
+				val: value,
+				ack: true
+			});
+		}
 		
 		if (deviceRole == 'level.blind') {
 			adapter.setState(path + '.Position_inverted', {
@@ -1676,6 +1809,26 @@ function writeActuatorStates(result, type) {
 			}
 		}
 		
+		if (deviceNumber == '99999983' /*Philips-Hue-RGB-Lampe*/) {
+			adapter.setState(path + '.Position', {
+				val: result.statusesMap.Position,
+				ack: true
+			});
+			
+			adapter.setState(path + '.ColorTemperature', {
+				val: result.statusesMap.colortemperature,
+				ack: true
+			});
+			
+			var rgbValue = result.statusesMap.rgb;
+			rgbValue = rgbValue.startsWith('0x') ? rgbValue.substring(2, rgbValue.length) : rgbValue;
+			
+			adapter.setState(path + '.RGB', {
+				val: rgbValue,
+				ack: true
+			});
+		} 
+		
 		adapter.log.debug(type + ' states for ' + deviceId + ' written');
 	}
 	
@@ -1707,7 +1860,8 @@ function writeSensorStates(result, type) {
 		
 		if (deviceNumber == '32501772' /*DuoFern-Bewegungsmelder-9484*/ ||
 			deviceNumber == '32004329' /*HD-Kamera-9487-A*/ ||
-			deviceNumber == '32004119' /*IP-Kamera 9483*/) {
+			deviceNumber == '32004119' /*IP-Kamera 9483*/ ||
+			deviceNumber == '32004219' /*HD-Kamera-9486*/) {
 			adapter.setState(path + '.movement_detected', {
 				val: result.readings.movement_detected,
 				ack: true
@@ -1823,7 +1977,8 @@ function writeTransmitterStates(result, type) {
 			deviceNumber == '32501974' /*DuoFern-Mehrfachwandtaster-BAT-9494-1*/ ||
 			deviceNumber == '34810060' /*DuoFern-Handzentrale-9493*/ ||
 			deviceNumber == '32480366' /*DuoFern-Handsender-Standard-9491*/ ||
-			deviceNumber == '32480361' /*DuoFern-Handsender-Standard-9491-2*/) {
+			deviceNumber == '32480361' /*DuoFern-Handsender-Standard-9491-2*/ ||
+			deviceNumber == '32501973' /*DuoFern-Wandtaster-1-Kanal-9494-3*/) {
 				adapter.setState(path + '.batteryLow', {
 					val: result.batteryLow,
 					ack: true
@@ -1980,6 +2135,14 @@ function doAdditional(toDoList, type) {
 									
 									timestamp = (result.payload.device.capabilities.filter((x)=>x.name === "KEY_ON_CH2_EVT"))[0].timestamp;
 									doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'KEY_ON_CH2_EVT', timestamp, 'value.datetime', 'timestamp');
+									break;
+
+								case "32501973": /*DuoFern-Wandtaster-1-Kanal-9494-3*/
+									var timestamp = (result.payload.device.capabilities.filter((x)=>x.name === "KEY_PUSH_CH1_EVT"))[0].timestamp;
+									doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'KEY_PUSH_CH1_EVT', timestamp, 'value.datetime', 'timestamp');
+									
+									timestamp = (result.payload.device.capabilities.filter((x)=>x.name === "KEY_PUSH_CH2_EVT"))[0].timestamp;
+									doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'KEY_PUSH_CH2_EVT', timestamp, 'value.datetime', 'timestamp');
 									break;
 									
 								default:

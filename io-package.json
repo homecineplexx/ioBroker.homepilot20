@@ -3,6 +3,18 @@
         "name": "homepilot20",
         "version": "0.0.5",
         "news": {
+			"0.0.6":{  
+                "en":"Added 5 more devices",
+                "de":"5 weitere Geräte hinzugefügt",
+                "ru":"Добавлено еще 5 устройства",
+				"pt": "Adicionado mais 5 dispositivos",
+                "nl": "Nog 5 apparaten toegevoegd",
+                "fr": "Ajout de 5 appareils supplémentaires",
+                "it": "Aggiunti altri 5 dispositivi",
+                "es": "Se agregaron 5 dispositivos más",
+                "pl": "Dodano 5 kolejne urządzenia",
+                "zh-cn": "增加了5个设备"
+            },
 			"0.0.5":{  
                 "en":"Added 3 more devices",
                 "de":"3 weitere Geräte hinzugefügt",
