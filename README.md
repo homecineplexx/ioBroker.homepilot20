@@ -16,6 +16,10 @@ Windows: [![AppVeyor](https://ci.appveyor.com/api/projects/status/github/homecin
 
 
 ## Changelog
+### 0.0.7
+* (homecineplexx) added 1 more devices:
+* 99999981 Philips Hue White Lamp
+
 ### 0.0.6
 * (homecineplexx) added 5 more devices:
 * 99999980 Philips Hue Bridge
@@ -47,7 +51,7 @@ Windows: [![AppVeyor](https://ci.appveyor.com/api/projects/status/github/homecin
 ## License
 MIT License
 
-Copyright (c) 2019 homecineplexx <chris.homecineplexx@gmail.com>
+Copyright (c) 2020 homecineplexx <chris.homecineplexx@gmail.com>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
