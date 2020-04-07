@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "homepilot20",
-        "version": "0.0.8",
+        "version": "0.0.9",
 		"news": {
+			"0.0.9":{  
+					"en":"bugfix for version 0.0.8",
+					"de":"Bugfix für Version 0.0.8",
+					"ru":"исправление для версии 0.0.8",
+					"pt": "bugfix para a versão 0.0.8",
+					"nl": "bugfix voor versie 0.0.8",
+					"fr": "correction de bogue pour la version 0.0.8",
+					"it": "bugfix per versione 0.0.8",
+					"es": "corrección de errores para la versión 0.0.8",
+					"pl": "poprawka dla wersji 0.0.8",
+					"zh-cn": "版本0.0.8的错误修正"
+				},
 			"0.0.8":{  
 					"en":"Added 1 more device",
 					"de":"1 weiteres Gerät hinzugefügt",

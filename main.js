@@ -160,9 +160,9 @@ function controlHomepilot(id, input) {
 					
 			data = '{"name":"TARGET_TEMPERATURE_CFG", "value":"' + val + '"}';
 		// Philips Hue (99999983 || 99999981 || 99999982)
-		} else if (deviceNumberId == '99999983' /*Philips-Hue-RGB-Lampe*/ ||
-				   deviceNumberId == '99999981' /*Philips-Hue-Weiße-Lampe*/ ||
-				   deviceNumber == '99999982' /*Philips-Hue-Ambiance-Spot*/) {
+		} else if (deviceNumberId == '99999981' /*Philips-Hue-Weiße-Lampe*/ ||
+				   deviceNumber == '99999982' /*Philips-Hue-Ambiance-Spot*/ ||
+				   deviceNumberId == '99999983' /*Philips-Hue-RGB-Lampe*/) {
 			if (0 >= parseInt(input)) {
 				input = 0;
 			} else if (parseInt(input) >= 100) {
@@ -193,9 +193,9 @@ function controlHomepilot(id, input) {
 		
 		input = input.toUpperCase().trim();
 		
-		if (deviceNumberId == '99999983' /*Philips-Hue-RGB-Lampe*/ ||
-			deviceNumberId == '99999981' /*Philips-Hue-Weiße-Lampe*/ ||
-			deviceNumberId == '99999982' /*Philips-Hue-Ambiance-Spot*/) {
+		if (deviceNumberId == '99999981' /*Philips-Hue-Weiße-Lampe*/ ||
+			deviceNumberId == '99999982' /*Philips-Hue-Ambiance-Spot*/ ||
+			deviceNumberId == '99999983' /*Philips-Hue-RGB-Lampe*/) {
 			if (input == 'AN' || input == 'ON') {			
 				data = '{"name":"TURN_ON_CMD"}';
 			} else if (input == 'AUS' || input == 'OFF') {			
@@ -1088,10 +1088,10 @@ function createActuatorStates(result, type) {
 				});
 			}		
 		} else {
-			if (deviceNumber != '99999983' /*Philips-Hue-RGB-Lampe*/ &&
-				deviceNumber != '99999980' /*Philips-Hue-Bridge*/ &&
+			if (deviceNumber != '99999980' /*Philips-Hue-Bridge*/ &&
 				deviceNumber != '99999981' /*Philips-Hue-Weiße-Lampe*/ &&
-				deviceNumber != '99999982' /*Philips-Hue-Ambiance-Spot*/) {
+				deviceNumber != '99999982' /*Philips-Hue-Ambiance-Spot*/ &&
+				deviceNumber != '99999983' /*Philips-Hue-RGB-Lampe*/) {
 				adapter.setObjectNotExists(path + '.Position', {
 					type: 'state',
 					common: {
@@ -1225,9 +1225,9 @@ function createActuatorStates(result, type) {
 			}
 		}
 		
-		if (deviceNumber == '99999983' /*Philips-Hue-RGB-Lampe*/ ||
-			deviceNumber == '99999981' /*Philips-Hue-Weiße-Lampe*/ ||
-			deviceNumber == '99999982' /*Philips-Hue-Ambiance-Spot*/) {
+		if (deviceNumber == '99999981' /*Philips-Hue-Weiße-Lampe*/ ||
+			deviceNumber == '99999982' /*Philips-Hue-Ambiance-Spot*/ ||
+			deviceNumber == '99999983' /*Philips-Hue-RGB-Lampe*/) {
 			adapter.setObjectNotExists(path + '.Position', {
 				type: 'state',
 				common: {
@@ -1260,18 +1260,20 @@ function createActuatorStates(result, type) {
 					native: {}
 				});
 				
-				adapter.setObjectNotExists(path + '.RGB', {
-					type: 'state',
-					common: {
-						name: 'RGB' + deviceName,
-						desc: 'RGB stored in homepilot for device ' + deviceId,
-						type: 'string',
-						role: 'level.rgb',
-						read: true,
-						write: true
-					},
-					native: {}
-				});
+				if (deviceNumber != '99999982' /*Philips-Hue-Ambiance-Spot*/) {
+					adapter.setObjectNotExists(path + '.RGB', {
+						type: 'state',
+						common: {
+							name: 'RGB' + deviceName,
+							desc: 'RGB stored in homepilot for device ' + deviceId,
+							type: 'string',
+							role: 'level.rgb',
+							read: true,
+							write: true
+						},
+						native: {}
+					});
+				}
 			}
 			
 			adapter.setObjectNotExists(path + '.Action', {
@@ -1758,10 +1760,10 @@ function writeActuatorStates(result, type) {
 			value = value / 10;
 		}
 		
-		if (deviceNumber != '99999983' /*Philips-Hue-RGB-Lampe*/ &&
-			deviceNumber != '99999980' /*Philips-Hue-Bridge*/ &&
+		if (deviceNumber != '99999980' /*Philips-Hue-Bridge*/ &&
 			deviceNumber != '99999981' /*Philips-Hue-Weiße-Lampe*/ &&
-			deviceNumber != '99999982' /*Philips-Hue-Ambiance-Spot*/) {
+			deviceNumber != '99999982' /*Philips-Hue-Ambiance-Spot*/ &&
+			deviceNumber != '99999983' /*Philips-Hue-RGB-Lampe*/) {
 			adapter.setState(path + '.Position', {
 				val: value,
 				ack: true
@@ -1829,9 +1831,9 @@ function writeActuatorStates(result, type) {
 			}
 		}
 		
-		if (deviceNumber == '99999983' /*Philips-Hue-RGB-Lampe*/ ||
-			deviceNumber == '99999981' /*Philips-Hue-Weiße-Lampe*/ ||
-			deviceNumber == '99999982' /*Philips-Hue-Ambiance-Spot*/) {
+		if (deviceNumber == '99999981' /*Philips-Hue-Weiße-Lampe*/ ||
+			deviceNumber == '99999982' /*Philips-Hue-Ambiance-Spot*/ ||
+			deviceNumber == '99999983' /*Philips-Hue-RGB-Lampe*/) {
 			adapter.setState(path + '.Position', {
 				val: result.statusesMap.Position,
 				ack: true
@@ -1842,14 +1844,16 @@ function writeActuatorStates(result, type) {
 					val: result.statusesMap.colortemperature,
 					ack: true
 				});
-				
-				var rgbValue = result.statusesMap.rgb;
-				rgbValue = rgbValue.startsWith('0x') ? rgbValue.substring(2, rgbValue.length) : rgbValue;
-				
-				adapter.setState(path + '.RGB', {
-					val: rgbValue,
-					ack: true
-				});
+
+				if (deviceNumber != '99999982' /*Philips-Hue-Ambiance-Spot*/) {
+					var rgbValue = result.statusesMap.rgb;
+					rgbValue = rgbValue.startsWith('0x') ? rgbValue.substring(2, rgbValue.length) : rgbValue;
+					
+					adapter.setState(path + '.RGB', {
+						val: rgbValue,
+						ack: true
+					});
+				}
 			}
 		} 
 		

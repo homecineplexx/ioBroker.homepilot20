@@ -16,6 +16,9 @@ Windows: [![AppVeyor](https://ci.appveyor.com/api/projects/status/github/homecin
 
 
 ## Changelog
+### 0.0.9
+* (homecineplexx) bugfix for version 0.0.8
+
 ### 0.0.8
 * (homecineplexx) added 1 more devices:
 * 99999982 Philips Hue Ambiance Spot
