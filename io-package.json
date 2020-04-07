@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "homepilot20",
-        "version": "0.0.9",
+        "version": "0.0.10",
 		"news": {
+			"0.0.10":{  
+					"en":"bugfix for version 0.0.9",
+					"de":"Bugfix für Version 0.0.9",
+					"ru":"исправление для версии 0.0.9",
+					"pt": "bugfix para a versão 0.0.9",
+					"nl": "bugfix voor versie 0.0.9",
+					"fr": "correction de bogue pour la version 0.0.9",
+					"it": "bugfix per versione 0.0.9",
+					"es": "corrección de errores para la versión 0.0.9",
+					"pl": "poprawka dla wersji 0.0.9",
+					"zh-cn": "版本0.0.9的错误修正"
+				},
 			"0.0.9":{  
 					"en":"bugfix for version 0.0.8",
 					"de":"Bugfix für Version 0.0.8",

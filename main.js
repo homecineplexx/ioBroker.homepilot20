@@ -161,7 +161,7 @@ function controlHomepilot(id, input) {
 			data = '{"name":"TARGET_TEMPERATURE_CFG", "value":"' + val + '"}';
 		// Philips Hue (99999983 || 99999981 || 99999982)
 		} else if (deviceNumberId == '99999981' /*Philips-Hue-Weiße-Lampe*/ ||
-				   deviceNumber == '99999982' /*Philips-Hue-Ambiance-Spot*/ ||
+				   deviceNumberId == '99999982' /*Philips-Hue-Ambiance-Spot*/ ||
 				   deviceNumberId == '99999983' /*Philips-Hue-RGB-Lampe*/) {
 			if (0 >= parseInt(input)) {
 				input = 0;
