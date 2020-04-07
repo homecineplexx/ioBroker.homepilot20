@@ -43,6 +43,8 @@ Für Sensor und Transmitter ist hartkodiert 3s eingestellt. Cameras werden momen
 |   32501812    |  DuoFern Raumthermostat                    |                            | level.temperature/text |  9485   | Actuator/Sensor      | 4 - 40°C   |
 |   99999980    |  Philips Hue Bridge                        |                            | text                   |         | Actuator             |            |
 |   99999981    |  Philips Hue Weiße Lampe                   |                            | level.dimmer           |         | Actuator             | 0 - 100 %  |
+|   99999982    |  Philips Hue Ambiance Spot                 |                            | level.dimmer           |         | Actuator             | 0 - 100 %  |
+|               |                                            |                            | level.color.temperature|         | Actuator             | 153 - 500  |
 |   99999983    |  Philips Hue RGB Lampe                     |                            | level.dimmer           |         | Actuator             | 0 - 100 %  |
 |               |                                            |                            | level.color.temperature|         | Actuator             | 153 - 500  |
 |               |                                            |                            | level.rgb              |         | Actuator             |   RGB      |
@@ -62,7 +64,7 @@ Für Sensor und Transmitter ist hartkodiert 3s eingestellt. Cameras werden momen
 |   99999998    |  GeoPilot IOS (Handy)                      |                            | text                   |         | Sensor               |            |
 |   99999999    |  GeoPilot Android (Handy)                  |                            | text                   |         | Sensor               |            |
 
-__99999983__ und __99999981__ haben zusätzlich auch einen Datenpunkt __Action__erhalten.
+__99999983__ , __99999982__ und __99999981__ haben zusätzlich auch einen Datenpunkt __Action__erhalten.
 Hier sind folgende Werte erlaubt:
 AN/AUS
 ON/OFF

@@ -16,6 +16,11 @@ Windows: [![AppVeyor](https://ci.appveyor.com/api/projects/status/github/homecin
 
 
 ## Changelog
+### 0.0.8
+* (homecineplexx) added 1 more devices:
+* 99999982 Philips Hue Ambiance Spot
+* changed the warn log to debug for not included devices
+
 ### 0.0.7
 * (homecineplexx) added 1 more devices:
 * 99999981 Philips Hue White Lamp

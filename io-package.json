@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "homepilot20",
-        "version": "0.0.7",
+        "version": "0.0.8",
 		"news": {
+			"0.0.8":{  
+					"en":"Added 1 more device",
+					"de":"1 weiteres Gerät hinzugefügt",
+					"ru":"Добавлено еще 1 устройство",
+					"pt": "Adicionado mais 1 dispositivo",
+					"nl": "Nog 1 apparaat toegevoegd",
+					"fr": "Ajout d'un appareil supplémentaire",
+					"it": "Aggiunto 1 altro dispositivo",
+					"es": "Se agregó 1 dispositivo más",
+					"pl": "Dodano 1 dodatkowe urządzenie",
+					"zh-cn": "添加了1个设备"
+				},
 			"0.0.7":{  
                 "en":"Added 1 more device",
                 "de":"1 weiteres Gerät hinzugefügt",

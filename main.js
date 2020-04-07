@@ -159,9 +159,10 @@ function controlHomepilot(id, input) {
 			val = (val%5<3 ? (val%5===0 ? val : Math.floor(val/5)*5) : Math.ceil(val/5)*5) / 10;
 					
 			data = '{"name":"TARGET_TEMPERATURE_CFG", "value":"' + val + '"}';
-		// Philips Hue (99999983 || 99999981)
+		// Philips Hue (99999983 || 99999981 || 99999982)
 		} else if (deviceNumberId == '99999983' /*Philips-Hue-RGB-Lampe*/ ||
-				   deviceNumberId == '99999981' /*Philips-Hue-Weiße-Lampe*/) {
+				   deviceNumberId == '99999981' /*Philips-Hue-Weiße-Lampe*/ ||
+				   deviceNumber == '99999982' /*Philips-Hue-Ambiance-Spot*/) {
 			if (0 >= parseInt(input)) {
 				input = 0;
 			} else if (parseInt(input) >= 100) {
@@ -171,7 +172,7 @@ function controlHomepilot(id, input) {
 			data = '{"name":"GOTO_POS_CMD", "value":"' + parseInt(input) + '"}';
 		}
 	
-	// Philips Hue (99999983)
+	// Philips Hue (99999983 || 99999982)
 	} else if (id.indexOf('ColorTemperature') !== -1) {
 		if (153 >= parseInt(input)) {
 			input = 153;
@@ -193,7 +194,8 @@ function controlHomepilot(id, input) {
 		input = input.toUpperCase().trim();
 		
 		if (deviceNumberId == '99999983' /*Philips-Hue-RGB-Lampe*/ ||
-			deviceNumberId == '99999981' /*Philips-Hue-Weiße-Lampe*/) {
+			deviceNumberId == '99999981' /*Philips-Hue-Weiße-Lampe*/ ||
+			deviceNumberId == '99999982' /*Philips-Hue-Ambiance-Spot*/) {
 			if (input == 'AN' || input == 'ON') {			
 				data = '{"name":"TURN_ON_CMD"}';
 			} else if (input == 'AUS' || input == 'OFF') {			
@@ -808,6 +810,10 @@ function calculatePath(result, type) {
 		case "99999981":
 			deviceType = 'Philips-Hue-Weiße-Lampe';
             break;
+		
+		case "99999982":
+			deviceType = 'Philips-Hue-Ambiance-Spot';
+            break;
 			
 		case "99999983":
 			deviceType = 'Philips-Hue-RGB-Lampe';
@@ -818,7 +824,7 @@ function calculatePath(result, type) {
             break;
 			
         default:
-            adapter.log.warn('Unknown ' + type + ' deviceNumber=' + deviceNumber);
+            adapter.log.debug('Unknown ' + type + ' deviceNumber=' + deviceNumber +'. For implementation, please contact the developer on GIT repo.');
     }
 }
 
@@ -1084,7 +1090,8 @@ function createActuatorStates(result, type) {
 		} else {
 			if (deviceNumber != '99999983' /*Philips-Hue-RGB-Lampe*/ &&
 				deviceNumber != '99999980' /*Philips-Hue-Bridge*/ &&
-				deviceNumber != '99999981' /*Philips-Hue-Weiße-Lampe*/) {
+				deviceNumber != '99999981' /*Philips-Hue-Weiße-Lampe*/ &&
+				deviceNumber != '99999982' /*Philips-Hue-Ambiance-Spot*/) {
 				adapter.setObjectNotExists(path + '.Position', {
 					type: 'state',
 					common: {
@@ -1219,7 +1226,8 @@ function createActuatorStates(result, type) {
 		}
 		
 		if (deviceNumber == '99999983' /*Philips-Hue-RGB-Lampe*/ ||
-			deviceNumber == '99999981' /*Philips-Hue-Weiße-Lampe*/) {
+			deviceNumber == '99999981' /*Philips-Hue-Weiße-Lampe*/ ||
+			deviceNumber == '99999982' /*Philips-Hue-Ambiance-Spot*/) {
 			adapter.setObjectNotExists(path + '.Position', {
 				type: 'state',
 				common: {
@@ -1752,7 +1760,8 @@ function writeActuatorStates(result, type) {
 		
 		if (deviceNumber != '99999983' /*Philips-Hue-RGB-Lampe*/ &&
 			deviceNumber != '99999980' /*Philips-Hue-Bridge*/ &&
-			deviceNumber != '99999981' /*Philips-Hue-Weiße-Lampe*/) {
+			deviceNumber != '99999981' /*Philips-Hue-Weiße-Lampe*/ &&
+			deviceNumber != '99999982' /*Philips-Hue-Ambiance-Spot*/) {
 			adapter.setState(path + '.Position', {
 				val: value,
 				ack: true
@@ -1821,7 +1830,8 @@ function writeActuatorStates(result, type) {
 		}
 		
 		if (deviceNumber == '99999983' /*Philips-Hue-RGB-Lampe*/ ||
-			deviceNumber == '99999981' /*Philips-Hue-Weiße-Lampe*/) {
+			deviceNumber == '99999981' /*Philips-Hue-Weiße-Lampe*/ ||
+			deviceNumber == '99999982' /*Philips-Hue-Ambiance-Spot*/) {
 			adapter.setState(path + '.Position', {
 				val: result.statusesMap.Position,
 				ack: true
@@ -2160,7 +2170,7 @@ function doAdditional(toDoList, type) {
 									break;
 									
 								default:
-									adapter.log.warn('Unknown ' + type + ' additional for deviceNumber=' + deviceNumber);
+									adapter.log.debug('Unknown ' + type + ' additional for deviceNumber=' + deviceNumber +'. For implementation, please contact the developer on GIT repo.');
 							}
 						}
 					} else {
