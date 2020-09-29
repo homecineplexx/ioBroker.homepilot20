@@ -203,15 +203,19 @@ function controlHomepilot(id, input) {
 			} else {
 				adapter.log.error( 'Command=' + input + ' is not allowed. Allowed values are AN/ON/AUS/OFF.');
 			}
-		} else {
+		}else {
 			if (input == 'RAUF' || input == 'UP' || input == 'HOCH' || input == 'REIN' || input == 'IN') {			
 				data = '{"name":"POS_UP_CMD"}';
 			} else if (input == 'RUNTER' || input == 'DOWN' || input == 'RAUS' || input == 'OUT') {			
 				data = '{"name":"POS_DOWN_CMD"}';
 			} else if (input == 'STOPP' || input == 'STOP') {
 				data = '{"name":"STOP_CMD"}';
+			} else if (input == 'SCHRITT_RAUF') {
+				data = '{"name":"DEC_CMD"}';
+			} else if (input == 'SCHRITT_RUNTER') {
+				data = '{"name":"INC_CMD"}';
 			} else {
-				adapter.log.error( 'Command=' + input + ' is not allowed. Allowed values are RAUF/RAUS/REIN/RUNTER/STOPP.');
+				adapter.log.error( 'Command=' + input + ' is not allowed. Allowed values are RAUF/RAUS/REIN/RUNTER/STOPP/SCHRITT_RAUF/SCHRITT_RUNTER.');
 			}
 		}
 		
