@@ -203,7 +203,7 @@ function controlHomepilot(id, input) {
 			} else {
 				adapter.log.error( 'Command=' + input + ' is not allowed. Allowed values are AN/ON/AUS/OFF.');
 			}
-		} else {
+		}else {
 			if (input == 'RAUF' || input == 'UP' || input == 'HOCH' || input == 'REIN' || input == 'IN') {			
 				data = '{"name":"POS_UP_CMD"}';
 			} else if (input == 'RUNTER' || input == 'DOWN' || input == 'RAUS' || input == 'OUT') {			
