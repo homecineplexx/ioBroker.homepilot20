@@ -210,8 +210,12 @@ function controlHomepilot(id, input) {
 				data = '{"name":"POS_DOWN_CMD"}';
 			} else if (input == 'STOPP' || input == 'STOP') {
 				data = '{"name":"STOP_CMD"}';
+			} else if (input == 'SCHRITT_RAUF') {
+				data = '{"name":"DEC_CMD"}';
+			} else if (input == 'SCHRITT_RUNTER') {
+				data = '{"name":"INC_CMD"}';
 			} else {
-				adapter.log.error( 'Command=' + input + ' is not allowed. Allowed values are RAUF/RAUS/REIN/RUNTER/STOPP.');
+				adapter.log.error( 'Command=' + input + ' is not allowed. Allowed values are RAUF/RAUS/REIN/RUNTER/STOPP/SCHRITT_RAUF/SCHRITT_RUNTER.');
 			}
 		}
 		
@@ -1008,8 +1012,8 @@ function createActuatorStates(result, type) {
 				adapter.setObjectNotExists(path + '.Action', {
 					type: 'state',
 					common: {
-						name: 'RAUF/RAUS/REIN/RUNTER/STOPP',
-						desc: 'RAUF/RAUS/REIN/RUNTER/STOPP',
+						name: 'RAUF/RAUS/REIN/RUNTER/STOPP/SCHRITT_RAUF/SCHRITT_RUNTER',
+						desc: 'RAUF/RAUS/REIN/RUNTER/STOPP/SCHRITT_RAUF/SCHRITT_RUNTER',
 						type: 'string',
 						role: 'text',
 						def: '',

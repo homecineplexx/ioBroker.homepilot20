@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "homepilot20",
-        "version": "0.0.10",
+        "version": "0.0.11",
 		"news": {
+			"0.0.11":{  
+					"en": "Support for INC_CMD and DEC_CMD",
+					"de": "Unterstützung für INC_CMD und DEC_CMD",
+					"ru": "Поддержка INC_CMD и DEC_CMD",
+					"pt": "Suporte para INC_CMD e DEC_CMD",
+					"nl": "Ondersteuning voor INC_CMD en DEC_CMD",
+					"fr": "Prise en charge de INC_CMD et DEC_CMD",
+					"it": "Supporto per INC_CMD e DEC_CMD",
+					"es": "Soporte para INC_CMD y DEC_CMD",
+					"pl": "Obsługa INC_CMD i DEC_CMD",
+					"zh-cn": "支持INC_CMD和DEC_CMD"
+				},
 			"0.0.10":{  
 					"en":"bugfix for version 0.0.9",
 					"de":"Bugfix für Version 0.0.9",

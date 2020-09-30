@@ -16,6 +16,9 @@ Windows: [![AppVeyor](https://ci.appveyor.com/api/projects/status/github/homecin
 
 
 ## Changelog
+### 0.0.11
+* (homecineplexx) Support for INC_CMD and DEC_CMD
+
 ### 0.0.10
 * (homecineplexx) bugfix for version 0.0.9
 
