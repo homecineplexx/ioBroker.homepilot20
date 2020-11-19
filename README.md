@@ -16,6 +16,9 @@ Windows: [![AppVeyor](https://ci.appveyor.com/api/projects/status/github/homecin
 
 
 ## Changelog
+### 0.0.12
+* (homecineplexx) Support of the Bridge
+
 ### 0.0.11
 * (homecineplexx) Support for INC_CMD and DEC_CMD
 

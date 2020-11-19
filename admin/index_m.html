@@ -23,7 +23,9 @@
                 $('#homepilot_ip').val(settings.homepilotip).change(onChange);
                 $('#homepilot_port').val(settings.homepilotport).change(onChange);
                 $('#sync_time').val(settings.synctime).change(onChange);
-		$('#password').val(settings.password).change(onChange);
+				$('#password').val(settings.password).change(onChange);
+				$('#isBridge').prop('checked',settings.isBridge).change(onChange);
+				
                 M.updateTextFields();
                 onChange(false);
             }
@@ -33,7 +35,8 @@
                     homepilotip: $('#homepilot_ip').val().trim(),
                     homepilotport: $('#homepilot_port').val().trim(),
                     synctime: $('#sync_time').val().trim(),
-		    password: $('#password').val().trim()
+					password: $('#password').val().trim(),
+					isBridge: $('#isBridge').prop('checked')
                 }); 
             }
 
@@ -46,7 +49,7 @@
         </style>
     </head>
     <body>
-         <div class="m adapter-container">
+        <div class="m adapter-container">
             <div class="row">
                 <div class="col s12">
                     <ul class="tabs">
@@ -55,12 +58,14 @@
                         </li><!-- weitere Tabs einfügen -->
                     </ul>
                 </div>
+				
                 <div id="tab-main" class="col s12 page">
                     <div class="row">
                         <div class="col s6 m4 l3">
                             <img src="homepilot.png" class="logo">
                         </div>
                     </div>
+					
                     <div class="row">
                         <div class="input-field col s12 m8 l6">
                             <!-- <input pattern="[0-9]{1,2,3}+\.[0-9]{1,2,3}+\.[0-9]{1,2,3}+\.[0-9]{1,2,3}$" placeholder="192.168.178.50" name="homepilot_ip_adress" type="text" id="homepilot_ip" class="value" size="15" maxlength="15" autocomplete="off" /> -->
@@ -81,13 +86,18 @@
                             <label data-error="numbers only" data-success="ok" class="translate active" for="sync_time">Synctime</label><span class="helper-text translate">s (default is 12)</span>
                         </div>
 
-
-			<div class="input-field col s12 m6 l4">
+						<div class="input-field col s12 m6 l4">
                            <input class="value" id="password" type="password">
                            <label for="password" class="translate">Password</label>
-			</div>
+						</div>
                     </div>
-                    </div>
+                    
+					<div class="row">
+                       <div class="col s12 m4">
+                             <input class="value" id="isBridge" type="checkbox">
+                             <label class="translate" for="isBridge">Device is Bridge</label>
+                       </div>
+                   </div>
                     
                 </div> <!-- Ende tab -->
             </div><!-- Ende row -->

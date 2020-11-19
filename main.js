@@ -13,6 +13,7 @@ var password;
 var saltedPassword;
 var passwordSalt;
 var cookie;
+var isBridge = false;
 
 // needed variable
 var path;
@@ -271,6 +272,10 @@ function readSettings() {
 		password = password.trim();
 		adapter.log.debug('Homepilot password is set -> request with authentication.');
 	}
+	
+	//check if device isBridge for deactivating readScenes
+	isBridge = adapter.config.isBridge;
+    adapter.log.debug('Instance will run as Bridge: ' + isBridge);
 }
 
 function stopReadHomepilot() {
@@ -550,6 +555,10 @@ function readTransmitter(link) {
 }
 
 function readScenes(link) {
+	if (isBridge) {
+       return;
+    }
+
     var unreach = false;
 	
 	request({

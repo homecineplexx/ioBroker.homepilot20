@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "homepilot20",
-        "version": "0.0.11",
+        "version": "0.0.12",
 		"news": {
+			"0.0.12":{  
+					"en": "Support of the Bridge",
+					"de": "Unterstützung der Bridge",
+					"ru": "опора моста",
+					"pt": "suporte da ponte",
+					"nl": "ondersteuning van de brug",
+					"fr": "support du pont",
+					"it": "supporto del ponte",
+					"es": "apoyo del puente",
+					"pl": "wsparcie mostu",
+					"zh-cn": "橋樑的支撐"
+				},
 			"0.0.11":{  
 					"en": "Support for INC_CMD and DEC_CMD",
 					"de": "Unterstützung für INC_CMD und DEC_CMD",
