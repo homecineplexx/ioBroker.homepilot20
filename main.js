@@ -94,6 +94,18 @@ function controlHomepilot(id, input) {
 		}
 
 		data = '{"name":"GOTO_POS_CMD", "value":"' + (100 - parseInt(input)) + '"}';		 
+	} else if (id.indexOf('slatposition') !== -1) {
+		calcUri = 'http://' + ip + '/devices/' + deviceId;
+		
+		if (deviceNumberId == '36500172' /*DuoFern-TrollBasis-5615*/) {
+			if (0 >= parseInt(input)) {
+				input = 0;
+			} else if (parseInt(input) >= 100) {
+				input = 100;
+			}
+
+			data = '{"name":"GOTO_POS_SLAT_CMD", "value":"' + parseInt(input) + '"}';
+		}
 	} else if (id.indexOf('Position') !== -1) {
 		calcUri = 'http://' + ip + '/devices/' + deviceId;
 		
@@ -1056,7 +1068,7 @@ function createActuatorStates(result, type) {
 						name: 'slatposition ' + deviceName,
 						desc: 'slatposition stored in homepilot for device ' + deviceId,
 						type: 'number',
-						role: 'text',
+						role: deviceRole,
 						min: 0,
 						max: 100,
 						unit: '%',

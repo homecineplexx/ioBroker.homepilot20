@@ -16,6 +16,9 @@ Windows: [![AppVeyor](https://ci.appveyor.com/api/projects/status/github/homecin
 
 
 ## Changelog
+### 0.0.13
+* (homecineplexx) added SLATPOSITION setting for DuoFern-TrollBasis-5615 (testversion)
+
 ### 0.0.12
 * (homecineplexx) Support of the Bridge
 

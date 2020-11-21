@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "homepilot20",
-        "version": "0.0.12",
+        "version": "0.0.13",
 		"news": {
+			"0.0.13":{  
+					"en": "added SLATPOSITION setting for DuoFern-TrollBasis-5615 (testversion)",
+					"de": "SLATPOSITION-Einstellung für DuoFern-TrollBasis-5615 hinzugefügt (Testversion)",
+					"ru": "добавлена настройка SLATPOSITION для DuoFern-TrollBasis-5615 (тестовая версия)",
+					"pt": "adicionada configuração SLATPOSITION para DuoFern-TrollBasis-5615 (versão de teste)",
+					"nl": "SLATPOSITION-instelling toegevoegd voor DuoFern-TrollBasis-5615 (testversie)",
+					"fr": "Ajout du paramètre SLATPOSITION pour DuoFern-TrollBasis-5615 (version test)",
+					"it": "aggiunta l'impostazione SLATPOSITION per DuoFern-TrollBasis-5615 (versione test)",
+					"es": "agregada configuración SLATPOSITION para DuoFern-TrollBasis-5615 (versión de prueba)",
+					"pl": "dodano ustawienie SLATPOSITION dla DuoFern-TrollBasis-5615 (wersja testowa)",
+					"zh-cn": "为DuoFern-TrollBasis-5615添加了SLATPOSITION设置（测试版）"
+				},
 			"0.0.12":{  
 					"en": "Support of the Bridge",
 					"de": "Unterstützung der Bridge",
