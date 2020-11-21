@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "homepilot20",
-        "version": "0.0.13",
+        "version": "0.0.14",
 		"news": {
+			"0.0.14":{  
+					"en": "added autmatic mode for some devices",
+					"de": "Automatischer Modus für einige Geräte hinzugefügt",
+					"ru": "добавлен автоматический режим для некоторых устройств",
+					"pt": "adicionado modo automático para alguns dispositivos",
+					"nl": "automatische modus toegevoegd voor sommige apparaten",
+					"fr": "ajout du mode automatique pour certains appareils",
+					"it": "aggiunta la modalità automatica per alcuni dispositivi",
+					"es": "modo automático agregado para algunos dispositivos",
+					"pl": "dodano tryb automatyczny dla niektórych urządzeń",
+					"zh-cn": "为某些设备添加了自动模式"
+				},
 			"0.0.13":{  
 					"en": "added SLATPOSITION setting for DuoFern-TrollBasis-5615 (testversion)",
 					"de": "SLATPOSITION-Einstellung für DuoFern-TrollBasis-5615 hinzugefügt (Testversion)",

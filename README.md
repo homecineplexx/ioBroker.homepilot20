@@ -16,6 +16,19 @@ Windows: [![AppVeyor](https://ci.appveyor.com/api/projects/status/github/homecin
 
 
 ## Changelog
+### 0.0.14
+* (homecineplexx) added autmatic mode to following devices:
+* 35003064 DuoFern-Heizkörperstellantrieb-9433
+* 35000262 DuoFernUniversal-Aktor2-Kanal-9470-2
+* 14234511 DuoFern-RolloTronStandard
+* 14236011 DuoFern-RolloTron-Pro-Comfort-9800
+* 35000864 DuoFern-Connect-Aktor-9477
+* 32000064 DuoFern-Umweltsensor-9475
+* 32501812 DuoFern-Raumthermostat-9485
+* 35001164 DuoFern-Zwischenstecker-Schalten-9472
+* 35000662 DuoFern-Rohrmotor-Aktor
+* 35002414 ZWave-RepeaterMitSchaltfunktion-8434
+
 ### 0.0.13
 * (homecineplexx) added SLATPOSITION setting for DuoFern-TrollBasis-5615 (testversion)
 
