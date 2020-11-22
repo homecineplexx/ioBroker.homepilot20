@@ -130,7 +130,7 @@ function controlHomepilot(id, input) {
 				input = 100;
 			}
 
-			data = '{"name":"GOTO_POS_SLAT_CMD", "value":"' + parseInt(input) + '"}';
+			data = '{"name":"SET_SLAT_POS_CMD", "value":"' + parseInt(input) + '"}';
 		}
 	} else if (id.indexOf('Position') !== -1) {
 		calcUri = 'http://' + ip + '/devices/' + deviceId;

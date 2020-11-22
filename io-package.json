@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "homepilot20",
-        "version": "0.0.15",
+        "version": "0.0.16",
 		"news": {
+			"0.0.16":{  
+					"en": "correction of slatposition command (SET_SLAT_POS_CMD)",
+					"de": "Korrektur des Slatposition-Befehls (SET_SLAT_POS_CMD)",
+					"ru": "команда коррекции положения предкрылка (SET_SLAT_POS_CMD)",
+					"pt": "correção do comando slatposition (SET_SLAT_POS_CMD)",
+					"nl": "correctie van het commando lamellenpositie (SET_SLAT_POS_CMD)",
+					"fr": "commande de correction de la position des lamelles (SET_SLAT_POS_CMD)",
+					"it": "correzione del comando slatposition (SET_SLAT_POS_CMD)",
+					"es": "comando de corrección de la posición de lamas (SET_SLAT_POS_CMD)",
+					"pl": "korekta polecenia położenia listwy (SET_SLAT_POS_CMD)",
+					"zh-cn": "板条位置命令的更正（SET_SLAT_POS_CMD）"
+				},
 			"0.0.15":{  
 					"en": "bugfix - write permissions for slatposition",
 					"de": "Bugfix - Schreibberechtigungen für Slatposition",

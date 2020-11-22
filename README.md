@@ -16,6 +16,9 @@ Windows: [![AppVeyor](https://ci.appveyor.com/api/projects/status/github/homecin
 
 
 ## Changelog
+### 0.0.16
+* (homecineplexx) correction of slatposition command (SET_SLAT_POS_CMD) 
+
 ### 0.0.15
 * (homecineplexx) bugfix - write permissions for slatposition
 
