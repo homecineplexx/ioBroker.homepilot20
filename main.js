@@ -1149,7 +1149,7 @@ function createActuatorStates(result, type) {
 						max: 100,
 						unit: '%',
 						read: true,
-						write: false
+						write: true
 					},
 					native: {}
 				});

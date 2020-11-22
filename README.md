@@ -16,6 +16,9 @@ Windows: [![AppVeyor](https://ci.appveyor.com/api/projects/status/github/homecin
 
 
 ## Changelog
+### 0.0.15
+* (homecineplexx) bugfix - write permissions for slatposition
+
 ### 0.0.14
 * (homecineplexx) added autmatic mode to following devices:
 * 35003064 DuoFern-Heizkörperstellantrieb-9433

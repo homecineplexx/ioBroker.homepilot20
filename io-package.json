@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "homepilot20",
-        "version": "0.0.14",
+        "version": "0.0.15",
 		"news": {
+			"0.0.15":{  
+					"en": "bugfix - write permissions for slatposition",
+					"de": "Bugfix - Schreibberechtigungen für Slatposition",
+					"ru": "bugfix - права на запись для slatposition",
+					"pt": "correção de bug - permissões de gravação para slatposition",
+					"nl": "bugfix - schrijfrechten voor slatposition",
+					"fr": "bugfix - autorisations d'écriture pour slatposition",
+					"it": "bugfix - permessi di scrittura per slatposition",
+					"es": "corrección de errores: permisos de escritura para la posición de lamas",
+					"pl": "bugfix - uprawnienia do zapisu pozycji slatposition",
+					"zh-cn": "错误修正-slatposition的写入权限"
+				},
 			"0.0.14":{  
 					"en": "added autmatic mode for some devices",
 					"de": "Automatischer Modus für einige Geräte hinzugefügt",
