@@ -809,12 +809,17 @@ function calculatePath(result, type) {
 		case "23602075":
 			deviceType = 'DuoFern-S-Line-Motor-Typ-SLDM-10/16-PZ';
 			deviceRole = 'level.blind';
+			
+			if (type == 'Actuator') {
+				additionalDeviceSettings.push(deviceId);
+			}
 			break;
 			
 		case "16234511":
 			deviceType = 'DuoFern-RolloTron-Comfort-1800/1805/1840';
 			if (type == 'Actuator') {
 				deviceRole = 'level.blind';
+				additionalDeviceSettings.push(deviceId);
 			}
 			break;
 		
@@ -2351,8 +2356,41 @@ function doAdditional(toDoList, type) {
 									doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'DUSK_AUTO_CFG', value, 'switch', 'Abenddämmerung', true, "boolean");
 									break;
 
+								case "16234511": /*DuoFern-RolloTron-Comfort-1800/1805/1840*/
+									var value = (result.payload.device.capabilities.filter((x)=>x.name === "AUTO_MODE_CFG"))[0].value;
+									doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'AUTO_MODE_CFG', value, 'switch', 'Automatikbetrieb', true, "boolean");
+									
+									var value = (result.payload.device.capabilities.filter((x)=>x.name === "TIME_AUTO_CFG"))[0].value;
+									doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'TIME_AUTO_CFG', value, 'switch', 'Zeit', true, "boolean");
+									
+									var value = (result.payload.device.capabilities.filter((x)=>x.name === "SUN_AUTO_CFG"))[0].value;
+									doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'SUN_AUTO_CFG', value, 'switch', 'Sonne', true, "boolean");
+									
+									var value = (result.payload.device.capabilities.filter((x)=>x.name === "DAWN_AUTO_CFG"))[0].value;
+									doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'DAWN_AUTO_CFG', value, 'switch', 'Morgendämmerung', true, "boolean");
+									
+									var value = (result.payload.device.capabilities.filter((x)=>x.name === "DUSK_AUTO_CFG"))[0].value;
+									doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'DUSK_AUTO_CFG', value, 'switch', 'Abenddämmerung', true, "boolean");
+									break;
+									
+								case "23602075": /*DuoFern-S-Line-Motor-Typ-SLDM-10/16-PZ*/
+									var value = (result.payload.device.capabilities.filter((x)=>x.name === "AUTO_MODE_CFG"))[0].value;
+									doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'AUTO_MODE_CFG', value, 'switch', 'Automatikbetrieb', true, "boolean");
+									
+									var value = (result.payload.device.capabilities.filter((x)=>x.name === "TIME_AUTO_CFG"))[0].value;
+									doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'TIME_AUTO_CFG', value, 'switch', 'Zeit', true, "boolean");
+									
+									var value = (result.payload.device.capabilities.filter((x)=>x.name === "SUN_AUTO_CFG"))[0].value;
+									doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'SUN_AUTO_CFG', value, 'switch', 'Sonne', true, "boolean");
+									
+									var value = (result.payload.device.capabilities.filter((x)=>x.name === "DAWN_AUTO_CFG"))[0].value;
+									doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'DAWN_AUTO_CFG', value, 'switch', 'Morgendämmerung', true, "boolean");
+									
+									var value = (result.payload.device.capabilities.filter((x)=>x.name === "DUSK_AUTO_CFG"))[0].value;
+									doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'DUSK_AUTO_CFG', value, 'switch', 'Abenddämmerung', true, "boolean");
+									break;
 
-
+									
 
 
 								case "32501772": /*DuoFern-Bewegungsmelder-9484*/													

@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "homepilot20",
-        "version": "0.0.16",
+        "version": "0.0.17",
 		"news": {
+			"0.0.17":{  
+					"en": "added autmatic mode for two more devices",
+					"de": "Automatischer Modus für zwei weitere Geräte hinzugefügt",
+					"ru": "добавлен автоматический режим еще для двух устройств",
+					"pt": "adicionado modo automático para mais dois dispositivos",
+					"nl": "automatische modus toegevoegd voor nog twee apparaten",
+					"fr": "ajout du mode automatique pour deux autres appareils",
+					"it": "aggiunta la modalità automatica per altri due dispositivi",
+					"es": "modo automático agregado para dos dispositivos más",
+					"pl": "dodano tryb automatyczny dla dwóch kolejnych urządzeń",
+					"zh-cn": "為另外兩個設備添加了自動模式"
+				},
 			"0.0.16":{  
 					"en": "correction of slatposition command (SET_SLAT_POS_CMD)",
 					"de": "Korrektur des Slatposition-Befehls (SET_SLAT_POS_CMD)",

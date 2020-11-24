@@ -16,6 +16,11 @@ Windows: [![AppVeyor](https://ci.appveyor.com/api/projects/status/github/homecin
 
 
 ## Changelog
+### 0.0.17
+* (homecineplexx) added autmatic mode for two more devices:
+* 16234511 DuoFern-RolloTron-Comfort-1800/1805/1840
+* 23602075 DuoFern-S-Line-Motor-Typ-SLDM-10/16-PZ
+
 ### 0.0.16
 * (homecineplexx) correction of slatposition command (SET_SLAT_POS_CMD) 
 
