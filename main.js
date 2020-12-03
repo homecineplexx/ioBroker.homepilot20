@@ -677,7 +677,7 @@ function calculatePath(result, type) {
             deviceType = 'DuoFern-Heizkörperstellantrieb-9433';
 			deviceRole = 'level.temperature';
 			
-			if (type == 'Actuator') {
+			if (type == 'Actuator' && !isBridge) {
 				additionalDeviceSettings.push(deviceId);
 			}
 			break;
@@ -686,7 +686,7 @@ function calculatePath(result, type) {
 			deviceType = 'DuoFern-Raumthermostat-9485';
 			deviceRole = 'level.temperature';
 			
-			if (type == 'Actuator') {
+			if (type == 'Actuator' && !isBridge) {
 				additionalDeviceSettings.push(deviceId);
 			}
             break;
@@ -700,7 +700,7 @@ function calculatePath(result, type) {
             deviceType = 'ZWave-RepeaterMitSchaltfunktion-8434';
 			deviceRole = (deviceName.indexOf('Licht') != -1) ? 'light.switch' : 'switch' ;
 			
-			if (type == 'Actuator') {
+			if (type == 'Actuator' && !isBridge) {
 				additionalDeviceSettings.push(deviceId);
 			}
             break;
@@ -709,7 +709,7 @@ function calculatePath(result, type) {
 			deviceType = 'DuoFernUniversal-Aktor2-Kanal-9470-2';
 			deviceRole = (deviceName.indexOf('Licht') != -1) ? 'light.switch' : 'switch' ;
 			
-			if (type == 'Actuator') {
+			if (type == 'Actuator' && !isBridge) {
 				additionalDeviceSettings.push(deviceId);
 			}
             break;
@@ -718,7 +718,7 @@ function calculatePath(result, type) {
 			deviceType = 'DuoFern-Zwischenstecker-Schalten-9472';
 			deviceRole = (deviceName.indexOf('Licht') != -1) ? 'light.switch' : 'switch' ;
 			
-			if (type == 'Actuator') {
+			if (type == 'Actuator' && !isBridge) {
 				additionalDeviceSettings.push(deviceId);
 			}
             break;
@@ -749,7 +749,7 @@ function calculatePath(result, type) {
 			deviceType = 'DuoFern-Connect-Aktor-9477';
 			deviceRole = 'level.blind';
 			
-			if (type == 'Actuator') {
+			if (type == 'Actuator' && !isBridge) {
 				additionalDeviceSettings.push(deviceId);
 			}
             break;
@@ -758,7 +758,7 @@ function calculatePath(result, type) {
 			deviceType = 'DuoFern-RolloTron-Standard-1400/1405/1440';
 			deviceRole = 'level.blind';
 			
-			if (type == 'Actuator') {
+			if (type == 'Actuator' && !isBridge) {
 				additionalDeviceSettings.push(deviceId);
 			}
             break;
@@ -767,7 +767,7 @@ function calculatePath(result, type) {
 			deviceType = 'DuoFernRohrmotor-Aktor';
 			deviceRole = 'level.blind';
 			
-			if (type == 'Actuator') {
+			if (type == 'Actuator' && !isBridge) {
 				additionalDeviceSettings.push(deviceId);
 			}
             break;
@@ -801,7 +801,7 @@ function calculatePath(result, type) {
 			deviceType = 'DuoFern-Umweltsensor-9475';
 			deviceRole = 'level.blind';
 			
-			if (type == 'Actuator') {
+			if (type == 'Actuator' && !isBridge) {
 				additionalDeviceSettings.push(deviceId);
 			}
 			break;	
@@ -810,7 +810,7 @@ function calculatePath(result, type) {
 			deviceType = 'DuoFern-S-Line-Motor-Typ-SLDM-10/16-PZ';
 			deviceRole = 'level.blind';
 			
-			if (type == 'Actuator') {
+			if (type == 'Actuator' && !isBridge) {
 				additionalDeviceSettings.push(deviceId);
 			}
 			break;
@@ -819,7 +819,10 @@ function calculatePath(result, type) {
 			deviceType = 'DuoFern-RolloTron-Comfort-1800/1805/1840';
 			if (type == 'Actuator') {
 				deviceRole = 'level.blind';
-				additionalDeviceSettings.push(deviceId);
+				
+				if (!isBridge) {
+					additionalDeviceSettings.push(deviceId);
+				}
 			}
 			break;
 		
@@ -827,7 +830,7 @@ function calculatePath(result, type) {
 			deviceType = 'DuoFern-RolloTron-Pro-Comfort-9800';
 			deviceRole = 'level.blind';
 			
-			if (type == 'Actuator') {
+			if (type == 'Actuator' && !isBridge) {
 				additionalDeviceSettings.push(deviceId);
 			}
 			break;

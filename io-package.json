@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "homepilot20",
-        "version": "0.0.17",
+        "version": "0.0.18",
 		"news": {
+			"0.0.18":{  
+					"en": "fix issue with Brdige and automatic modes",
+					"de": "Problem mit Bridge und automatischen Modi behoben",
+					"ru": "исправить проблему с мостом и автоматическими режимами",
+					"pt": "corrigir o problema com os modos Bridge e automáticos",
+					"nl": "probleem met Bridge en automatische modi oplossen",
+					"fr": "résoudre le problème avec Bridge et les modes automatiques",
+					"it": "risolvere il problema con Bridge e le modalità automatiche",
+					"es": "solucionar problema con los modos Bridge y automático",
+					"pl": "naprawiono problem z trybami Bridge i automatycznymi",
+					"zh-cn": "修復網橋和自動模式的問題"
+				},
 			"0.0.17":{  
 					"en": "added autmatic mode for two more devices",
 					"de": "Automatischer Modus für zwei weitere Geräte hinzugefügt",

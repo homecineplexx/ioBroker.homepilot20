@@ -16,6 +16,9 @@ Windows: [![AppVeyor](https://ci.appveyor.com/api/projects/status/github/homecin
 
 
 ## Changelog
+### 0.0.18
+* (homecineplexx) fix issue with Brdige and automatic modes
+
 ### 0.0.17
 * (homecineplexx) added autmatic mode for two more devices:
 * 16234511 DuoFern-RolloTron-Comfort-1800/1805/1840
