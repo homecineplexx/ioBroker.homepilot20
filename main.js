@@ -2449,36 +2449,36 @@ function doAdditional(toDoList, type) {
 								case "32501972": /*DuoFern-Mehrfachwandtaster*/		
 								case "32501974": /*DuoFern-Mehrfachwandtaster-BAT-9494-1*/
 									var timestamp = (result.payload.device.capabilities.filter((x)=>x.name === "KEY_PUSH_CH1_EVT"))[0].timestamp;
-									doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'KEY_PUSH_CH1_EVT', timestamp, 'value.datetime', 'timestamp');
+									doAttributeWithTypeNumber(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'KEY_PUSH_CH1_EVT', timestamp, 'value.datetime', 'timestamp');
 									
 									timestamp = (result.payload.device.capabilities.filter((x)=>x.name === "KEY_PUSH_CH2_EVT"))[0].timestamp;
-									doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'KEY_PUSH_CH2_EVT', timestamp, 'value.datetime', 'timestamp');
+									doAttributeWithTypeNumber(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'KEY_PUSH_CH2_EVT', timestamp, 'value.datetime', 'timestamp');
 									
 									timestamp = (result.payload.device.capabilities.filter((x)=>x.name === "KEY_PUSH_CH3_EVT"))[0].timestamp;
-									doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'KEY_PUSH_CH3_EVT', timestamp, 'value.datetime', 'timestamp');
+									doAttributeWithTypeNumber(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'KEY_PUSH_CH3_EVT', timestamp, 'value.datetime', 'timestamp');
 									
 									timestamp = (result.payload.device.capabilities.filter((x)=>x.name === "KEY_PUSH_CH4_EVT"))[0].timestamp;
-									doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'KEY_PUSH_CH4_EVT', timestamp, 'value.datetime', 'timestamp');
+									doAttributeWithTypeNumber(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'KEY_PUSH_CH4_EVT', timestamp, 'value.datetime', 'timestamp');
 									
 									timestamp = (result.payload.device.capabilities.filter((x)=>x.name === "KEY_PUSH_CH5_EVT"))[0].timestamp;
-									doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'KEY_PUSH_CH5_EVT', timestamp, 'value.datetime', 'timestamp');
+									doAttributeWithTypeNumber(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'KEY_PUSH_CH5_EVT', timestamp, 'value.datetime', 'timestamp');
 									
 									timestamp = (result.payload.device.capabilities.filter((x)=>x.name === "KEY_PUSH_CH6_EVT"))[0].timestamp;
-									doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'KEY_PUSH_CH6_EVT', timestamp, 'value.datetime', 'timestamp');
+									doAttributeWithTypeNumber(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'KEY_PUSH_CH6_EVT', timestamp, 'value.datetime', 'timestamp');
 									break;
 								
 								case "32160211": /*DuoFern-Wandtaster-9494*/
 									var timestamp = (result.payload.device.capabilities.filter((x)=>x.name === "KEY_OFF_CH1_EVT"))[0].timestamp;
-									doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'KEY_OFF_CH1_EVT', timestamp, 'value.datetime', 'timestamp');
+									doAttributeWithTypeNumber(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'KEY_OFF_CH1_EVT', timestamp, 'value.datetime', 'timestamp');
 									
 									timestamp = (result.payload.device.capabilities.filter((x)=>x.name === "KEY_OFF_CH2_EVT"))[0].timestamp;
-									doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'KEY_OFF_CH2_EVT', timestamp, 'value.datetime', 'timestamp');
+									doAttributeWithTypeNumber(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'KEY_OFF_CH2_EVT', timestamp, 'value.datetime', 'timestamp');
 									
 									timestamp = (result.payload.device.capabilities.filter((x)=>x.name === "KEY_ON_CH1_EVT"))[0].timestamp;
-									doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'KEY_ON_CH1_EVT', timestamp, 'value.datetime', 'timestamp');
+									doAttributeWithTypeNumber(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'KEY_ON_CH1_EVT', timestamp, 'value.datetime', 'timestamp');
 									
 									timestamp = (result.payload.device.capabilities.filter((x)=>x.name === "KEY_ON_CH2_EVT"))[0].timestamp;
-									doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'KEY_ON_CH2_EVT', timestamp, 'value.datetime', 'timestamp');
+									doAttributeWithTypeNumber(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'KEY_ON_CH2_EVT', timestamp, 'value.datetime', 'timestamp');
 									break;
 
 								case "32501973": /*DuoFern-Wandtaster-1-Kanal-9494-3*/
@@ -2511,7 +2511,7 @@ function doAdditional(toDoList, type) {
 		});
 	}
 }
-function doAttribute(did, path, name, value, role, description) {
+function doAttributeWithTypeNumber(did, path, name, value, role, description) {
 	doAttribute(did, path, name, value, role, description, false, "number");
 }
 

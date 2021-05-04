@@ -16,6 +16,9 @@ Windows: [![AppVeyor](https://ci.appveyor.com/api/projects/status/github/homecin
 
 
 ## Changelog
+### 0.0.19
+* (homecineplexx) fix issue for missing common.type
+
 ### 0.0.18
 * (homecineplexx) fix issue with Brdige and automatic modes
 

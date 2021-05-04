@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "homepilot20",
-        "version": "0.0.18",
+        "version": "0.0.19",
 		"news": {
+            "0.0.19":{  
+					"en": "fix issue for missing common.type",
+					"de": "Problem für fehlende common.type behoben",
+					"ru": "исправить проблему с отсутствующим common.type",
+					"pt": "corrigir o problema de common.type ausente",
+					"nl": "probleem opgelost voor het missen van common.type",
+					"fr": "correction d'un problème pour le common.type manquant",
+					"it": "risolvere il problema per common.type mancante",
+					"es": "Solucionar el problema de la falta de common.type",
+					"pl": "naprawiono problem z brakującym typem common.type",
+					"zh-cn": "解决缺少common.type的问题"
+				},
 			"0.0.18":{  
 					"en": "fix issue with Brdige and automatic modes",
 					"de": "Problem mit Bridge und automatischen Modi behoben",
