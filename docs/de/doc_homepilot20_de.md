@@ -2,7 +2,7 @@
 # ioBroker.homepilot20
 
 ## Gültigkeit
-Dieser Adpter gilt ab der Version 5.0.39 des Rademacher Homepilot2 und die Bridge.
+Dieser Adpter gilt ab der Version 5.0.39 des Rademacher __HomePilot 2 (9496-2)__, __HomePilot 3 (9496-3)__ und __Start2Smart Bridge__.
 
 ## Beschreibung
 Dieser Adapter verbindet ioBroker mit der Rademacher Homepilot Basistation 9496 (1/2) über TCP/IP, um Rademacher DuoFern Geräte zu steuern, auf Basis der neuen RESTful API. DuoFern sendet übrigens auf 434,5 MHz.
@@ -64,7 +64,7 @@ Für Sensor und Transmitter ist hartkodiert 3s eingestellt. Cameras werden momen
 |   99999998    |  GeoPilot IOS (Handy)                      |                            | text                   |         | Sensor               |            |
 |   99999999    |  GeoPilot Android (Handy)                  |                            | text                   |         | Sensor               |            |
 
-__99999983__ , __99999982__ und __99999981__ haben zusätzlich auch einen Datenpunkt __Action__erhalten.
+__99999983__ , __99999982__ und __99999981__ haben zusätzlich auch einen Datenpunkt __Action__ erhalten.
 Hier sind folgende Werte erlaubt:
 AN/AUS
 ON/OFF

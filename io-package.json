@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "homepilot20",
-        "version": "0.0.19",
+        "version": "0.0.20",
 		"news": {
+            "0.0.20":{  
+					"en": "Update Readme",
+					"de": "Readme aktualisieren",
+					"ru": "Обновить Readme",
+					"pt": "Atualizar Leia-me",
+					"nl": "Update Readme",
+					"fr": "Mettre à jour le fichier Lisez-moi",
+					"it": "Aggiorna il file Leggimi",
+					"es": "Actualizar Léame",
+					"pl": "Zaktualizuj plik Readme",
+					"zh-cn": "更新自述文件"
+				},
             "0.0.19":{  
 					"en": "fix issue for missing common.type",
 					"de": "Problem für fehlende common.type behoben",
