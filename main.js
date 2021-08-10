@@ -160,7 +160,11 @@ function controlHomepilot(id, input) {
 					deviceNumberId == '32000064' /*DuoFern-Umweltsensor*/ ||
 					deviceNumberId == '16234511' /*DuoFern-RolloTron-Comfort-1800/1805/1840*/ ||
 					deviceNumberId == '14236011' /*DuoFern-RolloTron-Pro-Comfort-9800*/ ||
-					deviceNumberId == '23602075' /*DuoFern-S-Line-Motor-Typ-SLDM-10/16-PZ*/) {
+					deviceNumberId == '23602075' /*DuoFern-S-Line-Motor-Typ-SLDM-10/16-PZ*/ ||
+					deviceNumberId == '23783076' /*RolloTube S-line Sun DuoFern SLDSM 30/16PZ*/ ||
+					deviceNumberId == '23784076' /*RolloTube S-line Sun DuoFern SLDSM 40/16PZ*/ ||
+					deviceNumberId == '23782076' /*RolloTube S-line Sun DuoFern SLDSM 50/12PZ*/ ||
+					deviceNumberId == '23785076' /*RolloTube S-line Sun DuoFern SLDSM 50/12PZ*/) {
 			if (0 >= parseInt(input)) {
 				input = 0;
 			} else if (parseInt(input) >= 100) {
@@ -393,7 +397,6 @@ function main() {
     }, 5000);
 }
 
-
 function getPasswordSalt() {
 	request({
 			method: 'POST',
@@ -438,7 +441,6 @@ function getPasswordSalt() {
 		}
 	);
 }
-
 
 function readActuator(link) {
     var unreach = false;
@@ -653,7 +655,6 @@ function readScenes(link) {
 	
     adapter.log.debug('Finished reading Homepilot scene data');
 }
-
 
 function calculatePath(result, type) {
 	if (type == 'Scene') {
@@ -931,12 +932,41 @@ function calculatePath(result, type) {
 		case "32004219":
 			deviceType = 'HD-Kamera-9486';
             break;
-			
+
+        //Versuch ohne zu testen
+        case "23783076":
+            deviceType = "RolloTube S-line Sun DuoFern SLDSM 30/16PZ";
+            deviceRole = 'level.blind';
+
+            if (type == 'Actuator' && !isBridge) {      //???
+                additionalDeviceSettings.push(deviceId);
+            }
+            break;
+
+        //Versuch ohne zu testen
+        case "23784076":
+            deviceType = "RolloTube S-line Sun DuoFern SLDSM 40/16PZ";
+            deviceRole = 'level.blind';
+
+            if (type == 'Actuator' && !isBridge) {      //???
+                additionalDeviceSettings.push(deviceId);
+            }
+            break;
+
+		case "23782076":
+		case "23785076":
+		    deviceType = "RolloTube S-line Sun DuoFern SLDSM 50/12PZ";
+            deviceRole = 'level.blind';
+
+            if (type == 'Actuator' && !isBridge) {      //???
+                additionalDeviceSettings.push(deviceId);
+            }
+		    break;
+
         default:
             adapter.log.debug('Unknown ' + type + ' deviceNumber=' + deviceNumber +'. For implementation, please contact the developer on GIT repo.');
     }
 }
-
 
 function createCommon(result) {
 	var deviceName = result.name;
@@ -1789,7 +1819,6 @@ function createSceneStates(result, type) {
 	deviceType = undefined;
 }
 
-
 function writeCommon(result) {
 	adapter.setState(path + '.deviceNumber', {
 		val: result.deviceNumber,
@@ -2393,8 +2422,25 @@ function doAdditional(toDoList, type) {
 									doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'DUSK_AUTO_CFG', value, 'switch', 'Abenddämmerung', true, "boolean");
 									break;
 
-									
+								case "23783076": /*RolloTube S-line Sun DuoFern SLDSM 30/16PZ*/
+								case "23784076": /*RolloTube S-line Sun DuoFern SLDSM 40/16PZ*/
+								case "23782076": /*RolloTube S-line Sun DuoFern SLDSM 50/12PZ*/
+								case "23785076": /*RolloTube S-line Sun DuoFern SLDSM 50/12PZ*/
+								    var value = (result.payload.device.capabilities.filter((x)=>x.name === "AUTO_MODE_CFG"))[0].value;
+                                    doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'AUTO_MODE_CFG', value, 'switch', 'Automatikbetrieb', true, "boolean");
 
+                                    var value = (result.payload.device.capabilities.filter((x)=>x.name === "TIME_AUTO_CFG"))[0].value;
+                                    doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'TIME_AUTO_CFG', value, 'switch', 'Zeit', true, "boolean");
+
+                                    var value = (result.payload.device.capabilities.filter((x)=>x.name === "SUN_AUTO_CFG"))[0].value;
+                                    doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'SUN_AUTO_CFG', value, 'switch', 'Sonne', true, "boolean");
+
+                                    var value = (result.payload.device.capabilities.filter((x)=>x.name === "DAWN_AUTO_CFG"))[0].value;
+                                    doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'DAWN_AUTO_CFG', value, 'switch', 'Morgendämmerung', true, "boolean");
+
+                                    var value = (result.payload.device.capabilities.filter((x)=>x.name === "DUSK_AUTO_CFG"))[0].value;
+                                    doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'DUSK_AUTO_CFG', value, 'switch', 'Abenddämmerung', true, "boolean");
+								    break;
 
 								case "32501772": /*DuoFern-Bewegungsmelder-9484*/													
 									var value = (result.payload.device.capabilities.filter((x)=>x.name === "ON_DURATION_CFG"))[0].value;
@@ -2511,6 +2557,7 @@ function doAdditional(toDoList, type) {
 		});
 	}
 }
+
 function doAttributeWithTypeNumber(did, path, name, value, role, description) {
 	doAttribute(did, path, name, value, role, description, false, "number");
 }
@@ -2535,7 +2582,6 @@ function doAttribute(did, path, name, value, role, description, changeable, type
 	});
 }
 
-
 function unique(ain) {  
   var seen = {}  
   var aout = []  
@@ -2558,7 +2604,6 @@ function deviceNumberNormalize(deviceNumber) {
 	
 	return deviceNumber;
 }
-
 
 // If started as allInOne/compact mode => return function to create instance
 if (module && module.parent) {

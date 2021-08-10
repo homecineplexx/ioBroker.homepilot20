@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "homepilot20",
-        "version": "0.0.20",
+        "version": "0.0.21",
 		"news": {
+          "0.0.21":{
+                    "en": "Added devices: RolloTube S-line Sun DuoFern SLDSM 30/40/50",
+                    "de": "Hinzugefügte Geräte: RolloTube S-line Sun DuoFern SLDSM 30/40/50",
+                    "ru": "Добавлены устройства: RolloTube S-line Sun DuoFern SLDSM 30/40/50",
+                    "pt": "Dispositivos adicionados: RolloTube S-line Sun DuoFern SLDSM 30/40/50",
+                    "nl": "Toegevoegde apparaten: RolloTube S-line Sun DuoFern SLDSM 30/40/50",
+                    "fr": "Appareils ajoutés : RolloTube S-line Sun DuoFern SLDSM 30/40/50",
+                    "it": "Dispositivi aggiunti: RolloTube S-line Sun DuoFern SLDSM 30/40/50",
+                    "es": "Dispositivos agregados: RolloTube S-line Sun DuoFern SLDSM 30/40/50",
+                    "pl": "Dodane urządzenia: RolloTube S-line Sun DuoFern SLDSM 30/40/50",
+                    "zh-cn": "添加设备：RolloTube S-line Sun DuoFern SLDSM 30/40/50"
+                },
             "0.0.20":{  
 					"en": "Update Readme",
 					"de": "Readme aktualisieren",
@@ -76,7 +88,7 @@
 					"zh-cn": "错误修正-slatposition的写入权限"
 				},
 			"0.0.14":{  
-					"en": "added autmatic mode for some devices",
+					"en": "added automatic mode for some devices",
 					"de": "Automatischer Modus für einige Geräte hinzugefügt",
 					"ru": "добавлен автоматический режим для некоторых устройств",
 					"pt": "adicionado modo automático para alguns dispositivos",
