@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "homepilot20",
-        "version": "0.0.21",
+        "version": "0.0.22",
 		"news": {
+          "0.0.22":{
+            "en": "fixed some issues",
+            "de": "einige Probleme behoben",
+            "ru": "исправил некоторые проблемы",
+            "pt": "consertou alguns problemas",
+            "nl": "een aantal problemen opgelost",
+            "fr": "corrigé quelques problèmes",
+            "it": "risolto alcuni problemi",
+            "es": "solucionó algunos problemas",
+            "pl": "naprawiono kilka problemów",
+            "zh-cn": "修复了一些问题"
+          },
           "0.0.21":{
                     "en": "Added devices: RolloTube S-line Sun DuoFern SLDSM 30/40/50",
                     "de": "Hinzugefügte Geräte: RolloTube S-line Sun DuoFern SLDSM 30/40/50",
