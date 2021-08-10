@@ -16,6 +16,15 @@ Windows: [![AppVeyor](https://ci.appveyor.com/api/projects/status/github/homecin
 
 
 ## Changelog
+### 0.0.23
+* (homecineplexx) Update Readme
+
+### 0.0.22
+* (homecineplexx) fixed some issues
+
+### 0.0.21
+* (homecineplexx) Added devices: RolloTube S-line Sun DuoFern SLDSM 30/40/50
+
 ### 0.0.20
 * (homecineplexx) Update Readme
 

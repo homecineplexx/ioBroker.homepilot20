@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "homepilot20",
-        "version": "0.0.22",
+        "version": "0.0.23",
 		"news": {
+          "0.0.23":{
+            "en": "Update Readme",
+            "de": "Readme aktualisieren",
+            "ru": "Обновить Readme",
+            "pt": "Atualizar Leia-me",
+            "nl": "Update Readme",
+            "fr": "Mettre à jour le fichier Lisez-moi",
+            "it": "Aggiorna il file Leggimi",
+            "es": "Actualizar Léame",
+            "pl": "Zaktualizuj plik Readme",
+            "zh-cn": "更新自述文件"
+          },
           "0.0.22":{
             "en": "fixed some issues",
             "de": "einige Probleme behoben",
