@@ -1453,9 +1453,10 @@ function createSensorStates(result, type) {
 				desc: 'timestamp stored in homepilot for device ' + deviceId,
 				type: 'number',
 				role: 'value',
-				min: 0,
+				min: -1,
 				read: true,
-				write: false
+				write: false,
+				def: 0
 			},
 			native: {}
 		});
@@ -2577,19 +2578,37 @@ function doAttribute(did, path, name, value, role, description, changeable, type
         def = '';
     }
 
-	adapter.setObjectNotExists(path + name, {
-		type: 'state',
-		common: {
-			name: name + '-' + description,
-			desc: 'name stored in homepilot for device ' + did,
-			"type": type,
-			"role": role,
-			"read": true,
-			"def": def,
-			"write": changeable
-		},
-		native: {}
-	});
+    if (description == 'timestamp') {
+        adapter.setObjectNotExists(path + name, {
+        		type: 'state',
+        		common: {
+        			name: name + '-' + description,
+        			desc: 'name stored in homepilot for device ' + did,
+        			"type": type,
+        			"role": role,
+        			"read": true,
+        			"def": def,
+        			"write": changeable,
+        			"min": -1
+        		},
+        		native: {}
+        	});
+    } else {
+        adapter.setObjectNotExists(path + name, {
+        		type: 'state',
+        		common: {
+        			name: name + '-' + description,
+        			desc: 'name stored in homepilot for device ' + did,
+        			"type": type,
+        			"role": role,
+        			"read": true,
+        			"def": def,
+        			"write": changeable
+        		},
+        		native: {}
+        	});
+    }
+
 
     adapter.setState(path + name, {
         val: value,

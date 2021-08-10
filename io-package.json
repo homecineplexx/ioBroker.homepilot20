@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "homepilot20",
-        "version": "0.0.23",
+        "version": "0.0.24",
 		"news": {
+          "0.0.24":{
+            "en": "fix timestamp min value",
+            "de": "Min-Wert für timestamp gefixt",
+            "ru": "исправить минимальное значение временной метки",
+            "pt": "corrigir valor mínimo do carimbo de data / hora",
+            "nl": "fix tijdstempel min waarde",
+            "fr": "correction de la valeur minimale de l'horodatage",
+            "it": "fissare il valore minimo del timestamp",
+            "es": "fijar el valor mínimo de la marca de tiempo",
+            "pl": "napraw minimalną wartość sygnatury czasowej",
+            "zh-cn": "修复时间戳最小值"
+          },
           "0.0.23":{
             "en": "Update Readme",
             "de": "Readme aktualisieren",

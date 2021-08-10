@@ -16,6 +16,9 @@ Windows: [![AppVeyor](https://ci.appveyor.com/api/projects/status/github/homecin
 
 
 ## Changelog
+### 0.0.24
+* (homecineplexx) fix timestamp min value
+
 ### 0.0.23
 * (homecineplexx) Update Readme
 
