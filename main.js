@@ -1821,45 +1821,14 @@ function createSceneStates(result, type) {
 }
 
 function writeCommon(result) {
-    adapter.setState(path + '.deviceNumber', {
-        val: result.deviceNumber,
-        ack: true
-    });
-
-	adapter.setState(path + '.deviceGroup', {
-		val: result.deviceGroup,
-		ack: true
-	});
-	
-	adapter.setState(path + '.description', {
-		val: result.description,
-		ack: true
-	});
-	
-	adapter.setState(path + '.did', {
-		val: result.did,
-		ack: true
-	});
-
-	adapter.setState(path + '.name', {
-		val: result.name,
-		ack: true
-	});
-	
-	adapter.setState(path + '.statusValid', {
-		val: result.statusValid,
-		ack: true
-	});
-
-	adapter.setState(path + '.visible', {
-		val: result.visible,
-		ack: true
-	});
-
-	adapter.setState(path + '.uid', {
-		val: result.uid,
-		ack: true
-	});
+    setCorrectState(path, '.deviceNumber', result.deviceNumber);
+    setCorrectState(path, '.deviceGroup', result.deviceGroup);
+	setCorrectState(path, '.description', result.description);
+	setCorrectState(path, '.did', result.did);
+    setCorrectState(path, '.name', result.name);
+	setCorrectState(path, '.statusValid', result.statusValid);
+    setCorrectState(path, '.visible', result.visible);
+    setCorrectState(path, '.uid', result.uid);
 }
 
 function writeActuatorStates(result, type) {
@@ -1871,24 +1840,15 @@ function writeActuatorStates(result, type) {
 		var deviceId   = result.did;
 		
 		writeCommon(result);
-		
-		adapter.setState(path + '.hasErrors', {
-			val: result.hasErrors,
-			ack: true
-		});
-		
+
+		setCorrectState(path, '.hasErrors', result.hasErrors);
+
 		if (result.hasErrors > 0) {
 			adapter.log.info('Homepilot Device ' + deviceId + ' reports ' + result.hasErrors + ' error: ' + JSON.stringify(result.messages)); 
-			
-			adapter.setState(path + '.messages', {
-				val: JSON.stringify(result.messages),
-				ack: true
-			});
+
+			setCorrectState(path, '.messages', JSON.stringify(result.messages));
 		} else {
-			adapter.setState(path + '.messages', {
-				val: '',
-				ack: true
-			});
+		    setCorrectState(path, '.messages', '');
 		}
 				
 		var value = result.statusesMap.Position;
@@ -1903,95 +1863,48 @@ function writeActuatorStates(result, type) {
 			deviceNumber != '99999981' /*Philips-Hue-Weiße-Lampe*/ &&
 			deviceNumber != '99999982' /*Philips-Hue-Ambiance-Spot*/ &&
 			deviceNumber != '99999983' /*Philips-Hue-RGB-Lampe*/) {
-			adapter.setState(path + '.Position', {
-				val: value,
-				ack: true
-			});
+			setCorrectState(path, '.Position', value);
 		}
 		
 		if (deviceRole == 'level.blind') {
-			adapter.setState(path + '.Position_inverted', {
-				val: (100 -value),
-				ack: true
-			});
+		    setCorrectState(path, '.Position_inverted', (100 -value));
 		}
 		
 		if (deviceNumber == '36500172') {
-			adapter.setState(path + '.slatposition', {
-				val: result.statusesMap.slatposition,
-				ack: true
-			});
+		    setCorrectState(path, '.slatposition', result.statusesMap.slatposition);
 		}
 		
 		if (deviceNumber == '35003064') {
-			adapter.setState(path + '.batteryStatus', {
-				val: result.batteryStatus,
-				ack: true
-			});
-			
-			adapter.setState(path + '.batteryLow', {
-				val: result.batteryLow,
-				ack: true
-			});
-			
-			adapter.setState(path + '.posMin', {
-				val: result.posMin / 10,
-				ack: true
-			});
-			
-			adapter.setState(path + '.posMax', {
-				val: result.posMax / 10,
-				ack: true
-			});	
+		    setCorrectState(path, '.batteryStatus', result.batteryStatus);
+			setCorrectState(path, '.batteryLow', result.batteryLow);
+			setCorrectState(path, '.posMin', result.posMin / 10);
+			setCorrectState(path, '.posMax', result.posMax / 10);
 		}
 	
 		if (deviceNumber == '35003064' ||
 			deviceNumber == '32501812') {
-			adapter.setState(path + '.acttemperatur', {
-				val: result.statusesMap.acttemperatur / 10,
-				ack: true
-			});
+			setCorrectState(path, '.acttemperatur', result.statusesMap.acttemperatur / 10);
 			
 			if (deviceNumber == '32501812') {
-				adapter.setState(path + '.relaisstatus', {
-					val: result.statusesMap.relaisstatus,
-					ack: true
-				});
-				
-				adapter.setState(path + '.automaticvalue', {
-					val: result.statusesMap.automaticvalue,
-					ack: true
-				});
-				
-				adapter.setState(path + '.manualoverride', {
-					val: result.statusesMap.manualoverride,
-					ack: true
-				});
+			    setCorrectState(path, '.relaisstatus', result.statusesMap.relaisstatus);
+				setCorrectState(path, '.automaticvalue', result.statusesMap.automaticvalue);
+				setCorrectState(path, '.manualoverride', result.statusesMap.manualoverride);
 			}
 		}
 		
 		if (deviceNumber == '99999981' /*Philips-Hue-Weiße-Lampe*/ ||
 			deviceNumber == '99999982' /*Philips-Hue-Ambiance-Spot*/ ||
 			deviceNumber == '99999983' /*Philips-Hue-RGB-Lampe*/) {
-			adapter.setState(path + '.Position', {
-				val: result.statusesMap.Position,
-				ack: true
-			});
+			setCorrectState(path, '.Position', result.statusesMap.Position);
 			
 			if (deviceNumber != '99999981' /*Philips-Hue-RGB-Lampe*/) {
-				adapter.setState(path + '.ColorTemperature', {
-					val: result.statusesMap.colortemperature,
-					ack: true
-				});
+			    setCorrectState(path, '.ColorTemperature', result.statusesMap.colortemperature);
 
 				if (deviceNumber != '99999982' /*Philips-Hue-Ambiance-Spot*/) {
 					var rgbValue = result.statusesMap.rgb;
 					rgbValue = rgbValue.startsWith('0x') ? rgbValue.substring(2, rgbValue.length) : rgbValue;
-					
-					adapter.setState(path + '.RGB', {
-						val: rgbValue,
-						ack: true
-					});
+
+					setCorrectState(path, '.RGB', rgbValue);
 				}
 			}
 		} 
@@ -2013,86 +1926,46 @@ function writeSensorStates(result, type) {
 		
 		writeCommon(result);
 
-		adapter.setState(path + '.timestamp', {
-			val: result.timestamp,
-			ack: true
-		});
+        setCorrectState(path, '.timestamp', result.timestamp);
 
 		if (deviceNumber == '32001664' /*DuoFern-Rauchmelder-9481*/) {
-			adapter.setState(path + '.smoke_detected', {
-				val: result.readings.smoke_detected,
-				ack: true
-			});
+		    setCorrectState(path, '.smoke_detected', result.readings.smoke_detected);
 		}
 		
 		if (deviceNumber == '32501772' /*DuoFern-Bewegungsmelder-9484*/ ||
 			deviceNumber == '32004329' /*HD-Kamera-9487-A*/ ||
 			deviceNumber == '32004119' /*IP-Kamera 9483*/ ||
 			deviceNumber == '32004219' /*HD-Kamera-9486*/) {
-			adapter.setState(path + '.movement_detected', {
-				val: result.readings.movement_detected,
-				ack: true
-			});
+			setCorrectState(path, '.movement_detected', result.readings.movement_detected);
 		}
 		
 		if (deviceNumber == '32000064' /*DuoFern-Umweltsensor*/) {
-			adapter.setState(path + '.sun_brightness', {
-				val: result.readings.sun_brightness,
-				ack: true
-			});
-			
-			adapter.setState(path + '.sun_direction', {
-				val: result.readings.sun_direction,
-				ack: true
-			});
-			
-			adapter.setState(path + '.sun_elevation', {
-				val: result.readings.sun_elevation,
-				ack: true
-			});
-			
-			adapter.setState(path + '.wind_speed', {
-				val: result.readings.wind_speed,
-				ack: true
-			});
-			
-			adapter.setState(path + '.rain_detected', {
-				val: result.readings.rain_detected,
-				ack: true
-			});
+		    setCorrectState(path, '.sun_brightness', result.readings.sun_brightness);
+			setCorrectState(path, '.sun_direction', result.readings.sun_direction);
+			setCorrectState(path, '.sun_elevation', result.readings.sun_elevation);
+			setCorrectState(path, '.wind_speed', result.readings.wind_speed);
+			setCorrectState(path, '.rain_detected', result.readings.rain_detected);
 		}
 		
 		if (deviceNumber == '99999998' /*GeoPilot (Handy)*/ ||
 			deviceNumber == '99999999' /*GeoPilot (Handy)*/) {
-			adapter.setState(path + '.area_entered', {
-				val: result.readings.area_entered,
-				ack: true
-			});
+			setCorrectState(path, '.area_entered', result.readings.area_entered);
 		}
 		
 		if (deviceNumber == '36500572' /*Duofern-Troll-Comfort-5665*/ ||
 			deviceNumber == '32000064' /*DuoFern-Umweltsensor*/ ||
 			deviceNumber == '32000069' /*DuoFern-Sonnensensor-9478*/ ||
 			deviceNumber == '16234511' /*DuoFern-RolloTron-Comfort-1800/1805/1840*/) {
-			adapter.setState(path + '.sun_detected', {
-				val: result.readings.sun_detected,
-				ack: true
-			});
+			setCorrectState(path, '.sun_detected', result.readings.sun_detected);
 		}
 		
 		if (deviceNumber == '32501812' /*DuoFern-Raumthermostat*/ ||
 			deviceNumber == '32000064' /*DuoFern-Umweltsensor*/) {
-			adapter.setState(path + '.temperature_primary', {
-				val: result.readings.temperature_primary,
-				ack: true
-			});
+			setCorrectState(path, '.temperature_primary', result.readings.temperature_primary);
 		}
 		
-		if (deviceNumber == '32501812' /*DuoFern-Raumthermostat*/) {		
-			adapter.setState(path + '.temperature_target', {
-				val: result.readings.temperature_target,
-				ack: true
-			});
+		if (deviceNumber == '32501812' /*DuoFern-Raumthermostat*/) {
+		    setCorrectState(path, '.temperature_target', result.readings.temperature_target);
 		} 
 		
 		if (deviceNumber == '32002119' /*Z-Wave-FensterTürkontakt*/ ||
@@ -2101,25 +1974,16 @@ function writeSensorStates(result, type) {
 			deviceNumber == '32001664' /*DuoFern-Rauchmelder-9481*/) {
 			
 			if (deviceNumber != '32001664' /*DuoFern-Rauchmelder-9481*/) {
-				adapter.setState(path + '.contact_state', {
-					val: result.readings.contact_state,
-					ack: true
-				});
+			    setCorrectState(path, '.contact_state', result.readings.contact_state);
 			}
 			
 			if (deviceNumber != '32000062' /*DuoFern-Funksender-UP-9497*/) {
-				adapter.setState(path + '.batteryStatus', {
-					val: result.batteryStatus,
-					ack: true
-				});
+			    setCorrectState(path, '.batteryStatus', result.batteryStatus);
 			}
 			
 			if (deviceNumber == '32003164' /*DuoFern-FensterTürkontakt-9431*/ ||
 				deviceNumber == '32001664' /*DuoFern-Rauchmelder-9481*/) {
-				adapter.setState(path + '.batteryLow', {
-					val: result.batteryLow,
-					ack: true
-				});
+				setCorrectState(path, '.batteryLow', result.batteryLow);
 			}
 		}
 		
@@ -2146,10 +2010,7 @@ function writeTransmitterStates(result, type) {
 			deviceNumber == '32480366' /*DuoFern-Handsender-Standard-9491*/ ||
 			deviceNumber == '32480361' /*DuoFern-Handsender-Standard-9491-2*/ ||
 			deviceNumber == '32501973' /*DuoFern-Wandtaster-1-Kanal-9494-3*/) {
-				adapter.setState(path + '.batteryLow', {
-					val: result.batteryLow,
-					ack: true
-				});
+			    setCorrectState(path, '.batteryLow', result.batteryLow);
 		}
 		
 		adapter.log.debug(type + ' states for ' + deviceId + ' written');
@@ -2165,26 +2026,11 @@ function writeSceneStates(result, type) {
 		
 	if (deviceType !== undefined) {
 		var sid   = result.sid;
-		
-		adapter.setState(path + '.description', {
-			val: result.description,
-			ack: true
-		});
-		
-		adapter.setState(path + '.active', {
-			val: result.active,
-			ack: true
-		});
-		
-		adapter.setState(path + '.isExecutable', {
-			val: result.isExecutable,
-			ack: true
-		});
-		
-		adapter.setState(path + '.name', {
-			val: result.name,
-			ack: true
-		});
+
+		setCorrectState(path, '.description', result.description);
+		setCorrectState(path, '.active', result.active);
+		setCorrectState(path, '.isExecutable', result.isExecutable);
+		setCorrectState(path, '.name', result.name);
 	}
 }
 
@@ -2559,15 +2405,15 @@ function doAdditional(toDoList, type) {
 	}
 }
 
-function doAttributeWithTypeNumber(did, path, name, value, role, description) {
+async function doAttributeWithTypeNumber(did, path, name, value, role, description) {
 	doAttribute(did, path, name, value, role, description, false, "number");
 }
 
-function doAttributeWithTypeBoolean(did, path, name, value, role, description, changeable) {
+async function doAttributeWithTypeBoolean(did, path, name, value, role, description, changeable) {
     doAttribute(did, path, name, value, role, description, true, "boolean");
 }
 
-function doAttribute(did, path, name, value, role, description, changeable, type) {
+async function doAttribute(did, path, name, value, role, description, changeable, type) {
     var def = '';
 
     if (type == "boolean") {
@@ -2609,11 +2455,22 @@ function doAttribute(did, path, name, value, role, description, changeable, type
         	});
     }
 
+    setCorrectState(path, name, value);
+}
 
-    adapter.setState(path + name, {
-        val: value,
-        ack: true
-    });
+async function setCorrectState(path, name, value) {
+    try {
+        const obj = await adapter.getObjectAsync(path + name);
+
+        if (obj) {
+            adapter.setState(path + name, {
+                val: value,
+                ack: true
+            });
+        }
+    } catch (err) {
+      adapter.log.warn('State ' + path + name + ' does not exist at the moment! ' + err);
+    }
 }
 
 function unique(ain) {  
