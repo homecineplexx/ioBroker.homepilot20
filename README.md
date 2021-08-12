@@ -16,6 +16,9 @@ Windows: [![AppVeyor](https://ci.appveyor.com/api/projects/status/github/homecin
 
 
 ## Changelog
+### 0.0.29
+* (homecineplexx) fix some issues found by adapter checker
+fix some issues found by adapter checker
 ### 0.0.28
 * (homecineplexx) fix some issues found by adapter checker
 

@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "homepilot20",
-        "version": "0.0.28",
+        "version": "0.0.29",
 		"news": {
+          "0.0.29":{
+            "en": "fix some issues found by adapter checker",
+            "de": "einige Probleme behoben, die vom Adapter-Checker gefunden wurden",
+            "ru": "исправить некоторые проблемы, обнаруженные программой проверки адаптеров",
+            "pt": "corrigir alguns problemas encontrados pelo verificador de adaptador",
+            "nl": "enkele problemen oplossen die zijn gevonden door adaptercontrole",
+            "fr": "résoudre certains problèmes détectés par le vérificateur d'adaptateur",
+            "it": "risolvere alcuni problemi rilevati dal controllo adattatore",
+            "es": "solucionar algunos problemas encontrados por el verificador de adaptadores",
+            "pl": "napraw niektóre problemy znalezione przez kontroler adaptera",
+            "zh-cn": "修复适配器检查器发现的一些问题"
+          },
           "0.0.28":{
             "en": "fix some issues found by adapter checker",
             "de": "einige Probleme behoben, die vom Adapter-Checker gefunden wurden",
@@ -195,8 +207,8 @@
                 "js-controller": ">=1.4.2"
             }
         ],
-        "connectionType": "none",
-        "dataSource": "none"
+        "connectionType": "local",
+        "dataSource": "poll"
     },
     "native":{  
         "homepilotip":"",
