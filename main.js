@@ -1766,7 +1766,7 @@ function createSceneStates(result, type) {
 				desc: 'active stored in homepilot for scene ' + sid,
 				type: 'number',
 				role: deviceRole,
-				def: false,
+				def: 0,
 				read: true,
 				write: true
 			},
@@ -1780,7 +1780,7 @@ function createSceneStates(result, type) {
 				desc: 'isExecutable stored in homepilot for scene ' + sid,
 				type: 'number',
 				role: 'text',
-				def: true,
+				def: 0,
 				read: true,
 				write: false
 			},
@@ -2419,7 +2419,7 @@ async function doAttribute(did, path, name, value, role, description, changeable
     if (type == "boolean") {
         def = false;
     } else if (type == "number") {
-        def = '0';
+        def = 0;
     } else if (type == "string") {
         def = '';
     }

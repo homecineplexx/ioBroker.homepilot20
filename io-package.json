@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "homepilot20",
-        "version": "0.0.25",
+        "version": "0.0.26",
 		"news": {
+          "0.0.26":{
+            "en": "fix warnings during startup",
+            "de": "Warnungen beim Start beheben",
+            "ru": "исправить предупреждения при запуске",
+            "pt": "corrigir avisos durante a inicialização",
+            "nl": "waarschuwingen oplossen tijdens opstarten",
+            "fr": "corriger les avertissements au démarrage",
+            "it": "correggere gli avvisi durante l'avvio",
+            "es": "corregir advertencias durante el inicio",
+            "pl": "napraw ostrzeżenia podczas uruchamiania",
+            "zh-cn": "修复启动期间的警告"
+          },
           "0.0.25":{
             "en": "fix warnings during startup",
             "de": "Warnungen beim Start beheben",
