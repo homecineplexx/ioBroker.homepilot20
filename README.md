@@ -16,6 +16,9 @@ Windows: [![AppVeyor](https://ci.appveyor.com/api/projects/status/github/homecin
 
 
 ## Changelog
+### 0.0.27
+* (homecineplexx) Update Readme
+
 ### 0.0.26
 * (homecineplexx) fix warnings during startup
 
