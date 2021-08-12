@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "homepilot20",
-        "version": "0.0.27",
+        "version": "0.0.28",
 		"news": {
+          "0.0.28":{
+            "en": "fix some issues found by adapter checker",
+            "de": "einige Probleme behoben, die vom Adapter-Checker gefunden wurden",
+            "ru": "исправить некоторые проблемы, обнаруженные программой проверки адаптеров",
+            "pt": "corrigir alguns problemas encontrados pelo verificador de adaptador",
+            "nl": "enkele problemen oplossen die zijn gevonden door adaptercontrole",
+            "fr": "résoudre certains problèmes détectés par le vérificateur d'adaptateur",
+            "it": "risolvere alcuni problemi rilevati dal controllo adattatore",
+            "es": "solucionar algunos problemas encontrados por el verificador de adaptadores",
+            "pl": "napraw niektóre problemy znalezione przez kontroler adaptera",
+            "zh-cn": "修复适配器检查器发现的一些问题"
+          },
           "0.0.27":{
             "en": "Update Readme",
             "de": "Readme aktualisieren",
@@ -122,211 +134,7 @@
 					"es": "solucionar problema con los modos Bridge y automático",
 					"pl": "naprawiono problem z trybami Bridge i automatycznymi",
 					"zh-cn": "修復網橋和自動模式的問題"
-				},
-			"0.0.17":{  
-					"en": "added autmatic mode for two more devices",
-					"de": "Automatischer Modus für zwei weitere Geräte hinzugefügt",
-					"ru": "добавлен автоматический режим еще для двух устройств",
-					"pt": "adicionado modo automático para mais dois dispositivos",
-					"nl": "automatische modus toegevoegd voor nog twee apparaten",
-					"fr": "ajout du mode automatique pour deux autres appareils",
-					"it": "aggiunta la modalità automatica per altri due dispositivi",
-					"es": "modo automático agregado para dos dispositivos más",
-					"pl": "dodano tryb automatyczny dla dwóch kolejnych urządzeń",
-					"zh-cn": "為另外兩個設備添加了自動模式"
-				},
-			"0.0.16":{  
-					"en": "correction of slatposition command (SET_SLAT_POS_CMD)",
-					"de": "Korrektur des Slatposition-Befehls (SET_SLAT_POS_CMD)",
-					"ru": "команда коррекции положения предкрылка (SET_SLAT_POS_CMD)",
-					"pt": "correção do comando slatposition (SET_SLAT_POS_CMD)",
-					"nl": "correctie van het commando lamellenpositie (SET_SLAT_POS_CMD)",
-					"fr": "commande de correction de la position des lamelles (SET_SLAT_POS_CMD)",
-					"it": "correzione del comando slatposition (SET_SLAT_POS_CMD)",
-					"es": "comando de corrección de la posición de lamas (SET_SLAT_POS_CMD)",
-					"pl": "korekta polecenia położenia listwy (SET_SLAT_POS_CMD)",
-					"zh-cn": "板条位置命令的更正（SET_SLAT_POS_CMD）"
-				},
-			"0.0.15":{  
-					"en": "bugfix - write permissions for slatposition",
-					"de": "Bugfix - Schreibberechtigungen für Slatposition",
-					"ru": "bugfix - права на запись для slatposition",
-					"pt": "correção de bug - permissões de gravação para slatposition",
-					"nl": "bugfix - schrijfrechten voor slatposition",
-					"fr": "bugfix - autorisations d'écriture pour slatposition",
-					"it": "bugfix - permessi di scrittura per slatposition",
-					"es": "corrección de errores: permisos de escritura para la posición de lamas",
-					"pl": "bugfix - uprawnienia do zapisu pozycji slatposition",
-					"zh-cn": "错误修正-slatposition的写入权限"
-				},
-			"0.0.14":{  
-					"en": "added automatic mode for some devices",
-					"de": "Automatischer Modus für einige Geräte hinzugefügt",
-					"ru": "добавлен автоматический режим для некоторых устройств",
-					"pt": "adicionado modo automático para alguns dispositivos",
-					"nl": "automatische modus toegevoegd voor sommige apparaten",
-					"fr": "ajout du mode automatique pour certains appareils",
-					"it": "aggiunta la modalità automatica per alcuni dispositivi",
-					"es": "modo automático agregado para algunos dispositivos",
-					"pl": "dodano tryb automatyczny dla niektórych urządzeń",
-					"zh-cn": "为某些设备添加了自动模式"
-				},
-			"0.0.13":{  
-					"en": "added SLATPOSITION setting for DuoFern-TrollBasis-5615 (testversion)",
-					"de": "SLATPOSITION-Einstellung für DuoFern-TrollBasis-5615 hinzugefügt (Testversion)",
-					"ru": "добавлена настройка SLATPOSITION для DuoFern-TrollBasis-5615 (тестовая версия)",
-					"pt": "adicionada configuração SLATPOSITION para DuoFern-TrollBasis-5615 (versão de teste)",
-					"nl": "SLATPOSITION-instelling toegevoegd voor DuoFern-TrollBasis-5615 (testversie)",
-					"fr": "Ajout du paramètre SLATPOSITION pour DuoFern-TrollBasis-5615 (version test)",
-					"it": "aggiunta l'impostazione SLATPOSITION per DuoFern-TrollBasis-5615 (versione test)",
-					"es": "agregada configuración SLATPOSITION para DuoFern-TrollBasis-5615 (versión de prueba)",
-					"pl": "dodano ustawienie SLATPOSITION dla DuoFern-TrollBasis-5615 (wersja testowa)",
-					"zh-cn": "为DuoFern-TrollBasis-5615添加了SLATPOSITION设置（测试版）"
-				},
-			"0.0.12":{  
-					"en": "Support of the Bridge",
-					"de": "Unterstützung der Bridge",
-					"ru": "опора моста",
-					"pt": "suporte da ponte",
-					"nl": "ondersteuning van de brug",
-					"fr": "support du pont",
-					"it": "supporto del ponte",
-					"es": "apoyo del puente",
-					"pl": "wsparcie mostu",
-					"zh-cn": "橋樑的支撐"
-				},
-			"0.0.11":{  
-					"en": "Support for INC_CMD and DEC_CMD",
-					"de": "Unterstützung für INC_CMD und DEC_CMD",
-					"ru": "Поддержка INC_CMD и DEC_CMD",
-					"pt": "Suporte para INC_CMD e DEC_CMD",
-					"nl": "Ondersteuning voor INC_CMD en DEC_CMD",
-					"fr": "Prise en charge de INC_CMD et DEC_CMD",
-					"it": "Supporto per INC_CMD e DEC_CMD",
-					"es": "Soporte para INC_CMD y DEC_CMD",
-					"pl": "Obsługa INC_CMD i DEC_CMD",
-					"zh-cn": "支持INC_CMD和DEC_CMD"
-				},
-			"0.0.10":{  
-					"en":"bugfix for version 0.0.9",
-					"de":"Bugfix für Version 0.0.9",
-					"ru":"исправление для версии 0.0.9",
-					"pt": "bugfix para a versão 0.0.9",
-					"nl": "bugfix voor versie 0.0.9",
-					"fr": "correction de bogue pour la version 0.0.9",
-					"it": "bugfix per versione 0.0.9",
-					"es": "corrección de errores para la versión 0.0.9",
-					"pl": "poprawka dla wersji 0.0.9",
-					"zh-cn": "版本0.0.9的错误修正"
-				},
-			"0.0.9":{  
-					"en":"bugfix for version 0.0.8",
-					"de":"Bugfix für Version 0.0.8",
-					"ru":"исправление для версии 0.0.8",
-					"pt": "bugfix para a versão 0.0.8",
-					"nl": "bugfix voor versie 0.0.8",
-					"fr": "correction de bogue pour la version 0.0.8",
-					"it": "bugfix per versione 0.0.8",
-					"es": "corrección de errores para la versión 0.0.8",
-					"pl": "poprawka dla wersji 0.0.8",
-					"zh-cn": "版本0.0.8的错误修正"
-				},
-			"0.0.8":{  
-					"en":"Added 1 more device",
-					"de":"1 weiteres Gerät hinzugefügt",
-					"ru":"Добавлено еще 1 устройство",
-					"pt": "Adicionado mais 1 dispositivo",
-					"nl": "Nog 1 apparaat toegevoegd",
-					"fr": "Ajout d'un appareil supplémentaire",
-					"it": "Aggiunto 1 altro dispositivo",
-					"es": "Se agregó 1 dispositivo más",
-					"pl": "Dodano 1 dodatkowe urządzenie",
-					"zh-cn": "添加了1个设备"
-				},
-			"0.0.7":{  
-                "en":"Added 1 more device",
-                "de":"1 weiteres Gerät hinzugefügt",
-                "ru":"Добавлено еще 1 устройство",
-				"pt": "Adicionado mais 1 dispositivo",
-                "nl": "Nog 1 apparaat toegevoegd",
-                "fr": "Ajout d'un appareil supplémentaire",
-                "it": "Aggiunto 1 altro dispositivo",
-                "es": "Se agregó 1 dispositivo más",
-                "pl": "Dodano 1 dodatkowe urządzenie",
-                "zh-cn": "添加了1个设备"
-            },
-			"0.0.6":{  
-                "en":"Added 5 more devices",
-                "de":"5 weitere Geräte hinzugefügt",
-                "ru":"Добавлено еще 5 устройства",
-				"pt": "Adicionado mais 5 dispositivos",
-                "nl": "Nog 5 apparaten toegevoegd",
-                "fr": "Ajout de 5 appareils supplémentaires",
-                "it": "Aggiunti altri 5 dispositivi",
-                "es": "Se agregaron 5 dispositivos más",
-                "pl": "Dodano 5 kolejne urządzenia",
-                "zh-cn": "增加了5个设备"
-            },
-			"0.0.5":{  
-                "en":"Added 3 more devices",
-                "de":"3 weitere Geräte hinzugefügt",
-                "ru":"Добавлено еще 3 устройства",
-				"pt": "Adicionado mais 3 dispositivos",
-                "nl": "Nog 3 apparaten toegevoegd",
-                "fr": "Ajout de 3 appareils supplémentaires",
-                "it": "Aggiunti altri 3 dispositivi",
-                "es": "Se agregaron 3 dispositivos más",
-                "pl": "Dodano 3 kolejne urządzenia",
-                "zh-cn": "增加了3个设备"
-            },
-			"0.0.4":{  
-                "en":"fixed wrong unreach state of Homepilot 2",
-                "de":"Falscher Unreach-Status von Homepilot 2 behoben",
-                "ru":"исправлено неправильное состояние недоступности Homepilot 2",
-				"pt": "Corrigido estado incorreto de não alcance da Homepilot 2",
-                "nl": "foutieve onbereikbare status van Homepilot 2 opgelost",
-                "fr": "correction du mauvais état non atteint de Homepilot 2",
-                "it": "risolto lo stato irraggiungibile di Homepilot 2",
-                "es": "Se corrigió el estado de incumplimiento incorrecto de Homepilot 2",
-                "pl": "naprawiono zły stan nieosiągnięcia Homepilota 2",
-                "zh-cn": "修复Homepilot 2的错误未到达状态"
-            },
-			"0.0.3":{  
-                "en":"added scenes and error messages to the datapoint",
-                "de":"Dem Datenpunkt wurden Szenen und Fehlermeldungen hinzugefügt",
-                "ru":"добавлены сцены и сообщения об ошибках в точку данных",
-				"pt": "cenas adicionadas e mensagens de erro ao ponto de dados",
-                "nl": "scènes en foutmeldingen toegevoegd aan het datapunt",
-                "fr": "ajout de scènes et de messages d'erreur au point de donnée",
-                "it": "aggiunte scene e messaggi di errore al punto dati",
-                "es": "escenas agregadas y mensajes de error al punto de datos",
-                "pl": "dodano sceny i komunikaty o błędach do punktu danych",
-                "zh-cn": "向数据点添加了场景和错误消息"
-            },
-			"0.0.2":{  
-                "en":"a lot of bug fixes",
-                "de":"viele Bugfixes",
-                "ru":"много исправлений ошибок",
-				"pt": "muitas correções de bugs",
-                "nl": "veel bugfixes",
-                "fr": "beaucoup de corrections de bugs",
-                "it": "molte correzioni di bug",
-                "es": "muchas correcciones de errores",
-                "pl": "wiele naprawionych błędów",
-                "zh-cn": "许多错误修复"
-            },
-            "0.0.1": {
-                "en": "initial release",
-                "de": "Erstveröffentlichung",
-                "ru": "Начальная версия",
-                "pt": "lançamento inicial",
-                "nl": "Eerste uitgave",
-                "fr": "Première version",
-                "it": "Versione iniziale",
-                "es": "Versión inicial",
-                "pl": "Pierwsze wydanie",
-                "zh-cn": "首次出版"
-            }
+				}
         },
         "title": "Homepilot 2.0",
         "titleLang": {
@@ -386,7 +194,9 @@
             {
                 "js-controller": ">=1.4.2"
             }
-        ]
+        ],
+        "connectionType": "none",
+        "dataSource": "none"
     },
     "native":{  
         "homepilotip":"",

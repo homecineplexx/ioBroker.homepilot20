@@ -16,6 +16,9 @@ Windows: [![AppVeyor](https://ci.appveyor.com/api/projects/status/github/homecin
 
 
 ## Changelog
+### 0.0.28
+* (homecineplexx) fix some issues found by adapter checker
+
 ### 0.0.27
 * (homecineplexx) Update Readme
 
@@ -125,7 +128,7 @@ Windows: [![AppVeyor](https://ci.appveyor.com/api/projects/status/github/homecin
 ## License
 MIT License
 
-Copyright (c) 2020 homecineplexx <chris.homecineplexx@gmail.com>
+Copyright (c) 2021 homecineplexx <chris.homecineplexx@gmail.com>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
