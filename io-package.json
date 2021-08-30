@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "homepilot20",
-        "version": "0.0.29",
+        "version": "0.0.30",
 		"news": {
+          "0.0.30":{
+            "en": "added slatposition to device 35000662",
+            "de": "slatposition zum Gerät hinzugefügt 3500662",
+            "ru": "добавлено положение предкрылка к устройству 35000662",
+            "pt": "adicionou slatposition ao dispositivo 35000662",
+            "nl": "toegevoegde lamellenpositie aan apparaat 35000662",
+            "fr": "ajout de la position des lamelles à l'appareil 350000662",
+            "it": "aggiunta la posizione delle lamelle al dispositivo 35000662",
+            "es": "posición de lamas añadida al dispositivo 35000662",
+            "pl": "dodano pozycję listew do urządzenia 35000662",
+            "zh-cn": "将 slatposition 添加到设备 35000662"
+          },
           "0.0.29":{
             "en": "fix some issues found by adapter checker",
             "de": "einige Probleme behoben, die vom Adapter-Checker gefunden wurden",

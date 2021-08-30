@@ -123,7 +123,8 @@ function controlHomepilot(id, input) {
 	} else if (id.indexOf('slatposition') !== -1) {
 		calcUri = 'http://' + ip + '/devices/' + deviceId;
 		
-		if (deviceNumberId == '36500172' /*DuoFern-TrollBasis-5615*/) {
+		if (deviceNumberId == '36500172' /*DuoFern-TrollBasis-5615*/ ||
+		    deviceNumber == '35000662' /*DuoFern-Rohrmotor-Aktor*/) {
 			if (0 >= parseInt(input)) {
 				input = 0;
 			} else if (parseInt(input) >= 100) {
@@ -1175,7 +1176,8 @@ function createActuatorStates(result, type) {
 				});
 			}
 			
-			if (deviceNumber == '36500172') {
+			if (deviceNumber == '36500172' ||
+			    deviceNumber == '35000662') {
 				adapter.setObjectNotExists(path + '.slatposition', {
 					type: 'state',
 					common: {
@@ -1870,7 +1872,8 @@ function writeActuatorStates(result, type) {
 		    setCorrectState(path, '.Position_inverted', (100 -value));
 		}
 		
-		if (deviceNumber == '36500172') {
+		if (deviceNumber == '36500172' ||
+		    deviceNumber == '35000662') {
 		    setCorrectState(path, '.slatposition', result.statusesMap.slatposition);
 		}
 		
