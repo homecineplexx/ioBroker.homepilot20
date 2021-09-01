@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "homepilot20",
-        "version": "0.0.30",
+        "version": "0.0.31",
 		"news": {
+          "0.0.31":{
+            "en": "Fixed issues with motion detector",
+            "de": "Probleme mit dem Bewegungsmelder gelöst",
+            "ru": "Исправлены проблемы с детектором движения",
+            "pt": "Problemas corrigidos com detector de movimento",
+            "nl": "Problemen met bewegingsdetector opgelost",
+            "fr": "Correction de problèmes avec le détecteur de mouvement",
+            "it": "Risolti problemi con il rilevatore di movimento",
+            "es": "Problemas resueltos con el detector de movimiento",
+            "pl": "Naprawiono problemy z detektorem ruchu",
+            "zh-cn": "修复了运动检测器的问题"
+          },
           "0.0.30":{
             "en": "added slatposition to device 35000662",
             "de": "slatposition zum Gerät hinzugefügt 3500662",

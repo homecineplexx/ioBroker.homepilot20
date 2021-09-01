@@ -2294,52 +2294,53 @@ function doAdditional(toDoList, type) {
 
 								case "32501772": /*DuoFern-Bewegungsmelder-9484*/													
 									var value = (result.payload.device.capabilities.filter((x)=>x.name === "ON_DURATION_CFG"))[0].value;
-									doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'ON_DURATION_CFG', value, 'text', 'value');
+									doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'ON_DURATION_CFG.value', value, 'text', 'value', false, "string");
 									
 									value = (result.payload.device.capabilities.filter((x)=>x.name === "ON_DURATION_CFG"))[0].timestamp;
-									doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'ON_DURATION_CFG', value, 'value.datetime', 'timestamp');
-																		
+									doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'ON_DURATION_CFG.timestamp', value, 'value.datetime', 'timestamp', false, "number");
+
 									value = (result.payload.device.capabilities.filter((x)=>x.name === "BUTTON_MODE_CFG"))[0].value;
-									doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'BUTTON_MODE_CFG', value, 'text', 'value');
-									
-									value = (result.payload.device.capabilities.filter((x)=>x.name === "BUTTON_MODE_CFG"))[0].timestamp;
-									doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'BUTTON_MODE_CFG', value, 'value.datetime', 'timestamp');
-																		
-									value = (result.payload.device.capabilities.filter((x)=>x.name === "SENSOR_SENSITIVITY_CFG"))[0].value;
-									doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'SENSOR_SENSITIVITY_CFG', value, 'text', 'value');
-									
-									value = (result.payload.device.capabilities.filter((x)=>x.name === "SENSOR_SENSITIVITY_CFG"))[0].timestamp;
-									doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'SENSOR_SENSITIVITY_CFG', value, 'value.datetime', 'timestamp');
-									
-									value = (result.payload.device.capabilities.filter((x)=>x.name === "MOVE_STOP_EVT"))[0].timestamp;
-									doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'MOVE_STOP_EVT', value, 'value.datetime', 'timestamp');
-									
-									value = (result.payload.device.capabilities.filter((x)=>x.name === "MOVE_START_EVT"))[0].timestamp;
-									doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'MOVE_START_EVT', value, 'value.datetime', 'timestamp');
-																
-									value = (result.payload.device.capabilities.filter((x)=>x.name === "LIGHT_VAL_LUX_MEA"))[0].value;
-									doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'LIGHT_VAL_LUX_MEA', value, 'text', 'value');
-									
-									value = (result.payload.device.capabilities.filter((x)=>x.name === "LIGHT_VAL_LUX_MEA"))[0].timestamp;
-									doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'LIGHT_VAL_LUX_MEA', value, 'value.datetime', 'timestamp');
+                                    doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'BUTTON_MODE_CFG.value', value, 'text', 'value', false, "string");
 
-									value = (result.payload.device.capabilities.filter((x)=>x.name === "LED_BEHAV_MODE_CFG"))[0].value;
-									doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'LED_BEHAV_MODE_CFG', value, 'text', 'value');
-									
-									value = (result.payload.device.capabilities.filter((x)=>x.name === "LED_BEHAV_MODE_CFG"))[0].timestamp;
-									doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'LED_BEHAV_MODE_CFG', value, 'value.datetime', 'timestamp');
+                                    value = (result.payload.device.capabilities.filter((x)=>x.name === "BUTTON_MODE_CFG"))[0].timestamp;
+                                    doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'BUTTON_MODE_CFG.timestamp', value, 'value.datetime', 'timestamp', false, "number");
 
-									value = (result.payload.device.capabilities.filter((x)=>x.name === "CURR_BRIGHTN_CFG"))[0].value;
-									doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'CURR_BRIGHTN_CFG', value, 'text', 'value');
-									
-									value = (result.payload.device.capabilities.filter((x)=>x.name === "CURR_BRIGHTN_CFG"))[0].timestamp;
-									doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'CURR_BRIGHTN_CFG', value, 'value.datetime', 'timestamp');
+                                    value = (result.payload.device.capabilities.filter((x)=>x.name === "SENSOR_SENSITIVITY_CFG"))[0].value;
+                                    doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'SENSOR_SENSITIVITY_CFG.value', value, 'text', 'value', false, "string");
 
-									value = (result.payload.device.capabilities.filter((x)=>x.name === "MOTION_DETECTION_MEA"))[0].value;
-									doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'MOTION_DETECTION_MEA', value, 'text', 'value');
-									
-									value = (result.payload.device.capabilities.filter((x)=>x.name === "MOTION_DETECTION_MEA"))[0].timestamp;
-									doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'MOTION_DETECTION_MEA', value, 'value.datetime', 'timestamp');
+                                    value = (result.payload.device.capabilities.filter((x)=>x.name === "SENSOR_SENSITIVITY_CFG"))[0].timestamp;
+                                    doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'SENSOR_SENSITIVITY_CFG.timestamp', value, 'value.datetime', 'timestamp', false, "number");
+
+                                    value = (result.payload.device.capabilities.filter((x)=>x.name === "MOVE_STOP_EVT"))[0].timestamp;
+                                    doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'MOVE_STOP_EVT', value, 'value.datetime', 'timestamp', false, "number");
+
+                                    value = (result.payload.device.capabilities.filter((x)=>x.name === "MOVE_START_EVT"))[0].timestamp;
+                                    doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'MOVE_START_EVT', value, 'value.datetime', 'timestamp', false, "number");
+
+                                    value = (result.payload.device.capabilities.filter((x)=>x.name === "LIGHT_VAL_LUX_MEA"))[0].value;
+                                    doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'LIGHT_VAL_LUX_MEA.value', value, 'text', 'value', false, "string");
+
+                                    value = (result.payload.device.capabilities.filter((x)=>x.name === "LIGHT_VAL_LUX_MEA"))[0].timestamp;
+                                    doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'LIGHT_VAL_LUX_MEA.timestamp', value, 'value.datetime', 'timestamp', false, "number");
+
+                                    value = (result.payload.device.capabilities.filter((x)=>x.name === "LED_BEHAV_MODE_CFG"))[0].value;
+                                    doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'LED_BEHAV_MODE_CFG.value', value, 'text', 'value', false, "string");
+
+                                    value = (result.payload.device.capabilities.filter((x)=>x.name === "LED_BEHAV_MODE_CFG"))[0].timestamp;
+                                    doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'LED_BEHAV_MODE_CFG.timestamp', value, 'value.datetime', 'timestamp', false, "number");
+
+                                    value = (result.payload.device.capabilities.filter((x)=>x.name === "CURR_BRIGHTN_CFG"))[0].value;
+                                    doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'CURR_BRIGHTN_CFG.value', value, 'text', 'value', false, "string");
+
+                                    value = (result.payload.device.capabilities.filter((x)=>x.name === "CURR_BRIGHTN_CFG"))[0].timestamp;
+                                    doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'CURR_BRIGHTN_CFG.timestamp', value, 'value.datetime', 'timestamp', false, "number");
+
+                                    value = (result.payload.device.capabilities.filter((x)=>x.name === "MOTION_DETECTION_MEA"))[0].value;
+                                    doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'MOTION_DETECTION_MEA.value', value, 'text', 'value', false, "string");
+
+                                    value = (result.payload.device.capabilities.filter((x)=>x.name === "MOTION_DETECTION_MEA"))[0].timestamp;
+                                    doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'MOTION_DETECTION_MEA.timestamp', value, 'value.datetime', 'timestamp', false, "number");
+
 									break;
 								
 								case "32501972": /*DuoFern-Mehrfachwandtaster*/		
@@ -2379,10 +2380,10 @@ function doAdditional(toDoList, type) {
 
 								case "32501973": /*DuoFern-Wandtaster-1-Kanal-9494-3*/
 									var timestamp = (result.payload.device.capabilities.filter((x)=>x.name === "KEY_PUSH_CH1_EVT"))[0].timestamp;
-									doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'KEY_PUSH_CH1_EVT', timestamp, 'value.datetime', 'timestamp');
+									doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'KEY_PUSH_CH1_EVT', timestamp, 'value.datetime', 'timestamp', false, "number");
 									
 									timestamp = (result.payload.device.capabilities.filter((x)=>x.name === "KEY_PUSH_CH2_EVT"))[0].timestamp;
-									doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'KEY_PUSH_CH2_EVT', timestamp, 'value.datetime', 'timestamp');
+									doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'KEY_PUSH_CH2_EVT', timestamp, 'value.datetime', 'timestamp', false, "number");
 									break;
 									
 								default:

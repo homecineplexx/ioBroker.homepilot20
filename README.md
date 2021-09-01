@@ -16,6 +16,16 @@ Windows: [![AppVeyor](https://ci.appveyor.com/api/projects/status/github/homecin
 
 
 ## Changelog
+### 0.0.31
+* (homecineplexx) Fixed issues with motion detector
+
+!!! Attention !!! do the following before the update
+1) Stop the Homepilot20 instance
+2) delete the complete Homepilot20 object tree (all data points)
+3) Upgrade Homepilot20
+4) Start the instance
+
+
 ### 0.0.30
 * (homecineplexx) added slatposition to device 35000662
 
