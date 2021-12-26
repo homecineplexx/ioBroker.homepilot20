@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "homepilot20",
-        "version": "0.0.31",
+        "version": "0.0.32",
 		"news": {
+          "0.0.32":{
+            "en": "Fixed issue for activating scene",
+            "de": "Problem beim Aktivieren der Szene behoben",
+            "ru": "Исправлена проблема с активацией сцены",
+            "pt": "Corrigido problema para ativação de cena",
+            "nl": "Probleem opgelost voor het activeren van scène",
+            "fr": "Correction d'un problème pour l'activation de la scène",
+            "it": "Risolto problema per l'attivazione della scena",
+            "es": "Problema solucionado para activar la escena",
+            "pl": "Naprawiono problem z aktywacją sceny",
+            "zh-cn": "修复了激活场景的问题"
+          },
           "0.0.31":{
             "en": "Fixed issues with motion detector",
             "de": "Probleme mit dem Bewegungsmelder gelöst",
@@ -122,55 +134,7 @@
             "es": "solucionó algunos problemas",
             "pl": "naprawiono kilka problemów",
             "zh-cn": "修复了一些问题"
-          },
-          "0.0.21":{
-                    "en": "Added devices: RolloTube S-line Sun DuoFern SLDSM 30/40/50",
-                    "de": "Hinzugefügte Geräte: RolloTube S-line Sun DuoFern SLDSM 30/40/50",
-                    "ru": "Добавлены устройства: RolloTube S-line Sun DuoFern SLDSM 30/40/50",
-                    "pt": "Dispositivos adicionados: RolloTube S-line Sun DuoFern SLDSM 30/40/50",
-                    "nl": "Toegevoegde apparaten: RolloTube S-line Sun DuoFern SLDSM 30/40/50",
-                    "fr": "Appareils ajoutés : RolloTube S-line Sun DuoFern SLDSM 30/40/50",
-                    "it": "Dispositivi aggiunti: RolloTube S-line Sun DuoFern SLDSM 30/40/50",
-                    "es": "Dispositivos agregados: RolloTube S-line Sun DuoFern SLDSM 30/40/50",
-                    "pl": "Dodane urządzenia: RolloTube S-line Sun DuoFern SLDSM 30/40/50",
-                    "zh-cn": "添加设备：RolloTube S-line Sun DuoFern SLDSM 30/40/50"
-                },
-            "0.0.20":{  
-					"en": "Update Readme",
-					"de": "Readme aktualisieren",
-					"ru": "Обновить Readme",
-					"pt": "Atualizar Leia-me",
-					"nl": "Update Readme",
-					"fr": "Mettre à jour le fichier Lisez-moi",
-					"it": "Aggiorna il file Leggimi",
-					"es": "Actualizar Léame",
-					"pl": "Zaktualizuj plik Readme",
-					"zh-cn": "更新自述文件"
-				},
-            "0.0.19":{  
-					"en": "fix issue for missing common.type",
-					"de": "Problem für fehlende common.type behoben",
-					"ru": "исправить проблему с отсутствующим common.type",
-					"pt": "corrigir o problema de common.type ausente",
-					"nl": "probleem opgelost voor het missen van common.type",
-					"fr": "correction d'un problème pour le common.type manquant",
-					"it": "risolvere il problema per common.type mancante",
-					"es": "Solucionar el problema de la falta de common.type",
-					"pl": "naprawiono problem z brakującym typem common.type",
-					"zh-cn": "解决缺少common.type的问题"
-				},
-			"0.0.18":{  
-					"en": "fix issue with Brdige and automatic modes",
-					"de": "Problem mit Bridge und automatischen Modi behoben",
-					"ru": "исправить проблему с мостом и автоматическими режимами",
-					"pt": "corrigir o problema com os modos Bridge e automáticos",
-					"nl": "probleem met Bridge en automatische modi oplossen",
-					"fr": "résoudre le problème avec Bridge et les modes automatiques",
-					"it": "risolvere il problema con Bridge e le modalità automatiche",
-					"es": "solucionar problema con los modos Bridge y automático",
-					"pl": "naprawiono problem z trybami Bridge i automatycznymi",
-					"zh-cn": "修復網橋和自動模式的問題"
-				}
+          }
         },
         "title": "Homepilot 2.0",
         "titleLang": {

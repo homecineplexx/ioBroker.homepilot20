@@ -264,6 +264,12 @@ function controlHomepilot(id, input) {
 		}
 		
 	} else if (id.indexOf('active') !== -1) {
+        if (input == 1) {
+            input = true;
+        } else {
+            input = false;
+        }
+
 		data = '{"request_type":"SWITCHSCENE","trigger_event":"SCENE_MODE_CMD","value":' + input + '}';
 	} else if (id.indexOf('execute') !== -1) {
 		data = '{"request_type":"EXECUTESCENE","trigger_event":"TRIGGER_SCENE_MANUALLY_EVT"}';
