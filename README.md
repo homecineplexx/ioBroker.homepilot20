@@ -16,6 +16,10 @@ Windows: [![AppVeyor](https://ci.appveyor.com/api/projects/status/github/homecin
 
 
 ## Changelog
+
+### 0.0.33
+* Added additional attributes for deviceNumber 27601565 (DuoFern-Rohrmotor)
+
 ### 0.0.32      (26.12.2021)
 * (homecineplexx) Fixed issue for activating scene
 

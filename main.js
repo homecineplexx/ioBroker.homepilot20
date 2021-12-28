@@ -793,7 +793,11 @@ function calculatePath(result, type) {
 		case "27601565":
 			deviceType = 'DuoFern-Rohrmotor';
 			deviceRole = 'level.blind';
-			break;
+
+			if (type == 'Actuator' && !isBridge) {
+				additionalDeviceSettings.push(deviceId);
+			}
+      break;
 		
 		case "45059071":
 			deviceType = 'RolloPort-SX5-DuoFern-RP-SX5DF-900N-3';
@@ -2208,6 +2212,7 @@ function doAdditional(toDoList, type) {
 									break;
 	
 								case "35000662": /*DuoFern-Rohrmotor-Aktor*/
+								case "27601565": /*DuoFern-Rohrmotor*/
 									var value = (result.payload.device.capabilities.filter((x)=>x.name === "AUTO_MODE_CFG"))[0].value;
 									doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'AUTO_MODE_CFG', value == 'true' ? true : false, 'switch', 'Automatikbetrieb', true);
 									
