@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "homepilot20",
-        "version": "0.0.34",
+        "version": "0.0.35",
 		"news": {
+          "0.0.35":{
+            "en": "fixed a problem with slatposition for device 35000662",
+            "de": "Behebung eines Problems mit der slatposition für Gerät 35000662",
+            "ru": "исправлена проблема с slatposition для устройства 35000662",
+            "pt": "corrigido um problema com slatposition para o dispositivo 35000662",
+            "nl": "probleem opgelost met lamellenpositie voor apparaat 35000662",
+            "fr": "correction d'un problème avec la position des lamelles pour l'appareil 35000662",
+            "it": "risolto un problema con la posizione delle lamelle per il dispositivo 35000662",
+            "es": "solucionó un problema con la posición de las tablillas para el dispositivo 35000662",
+            "pl": "naprawiono problem z położeniem listew dla urządzenia 35000662",
+            "zh-cn": "修复了设备 35000662 的 slatposition 问题"
+          },
           "0.0.34":{
             "en": "name in the object-name deleted",
             "de": "Name im Objektnamen gelöscht",

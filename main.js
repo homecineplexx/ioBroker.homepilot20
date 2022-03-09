@@ -131,7 +131,7 @@ function controlHomepilot(id, input) {
 		calcUri = 'http://' + ip + '/devices/' + deviceId;
 		
 		if (deviceNumberId == '36500172' /*DuoFern-TrollBasis-5615*/ ||
-		    deviceNumber == '35000662' /*DuoFern-Rohrmotor-Aktor*/) {
+		    deviceNumberId == '35000662' /*DuoFern-Rohrmotor-Aktor*/) {
 			if (0 >= parseInt(input)) {
 				input = 0;
 			} else if (parseInt(input) >= 100) {

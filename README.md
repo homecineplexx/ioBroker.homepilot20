@@ -16,6 +16,9 @@ Windows: [![AppVeyor](https://ci.appveyor.com/api/projects/status/github/homecin
 
 
 ## Changelog
+### 0.0.35      (09.03.2022)
+* (homecineplexx) fixed a problem with slatposition for device 35000662 
+
 ### 0.0.34      (09.03.2022)
 * (homecineplexx) name in the object-name deleted 
 
