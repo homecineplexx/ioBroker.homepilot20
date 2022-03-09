@@ -713,7 +713,7 @@ function calculatePath(result, type) {
         
 		case "35002414":
             deviceType = 'ZWave-RepeaterMitSchaltfunktion-8434';
-			deviceRole = (deviceName.indexOf('Licht') != -1) ? 'light.switch' : 'switch' ;
+			deviceRole = 'switch' ;
 			
 			if (type == 'Actuator' && !isBridge) {
 				additionalDeviceSettings.push(deviceId);
@@ -722,7 +722,7 @@ function calculatePath(result, type) {
 			
         case "35000262":
 			deviceType = 'DuoFernUniversal-Aktor2-Kanal-9470-2';
-			deviceRole = (deviceName.indexOf('Licht') != -1) ? 'light.switch' : 'switch' ;
+			deviceRole = 'switch' ;
 			
 			if (type == 'Actuator' && !isBridge) {
 				additionalDeviceSettings.push(deviceId);
@@ -731,7 +731,7 @@ function calculatePath(result, type) {
 		
         case "35001164":
 			deviceType = 'DuoFern-Zwischenstecker-Schalten-9472';
-			deviceRole = (deviceName.indexOf('Licht') != -1) ? 'light.switch' : 'switch' ;
+			deviceRole = 'switch' ;
 			
 			if (type == 'Actuator' && !isBridge) {
 				additionalDeviceSettings.push(deviceId);
@@ -741,7 +741,7 @@ function calculatePath(result, type) {
 		case "32501772":
 			deviceType = 'DuoFern-Bewegungsmelder-9484';
 			if (type == 'Actuator') {
-				deviceRole = (deviceName.indexOf('Licht') != -1) ? 'light.switch' : 'switch' ;
+				deviceRole = 'switch' ;
 			} else {
 				deviceRole = 'text';
 				
@@ -990,7 +990,7 @@ function createCommon(result) {
 	adapter.setObjectNotExists(path, {
 		type: 'channel',
 		common: {
-			name: deviceType + ': ' + deviceName + ' (Device ID ' + deviceId + ')',
+			name: deviceType + ' (Device ID ' + deviceId + ')',
 			role: 'text',
 		},
 		native: {}
@@ -999,7 +999,7 @@ function createCommon(result) {
 	adapter.setObjectNotExists(path + '.deviceNumber', {
 		type: 'state',
 		common: {
-			name: 'deviceNumber ' + deviceName,
+			name: 'deviceNumber',
 			desc: 'deviceNumber stored in homepilot for device ' + deviceId,
 			type: 'string',
 			role: 'text',
@@ -1012,7 +1012,7 @@ function createCommon(result) {
 	adapter.setObjectNotExists(path + '.deviceGroup', {
 		type: 'state',
 		common: {
-			name: 'deviceGroup ' + deviceName,
+			name: 'deviceGroup',
 			desc: 'deviceGroup stored in homepilot for device ' + deviceId,
 			type: 'number',
 			role: 'value',
@@ -1025,7 +1025,7 @@ function createCommon(result) {
 	adapter.setObjectNotExists(path + '.description', {
 		type: 'state',
 		common: {
-			name: 'description ' + deviceName,
+			name: 'description',
 			desc: 'description stored in homepilot for device ' + deviceId,
 			type: 'string',
 			role: 'text',
@@ -1038,7 +1038,7 @@ function createCommon(result) {
 	adapter.setObjectNotExists(path + '.did', {
 		type: 'state',
 		common: {
-			name: 'did ' + deviceName,
+			name: 'did',
 			desc: 'did stored in homepilot for device ' + deviceId,
 			type: 'number',
 			role: 'value',
@@ -1051,7 +1051,7 @@ function createCommon(result) {
 	adapter.setObjectNotExists(path + '.name', {
 		type: 'state',
 		common: {
-			name: 'name ' + deviceName,
+			name: 'name',
 			desc: 'name stored in homepilot for device ' + deviceId,
 			type: 'string',
 			role: 'text',
@@ -1064,7 +1064,7 @@ function createCommon(result) {
 	adapter.setObjectNotExists(path + '.statusValid', {
 		type: 'state',
 		common: {
-		   name: 'statusValid ' + deviceName,
+		   name: 'statusValid',
 			desc: 'statusValid stored in homepilot for device ' + deviceId,
 			type: 'boolean',
 			role: 'text',
@@ -1078,7 +1078,7 @@ function createCommon(result) {
 	adapter.setObjectNotExists(path + '.visible', {
 		type: 'state',
 		common: {
-		   name: 'visible ' + deviceName,
+		   name: 'visible',
 			desc: 'visible stored in homepilot for device ' + deviceId,
 			type: 'boolean',
 			role: 'text',
@@ -1092,7 +1092,7 @@ function createCommon(result) {
 	adapter.setObjectNotExists(path + '.uid', {
 		type: 'state',
 		common: {
-			name: 'uid ' + deviceName,
+			name: 'uid',
 			desc: 'uid stored in homepilot for device ' + deviceId,
 			type: 'string',
 			role: 'text',
@@ -1125,7 +1125,7 @@ function createActuatorStates(result, type) {
 		adapter.setObjectNotExists(path + '.hasErrors', {
 			type: 'state',
 			common: {
-				name: 'number of errors ' + deviceName,
+				name: 'number of errors',
 				desc: 'number of errors of device ' + deviceId,
 				type: 'number',
 				role: 'value',
@@ -1139,7 +1139,7 @@ function createActuatorStates(result, type) {
 		adapter.setObjectNotExists(path + '.messages', {
 			type: 'state',
 			common: {
-				name: 'messages ' + deviceName,
+				name: 'messages',
 				desc: 'messages stored in homepilot for device ' + deviceId,
 				type: 'string',
 				role: 'text',
@@ -1153,7 +1153,7 @@ function createActuatorStates(result, type) {
 			adapter.setObjectNotExists(path + '.Position', {
 				type: 'state',
 				common: {
-					name: 'Position ' + deviceName,
+					name: 'Position',
 					desc: 'Position stored in homepilot for device ' + deviceId,
 					type: 'number',
 					role: deviceRole,
@@ -1184,7 +1184,7 @@ function createActuatorStates(result, type) {
 				adapter.setObjectNotExists(path + '.Position_inverted', {
 					type: 'state',
 					common: {
-						name: 'Position_inverted ' + deviceName,
+						name: 'Position_inverted',
 						desc: 'Position_inverted stored in homepilot for device ' + deviceId,
 						type: 'number',
 						role: deviceRole,
@@ -1203,7 +1203,7 @@ function createActuatorStates(result, type) {
 				adapter.setObjectNotExists(path + '.slatposition', {
 					type: 'state',
 					common: {
-						name: 'slatposition ' + deviceName,
+						name: 'slatposition',
 						desc: 'slatposition stored in homepilot for device ' + deviceId,
 						type: 'number',
 						role: deviceRole,
@@ -1221,7 +1221,7 @@ function createActuatorStates(result, type) {
 				adapter.setObjectNotExists(path + '.Position', {
 					type: 'state',
 					common: {
-						name: 'Position ' + deviceName,
+						name: 'Position',
 						desc: 'Position stored in homepilot for device ' + deviceId,
 						type: 'number',
 						role: deviceRole,
@@ -1237,7 +1237,7 @@ function createActuatorStates(result, type) {
 				adapter.setObjectNotExists(path + '.Position', {
 					type: 'state',
 					common: {
-						name: 'Position ' + deviceName,
+						name: 'Position',
 						desc: 'Position stored in homepilot for device ' + deviceId,
 						type: 'number',
 						role: deviceRole,
@@ -1258,7 +1258,7 @@ function createActuatorStates(result, type) {
 				adapter.setObjectNotExists(path + '.Position', {
 					type: 'state',
 					common: {
-					   name: 'Position ' + deviceName,
+					   name: 'Position',
 						desc: 'Position stored in homepilot for device ' + deviceId,
 						type: 'boolean',
 						role: deviceRole,
@@ -1275,7 +1275,7 @@ function createActuatorStates(result, type) {
 			adapter.setObjectNotExists(path + '.batteryStatus', {
 				type: 'state',
 				common: {
-					name: 'batteryStatus ' + deviceName,
+					name: 'batteryStatus',
 					desc: 'batteryStatus stored in homepilot for device ' + deviceId,
 					type: 'number',
 					role: 'value',
@@ -1290,7 +1290,7 @@ function createActuatorStates(result, type) {
 			adapter.setObjectNotExists(path + '.batteryLow', {
 				type: 'state',
 				common: {
-				   name: 'batteryLow ' + deviceName,
+				   name: 'batteryLow',
 					desc: 'batteryLow stored in homepilot for device ' + deviceId,
 					type: 'boolean',
 					role: 'text',
@@ -1304,7 +1304,7 @@ function createActuatorStates(result, type) {
 			adapter.setObjectNotExists(path + '.posMin', {
 				type: 'state',
 				common: {
-					name: 'posMin ' + deviceName,
+					name: 'posMin',
 					desc: 'posMin stored in homepilot for device ' + deviceId,
 					type: 'number',
 					role: 'value',
@@ -1318,7 +1318,7 @@ function createActuatorStates(result, type) {
 			adapter.setObjectNotExists(path + '.posMax', {
 				type: 'state',
 				common: {
-					name: 'posMax ' + deviceName,
+					name: 'posMax',
 					desc: 'posMax stored in homepilot for device ' + deviceId,
 					type: 'number',
 					role: 'value',
@@ -1335,7 +1335,7 @@ function createActuatorStates(result, type) {
 			adapter.setObjectNotExists(path + '.acttemperatur', {
 				type: 'state',
 				common: {
-					name: 'acttemperatur ' + deviceName,
+					name: 'acttemperatur',
 					desc: 'acttemperatur stored in homepilot for device ' + deviceId,
 					type: 'number',
 					role: 'value',
@@ -1350,7 +1350,7 @@ function createActuatorStates(result, type) {
 				adapter.setObjectNotExists(path + '.relaisstatus', {
 					type: 'state',
 					common: {
-						name: 'relaisstatus ' + deviceName,
+						name: 'relaisstatus',
 						desc: 'relaisstatus stored in homepilot for device ' + deviceId,
 						type: 'number',
 						role: 'value',
@@ -1363,7 +1363,7 @@ function createActuatorStates(result, type) {
 				adapter.setObjectNotExists(path + '.automaticvalue', {
 					type: 'state',
 					common: {
-						name: 'automaticvalue ' + deviceName,
+						name: 'automaticvalue',
 						desc: 'automaticvalue stored in homepilot for device ' + deviceId,
 						type: 'number',
 						role: 'value',
@@ -1376,7 +1376,7 @@ function createActuatorStates(result, type) {
 				adapter.setObjectNotExists(path + '.manualoverride', {
 					type: 'state',
 					common: {
-						name: 'manualoverride ' + deviceName,
+						name: 'manualoverride',
 						desc: 'manualoverride stored in homepilot for device ' + deviceId,
 						type: 'number',
 						role: 'value',
@@ -1394,7 +1394,7 @@ function createActuatorStates(result, type) {
 			adapter.setObjectNotExists(path + '.Position', {
 				type: 'state',
 				common: {
-					name: 'Position ' + deviceName,
+					name: 'Position',
 					desc: 'Position stored in homepilot for device ' + deviceId,
 					type: 'number',
 					role: 'level.dimmer',
@@ -1411,7 +1411,7 @@ function createActuatorStates(result, type) {
 				adapter.setObjectNotExists(path + '.ColorTemperature', {
 					type: 'state',
 					common: {
-						name: 'ColorTemperature ' + deviceName,
+						name: 'ColorTemperature',
 						desc: 'ColorTemperature stored in homepilot for device ' + deviceId,
 						type: 'number',
 						role: 'level.color.temperature',
@@ -1427,7 +1427,7 @@ function createActuatorStates(result, type) {
 					adapter.setObjectNotExists(path + '.RGB', {
 						type: 'state',
 						common: {
-							name: 'RGB' + deviceName,
+							name: 'RGB',
 							desc: 'RGB stored in homepilot for device ' + deviceId,
 							type: 'string',
 							role: 'level.rgb',
@@ -1483,7 +1483,7 @@ function createSensorStates(result, type) {
 		adapter.setObjectNotExists(path + '.timestamp', {
 			type: 'state',
 			common: {
-				name: 'timestamp ' + deviceName,
+				name: 'timestamp',
 				desc: 'timestamp stored in homepilot for device ' + deviceId,
 				type: 'number',
 				role: 'value',
@@ -1499,7 +1499,7 @@ function createSensorStates(result, type) {
 			adapter.setObjectNotExists(path + '.smoke_detected', {
 				type: 'state',
 				common: {
-				   name: 'smoke_detected ' + deviceName,
+				   name: 'smoke_detected',
 					desc: 'smoke_detected stored in homepilot for device ' + deviceId,
 					type: 'boolean',
 					role: 'text',
@@ -1518,7 +1518,7 @@ function createSensorStates(result, type) {
 			adapter.setObjectNotExists(path + '.movement_detected', {
 				type: 'state',
 				common: {
-				   name: 'movement_detected ' + deviceName,
+				   name: 'movement_detected',
 					desc: 'movement_detected stored in homepilot for device ' + deviceId,
 					type: 'boolean',
 					role: 'text',
@@ -1534,7 +1534,7 @@ function createSensorStates(result, type) {
 			adapter.setObjectNotExists(path + '.sun_brightness', {
 				type: 'state',
 				common: {
-					name: 'sun_brightness ' + deviceName,
+					name: 'sun_brightness',
 					desc: 'sun_brightness stored in homepilot for device ' + deviceId,
 					type: 'number',
 					role: 'value',
@@ -1547,7 +1547,7 @@ function createSensorStates(result, type) {
 			adapter.setObjectNotExists(path + '.sun_direction', {
 				type: 'state',
 				common: {
-					name: 'sun_direction ' + deviceName,
+					name: 'sun_direction',
 					desc: 'sun_direction stored in homepilot for device ' + deviceId,
 					type: 'number',
 					role: 'value',
@@ -1560,7 +1560,7 @@ function createSensorStates(result, type) {
 			adapter.setObjectNotExists(path + '.sun_elevation', {
 				type: 'state',
 				common: {
-					name: 'sun_elevation ' + deviceName,
+					name: 'sun_elevation',
 					desc: 'sun_elevation stored in homepilot for device ' + deviceId,
 					type: 'number',
 					role: 'value',
@@ -1573,7 +1573,7 @@ function createSensorStates(result, type) {
 			adapter.setObjectNotExists(path + '.wind_speed', {
 				type: 'state',
 				common: {
-					name: 'wind_speed ' + deviceName,
+					name: 'wind_speed',
 					desc: 'wind_speed stored in homepilot for device ' + deviceId,
 					type: 'number',
 					role: 'value',
@@ -1586,7 +1586,7 @@ function createSensorStates(result, type) {
 			adapter.setObjectNotExists(path + '.rain_detected', {
 				type: 'state',
 				common: {
-				   name: 'rain_detected ' + deviceName,
+				   name: 'rain_detected',
 					desc: 'rain_detected stored in homepilot for device ' + deviceId,
 					type: 'boolean',
 					role: 'text',
@@ -1603,7 +1603,7 @@ function createSensorStates(result, type) {
 			adapter.setObjectNotExists(path + '.area_entered', {
 				type: 'state',
 				common: {
-				   name: 'area_entered ' + deviceName,
+				   name: 'area_entered',
 					desc: 'area_entered stored in homepilot for device ' + deviceId,
 					type: 'boolean',
 					role: 'text',
@@ -1622,7 +1622,7 @@ function createSensorStates(result, type) {
 			adapter.setObjectNotExists(path + '.sun_detected', {
 				type: 'state',
 				common: {
-				   name: 'sun_detected ' + deviceName,
+				   name: 'sun_detected',
 					desc: 'sun_detected stored in homepilot for device ' + deviceId,
 					type: 'boolean',
 					role: 'text',
@@ -1639,7 +1639,7 @@ function createSensorStates(result, type) {
 			adapter.setObjectNotExists(path + '.temperature_primary', {
 				type: 'state',
 				common: {
-					name: 'temperature_primary ' + deviceName,
+					name: 'temperature_primary',
 					desc: 'temperature_primary stored in homepilot for device ' + deviceId,
 					type: 'number',
 					role: 'value',
@@ -1655,7 +1655,7 @@ function createSensorStates(result, type) {
 			adapter.setObjectNotExists(path + '.temperature_target', {
 				type: 'state',
 				common: {
-					name: 'temperature_target ' + deviceName,
+					name: 'temperature_target',
 					desc: 'temperature_target stored in homepilot for device ' + deviceId,
 					type: 'number',
 					role: 'value',
@@ -1676,7 +1676,7 @@ function createSensorStates(result, type) {
 				adapter.setObjectNotExists(path + '.contact_state', {
 					type: 'state',
 					common: {
-						name: 'contact_state ' + deviceName,
+						name: 'contact_state',
 						desc: 'contact_state stored in homepilot for device ' + deviceId,
 						type: 'string',
 						role: 'text',
@@ -1691,7 +1691,7 @@ function createSensorStates(result, type) {
 				adapter.setObjectNotExists(path + '.batteryStatus', {
 					type: 'state',
 					common: {
-						name: 'batteryStatus ' + deviceName,
+						name: 'batteryStatus',
 						desc: 'batteryStatus stored in homepilot for device ' + deviceId,
 						type: 'number',
 						role: 'value',
@@ -1708,7 +1708,7 @@ function createSensorStates(result, type) {
 				adapter.setObjectNotExists(path + '.batteryLow', {
 					type: 'state',
 					common: {
-					   name: 'batteryLow ' + deviceName,
+					   name: 'batteryLow',
 						desc: 'batteryLow stored in homepilot for device ' + deviceId,
 						type: 'boolean',
 						role: 'text',
@@ -1756,7 +1756,7 @@ function createTransmitterStates(result, type) {
 				adapter.setObjectNotExists(path + '.batteryLow', {
 					type: 'state',
 					common: {
-					   name: 'batteryLow ' + deviceName,
+					   name: 'batteryLow',
 						desc: 'batteryLow stored in homepilot for device ' + deviceId,
 						type: 'boolean',
 						role: 'text',
@@ -1803,7 +1803,7 @@ function createSceneStates(result, type) {
 		adapter.setObjectNotExists(path + '.description', {
 			type: 'state',
 			common: {
-				name: 'description ' + sid,
+				name: 'description',
 				desc: 'description stored in homepilot for scene ' + sid,
 				type: 'string',
 				role: 'text',
@@ -1816,7 +1816,7 @@ function createSceneStates(result, type) {
 		adapter.setObjectNotExists(path + '.active', {
 			type: 'state',
 			common: {
-			   name: 'active ' + sid,
+			   name: 'active',
 				desc: 'active stored in homepilot for scene ' + sid,
 				type: 'number',
 				role: deviceRole,
@@ -1830,7 +1830,7 @@ function createSceneStates(result, type) {
 		adapter.setObjectNotExists(path + '.isExecutable', {
 			type: 'state',
 			common: {
-			   name: 'isExecutable ' + sid,
+			   name: 'isExecutable',
 				desc: 'isExecutable stored in homepilot for scene ' + sid,
 				type: 'number',
 				role: 'text',
@@ -1844,7 +1844,7 @@ function createSceneStates(result, type) {
 		adapter.setObjectNotExists(path + '.name', {
 			type: 'state',
 			common: {
-				name: 'name ' + sid,
+				name: 'name',
 				desc: 'name stored in homepilot for scene ' + sid,
 				type: 'string',
 				role: 'text',
@@ -1857,7 +1857,7 @@ function createSceneStates(result, type) {
 		adapter.setObjectNotExists(path + '.execute', {
 			type: 'state',
 			common: {
-			   name: 'execute ' + sid,
+			   name: 'execute',
 				desc: 'execute stored in homepilot for scene ' + sid,
 				type: 'boolean',
 				role: 'button',

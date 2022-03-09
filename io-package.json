@@ -1,9 +1,21 @@
 {
     "common": {
         "name": "homepilot20",
-        "version": "0.0.33",
+        "version": "0.0.34",
 		"news": {
-          "0.0.3":{
+          "0.0.34":{
+            "en": "name in the object-name deleted",
+            "de": "Name im Objektnamen gelöscht",
+            "ru": "имя в имени объекта удалено",
+            "pt": "nome no nome do objeto excluído",
+            "nl": "naam in de objectnaam verwijderd",
+            "fr": "nom dans le nom d'objet supprimé",
+            "it": "nome nel nome dell'oggetto eliminato",
+            "es": "nombre en el objeto-nombre eliminado",
+            "pl": "usunięta nazwa w nazwie obiektu",
+            "zh-cn": "对象名称中的名称已删除"
+          },
+          "0.0.33":{
             "en": "first fix for performance problems",
             "de": "erste Lösung für Leistungsprobleme",
             "ru": "первое исправление проблем с производительностью",
@@ -74,78 +86,6 @@
             "es": "solucionar algunos problemas encontrados por el verificador de adaptadores",
             "pl": "napraw niektóre problemy znalezione przez kontroler adaptera",
             "zh-cn": "修复适配器检查器发现的一些问题"
-          },
-          "0.0.27":{
-            "en": "Update Readme",
-            "de": "Readme aktualisieren",
-            "ru": "Обновить Readme",
-            "pt": "Atualizar Leia-me",
-            "nl": "Update Readme",
-            "fr": "Mettre à jour le fichier Lisez-moi",
-            "it": "Aggiorna il file Leggimi",
-            "es": "Actualizar Léame",
-            "pl": "Zaktualizuj plik Readme",
-            "zh-cn": "更新自述文件"
-          },
-          "0.0.26":{
-            "en": "fix warnings during startup",
-            "de": "Warnungen beim Start beheben",
-            "ru": "исправить предупреждения при запуске",
-            "pt": "corrigir avisos durante a inicialização",
-            "nl": "waarschuwingen oplossen tijdens opstarten",
-            "fr": "corriger les avertissements au démarrage",
-            "it": "correggere gli avvisi durante l'avvio",
-            "es": "corregir advertencias durante el inicio",
-            "pl": "napraw ostrzeżenia podczas uruchamiania",
-            "zh-cn": "修复启动期间的警告"
-          },
-          "0.0.25":{
-            "en": "fix warnings during startup",
-            "de": "Warnungen beim Start beheben",
-            "ru": "исправить предупреждения при запуске",
-            "pt": "corrigir avisos durante a inicialização",
-            "nl": "waarschuwingen oplossen tijdens opstarten",
-            "fr": "corriger les avertissements au démarrage",
-            "it": "correggere gli avvisi durante l'avvio",
-            "es": "corregir advertencias durante el inicio",
-            "pl": "napraw ostrzeżenia podczas uruchamiania",
-            "zh-cn": "修复启动期间的警告"
-          },
-          "0.0.24":{
-            "en": "fix timestamp min value",
-            "de": "Min-Wert für timestamp gefixt",
-            "ru": "исправить минимальное значение временной метки",
-            "pt": "corrigir valor mínimo do carimbo de data / hora",
-            "nl": "fix tijdstempel min waarde",
-            "fr": "correction de la valeur minimale de l'horodatage",
-            "it": "fissare il valore minimo del timestamp",
-            "es": "fijar el valor mínimo de la marca de tiempo",
-            "pl": "napraw minimalną wartość sygnatury czasowej",
-            "zh-cn": "修复时间戳最小值"
-          },
-          "0.0.23":{
-            "en": "Update Readme",
-            "de": "Readme aktualisieren",
-            "ru": "Обновить Readme",
-            "pt": "Atualizar Leia-me",
-            "nl": "Update Readme",
-            "fr": "Mettre à jour le fichier Lisez-moi",
-            "it": "Aggiorna il file Leggimi",
-            "es": "Actualizar Léame",
-            "pl": "Zaktualizuj plik Readme",
-            "zh-cn": "更新自述文件"
-          },
-          "0.0.22":{
-            "en": "fixed some issues",
-            "de": "einige Probleme behoben",
-            "ru": "исправил некоторые проблемы",
-            "pt": "consertou alguns problemas",
-            "nl": "een aantal problemen opgelost",
-            "fr": "corrigé quelques problèmes",
-            "it": "risolto alcuni problemi",
-            "es": "solucionó algunos problemas",
-            "pl": "naprawiono kilka problemów",
-            "zh-cn": "修复了一些问题"
           }
         },
         "title": "Homepilot 2.0",
