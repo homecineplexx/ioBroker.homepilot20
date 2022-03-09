@@ -210,9 +210,12 @@ function controlHomepilot(id, input) {
 			val = (val%5<3 ? (val%5===0 ? val : Math.floor(val/5)*5) : Math.ceil(val/5)*5) / 10;
 					
 			data = '{"name":"TARGET_TEMPERATURE_CFG", "value":"' + val + '"}';
-		// Philips Hue (99999983 || 99999981 || 99999982)
+		// Philips Hue oder addZ-RGB-LED (99999983 || 99999981 || 99999982 || 99999975 || 35144001 || 35104001)
 		} else if (deviceNumberId == '99999981' /*Philips-Hue-Weiße-Lampe*/ ||
 				   deviceNumberId == '99999982' /*Philips-Hue-Ambiance-Spot*/ ||
+				   deviceNumberId == '99999975' /*Philips-Hue-RGB-Lightbar*/ ||
+				   deviceNumberId == '35144001' /*addZ-RGB-LED-E14*/ ||
+				   deviceNumberId == '35104001' /*addZ-RGB-LED-GU10*/ ||
 				   deviceNumberId == '99999983' /*Philips-Hue-RGB-Lampe*/) {
 			if (0 >= parseInt(input)) {
 				input = 0;
@@ -223,7 +226,7 @@ function controlHomepilot(id, input) {
 			data = '{"name":"GOTO_POS_CMD", "value":"' + parseInt(input) + '"}';
 		}
 	
-	// Philips Hue (99999983 || 99999982)
+	// Philips Hue oder addZ-RGB-LED (99999983 || 99999982 || 99999975 || 35144001 || 35104001)
 	} else if (id.indexOf('ColorTemperature') !== -1) {
 		if (153 >= parseInt(input)) {
 			input = 153;
@@ -233,7 +236,7 @@ function controlHomepilot(id, input) {
 			
 		calcUri = 'http://' + ip + '/devices/' + deviceId;
 		data = '{"name":"SET_COLOR_TEMP_CMD", "value":"' + parseInt(input) + '"}';
-	// Philips Hue (99999983)	
+	// Philips Hue oder addZ-RGB-LED (99999983 || 99999975 || 35144001 || 35104001)	
 	} else if (id.indexOf('RGB') !== -1) {
 		input = '0x' + input; 
 		
@@ -246,6 +249,9 @@ function controlHomepilot(id, input) {
 		
 		if (deviceNumberId == '99999981' /*Philips-Hue-Weiße-Lampe*/ ||
 			deviceNumberId == '99999982' /*Philips-Hue-Ambiance-Spot*/ ||
+			deviceNumberId == '99999975' /*Philips-Hue-RGB-Lightbar*/ ||
+			deviceNumberId == '35144001' /*addZ-RGB-LED-E14*/ ||
+			deviceNumberId == '35104001' /*addZ-RGB-LED-GU10*/ ||
 			deviceNumberId == '99999983' /*Philips-Hue-RGB-Lampe*/) {
 			if (input == 'AN' || input == 'ON') {			
 				data = '{"name":"TURN_ON_CMD"}';
@@ -942,6 +948,18 @@ function calculatePath(result, type) {
 		case "99999983":
 			deviceType = 'Philips-Hue-RGB-Lampe';
             break;
+
+		case "99999975":
+			deviceType = 'Philips-Hue-RGB-Lightbar';
+            break;
+
+		case "35144001":
+			deviceType = 'addZ-RGB-LED-E14';
+            break;
+
+		case "35104001":
+			deviceType = 'addZ-RGB-LED-GU10';
+            break;
 			
 		case "32004219":
 			deviceType = 'HD-Kamera-9486';
@@ -1254,6 +1272,9 @@ function createActuatorStates(result, type) {
 			if (deviceNumber != '99999980' /*Philips-Hue-Bridge*/ &&
 				deviceNumber != '99999981' /*Philips-Hue-Weiße-Lampe*/ &&
 				deviceNumber != '99999982' /*Philips-Hue-Ambiance-Spot*/ &&
+			    deviceNumber != '99999975' /*Philips-Hue-RGB-Lightbar*/ &&
+			    deviceNumber != '35144001' /*addZ-RGB-LED-E14*/ &&
+			    deviceNumber != '35104001' /*addZ-RGB-LED-GU10*/ &&
 				deviceNumber != '99999983' /*Philips-Hue-RGB-Lampe*/) {
 				adapter.setObjectNotExists(path + '.Position', {
 					type: 'state',
@@ -1390,6 +1411,9 @@ function createActuatorStates(result, type) {
 		
 		if (deviceNumber == '99999981' /*Philips-Hue-Weiße-Lampe*/ ||
 			deviceNumber == '99999982' /*Philips-Hue-Ambiance-Spot*/ ||
+		    deviceNumber == '99999975' /*Philips-Hue-RGB-Lightbar*/ ||
+		    deviceNumber == '35144001' /*addZ-RGB-LED-E14*/ ||
+		    deviceNumber == '35104001' /*addZ-RGB-LED-GU10*/ ||
 			deviceNumber == '99999983' /*Philips-Hue-RGB-Lampe*/) {
 			adapter.setObjectNotExists(path + '.Position', {
 				type: 'state',
@@ -1917,6 +1941,9 @@ function writeActuatorStates(result, type) {
 		if (deviceNumber != '99999980' /*Philips-Hue-Bridge*/ &&
 			deviceNumber != '99999981' /*Philips-Hue-Weiße-Lampe*/ &&
 			deviceNumber != '99999982' /*Philips-Hue-Ambiance-Spot*/ &&
+		    deviceNumber != '99999975' /*Philips-Hue-RGB-Lightbar*/ &&
+		    deviceNumber != '35144001' /*addZ-RGB-LED-E14*/ &&
+		    deviceNumber != '35104001' /*addZ-RGB-LED-GU10*/ &&
 			deviceNumber != '99999983' /*Philips-Hue-RGB-Lampe*/) {
 			setCorrectState(path, '.Position', value, result.did + '-' + type);
 		}
@@ -1950,6 +1977,9 @@ function writeActuatorStates(result, type) {
 		
 		if (deviceNumber == '99999981' /*Philips-Hue-Weiße-Lampe*/ ||
 			deviceNumber == '99999982' /*Philips-Hue-Ambiance-Spot*/ ||
+		    deviceNumber == '99999975' /*Philips-Hue-RGB-Lightbar*/ ||
+		    deviceNumber == '35144001' /*addZ-RGB-LED-E14*/ ||
+		    deviceNumber == '35104001' /*addZ-RGB-LED-GU10*/ ||
 			deviceNumber == '99999983' /*Philips-Hue-RGB-Lampe*/) {
 			setCorrectState(path, '.Position', result.statusesMap.Position, result.did + '-' + type);
 			
