@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "homepilot20",
-        "version": "0.0.35",
+        "version": "0.0.36",
 		"news": {
+          "0.0.36":{
+            "en": "added new devices for RolloTube S-line Zip DuoFern",
+            "de": "neue Geräte für RolloTube S-line Zip DuoFern hinzugefügt",
+            "ru": "добавлены новые устройства для RolloTube S-line Zip DuoFern",
+            "pt": "adicionados novos dispositivos para RolloTube S-line Zip DuoFern",
+            "nl": "nieuwe apparaten toegevoegd voor RolloTube S-line Zip DuoFern",
+            "fr": "ajout de nouveaux dispositifs pour RolloTube S-line Zip DuoFern",
+            "it": "aggiunti nuovi dispositivi per RolloTube S-line Zip DuoFern",
+            "es": "se agregaron nuevos dispositivos para RolloTube S-line Zip DuoFern",
+            "pl": "dodano nowe urządzenia dla RolloTube S-line Zip DuoFern",
+            "zh-cn": "为 RolloTube S-line Zip DuoFern 添加了新设备"
+          },
           "0.0.35":{
             "en": "fixed a problem with slatposition for device 35000662",
             "de": "Behebung eines Problems mit der slatposition für Gerät 35000662",

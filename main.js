@@ -172,7 +172,8 @@ function controlHomepilot(id, input) {
 					deviceNumberId == '23783076' /*RolloTube S-line Sun DuoFern SLDSM 30/16PZ*/ ||
 					deviceNumberId == '23784076' /*RolloTube S-line Sun DuoFern SLDSM 40/16PZ*/ ||
 					deviceNumberId == '23782076' /*RolloTube S-line Sun DuoFern SLDSM 50/12PZ*/ ||
-					deviceNumberId == '23785076' /*RolloTube S-line Sun DuoFern SLDSM 50/12PZ*/) {
+					deviceNumberId == '23785076' /*RolloTube S-line Sun DuoFern SLDSM 50/12PZ*/ ||
+                    deviceNumberId == '25782075' /*RolloTube S-line Zip DuoFern SLDZS 06/28Z, SLDZS 10/16Z, SLDZM 10/16Z, SLDZM 20/16Z, SLDZM 30/16Z, SLDZM 40/16Z, SLDZM 50/12Z*/) {
 			if (0 >= parseInt(input)) {
 				input = 0;
 			} else if (parseInt(input) >= 100) {
@@ -976,6 +977,12 @@ function calculatePath(result, type) {
                 additionalDeviceSettings.push(deviceId);
             }
 		    break;
+
+
+        case "25782075":
+            deviceType = "RolloTube S-line Zip DuoFern SLDZS 06/28Z, SLDZS 10/16Z, SLDZM 10/16Z, SLDZM 20/16Z, SLDZM 30/16Z, SLDZM 40/16Z, SLDZM 50/12Z";
+            deviceRole = 'level.blind';
+            break;
 
         default:
             adapter.log.debug('Unknown ' + type + ' deviceNumber=' + deviceNumber +'. For implementation, please contact the developer on GIT repo.');
@@ -2330,6 +2337,7 @@ function doAdditional(toDoList, type) {
 								case "23784076": /*RolloTube S-line Sun DuoFern SLDSM 40/16PZ*/
 								case "23782076": /*RolloTube S-line Sun DuoFern SLDSM 50/12PZ*/
 								case "23785076": /*RolloTube S-line Sun DuoFern SLDSM 50/12PZ*/
+                                case "25782075": /*RolloTube S-line Zip DuoFern SLDZS 06/28Z, SLDZS 10/16Z, SLDZM 10/16Z, SLDZM 20/16Z, SLDZM 30/16Z, SLDZM 40/16Z, SLDZM 50/12Z*/
 								    var value = (result.payload.device.capabilities.filter((x)=>x.name === "AUTO_MODE_CFG"))[0].value;
                                     doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'AUTO_MODE_CFG', value == 'true' ? true : false, 'switch', 'Automatikbetrieb', true, hashMapName);
 

@@ -16,6 +16,16 @@ Windows: [![AppVeyor](https://ci.appveyor.com/api/projects/status/github/homecin
 
 
 ## Changelog
+### 0.0.36      (29.03.2022)
+* (homecineplexx) added new devices
+  * RolloTube S-line Zip DuoFern SLDZS 06/28Z
+  * RolloTube S-line Zip DuoFern SLDZS 10/16Z
+  * RolloTube S-line Zip DuoFern SLDZM 10/16Z
+  * RolloTube S-line Zip DuoFern SLDZM 20/16Z
+  * RolloTube S-line Zip DuoFern SLDZM 30/16Z
+  * RolloTube S-line Zip DuoFern SLDZM 40/16Z
+  * RolloTube S-line Zip DuoFern SLDZM 50/12Z  
+
 ### 0.0.35      (09.03.2022)
 * (homecineplexx) fixed a problem with slatposition for device 35000662 
 
