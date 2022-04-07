@@ -16,6 +16,9 @@ Windows: [![AppVeyor](https://ci.appveyor.com/api/projects/status/github/homecin
 
 
 ## Changelog
+### 0.0.38      (07.04.2022)
+* (homecineplexx) added attributes to the device 32501772
+
 ### 0.0.37      (07.04.2022)
 * (homecineplexx) added new device: addZ White + Colour E14 LED
 

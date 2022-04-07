@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "homepilot20",
-        "version": "0.0.37",
+        "version": "0.0.38",
 		"news": {
+          "0.0.38":{
+            "en": "added attributes to the device 32501772",
+            "de": "Attribute zum Gerät 32501772 hinzugefügt",
+            "ru": "добавлены атрибуты к устройству 32501772",
+            "pt": "atributos adicionados ao dispositivo 32501772",
+            "nl": "attributen toegevoegd aan het apparaat 32501772",
+            "fr": "ajout d'attributs à l'appareil 32501772",
+            "it": "attributi aggiunti al dispositivo 32501772",
+            "es": "atributos agregados al dispositivo 32501772",
+            "pl": "dodano atrybuty do urządzenia 32501772",
+            "zh-cn": "为设备添加了属性 32501772"
+          },
           "0.0.37":{
             "en": "added new device: addZ White + Colour E14 LED",
             "de": "neues Gerät hinzugefügt: addZ White + Color E14 LED",
