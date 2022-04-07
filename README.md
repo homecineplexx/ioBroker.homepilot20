@@ -16,6 +16,9 @@ Windows: [![AppVeyor](https://ci.appveyor.com/api/projects/status/github/homecin
 
 
 ## Changelog
+### 0.0.37      (07.04.2022)
+* (homecineplexx) added new device: addZ White + Colour E14 LED
+
 ### 0.0.36      (29.03.2022)
 * (homecineplexx) added new devices
   * RolloTube S-line Zip DuoFern SLDZS 06/28Z

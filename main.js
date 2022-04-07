@@ -214,7 +214,8 @@ function controlHomepilot(id, input) {
 		// Philips Hue (99999983 || 99999981 || 99999982)
 		} else if (deviceNumberId == '99999981' /*Philips-Hue-Weiße-Lampe*/ ||
 				   deviceNumberId == '99999982' /*Philips-Hue-Ambiance-Spot*/ ||
-				   deviceNumberId == '99999983' /*Philips-Hue-RGB-Lampe*/) {
+				   deviceNumberId == '99999983' /*Philips-Hue-RGB-Lampe*/ ||
+                   deviceNumberId == '35144001' /*addZ White + Colour E14 LED*/) {
 			if (0 >= parseInt(input)) {
 				input = 0;
 			} else if (parseInt(input) >= 100) {
@@ -247,7 +248,8 @@ function controlHomepilot(id, input) {
 		
 		if (deviceNumberId == '99999981' /*Philips-Hue-Weiße-Lampe*/ ||
 			deviceNumberId == '99999982' /*Philips-Hue-Ambiance-Spot*/ ||
-			deviceNumberId == '99999983' /*Philips-Hue-RGB-Lampe*/) {
+			deviceNumberId == '99999983' /*Philips-Hue-RGB-Lampe*/ ||
+            deviceNumberId == '35144001' /*addZ White + Colour E14 LED*/) {
 			if (input == 'AN' || input == 'ON') {			
 				data = '{"name":"TURN_ON_CMD"}';
 			} else if (input == 'AUS' || input == 'OFF') {			
@@ -948,6 +950,10 @@ function calculatePath(result, type) {
 			deviceType = 'HD-Kamera-9486';
             break;
 
+        case "35144001":
+			deviceType = 'addZ White + Colour E14 LED';
+            break;
+
         //Versuch ohne zu testen
         case "23783076":
             deviceType = "RolloTube S-line Sun DuoFern SLDSM 30/16PZ";
@@ -1261,7 +1267,8 @@ function createActuatorStates(result, type) {
 			if (deviceNumber != '99999980' /*Philips-Hue-Bridge*/ &&
 				deviceNumber != '99999981' /*Philips-Hue-Weiße-Lampe*/ &&
 				deviceNumber != '99999982' /*Philips-Hue-Ambiance-Spot*/ &&
-				deviceNumber != '99999983' /*Philips-Hue-RGB-Lampe*/) {
+				deviceNumber != '99999983' /*Philips-Hue-RGB-Lampe*/ &&
+                deviceNumber != '35144001' /*addZ White + Colour E14 LED*/) {
 				adapter.setObjectNotExists(path + '.Position', {
 					type: 'state',
 					common: {
@@ -1397,7 +1404,8 @@ function createActuatorStates(result, type) {
 		
 		if (deviceNumber == '99999981' /*Philips-Hue-Weiße-Lampe*/ ||
 			deviceNumber == '99999982' /*Philips-Hue-Ambiance-Spot*/ ||
-			deviceNumber == '99999983' /*Philips-Hue-RGB-Lampe*/) {
+			deviceNumber == '99999983' /*Philips-Hue-RGB-Lampe*/ ||
+            deviceNumber == '35144001' /*addZ White + Colour E14 LED*/) {
 			adapter.setObjectNotExists(path + '.Position', {
 				type: 'state',
 				common: {
@@ -1924,7 +1932,8 @@ function writeActuatorStates(result, type) {
 		if (deviceNumber != '99999980' /*Philips-Hue-Bridge*/ &&
 			deviceNumber != '99999981' /*Philips-Hue-Weiße-Lampe*/ &&
 			deviceNumber != '99999982' /*Philips-Hue-Ambiance-Spot*/ &&
-			deviceNumber != '99999983' /*Philips-Hue-RGB-Lampe*/) {
+			deviceNumber != '99999983' /*Philips-Hue-RGB-Lampe*/ &&
+            deviceNumber != '35144001' /*addZ White + Colour E14 LED*/) {
 			setCorrectState(path, '.Position', value, result.did + '-' + type);
 		}
 		
@@ -1957,7 +1966,8 @@ function writeActuatorStates(result, type) {
 		
 		if (deviceNumber == '99999981' /*Philips-Hue-Weiße-Lampe*/ ||
 			deviceNumber == '99999982' /*Philips-Hue-Ambiance-Spot*/ ||
-			deviceNumber == '99999983' /*Philips-Hue-RGB-Lampe*/) {
+			deviceNumber == '99999983' /*Philips-Hue-RGB-Lampe*/ ||
+            deviceNumber == '35144001' /*addZ White + Colour E14 LED*/) {
 			setCorrectState(path, '.Position', result.statusesMap.Position, result.did + '-' + type);
 			
 			if (deviceNumber != '99999981' /*Philips-Hue-RGB-Lampe*/) {

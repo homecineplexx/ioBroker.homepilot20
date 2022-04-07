@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "homepilot20",
-        "version": "0.0.36",
+        "version": "0.0.37",
 		"news": {
+          "0.0.37":{
+            "en": "added new device: addZ White + Colour E14 LED",
+            "de": "neues Gerät hinzugefügt: addZ White + Color E14 LED",
+            "ru": "добавлено новое устройство: addZ White + Color E14 LED",
+            "pt": "adicionado novo dispositivo: addZ White + Color E14 LED",
+            "nl": "nieuw apparaat toegevoegd: addZ Wit + Kleur E14 LED",
+            "fr": "ajout d'un nouvel appareil : addZ White + Color E14 LED",
+            "it": "aggiunto nuovo dispositivo: addZ White + Color E14 LED",
+            "es": "nuevo dispositivo agregado: addZ White + Color E14 LED",
+            "pl": "dodane nowe urządzenie: addZ Biały + Kolor E14 LED",
+            "zh-cn": "添加新设备：addZ White + Color E14 LED"
+          },
           "0.0.36":{
             "en": "added new devices for RolloTube S-line Zip DuoFern",
             "de": "neue Geräte für RolloTube S-line Zip DuoFern hinzugefügt",
