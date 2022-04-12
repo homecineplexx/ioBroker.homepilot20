@@ -1654,6 +1654,22 @@ function createSensorStates(result, type) {
 				native: {}
 			});
 		}
+
+        if (deviceNumber == '32210069' /*DuoFern-Sonnensensor-9478-1*/) {
+            adapter.setObjectNotExists(path + '.sun_detected', {
+				type: 'state',
+				common: {
+				   name: 'vibration_detected',
+					desc: 'vibration_detected stored in homepilot for device ' + deviceId,
+					type: 'boolean',
+					role: 'text',
+					def: true,
+					read: true,
+					write: false
+				},
+				native: {}
+			});
+        }
 		
 		if (deviceNumber == '32501812' /*DuoFern-Raumthermostat*/ ||
 			deviceNumber == '32000064' /*DuoFern-Umweltsensor*/) {
@@ -2038,6 +2054,10 @@ function writeSensorStates(result, type) {
 			deviceNumber == '16234511' /*DuoFern-RolloTron-Comfort-1800/1805/1840*/) {
 			setCorrectState(path, '.sun_detected', result.readings.sun_detected, result.did + '-' + type);
 		}
+
+        if (deviceNumber == '32210069' /*DuoFern-Sonnensensor-9478-1*/) {
+            setCorrectState(path, '.vibration_detected', result.readings.vibration_detected, result.did + '-' + type); 
+        }
 		
 		if (deviceNumber == '32501812' /*DuoFern-Raumthermostat*/ ||
 			deviceNumber == '32000064' /*DuoFern-Umweltsensor*/) {

@@ -16,6 +16,9 @@ Windows: [![AppVeyor](https://ci.appveyor.com/api/projects/status/github/homecin
 
 
 ## Changelog
+### 0.0.40      (12.04.2022)
+* (homecineplexx) added parameter vibration_detected for DuoFern-Sonnensensor-9478-1
+
 ### 0.0.39      (12.04.2022)
 * (homecineplexx) added new device: DuoFern-Sonnensensor-9478-1
 
