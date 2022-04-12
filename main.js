@@ -1656,7 +1656,7 @@ function createSensorStates(result, type) {
 		}
 
         if (deviceNumber == '32210069' /*DuoFern-Sonnensensor-9478-1*/) {
-            adapter.setObjectNotExists(path + '.sun_detected', {
+            adapter.setObjectNotExists(path + '.vibration_detected', {
 				type: 'state',
 				common: {
 				   name: 'vibration_detected',
