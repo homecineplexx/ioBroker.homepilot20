@@ -930,6 +930,10 @@ function calculatePath(result, type) {
 		case "32000069":
 			deviceType = 'DuoFern-Sonnensensor-9478';
 			break;
+
+        case "32210069":
+			deviceType = 'DuoFern-Sonnensensor-9478-1';
+			break;
 		
 		case "99999980":
 			deviceType = 'Philips-Hue-Bridge';
@@ -1634,6 +1638,7 @@ function createSensorStates(result, type) {
 		if (deviceNumber == '36500572' /*Duofern-Troll-Comfort-5665*/ ||
 			deviceNumber == '32000064' /*DuoFern-Umweltsensor*/ ||
 			deviceNumber == '32000069' /*DuoFern-Sonnensensor-9478*/ ||
+            deviceNumber == '32210069' /*DuoFern-Sonnensensor-9478-1*/ ||
 			deviceNumber == '16234511' /*DuoFern-RolloTron-Comfort-1800/1805/1840*/) {
 			adapter.setObjectNotExists(path + '.sun_detected', {
 				type: 'state',
@@ -2029,6 +2034,7 @@ function writeSensorStates(result, type) {
 		if (deviceNumber == '36500572' /*Duofern-Troll-Comfort-5665*/ ||
 			deviceNumber == '32000064' /*DuoFern-Umweltsensor*/ ||
 			deviceNumber == '32000069' /*DuoFern-Sonnensensor-9478*/ ||
+            deviceNumber == '32210069' /*DuoFern-Sonnensensor-9478-1*/ ||
 			deviceNumber == '16234511' /*DuoFern-RolloTron-Comfort-1800/1805/1840*/) {
 			setCorrectState(path, '.sun_detected', result.readings.sun_detected, result.did + '-' + type);
 		}

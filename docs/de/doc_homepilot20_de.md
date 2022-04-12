@@ -77,6 +77,8 @@ Für Sensor und Transmitter ist hartkodiert 3s eingestellt. Cameras werden momen
 |   35144001    |  addZ White + Colour E14 LED                 |                            | level.dimmer           |         | Actuator             | 0 - 100 %  |
 |               |                                              |                            | level.color.temperature|         | Actuator             | 153 - 500  |
 |               |                                              |                            | level.rgb              |         | Actuator             |   RGB      |
+|   32210069    |  DuoFern Sonnensensor                        |                            | text                   |  9478-1 | Sensor               |            |
+
 
 __99999983__ , __99999982__ , __99999981__ und __35144001__ haben zusätzlich auch einen Datenpunkt __Action__ erhalten.
 Hier sind folgende Werte erlaubt:

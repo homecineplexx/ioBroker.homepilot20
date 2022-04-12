@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "homepilot20",
-        "version": "0.0.38",
+        "version": "0.0.39",
 		"news": {
+        "0.0.39":{
+            "en": "added new device: DuoFern-Sonnensensor-9478-1",
+            "de": "neues Gerät hinzugefügt: DuoFern-Sonnensensor-9478-1",
+            "ru": "добавлено новое устройство: DuoFern-Sonnensensor-9478-1",
+            "pt": "adicionado novo dispositivo: DuoFern-Sonnensensor-9478-1",
+            "nl": "nieuw apparaat toegevoegd: DuoFern-Sonnensensor-9478-1",
+            "fr": "ajout d'un nouvel appareil : DuoFern-Sonnensensor-9478-1",
+            "it": "aggiunto nuovo dispositivo: DuoFern-Sonnensensor-9478-1",
+            "es": "nuevo dispositivo agregado: DuoFern-Sonnensensor-9478-1",
+            "pl": "dodane nowe urządzenie: DuoFern-Sonnensensor-9478-1",
+            "zh-cn": "添加新设备：DuoFern-Sonnensensor-9478-1"
+          },
           "0.0.38":{
             "en": "added attributes to the device 32501772",
             "de": "Attribute zum Gerät 32501772 hinzugefügt",
