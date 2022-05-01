@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "homepilot20",
-        "version": "0.0.40",
+        "version": "0.0.42",
 		"news": {
+        "0.0.42":{
+            "en": "Added additional attributes for deviceNumber 27601565",
+            "de": "Zusätzliche Attribute für deviceNumber 27601565 (DuoFern-Rohrmotor) hinzugefügt",
+            "ru": "Добавлены дополнительные атрибуты для deviceNumber 27601565",
+            "pt": "Adicionados atributos adicionais para o dispositivoNúmero 27601565",
+            "nl": "Extra attributen toegevoegd voor deviceNumber 27601565",
+            "fr": "Ajout d'attributs supplémentaires pour deviceNumber 27601565",
+            "it": "Aggiunti attributi aggiuntivi per deviceNumber 27601565",
+            "es": "Se han añadido atributos adicionales para el deviceNumber 27601565",
+            "pl": "Dodano dodatkowe atrybuty dla deviceNumber 27601565",
+            "zh-cn": "增加了设备号的附加属性 27601565"
+        },    
         "0.0.40":{
             "en": "added parameter vibration_detected for DuoFern-Sonnensensor-9478-1",
             "de": "Parameter vibration_detected für DuoFern-Sonnensensor-9478-1 hinzugefügt",
