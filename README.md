@@ -17,8 +17,42 @@ Windows: [![AppVeyor](https://ci.appveyor.com/api/projects/status/github/homecin
 
 ## Changelog
 
-### 0.0.33
+### 0.0.42 (my)
 * Added additional attributes for deviceNumber 27601565 (DuoFern-Rohrmotor)
+  
+### 0.0.41      (12.04.2022)
+* (homecineplexx) added parameter vibration_detected for DuoFern-Sonnensensor-9478-1
+
+### 0.0.40      (12.04.2022)
+* (homecineplexx) added parameter vibration_detected for DuoFern-Sonnensensor-9478-1
+
+### 0.0.39      (12.04.2022)
+* (homecineplexx) added new device: DuoFern-Sonnensensor-9478-1
+
+### 0.0.38      (07.04.2022)
+* (homecineplexx) added attributes to the device 32501772
+
+### 0.0.37      (07.04.2022)
+* (homecineplexx) added new device: addZ White + Colour E14 LED
+
+### 0.0.36      (29.03.2022)
+* (homecineplexx) added new devices
+  * RolloTube S-line Zip DuoFern SLDZS 06/28Z
+  * RolloTube S-line Zip DuoFern SLDZS 10/16Z
+  * RolloTube S-line Zip DuoFern SLDZM 10/16Z
+  * RolloTube S-line Zip DuoFern SLDZM 20/16Z
+  * RolloTube S-line Zip DuoFern SLDZM 30/16Z
+  * RolloTube S-line Zip DuoFern SLDZM 40/16Z
+  * RolloTube S-line Zip DuoFern SLDZM 50/12Z  
+
+### 0.0.35      (09.03.2022)
+* (homecineplexx) fixed a problem with slatposition for device 35000662 
+
+### 0.0.34      (09.03.2022)
+* (homecineplexx) name in the object-name deleted 
+
+### 0.0.33      (08.03.2022)
+* (homecineplexx) first fix for performance problems
 
 ### 0.0.32      (26.12.2021)
 * (homecineplexx) Fixed issue for activating scene

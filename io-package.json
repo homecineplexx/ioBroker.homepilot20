@@ -1,9 +1,9 @@
 {
     "common": {
         "name": "homepilot20",
-        "version": "0.0.33",
+        "version": "0.0.42",
 		"news": {
-        "0.0.33":{
+        "0.0.42":{
             "en": "Added additional attributes for deviceNumber 27601565",
             "de": "Zusätzliche Attribute für deviceNumber 27601565 (DuoFern-Rohrmotor) hinzugefügt",
             "ru": "Добавлены дополнительные атрибуты для deviceNumber 27601565",
@@ -14,7 +14,103 @@
             "es": "Se han añadido atributos adicionales para el deviceNumber 27601565",
             "pl": "Dodano dodatkowe atrybuty dla deviceNumber 27601565",
             "zh-cn": "增加了设备号的附加属性 27601565"
-        },
+        },    
+        "0.0.40":{
+            "en": "added parameter vibration_detected for DuoFern-Sonnensensor-9478-1",
+            "de": "Parameter vibration_detected für DuoFern-Sonnensensor-9478-1 hinzugefügt",
+            "ru": "добавлен параметр вибрация_detected для DuoFern-Sonnensensor-9478-1",
+            "pt": "adicionado parâmetro vibração_detectado para DuoFern-Sonnensensor-9478-1",
+            "nl": "toegevoegde parameter vibration_detected voor DuoFern-Sonnensensor-9478-1",
+            "fr": "ajout du paramètre vibration_detected pour DuoFern-Sonnensensor-9478-1",
+            "it": "aggiunto parametro vibration_detected per DuoFern-Sonnensensor-9478-1",
+            "es": "parámetro agregado vibración_detectada para DuoFern-Sonnensensor-9478-1",
+            "pl": "dodany parametr wibracji_wykryto dla DuoFern-Sonnensensor-9478-1",
+            "zh-cn": "为 DuoFern-Sonnensensor-9478-1 添加了参数vibration_detected"
+          },
+        "0.0.39":{
+            "en": "added new device: DuoFern-Sonnensensor-9478-1",
+            "de": "neues Gerät hinzugefügt: DuoFern-Sonnensensor-9478-1",
+            "ru": "добавлено новое устройство: DuoFern-Sonnensensor-9478-1",
+            "pt": "adicionado novo dispositivo: DuoFern-Sonnensensor-9478-1",
+            "nl": "nieuw apparaat toegevoegd: DuoFern-Sonnensensor-9478-1",
+            "fr": "ajout d'un nouvel appareil : DuoFern-Sonnensensor-9478-1",
+            "it": "aggiunto nuovo dispositivo: DuoFern-Sonnensensor-9478-1",
+            "es": "nuevo dispositivo agregado: DuoFern-Sonnensensor-9478-1",
+            "pl": "dodane nowe urządzenie: DuoFern-Sonnensensor-9478-1",
+            "zh-cn": "添加新设备：DuoFern-Sonnensensor-9478-1"
+          },
+          "0.0.38":{
+            "en": "added attributes to the device 32501772",
+            "de": "Attribute zum Gerät 32501772 hinzugefügt",
+            "ru": "добавлены атрибуты к устройству 32501772",
+            "pt": "atributos adicionados ao dispositivo 32501772",
+            "nl": "attributen toegevoegd aan het apparaat 32501772",
+            "fr": "ajout d'attributs à l'appareil 32501772",
+            "it": "attributi aggiunti al dispositivo 32501772",
+            "es": "atributos agregados al dispositivo 32501772",
+            "pl": "dodano atrybuty do urządzenia 32501772",
+            "zh-cn": "为设备添加了属性 32501772"
+          },
+          "0.0.37":{
+            "en": "added new device: addZ White + Colour E14 LED",
+            "de": "neues Gerät hinzugefügt: addZ White + Color E14 LED",
+            "ru": "добавлено новое устройство: addZ White + Color E14 LED",
+            "pt": "adicionado novo dispositivo: addZ White + Color E14 LED",
+            "nl": "nieuw apparaat toegevoegd: addZ Wit + Kleur E14 LED",
+            "fr": "ajout d'un nouvel appareil : addZ White + Color E14 LED",
+            "it": "aggiunto nuovo dispositivo: addZ White + Color E14 LED",
+            "es": "nuevo dispositivo agregado: addZ White + Color E14 LED",
+            "pl": "dodane nowe urządzenie: addZ Biały + Kolor E14 LED",
+            "zh-cn": "添加新设备：addZ White + Color E14 LED"
+          },
+          "0.0.36":{
+            "en": "added new devices for RolloTube S-line Zip DuoFern",
+            "de": "neue Geräte für RolloTube S-line Zip DuoFern hinzugefügt",
+            "ru": "добавлены новые устройства для RolloTube S-line Zip DuoFern",
+            "pt": "adicionados novos dispositivos para RolloTube S-line Zip DuoFern",
+            "nl": "nieuwe apparaten toegevoegd voor RolloTube S-line Zip DuoFern",
+            "fr": "ajout de nouveaux dispositifs pour RolloTube S-line Zip DuoFern",
+            "it": "aggiunti nuovi dispositivi per RolloTube S-line Zip DuoFern",
+            "es": "se agregaron nuevos dispositivos para RolloTube S-line Zip DuoFern",
+            "pl": "dodano nowe urządzenia dla RolloTube S-line Zip DuoFern",
+            "zh-cn": "为 RolloTube S-line Zip DuoFern 添加了新设备"
+          },
+          "0.0.35":{
+            "en": "fixed a problem with slatposition for device 35000662",
+            "de": "Behebung eines Problems mit der slatposition für Gerät 35000662",
+            "ru": "исправлена проблема с slatposition для устройства 35000662",
+            "pt": "corrigido um problema com slatposition para o dispositivo 35000662",
+            "nl": "probleem opgelost met lamellenpositie voor apparaat 35000662",
+            "fr": "correction d'un problème avec la position des lamelles pour l'appareil 35000662",
+            "it": "risolto un problema con la posizione delle lamelle per il dispositivo 35000662",
+            "es": "solucionó un problema con la posición de las tablillas para el dispositivo 35000662",
+            "pl": "naprawiono problem z położeniem listew dla urządzenia 35000662",
+            "zh-cn": "修复了设备 35000662 的 slatposition 问题"
+          },
+          "0.0.34":{
+            "en": "name in the object-name deleted",
+            "de": "Name im Objektnamen gelöscht",
+            "ru": "имя в имени объекта удалено",
+            "pt": "nome no nome do objeto excluído",
+            "nl": "naam in de objectnaam verwijderd",
+            "fr": "nom dans le nom d'objet supprimé",
+            "it": "nome nel nome dell'oggetto eliminato",
+            "es": "nombre en el objeto-nombre eliminado",
+            "pl": "usunięta nazwa w nazwie obiektu",
+            "zh-cn": "对象名称中的名称已删除"
+          },
+          "0.0.33":{
+            "en": "first fix for performance problems",
+            "de": "erste Lösung für Leistungsprobleme",
+            "ru": "первое исправление проблем с производительностью",
+            "pt": "primeira correção para problemas de desempenho",
+            "nl": "eerste oplossing voor prestatieproblemen",
+            "fr": "premier correctif pour les problèmes de performances",
+            "it": "prima soluzione per problemi di prestazioni",
+            "es": "primera solución para problemas de rendimiento",
+            "pl": "pierwsza poprawka problemów z wydajnością",
+            "zh-cn": "首次修复性能问题"
+          },
           "0.0.32":{
             "en": "Fixed issue for activating scene",
             "de": "Problem beim Aktivieren der Szene behoben",
@@ -74,78 +170,6 @@
             "es": "solucionar algunos problemas encontrados por el verificador de adaptadores",
             "pl": "napraw niektóre problemy znalezione przez kontroler adaptera",
             "zh-cn": "修复适配器检查器发现的一些问题"
-          },
-          "0.0.27":{
-            "en": "Update Readme",
-            "de": "Readme aktualisieren",
-            "ru": "Обновить Readme",
-            "pt": "Atualizar Leia-me",
-            "nl": "Update Readme",
-            "fr": "Mettre à jour le fichier Lisez-moi",
-            "it": "Aggiorna il file Leggimi",
-            "es": "Actualizar Léame",
-            "pl": "Zaktualizuj plik Readme",
-            "zh-cn": "更新自述文件"
-          },
-          "0.0.26":{
-            "en": "fix warnings during startup",
-            "de": "Warnungen beim Start beheben",
-            "ru": "исправить предупреждения при запуске",
-            "pt": "corrigir avisos durante a inicialização",
-            "nl": "waarschuwingen oplossen tijdens opstarten",
-            "fr": "corriger les avertissements au démarrage",
-            "it": "correggere gli avvisi durante l'avvio",
-            "es": "corregir advertencias durante el inicio",
-            "pl": "napraw ostrzeżenia podczas uruchamiania",
-            "zh-cn": "修复启动期间的警告"
-          },
-          "0.0.25":{
-            "en": "fix warnings during startup",
-            "de": "Warnungen beim Start beheben",
-            "ru": "исправить предупреждения при запуске",
-            "pt": "corrigir avisos durante a inicialização",
-            "nl": "waarschuwingen oplossen tijdens opstarten",
-            "fr": "corriger les avertissements au démarrage",
-            "it": "correggere gli avvisi durante l'avvio",
-            "es": "corregir advertencias durante el inicio",
-            "pl": "napraw ostrzeżenia podczas uruchamiania",
-            "zh-cn": "修复启动期间的警告"
-          },
-          "0.0.24":{
-            "en": "fix timestamp min value",
-            "de": "Min-Wert für timestamp gefixt",
-            "ru": "исправить минимальное значение временной метки",
-            "pt": "corrigir valor mínimo do carimbo de data / hora",
-            "nl": "fix tijdstempel min waarde",
-            "fr": "correction de la valeur minimale de l'horodatage",
-            "it": "fissare il valore minimo del timestamp",
-            "es": "fijar el valor mínimo de la marca de tiempo",
-            "pl": "napraw minimalną wartość sygnatury czasowej",
-            "zh-cn": "修复时间戳最小值"
-          },
-          "0.0.23":{
-            "en": "Update Readme",
-            "de": "Readme aktualisieren",
-            "ru": "Обновить Readme",
-            "pt": "Atualizar Leia-me",
-            "nl": "Update Readme",
-            "fr": "Mettre à jour le fichier Lisez-moi",
-            "it": "Aggiorna il file Leggimi",
-            "es": "Actualizar Léame",
-            "pl": "Zaktualizuj plik Readme",
-            "zh-cn": "更新自述文件"
-          },
-          "0.0.22":{
-            "en": "fixed some issues",
-            "de": "einige Probleme behoben",
-            "ru": "исправил некоторые проблемы",
-            "pt": "consertou alguns problemas",
-            "nl": "een aantal problemen opgelost",
-            "fr": "corrigé quelques problèmes",
-            "it": "risolto alcuni problemi",
-            "es": "solucionó algunos problemas",
-            "pl": "naprawiono kilka problemów",
-            "zh-cn": "修复了一些问题"
           }
         },
         "title": "Homepilot 2.0",

@@ -67,8 +67,20 @@ Für Sensor und Transmitter ist hartkodiert 3s eingestellt. Cameras werden momen
 |   32004219    |  HD-Kamera (innen)                           |                            | text                   |  9486   | Sensor               |            |
 |   99999998    |  GeoPilot IOS (Handy)                        |                            | text                   |         | Sensor               |            |
 |   99999999    |  GeoPilot Android (Handy)                    |                            | text                   |         | Sensor               |            |
+|   25782075    |  RolloTube S-line Zip DuoFern SLDZS 06/28Z   |                            | level.blind            |         | Actuator             | 0 - 100 %  |
+|   25782075    |  RolloTube S-line Zip DuoFern SLDZS 10/16Z   |                            | level.blind            |         | Actuator             | 0 - 100 %  |
+|   25782075    |  RolloTube S-line Zip DuoFern SLDZM 10/16Z   |                            | level.blind            |         | Actuator             | 0 - 100 %  |
+|   25782075    |  RolloTube S-line Zip DuoFern SLDZM 20/16Z   |                            | level.blind            |         | Actuator             | 0 - 100 %  |
+|   25782075    |  RolloTube S-line Zip DuoFern SLDZM 30/16Z   |                            | level.blind            |         | Actuator             | 0 - 100 %  |
+|   25782075    |  RolloTube S-line Zip DuoFern SLDZM 40/16Z   |                            | level.blind            |         | Actuator             | 0 - 100 %  |
+|   25782075    |  RolloTube S-line Zip DuoFern SLDZM 50/12Z   |                            | level.blind            |         | Actuator             | 0 - 100 %  |
+|   35144001    |  addZ White + Colour E14 LED                 |                            | level.dimmer           |         | Actuator             | 0 - 100 %  |
+|               |                                              |                            | level.color.temperature|         | Actuator             | 153 - 500  |
+|               |                                              |                            | level.rgb              |         | Actuator             |   RGB      |
+|   32210069    |  DuoFern Sonnensensor                        |                            | text                   |  9478-1 | Sensor               |            |
 
-__99999983__ , __99999982__ und __99999981__ haben zusätzlich auch einen Datenpunkt __Action__ erhalten.
+
+__99999983__ , __99999982__ , __99999981__ und __35144001__ haben zusätzlich auch einen Datenpunkt __Action__ erhalten.
 Hier sind folgende Werte erlaubt:
 * AN/AUS
 * ON/OFF
