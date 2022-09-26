@@ -934,6 +934,10 @@ function calculatePath(result, type) {
         case "32210069":
 			deviceType = 'DuoFern-Sonnensensor-9478-1';
 			break;
+        
+        case "32004464":
+            deviceType = 'DuoFern Sonnen-/Windsensor 9499';
+			break;
 		
 		case "99999980":
 			deviceType = 'Philips-Hue-Bridge';
@@ -1639,6 +1643,7 @@ function createSensorStates(result, type) {
 			deviceNumber == '32000064' /*DuoFern-Umweltsensor*/ ||
 			deviceNumber == '32000069' /*DuoFern-Sonnensensor-9478*/ ||
             deviceNumber == '32210069' /*DuoFern-Sonnensensor-9478-1*/ ||
+            deviceNumber == '32004464' /*DuoFern Sonnen-/Windsensor 9499*/ ||
 			deviceNumber == '16234511' /*DuoFern-RolloTron-Comfort-1800/1805/1840*/) {
 			adapter.setObjectNotExists(path + '.sun_detected', {
 				type: 'state',
@@ -1653,6 +1658,22 @@ function createSensorStates(result, type) {
 				},
 				native: {}
 			});
+		}
+
+		if (deviceNumber == '32004464' /*DuoFern Sonnen-/Windsensor 9499*/) {
+		    adapter.setObjectNotExists(path + '.wind_detected', {
+                type: 'state',
+                common: {
+                   name: 'wind_detected',
+                    desc: 'wind_detected stored in homepilot for device ' + deviceId,
+                    type: 'boolean',
+                    role: 'text',
+                    def: true,
+                    read: true,
+                    write: false
+                },
+                native: {}
+            });
 		}
 
         if (deviceNumber == '32210069' /*DuoFern-Sonnensensor-9478-1*/) {
@@ -2051,8 +2072,13 @@ function writeSensorStates(result, type) {
 			deviceNumber == '32000064' /*DuoFern-Umweltsensor*/ ||
 			deviceNumber == '32000069' /*DuoFern-Sonnensensor-9478*/ ||
             deviceNumber == '32210069' /*DuoFern-Sonnensensor-9478-1*/ ||
+            deviceNumber == '32004464' /*DuoFern Sonnen-/Windsensor 9499*/ ||
 			deviceNumber == '16234511' /*DuoFern-RolloTron-Comfort-1800/1805/1840*/) {
 			setCorrectState(path, '.sun_detected', result.readings.sun_detected, result.did + '-' + type);
+		}
+
+		if (deviceNumber == '32004464' /*DuoFern Sonnen-/Windsensor 9499*/) {
+		    setCorrectState(path, '.wind_detected', result.readings.wind_detected, result.did + '-' + type);
 		}
 
         if (deviceNumber == '32210069' /*DuoFern-Sonnensensor-9478-1*/) {

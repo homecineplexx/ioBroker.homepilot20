@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "homepilot20",
-        "version": "0.0.41",
+        "version": "0.0.42",
 		"news": {
+        "0.0.42":{
+            "en": "added new device DuoFern Sonnen-/Windsensor 9499",
+            "de": "neues Gerät DuoFern Sonnen-/Windsensor 9499 hinzugefügt",
+            "ru": "добавлено новое устройство DuoFern Sonnen-/Windsensor 9499",
+            "pt": "adicionado novo dispositivo DuoFern Sonnen-/Windsensor 9499",
+            "nl": "nieuw apparaat toegevoegd DuoFern Sonnen-/Windsensor 9499",
+            "fr": "ajout d'un nouvel appareil DuoFern Sonnen-/Windsensor 9499",
+            "it": "aggiunto nuovo dispositivo DuoFern Sonnen-/Windsensor 9499",
+            "es": "agregado nuevo dispositivo DuoFern Sonnen-/Windsensor 9499",
+            "pl": "dodano nowe urządzenie DuoFern Sonnen-/Windsensor 9499",
+            "zh-cn": "添加了新设备 DuoFern Sonnen-/Windsensor 9499"
+          },
         "0.0.41":{
             "en": "added parameter vibration_detected for DuoFern-Sonnensensor-9478-1",
             "de": "Parameter vibration_detected für DuoFern-Sonnensensor-9478-1 hinzugefügt",
