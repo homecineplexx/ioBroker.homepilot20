@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "homepilot20",
-        "version": "0.0.42",
+        "version": "0.0.43",
 		"news": {
+        "0.0.43":{
+            "en": "added new device DuoFern RolloTron premium smart 10182345",
+            "de": "Neues Gerät DuoFern RolloTron premium smart 10182345 hinzugefügt",
+            "ru": "добавлено новое устройство DuoFern RolloTron premium smart 10182345",
+            "pt": "adicionado novo dispositivo DuoFern RolloTron premium smart 10182345",
+            "nl": "nieuw apparaat DuoFern RolloTron premium smart 10182345 toegevoegd",
+            "fr": "ajout d'un nouvel appareil DuoFern RolloTron premium smart 10182345",
+            "it": "aggiunto nuovo dispositivo DuoFern RolloTron premium smart 10182345",
+            "es": "añadido nuevo dispositivo DuoFern RolloTron premium smart 10182345",
+            "pl": "dodano nowe urządzenie DuoFern RolloTron premium smart 10182345",
+            "zh-cn": "添加了新设备 DuoFern RolloTron premium smart 10182345"
+          },
         "0.0.42":{
             "en": "added new device DuoFern Sonnen-/Windsensor 9499",
             "de": "neues Gerät DuoFern Sonnen-/Windsensor 9499 hinzugefügt",
