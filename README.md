@@ -16,6 +16,9 @@ Windows: [![AppVeyor](https://ci.appveyor.com/api/projects/status/github/homecin
 
 
 ## Changelog
+### 0.0.44      (03.11.2023)
+* (homecineplexx) added new device DuoFern RolloTron pure smart 10122345
+* 
 ### 0.0.43      (26.08.2023)
 * (homecineplexx) added new device DuoFern RolloTron premium smart 10182345
 

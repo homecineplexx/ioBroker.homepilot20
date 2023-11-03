@@ -80,7 +80,7 @@ Für Sensor und Transmitter ist hartkodiert 3s eingestellt. Cameras werden momen
 |   32210069    |  DuoFern Sonnensensor                        |                            | text                   |  9478-1 | Sensor               |            |
 |   32004464    |  DuoFern Sonnen-/Windsensor 9499             |                            | text                   |  9499   | Sensor               |            |
 |   10182345    |  DuoFern-RolloTron premium smart             |                            | level.blind            |         | Actuator             | 0 - 100 %  |
-
+|   10122345    |  DuoFern-RolloTron pure smart                |                            | level.blind            |         | Actuator             | 0 - 100 %  |
 
 __99999983__ , __99999982__ , __99999981__ und __35144001__ haben zusätzlich auch einen Datenpunkt __Action__ erhalten.
 Hier sind folgende Werte erlaubt:

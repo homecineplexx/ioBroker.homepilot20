@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "homepilot20",
-        "version": "0.0.43",
+        "version": "0.0.44",
 		"news": {
+        "0.0.44":{
+            "en": "added new device DuoFern RolloTron pure smart 10122345",
+            "de": "Neues Gerät DuoFern RolloTron pure smart 10122345 hinzugefügt",
+            "ru": "добавлено новое устройство DuoFern RolloTron pure smart 10122345",
+            "pt": "adicionado novo dispositivo DuoFern RolloTron pure smart 10122345",
+            "nl": "nieuw apparaat DuoFern RolloTron pure smart 10122345 toegevoegd",
+            "fr": "ajout d'un nouvel appareil DuoFern RolloTron pure smart 10122345",
+            "it": "aggiunto nuovo dispositivo DuoFern RolloTron pure smart 10122345",
+            "es": "añadido nuevo dispositivo DuoFern RolloTron pure smart 10122345",
+            "pl": "dodano nowe urządzenie DuoFern RolloTron pure smart 10122345",
+            "zh-cn": "添加新设备 DuoFern RolloTron pure smart 10122345"
+          },
         "0.0.43":{
             "en": "added new device DuoFern RolloTron premium smart 10182345",
             "de": "Neues Gerät DuoFern RolloTron premium smart 10182345 hinzugefügt",

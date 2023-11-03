@@ -168,6 +168,7 @@ function controlHomepilot(id, input) {
 					deviceNumberId == '32000064' /*DuoFern-Umweltsensor*/ ||
 					deviceNumberId == '16234511' /*DuoFern-RolloTron-Comfort-1800/1805/1840*/ ||
                     deviceNumberId == '10182345' /*DuoFern-RolloTron premium smart*/ ||
+                    deviceNumberId == '10122345' /*DuoFern-RolloTron pure smart*/ ||
 					deviceNumberId == '14236011' /*DuoFern-RolloTron-Pro-Comfort-9800*/ ||
 					deviceNumberId == '23602075' /*DuoFern-S-Line-Motor-Typ-SLDM-10/16-PZ*/ ||
 					deviceNumberId == '23783076' /*RolloTube S-line Sun DuoFern SLDSM 30/16PZ*/ ||
@@ -849,8 +850,12 @@ function calculatePath(result, type) {
         case "10182345":
 			deviceType = 'DuoFern-RolloTron premium smart';
 			deviceRole = 'level.blind';
-			break;		
-    
+			break;
+
+		case "10122345":
+            deviceType = 'DuoFern-RolloTron pure smart';
+            deviceRole = 'level.blind';
+            break;
 
 		case "14236011":
 			deviceType = 'DuoFern-RolloTron-Pro-Comfort-9800';
