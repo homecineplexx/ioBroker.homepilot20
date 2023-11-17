@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "homepilot20",
-        "version": "0.0.44",
+        "version": "0.0.45",
 		"news": {
+        "0.0.45":{
+            "en": "added new devices: DuoFern-Rollladenmotor premium smart m10/m20/m30/m40/s10",
+            "de": "Neue Geräte hinzugefügt: DuoFern-Rollladenmotor premium smart m10/m20/m30/m40/s10",
+            "ru": "добавлены новые устройства: DuoFern-Rollladenmotor premium smart m10/m20/m30/m40/s10",
+            "pt": "novos dispositivos adicionados: DuoFern-Rollladenmotor premium smart m10/m20/m30/m40/s10",
+            "nl": "nieuwe apparaten toegevoegd: DuoFern-Rollladenmotor premium smart m10/m20/m30/m40/s10",
+            "fr": "nouveaux appareils ajoutés : DuoFern-Rollladenmotor premium smart m10/m20/m30/m40/s10",
+            "it": "aggiunti nuovi dispositivi: DuoFern-Rollladenmotor premium smart m10/m20/m30/m40/s10",
+            "es": "Se agregaron nuevos dispositivos: DuoFern-Rollladenmotor premium smart m10/m20/m30/m40/s10.",
+            "pl": "dodano nowe urządzenia: DuoFern-Rollladenmotor premium smart m10/m20/m30/m40/s10",
+            "zh-cn": "添加了新设备：DuoFern-Rollladenmotor premium smart m10/m20/m30/m40/s10"
+          },
         "0.0.44":{
             "en": "added new device DuoFern RolloTron pure smart 10122345",
             "de": "Neues Gerät DuoFern RolloTron pure smart 10122345 hinzugefügt",

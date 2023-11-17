@@ -16,9 +16,17 @@ Windows: [![AppVeyor](https://ci.appveyor.com/api/projects/status/github/homecin
 
 
 ## Changelog
+### 0.0.45      (17.11.2023)
+* (homecineplexx) added new devices:
+* DuoFern-Rollladenmotor premium smart m10
+* DuoFern-Rollladenmotor premium smart m20
+* DuoFern-Rollladenmotor premium smart m30
+* DuoFern-Rollladenmotor premium smart m40
+* DuoFern-Rollladenmotor premium smart s10
+
 ### 0.0.44      (03.11.2023)
 * (homecineplexx) added new device DuoFern RolloTron pure smart 10122345
-* 
+
 ### 0.0.43      (26.08.2023)
 * (homecineplexx) added new device DuoFern RolloTron premium smart 10182345
 

@@ -175,7 +175,12 @@ function controlHomepilot(id, input) {
 					deviceNumberId == '23784076' /*RolloTube S-line Sun DuoFern SLDSM 40/16PZ*/ ||
 					deviceNumberId == '23782076' /*RolloTube S-line Sun DuoFern SLDSM 50/12PZ*/ ||
 					deviceNumberId == '23785076' /*RolloTube S-line Sun DuoFern SLDSM 50/12PZ*/ ||
-                    deviceNumberId == '25782075' /*RolloTube S-line Zip DuoFern SLDZS 06/28Z, SLDZS 10/16Z, SLDZM 10/16Z, SLDZM 20/16Z, SLDZM 30/16Z, SLDZM 40/16Z, SLDZM 50/12Z*/) {
+                    deviceNumberId == '25782075' /*RolloTube S-line Zip DuoFern SLDZS 06/28Z, SLDZS 10/16Z, SLDZM 10/16Z, SLDZM 20/16Z, SLDZM 30/16Z, SLDZM 40/16Z, SLDZM 50/12Z*/ ||
+                    deviceNumberId == '10236010' /*DuoFern-Rollladenmotor premium smart m10*/ ||
+                    deviceNumberId == '10236020' /*DuoFern-Rollladenmotor premium smart m20*/ ||
+                    deviceNumberId == '10236030' /*DuoFern-Rollladenmotor premium smart m30*/ ||
+                    deviceNumberId == '10236040' /*DuoFern-Rollladenmotor premium smart m40*/ ||
+                    deviceNumberId == '10234010' /*DuoFern-Rollladenmotor premium smart s10*/) {
 			if (0 >= parseInt(input)) {
 				input = 0;
 			} else if (parseInt(input) >= 100) {
@@ -854,6 +859,31 @@ function calculatePath(result, type) {
 
 		case "10122345":
             deviceType = 'DuoFern-RolloTron pure smart';
+            deviceRole = 'level.blind';
+            break;
+
+        case "10236010":
+            deviceType = 'DuoFern-Rollladenmotor premium smart m10';
+            deviceRole = 'level.blind';
+            break;
+
+        case "10236020":
+            deviceType = 'DuoFern-Rollladenmotor premium smart m20';
+            deviceRole = 'level.blind';
+            break;
+
+        case "10236030":
+            deviceType = 'DuoFern-Rollladenmotor premium smart m30';
+            deviceRole = 'level.blind';
+            break;
+
+        case "10236040":
+            deviceType = 'DuoFern-Rollladenmotor premium smart m40';
+            deviceRole = 'level.blind';
+            break;
+
+        case "10234010":
+            deviceType = 'DuoFern-Rollladenmotor premium smart s10';
             deviceRole = 'level.blind';
             break;
 

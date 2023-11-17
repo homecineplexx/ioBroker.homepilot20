@@ -1,8 +1,8 @@
 {
-	"version": "0.0.44",
+	"version": "0.0.45",
 	"name": "iobroker.homepilot20",
 	"author": {
-		"name": "Christian Koller",
+		"name": "Christian Koller-Kink",
 		"email": "chris.homecineplexx@gmail.com"
 	},
 	"bugs": {
