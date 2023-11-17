@@ -14,6 +14,11 @@ Windows: [![AppVeyor](https://ci.appveyor.com/api/projects/status/github/homecin
 
 :de: [Dokumentation](/docs/de/doc_homepilot20_de.md)
 
+## Support me
+If you like my work, please consider a personal donation  
+(this is a personal Donate link for homecineplexx, no relation to the ioBroker Project !)  
+[![Donate](https://raw.githubusercontent.com/DrozmotiX/ioBroker.sourceanalytix/master/admin/button.png)](http://paypal.me/kollerkink)
+
 
 ## Changelog
 ### 0.0.45      (17.11.2023)
