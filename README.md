@@ -21,6 +21,9 @@ If you like my work, please consider a personal donation
 
 
 ## Changelog
+### 0.0.46      (26.11.2023)
+* (homecineplexx) added new device DuoFern-Heizkörper-Thermostat smart 13601001
+
 ### 0.0.45      (17.11.2023)
 * (homecineplexx) added new devices:
 * DuoFern-Rollladenmotor premium smart m10

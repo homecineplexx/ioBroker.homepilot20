@@ -86,6 +86,7 @@ Für Sensor und Transmitter ist hartkodiert 3s eingestellt. Cameras werden momen
 |   10236030    |  DuoFern-Rollladenmotor premium smart m30    |                            | level.blind            |         | Actuator             | 0 - 100 %  |
 |   10236040    |  DuoFern-Rollladenmotor premium smart m40    |                            | level.blind            |         | Actuator             | 0 - 100 %  |
 |   10234010    |  DuoFern-Rollladenmotor premium smart s10    |                            | level.blind            |         | Actuator             | 0 - 100 %  |
+|   13601001    |  DuoFern-Heizkörper-Thermostat smart         |                            | level.temperature      |         | Actuator             | 4 - 28°C   |
 
 __99999983__ , __99999982__ , __99999981__ und __35144001__ haben zusätzlich auch einen Datenpunkt __Action__ erhalten.
 Hier sind folgende Werte erlaubt:

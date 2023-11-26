@@ -191,7 +191,8 @@ function controlHomepilot(id, input) {
 			
 		//role == temperature
 		} else if (deviceNumberId == '35003064' /*DuoFern-Heizkörperstellantrieb-9433*/ ||
-					deviceNumberId == '35002319' /*Z-Wave-Heizkörperstellantrieb-8433*/) {
+					deviceNumberId == '35002319' /*Z-Wave-Heizkörperstellantrieb-8433*/ ||
+					deviceNumberId == '13601001' /*DuoFern-Heizkörper-Thermostat smart*/) {
 			//range 40°C-280°C in 0.5°C steps
 			var val = (parseFloat(input)*10);
 			
@@ -706,6 +707,15 @@ function calculatePath(result, type) {
 				additionalDeviceSettings.push(deviceId);
 			}
 			break;
+
+		case "13601001":
+            deviceType = 'DuoFern-Heizkörper-Thermostat smart';
+            deviceRole = 'level.temperature';
+
+            if (type == 'Actuator' && !isBridge) {
+                additionalDeviceSettings.push(deviceId);
+            }
+            break;
 			
 		case "32501812":
 			deviceType = 'DuoFern-Raumthermostat-9485';
@@ -1336,7 +1346,7 @@ function createActuatorStates(result, type) {
 			}
 		}
 	
-		if (deviceNumber == '35003064') {
+		if (deviceNumber == '35003064' || deviceNumber == '13601001') {
 			adapter.setObjectNotExists(path + '.batteryStatus', {
 				type: 'state',
 				common: {
@@ -1396,7 +1406,8 @@ function createActuatorStates(result, type) {
 		}
 		
 		if (deviceNumber == '35003064' ||
-			deviceNumber == '32501812') {
+			deviceNumber == '32501812' ||
+			deviceNumber == '13601001') {
 			adapter.setObjectNotExists(path + '.acttemperatur', {
 				type: 'state',
 				common: {
@@ -2031,7 +2042,7 @@ function writeActuatorStates(result, type) {
 		    setCorrectState(path, '.slatposition', result.statusesMap.slatposition, result.did + '-' + type);
 		}
 		
-		if (deviceNumber == '35003064') {
+		if (deviceNumber == '35003064' || deviceNumber == '13601001') {
 		    setCorrectState(path, '.batteryStatus', result.batteryStatus, result.did + '-' + type);
 			setCorrectState(path, '.batteryLow', result.batteryLow, result.did + '-' + type);
 			setCorrectState(path, '.posMin', result.posMin / 10, result.did + '-' + type);
@@ -2039,7 +2050,8 @@ function writeActuatorStates(result, type) {
 		}
 	
 		if (deviceNumber == '35003064' ||
-			deviceNumber == '32501812') {
+			deviceNumber == '32501812' ||
+			deviceNumber == '13601001') {
 			setCorrectState(path, '.acttemperatur', result.statusesMap.acttemperatur / 10, result.did + '-' + type);
 			
 			if (deviceNumber == '32501812') {
@@ -2244,7 +2256,18 @@ function doAdditional(toDoList, type) {
 									var value = (result.payload.device.capabilities.filter((x)=>x.name === "CONTACT_AUTO_CFG"))[0].value;
 									doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'CONTACT_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Schließkontakt', true, hashMapName);
 									break;
-									
+
+								case "13601001": /*DuoFern-Heizkörper-Thermostat smart*/
+                                    var value = (result.payload.device.capabilities.filter((x)=>x.name === "AUTO_MODE_CFG"))[0].value;
+                                    doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'AUTO_MODE_CFG', value == 'true' ? true : false, 'switch', 'Automatikbetrieb', true, hashMapName);
+
+                                    var value = (result.payload.device.capabilities.filter((x)=>x.name === "TIME_AUTO_CFG"))[0].value;
+                                    doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'TIME_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Zeit', true, hashMapName);
+
+                                    var value = (result.payload.device.capabilities.filter((x)=>x.name === "CONTACT_AUTO_CFG"))[0].value;
+                                    doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'CONTACT_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Schließkontakt', true, hashMapName);
+                                    break;
+
 								case "35000262": /*DuoFernUniversal-Aktor2-Kanal-9470-2*/
 									var value = (result.payload.device.capabilities.filter((x)=>x.name === "AUTO_MODE_CFG"))[0].value;
 									doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'AUTO_MODE_CFG', value == 'true' ? true : false, 'switch', 'Automatikbetrieb', true, hashMapName);
