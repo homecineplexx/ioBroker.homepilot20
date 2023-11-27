@@ -2257,17 +2257,6 @@ function doAdditional(toDoList, type) {
 									doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'CONTACT_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Schließkontakt', true, hashMapName);
 									break;
 
-								case "13601001": /*DuoFern-Heizkörper-Thermostat smart*/
-                                    var value = (result.payload.device.capabilities.filter((x)=>x.name === "AUTO_MODE_CFG"))[0].value;
-                                    doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'AUTO_MODE_CFG', value == 'true' ? true : false, 'switch', 'Automatikbetrieb', true, hashMapName);
-
-                                    var value = (result.payload.device.capabilities.filter((x)=>x.name === "TIME_AUTO_CFG"))[0].value;
-                                    doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'TIME_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Zeit', true, hashMapName);
-
-                                    var value = (result.payload.device.capabilities.filter((x)=>x.name === "CONTACT_AUTO_CFG"))[0].value;
-                                    doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'CONTACT_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Schließkontakt', true, hashMapName);
-                                    break;
-
 								case "35000262": /*DuoFernUniversal-Aktor2-Kanal-9470-2*/
 									var value = (result.payload.device.capabilities.filter((x)=>x.name === "AUTO_MODE_CFG"))[0].value;
 									doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'AUTO_MODE_CFG', value == 'true' ? true : false, 'switch', 'Automatikbetrieb', true, hashMapName);

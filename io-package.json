@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "homepilot20",
-        "version": "0.0.46",
+        "version": "0.0.47",
 		"news": {
+          "0.0.47":{
+            "en": "fixing error from the last commit",
+            "de": "Fehler aus dem letzten Commit beheben",
+            "ru": "исправление ошибки из последнего коммита",
+            "pt": "corrigindo erro do último commit",
+            "nl": "fout van de laatste commit herstellen",
+            "fr": "correction de l'erreur du dernier commit",
+            "it": "correzione dell'errore dell'ultimo commit",
+            "es": "corrigiendo el error de la última confirmación",
+            "pl": "naprawianie błędu z ostatniego zatwierdzenia",
+            "zh-cn": "修复上次提交的错误"
+          },
           "0.0.46":{
             "en": "added new device DuoFern-Heizkörper-Thermostat smart 13601001",
             "de": "Neues Gerät DuoFern-Heizkörper-Thermostat smart 13601001 hinzugefügt",

@@ -21,6 +21,9 @@ If you like my work, please consider a personal donation
 
 
 ## Changelog
+### 0.0.46      (27.11.2023)
+* (homecineplexx) fixing error from the last commit
+
 ### 0.0.46      (26.11.2023)
 * (homecineplexx) added new device DuoFern-Heizkörper-Thermostat smart 13601001
 
