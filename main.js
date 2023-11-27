@@ -713,7 +713,7 @@ function calculatePath(result, type) {
             deviceRole = 'level.temperature';
 
             if (type == 'Actuator' && !isBridge) {
-                additionalDeviceSettings.push(deviceId);
+                //additionalDeviceSettings.push(deviceId);
             }
             break;
 			

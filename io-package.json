@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "homepilot20",
-        "version": "0.0.47",
+        "version": "0.0.48",
 		"news": {
+          "0.0.48":{
+            "en": "fixing calling unused function for device",
+            "de": "Behebung des Aufrufs ungenutzter Funktionen für das Gerät",
+            "ru": "исправление вызова неиспользуемой функции для устройства",
+            "pt": "corrigindo a chamada de função não utilizada para o dispositivo",
+            "nl": "repareren van ongebruikte oproepfunctie voor apparaat",
+            "fr": "correction de l'appel de la fonction inutilisée pour l'appareil",
+            "it": "correzione della funzione di chiamata inutilizzata per il dispositivo",
+            "es": "arreglando la función de llamada no utilizada para el dispositivo",
+            "pl": "naprawianie wywoływania nieużywanej funkcji urządzenia",
+            "zh-cn": "修复调用设备未使用的功能"
+          },
           "0.0.47":{
             "en": "fixing error from the last commit",
             "de": "Fehler aus dem letzten Commit beheben",

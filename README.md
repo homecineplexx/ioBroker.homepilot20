@@ -21,6 +21,9 @@ If you like my work, please consider a personal donation
 
 
 ## Changelog
+### 0.0.48      (27.11.2023)
+* (homecineplexx) fixing calling unused function for device 
+
 ### 0.0.47      (27.11.2023)
 * (homecineplexx) fixing error from the last commit
 
