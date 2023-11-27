@@ -21,7 +21,7 @@ If you like my work, please consider a personal donation
 
 
 ## Changelog
-### 0.0.46      (27.11.2023)
+### 0.0.47      (27.11.2023)
 * (homecineplexx) fixing error from the last commit
 
 ### 0.0.46      (26.11.2023)
