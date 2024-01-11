@@ -157,6 +157,7 @@ function controlHomepilot(id, input) {
 		//role == level.blind
 		} else if (deviceNumberId == '35000864' /*DuoFern-Connect-Aktor-9477*/ ||
 					deviceNumberId == '14234511' /*DuoFern-RolloTronStandard*/ ||
+					deviceNumberId == '10251530' /*DuoFern-RolloTron pure smart Aufputz Minigurt*/ ||
 					deviceNumberId == '35000662' /*DuoFern-Rohrmotor-Aktor*/ ||
 					deviceNumberId == '31500162' /*DuoFern-Rohrmotorsteuerung*/ ||
 					deviceNumberId == '36500172' /*DuoFern-TrollBasis-5615*/ ||
@@ -798,7 +799,16 @@ function calculatePath(result, type) {
 				additionalDeviceSettings.push(deviceId);
 			}
             break;
-			
+
+        case "10251530":
+            deviceType = 'DuoFern-RolloTron pure smart Aufputz Minigurt';
+            deviceRole = 'level.blind';
+
+            if (type == 'Actuator' && !isBridge) {
+                additionalDeviceSettings.push(deviceId);
+            }
+            break;
+
 		case "35000662":
 			deviceType = 'DuoFernRohrmotor-Aktor';
 			deviceRole = 'level.blind';
@@ -2275,6 +2285,7 @@ function doAdditional(toDoList, type) {
 									break;
 									
 								case "14234511": /*DuoFern-RolloTronStandard*/
+								case "10251530": /*DuoFern-RolloTron pure smart Aufputz Minigurt*/
 									var value = (result.payload.device.capabilities.filter((x)=>x.name === "AUTO_MODE_CFG"))[0].value;
 									doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'AUTO_MODE_CFG', value == 'true' ? true : false, 'switch', 'Automatikbetrieb', true, hashMapName);
 									

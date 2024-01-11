@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "homepilot20",
-        "version": "0.0.48",
+        "version": "0.0.49",
 		"news": {
+          "0.0.49":{
+            "en": "added new device DuoFern-RolloTron pure smart Aufputz Minigurt 10251530",
+            "de": "Neues Gerät DuoFern-RolloTron pure smart Aufputz Minigurt 10251530 hinzugefügt",
+            "ru": "добавлено новое устройство DuoFern-RolloTron pure smart Aufputz Minigurt 10251530",
+            "pt": "adicionado novo dispositivo DuoFern-RolloTron pure smart Aufputz Minigurt 10251530",
+            "nl": "nieuw apparaat toegevoegd DuoFern-RolloTron pure smart Aufputz Minigurt 10251530",
+            "fr": "ajouté un nouvel appareil DuoFern-RolloTron pure smart Aufputz Minigurt 10251530",
+            "it": "aggiunto nuovo dispositivo DuoFern-RolloTron pure smart Aufputz Minigurt 10251530",
+            "es": "añadido nuevo dispositivo DuoFern-RolloTron pure smart Aufputz Minigurt 10251530",
+            "pl": "dodano nowe urządzenie DuoFern-RolloTron pure smart Aufputz Minigurt 10251530",
+            "zh-cn": "添加新设备 DuoFern-RolloTron 纯智能 Aufputz Minigurt 10251530"
+          },
           "0.0.48":{
             "en": "fixing calling unused function for device",
             "de": "Behebung des Aufrufs ungenutzter Funktionen für das Gerät",
