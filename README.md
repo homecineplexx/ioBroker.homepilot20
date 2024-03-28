@@ -21,6 +21,9 @@ If you like my work, please consider a personal donation
 
 
 ## Changelog
+### 0.0.50      (28.03.2024)
+* (homecineplexx) added new device DuoFern Sonnen-/Windsensor smart mit Solarbetrieb 10771002
+
 ### 0.0.49      (11.01.2024)
 * (homecineplexx) added new device DuoFern-RolloTron pure smart Aufputz Minigurt 10251530
 

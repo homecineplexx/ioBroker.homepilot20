@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "homepilot20",
-        "version": "0.0.49",
+        "version": "0.0.50",
 		"news": {
+          "0.0.50":{
+            "en": "added new device DuoFern Sonnen-/Windsensor smart mit Solarbetrieb 10771002",
+            "de": "Neues Gerät DuoFern Sonnen-/Windsensor smart mit Solarbetrieb 10771002 hinzugefügt",
+            "ru": "добавлено новое устройство DuoFern Sonnen-/Windsensor smart mit Solarbetrieb 10771002",
+            "pt": "adicionado novo dispositivo DuoFern Sonnen-/Windsensor smart mit Solarbetrieb 10771002",
+            "nl": "nieuw apparaat toegevoegd DuoFern Sonnen-/Windsensor smart mit Solarbetrieb 10771002",
+            "fr": "ajouté un nouvel appareil DuoFern Sonnen-/Windsensor smart mit Solarbetrieb 10771002",
+            "it": "aggiunto nuovo dispositivo DuoFern Sonnen-/Windsensor smart mit Solarbetrieb 10771002",
+            "es": "añadido nuevo dispositivo DuoFern Sonnen-/Windsensor smart mit Solarbetrieb 10771002",
+            "pl": "dodano nowe urządzenie DuoFern Sonnen-/Windsensor smart mit Solarbetrieb 10771002",
+            "zh-cn": "添加了新设备 DuoFern Sonnen-/Windsensor 智能 mit Solarbetrieb 10771002"
+          },
           "0.0.49":{
             "en": "added new device DuoFern-RolloTron pure smart Aufputz Minigurt 10251530",
             "de": "Neues Gerät DuoFern-RolloTron pure smart Aufputz Minigurt 10251530 hinzugefügt",

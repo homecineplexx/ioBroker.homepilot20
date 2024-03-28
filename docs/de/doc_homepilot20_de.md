@@ -79,6 +79,7 @@ Für Sensor und Transmitter ist hartkodiert 3s eingestellt. Cameras werden momen
 |               |                                              |                            | level.rgb              |         | Actuator             |   RGB      |
 |   32210069    |  DuoFern Sonnensensor                        |                            | text                   |  9478-1 | Sensor               |            |
 |   32004464    |  DuoFern Sonnen-/Windsensor 9499             |                            | text                   |  9499   | Sensor               |            |
+|   10771002    |  DuoFern Sonnen-/Windsensor Solarbetrieb     |                            | text                   |         | Sensor               |            |
 |   10182345    |  DuoFern-RolloTron premium smart             |                            | level.blind            |         | Actuator             | 0 - 100 %  |
 |   10122345    |  DuoFern-RolloTron pure smart                |                            | level.blind            |         | Actuator             | 0 - 100 %  |
 |   10236010    |  DuoFern-Rollladenmotor premium smart m10    |                            | level.blind            |         | Actuator             | 0 - 100 %  |

@@ -1000,6 +1000,10 @@ function calculatePath(result, type) {
         case "32004464":
             deviceType = 'DuoFern Sonnen-/Windsensor 9499';
 			break;
+
+		case "10771002":
+		    deviceType = 'DuoFern Sonnen-/Windsensor smart mit Solarbetrieb';
+        	break;
 		
 		case "99999980":
 			deviceType = 'Philips-Hue-Bridge';
@@ -1707,6 +1711,7 @@ function createSensorStates(result, type) {
 			deviceNumber == '32000069' /*DuoFern-Sonnensensor-9478*/ ||
             deviceNumber == '32210069' /*DuoFern-Sonnensensor-9478-1*/ ||
             deviceNumber == '32004464' /*DuoFern Sonnen-/Windsensor 9499*/ ||
+            deviceNumber == '10771002' /*DuoFern Sonnen-/Windsensor smart mit Solarbetrieb*/ ||
 			deviceNumber == '16234511' /*DuoFern-RolloTron-Comfort-1800/1805/1840*/) {
 			adapter.setObjectNotExists(path + '.sun_detected', {
 				type: 'state',
@@ -1723,7 +1728,8 @@ function createSensorStates(result, type) {
 			});
 		}
 
-		if (deviceNumber == '32004464' /*DuoFern Sonnen-/Windsensor 9499*/) {
+		if (deviceNumber == '32004464' /*DuoFern Sonnen-/Windsensor 9499*/ ||
+		    deviceNumber == '10771002' /*DuoFern Sonnen-/Windsensor smart mit Solarbetrieb*/) {
 		    adapter.setObjectNotExists(path + '.wind_detected', {
                 type: 'state',
                 common: {
@@ -2137,11 +2143,13 @@ function writeSensorStates(result, type) {
 			deviceNumber == '32000069' /*DuoFern-Sonnensensor-9478*/ ||
             deviceNumber == '32210069' /*DuoFern-Sonnensensor-9478-1*/ ||
             deviceNumber == '32004464' /*DuoFern Sonnen-/Windsensor 9499*/ ||
+            deviceNumber == '10771002' /*DuoFern Sonnen-/Windsensor smart mit Solarbetrieb*/ ||
 			deviceNumber == '16234511' /*DuoFern-RolloTron-Comfort-1800/1805/1840*/) {
 			setCorrectState(path, '.sun_detected', result.readings.sun_detected, result.did + '-' + type);
 		}
 
-		if (deviceNumber == '32004464' /*DuoFern Sonnen-/Windsensor 9499*/) {
+		if (deviceNumber == '32004464' /*DuoFern Sonnen-/Windsensor 9499*/ ||
+		     deviceNumber == '10771002' /*DuoFern Sonnen-/Windsensor smart mit Solarbetrieb*/) {
 		    setCorrectState(path, '.wind_detected', result.readings.wind_detected, result.did + '-' + type);
 		}
 
