@@ -159,7 +159,7 @@ function controlHomepilot(id, input) {
 					deviceNumberId == '14234511' /*DuoFern-RolloTronStandard*/ ||
 					deviceNumberId == '10251530' /*DuoFern-RolloTron pure smart Aufputz Minigurt*/ ||
 					deviceNumberId == '35000662' /*DuoFern-Rohrmotor-Aktor*/ ||
-					deviceNumberId == '10941001' /*DuoFern-Rollladenaktor smart Unterputz*/
+					deviceNumberId == '10941001' /*DuoFern-Rollladenaktor smart Unterputz*/ ||
 					deviceNumberId == '31500162' /*DuoFern-Rohrmotorsteuerung*/ ||
 					deviceNumberId == '36500172' /*DuoFern-TrollBasis-5615*/ ||
 					deviceNumberId == '27601565' /*DuoFern-Rohrmotor*/ ||
