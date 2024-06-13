@@ -10,18 +10,18 @@
 	},
 	"dependencies": {
 		"@apollon/iobroker-tools": "^0.1.0",
-		"@iobroker/adapter-core": "^1.0.3",
+		"@iobroker/adapter-core": "^3.1.6",
 		"crypto-js": "^3.1.9-1",
-        "hashmap": "^2.4.0"
+		"hashmap": "^2.4.0",
+		"request": "^2.88.2"
 	},
 	"description": "Homepilot 2.0 adapter",
 	"devDependencies": {
+		"@iobroker/testing": "^1.2.5",
 		"chai": "^4.2.0",
 		"gulp": "^4.0.2",
-		"mocha": "^6.1.4",
-		"@iobroker/testing": "^1.2.5"
+		"mocha": "^6.1.4"
 	},
-	"optionalDependencies": {},
 	"homepage": "https://github.com/homecineplexx/ioBroker.homepilot20",
 	"keywords": [
 		"ioBroker",
