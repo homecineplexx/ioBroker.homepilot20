@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "homepilot20",
-        "version": "0.0.52",
+        "version": "0.0.53",
 		"news": {
+          "0.0.53":{
+            "en": "adaption for js-controller 6.x",
+            "de": "Anpassung für js-controller 6.x",
+            "ru": "адаптация для js-контроллера 6.x",
+            "pt": "adaptação para js-controller 6.x",
+            "nl": "aanpassing voor js-controller 6.x",
+            "fr": "adaptation pour js-controller 6.x",
+            "it": "adattamento per js-controller 6.x",
+            "es": "adaptación para js-controller 6.x",
+            "pl": "adaptacja dla kontrolera js 6.x",
+            "zh-cn": "适配 js-controller 6.x"
+          },
           "0.0.52":{
             "en": "test",
             "de": "test",
