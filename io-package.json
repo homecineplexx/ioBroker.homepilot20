@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "homepilot20",
-        "version": "0.0.51",
+        "version": "0.0.52",
 		"news": {
+          "0.0.52":{
+            "en": "test",
+            "de": "test",
+            "ru": "test",
+            "pt": "test",
+            "nl": "test",
+            "fr": "test",
+            "it": "test",
+            "es": "test",
+            "pl": "test",
+            "zh-cn": "test"
+          },
           "0.0.51":{
             "en": "added new device DuoFern-Rollladenaktor smart Unterputz 10941001",
             "de": "Neues Gerät DuoFern-Rollladenaktor smart Unterputz 10941001 hinzugefügt",
