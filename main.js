@@ -210,7 +210,7 @@ function controlHomepilot(id, input) {
 			data = '{"name":"TARGET_TEMPERATURE_CFG", "value":"' + val + '"}';
 		//role == temperature
 		} else if (deviceNumberId == '32501812' /*DuoFern-Raumthermostat-9485*/ ||
-		           deviceNumberId == '13501001_A' /*Thermostat premium smart-13501001_A*/) {
+		           deviceNumberId == '13501001' /*Thermostat premium smart-13501001*/) {
 			//range 40°C-400°C in 0.5°C steps
 			var val = (parseFloat(input)*10);
 			
@@ -730,8 +730,8 @@ function calculatePath(result, type) {
 			}
             break;
 
-		case "13501001_A":
-            deviceType = 'Thermostat premium smart-13501001_A';
+		case "13501001":
+            deviceType = 'Thermostat premium smart-13501001';
             deviceRole = 'level.temperature';
 
             break;
@@ -1327,7 +1327,7 @@ function createActuatorStates(result, type) {
 			}
 		} else if (deviceRole == 'level.temperature') {
 			if (deviceNumber == '32501812' ||
-			    deviceNumber == '13501001_A' /*Thermostat premium smart-13501001_A*/) {
+			    deviceNumber == '13501001' /*Thermostat premium smart-13501001*/) {
 				adapter.setObjectNotExists(path + '.Position', {
 					type: 'state',
 					common: {
@@ -1443,7 +1443,7 @@ function createActuatorStates(result, type) {
 		
 		if (deviceNumber == '35003064' ||
 			deviceNumber == '32501812' ||
-			deviceNumber == '13501001_A' /*Thermostat premium smart-13501001_A*/ ||
+			deviceNumber == '13501001' /*Thermostat premium smart-13501001*/ ||
 			deviceNumber == '13601001') {
 			adapter.setObjectNotExists(path + '.acttemperatur', {
 				type: 'state',
@@ -1460,7 +1460,7 @@ function createActuatorStates(result, type) {
 			});
 			
 			if (deviceNumber == '32501812' ||
-			    deviceNumber == '13501001_A' /*Thermostat premium smart-13501001_A*/) {
+			    deviceNumber == '13501001' /*Thermostat premium smart-13501001*/) {
 				adapter.setObjectNotExists(path + '.relaisstatus', {
 					type: 'state',
 					common: {
@@ -1787,7 +1787,7 @@ function createSensorStates(result, type) {
 		
 		if (deviceNumber == '32501812' /*DuoFern-Raumthermostat*/ ||
 			deviceNumber == '32000064' /*DuoFern-Umweltsensor*/ ||
-			deviceNumber == '13501001_A' /*Thermostat premium smart-13501001_A*/) {
+			deviceNumber == '13501001' /*Thermostat premium smart-13501001*/) {
 			adapter.setObjectNotExists(path + '.temperature_primary', {
 				type: 'state',
 				common: {
@@ -1804,7 +1804,7 @@ function createSensorStates(result, type) {
 		}
 		
 		if (deviceNumber == '32501812' /*DuoFern-Raumthermostat*/ ||
-		    deviceNumber == '13501001_A' /*Thermostat premium smart-13501001_A*/) {
+		    deviceNumber == '13501001' /*Thermostat premium smart-13501001*/) {
 			adapter.setObjectNotExists(path + '.temperature_target', {
 				type: 'state',
 				common: {
@@ -2093,12 +2093,12 @@ function writeActuatorStates(result, type) {
 	
 		if (deviceNumber == '35003064' ||
 			deviceNumber == '32501812' ||
-			deviceNumber == '13501001_A' /*Thermostat premium smart-13501001_A*/ ||
+			deviceNumber == '13501001' /*Thermostat premium smart-13501001*/ ||
 			deviceNumber == '13601001') {
 			setCorrectState(path, '.acttemperatur', result.statusesMap.acttemperatur / 10, result.did + '-' + type);
 			
 			if (deviceNumber == '32501812' ||
-			    deviceNumber == '13501001_A' /*Thermostat premium smart-13501001_A*/) {
+			    deviceNumber == '13501001' /*Thermostat premium smart-13501001*/) {
 			    setCorrectState(path, '.relaisstatus', result.statusesMap.relaisstatus, result.did + '-' + type);
 				setCorrectState(path, '.automaticvalue', result.statusesMap.automaticvalue, result.did + '-' + type);
 				setCorrectState(path, '.manualoverride', result.statusesMap.manualoverride, result.did + '-' + type);
@@ -2186,13 +2186,13 @@ function writeSensorStates(result, type) {
         }
 		
 		if (deviceNumber == '32501812' /*DuoFern-Raumthermostat*/ ||
-		    deviceNumber == '13501001_A' /*Thermostat premium smart-13501001_A*/ ||
+		    deviceNumber == '13501001' /*Thermostat premium smart-13501001*/ ||
 			deviceNumber == '32000064' /*DuoFern-Umweltsensor*/) {
 			setCorrectState(path, '.temperature_primary', result.readings.temperature_primary, result.did + '-' + type);
 		}
 		
 		if (deviceNumber == '32501812' /*DuoFern-Raumthermostat*/ ||
-		    deviceNumber == '13501001_A' /*Thermostat premium smart-13501001_A*/) {
+		    deviceNumber == '13501001' /*Thermostat premium smart-13501001*/) {
 		    setCorrectState(path, '.temperature_target', result.readings.temperature_target, result.did + '-' + type);
 		} 
 		

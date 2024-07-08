@@ -91,7 +91,7 @@ Für Sensor und Transmitter ist hartkodiert 3s eingestellt. Cameras werden momen
 |   10251530    |  DuoFern-RolloTron pure smart Aufputz        |                            | level.blind            |         | Actuator             | 0 - 100 %  |
 |   10941001    |  DuoFern-Rollladenaktor smart Unterputz      |                            | level.blind            |         | Actuator             | 0 - 100 %  |
 |   11301001    |  Zwischenstecker smart-11301001              |                            | switch                 |         | Actuator             | true/false |
-|   13501001_A  |  Thermostat premium smart-13501001_A         |                            | level.temperature/text |         | Actuator/Sensor      | 4 - 40°C   |
+|   13501001    |  Thermostat premium smart-13501001           |                            | level.temperature/text |         | Actuator/Sensor      | 4 - 40°C   |
 
 __99999983__ , __99999982__ , __99999981__ und __35144001__ haben zusätzlich auch einen Datenpunkt __Action__ erhalten.
 Hier sind folgende Werte erlaubt:

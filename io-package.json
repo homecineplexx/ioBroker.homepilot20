@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "homepilot20",
-        "version": "0.0.54",
+        "version": "0.0.55",
 		"news": {
+          "0.0.55":{
+            "en": "bugfix for device 13501001",
+            "de": "Bugfix für Gerät 13501001",
+            "ru": "исправление для устройства 13501001",
+            "pt": "correção de bug para o dispositivo 13501001",
+            "nl": "bugfix voor apparaat 13501001",
+            "fr": "correction d'un bug pour l'appareil 13501001",
+            "it": "correzione bug per il dispositivo 13501001",
+            "es": "corrección de errores para el dispositivo 13501001",
+            "pl": "poprawka błędu dla urządzenia 13501001",
+            "zh-cn": "设备 13501001 的错误修复"
+          },
           "0.0.54":{
             "en": "added Homepilot devices 11301001 and 13501001_A",
             "de": "Homepilot-Geräte 11301001 und 13501001_A hinzugefügt",
