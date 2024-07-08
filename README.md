@@ -21,9 +21,13 @@ If you like my work, please consider a personal donation
 
 
 ## Changelog
+### 0.0.54      (08.07.2024)
+* (homecineplexx) added device: Zwischenstecker smart-11301001
+* (homecineplexx) added device: Thermostat premium smart-13501001_A
+
 ### 0.0.53      (16.06.2024)
 * (homecineplexx) adaption for js-controller 6.x
-* 
+ 
 ### 0.0.51      (22.05.2024)
 * (homecineplexx) added new device DuoFern-Rollladenaktor smart Unterputz 10941001
 

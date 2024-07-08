@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "homepilot20",
-        "version": "0.0.53",
+        "version": "0.0.54",
 		"news": {
+          "0.0.54":{
+            "en": "added Homepilot devices 11301001 and 13501001_A",
+            "de": "Homepilot-Geräte 11301001 und 13501001_A hinzugefügt",
+            "ru": "добавлены устройства Homepilot 11301001 и 13501001_A",
+            "pt": "dispositivos Homepilot adicionados 11301001 e 13501001_A",
+            "nl": "Homepilot-apparaten 11301001 en 13501001_A toegevoegd",
+            "fr": "ajout des appareils Homepilot 11301001 et 13501001_A",
+            "it": "aggiunti i dispositivi Homepilot 11301001 e 13501001_A",
+            "es": "Se agregaron dispositivos Homepilot 11301001 y 13501001_A.",
+            "pl": "dodano urządzenia Homepilot 11301001 i 13501001_A",
+            "zh-cn": "添加了 Homepilot 设备 11301001 和 13501001_A"
+          },
           "0.0.53":{
             "en": "adaption for js-controller 6.x",
             "de": "Anpassung für js-controller 6.x",
