@@ -983,6 +983,20 @@ function calculatePath(result, type) {
 				additionalTransmitterSettings.push(deviceId);
 			}
 			break;
+
+		case "12501006":
+            deviceType = 'Wandtaster-smart-3-Gruppen-12501006';
+            //if (type == 'Transmitter') {
+            //    additionalTransmitterSettings.push(deviceId);
+            //}
+            break;
+
+        case "12501001":
+            deviceType = 'Wandtaster-smart-1-Gruppe-12501001';
+            //if (type == 'Transmitter') {
+            //    additionalTransmitterSettings.push(deviceId);
+            //}
+            break;
 	
 		case "32501974":
             deviceType = 'DuoFern-Mehrfachwandtaster-BAT-9494-1';
@@ -1907,6 +1921,8 @@ function createTransmitterStates(result, type) {
 		createCommon(result);
 
 		if (deviceNumber == '32160211' /*DuoFern-Wandtaster-9494*/ ||
+		    deviceNumber == '12501006' /*Wandtaster-smart-3-Gruppen-12501006*/ ||
+		    deviceNumber == '12501001' /*Wandtaster-smart-1-Gruppe-12501001*/ ||
 			deviceNumber == '32501974' /*DuoFern-Mehrfachwandtaster-BAT-9494-1*/ ||
 			deviceNumber == '34810060' /*DuoFern-Handzentrale-9493*/ ||
 			deviceNumber == '32480366' /*DuoFern-Handsender-Standard-9491*/ ||
@@ -2241,6 +2257,8 @@ function writeTransmitterStates(result, type) {
 		writeCommon(result, type);
 
 		if (deviceNumber == '32160211' /*DuoFern-Wandtaster-9494*/ ||
+		    deviceNumber == '12501006' /*Wandtaster-smart-3-Gruppen-12501006*/ ||
+            deviceNumber == '12501001' /*Wandtaster-smart-1-Gruppe-12501001*/ ||
 			deviceNumber == '32501974' /*DuoFern-Mehrfachwandtaster-BAT-9494-1*/ ||
 			deviceNumber == '34810060' /*DuoFern-Handzentrale-9493*/ ||
 			deviceNumber == '32480366' /*DuoFern-Handsender-Standard-9491*/ ||

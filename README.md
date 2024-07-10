@@ -21,6 +21,10 @@ If you like my work, please consider a personal donation
 
 
 ## Changelog
+### 0.0.58      (10.07.2024)
+* (homecineplexx) added device: Wandtaster-smart-1-Gruppe-12501001
+* (homecineplexx) added device: Wandtaster-smart-3-Gruppen-12501006
+
 ### 0.0.57      (10.07.2024)
 * (homecineplexx) bugfix for device 10771003
 

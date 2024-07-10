@@ -21,6 +21,8 @@ Für Sensor und Transmitter ist hartkodiert 3s eingestellt. Cameras werden momen
 |   32160211    |  DuoFern Wandtaster                          |                            | state                  |  9494   | Transmitter          |            |
 |   32501974    |  DuoFern Mehrfachwandtaster BAT              |                            | state                  |  9494-1 | Transmitter          |            |
 |   34810060    |  DuoFern Handzentrale                        |                            | state                  |  9493   | Transmitter          |            |
+|   12501006    |  Wandtaster smart 3 Gruppen                  |                            | state                  |         | Transmitter          |            |
+|   12501001    |  Wandtaster smart 1 Gruppe                   |                            | state                  |         | Transmitter          |            |
 |   35000262    |  DuoFern Universal Aktor 2 Kanal             |                            | switch/light.switch    |  9470-2 | Actuator             | true/false |
 |   35001164    |  DuoFern Zwischenstecker Schalten            |                            | switch/light.switch    |  9472   | Actuator             | true/false |
 |   35000462    |  DuoFern Universal Dimmaktor UP              |                            | light.switch           |  9476   | Actuator             | 0 - 100 %  |
