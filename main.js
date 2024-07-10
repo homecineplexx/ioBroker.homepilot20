@@ -1775,7 +1775,7 @@ function createSensorStates(result, type) {
 		}
 
         if (deviceNumber == '32210069' /*DuoFern-Sonnensensor-9478-1*/ ||
-            deviceNumber == '10771003' /*Sonnensensor-smart*/ ||) {
+            deviceNumber == '10771003' /*Sonnensensor-smart*/) {
             adapter.setObjectNotExists(path + '.vibration_detected', {
 				type: 'state',
 				common: {
@@ -2189,7 +2189,7 @@ function writeSensorStates(result, type) {
 		}
 
         if (deviceNumber == '32210069' /*DuoFern-Sonnensensor-9478-1*/ ||
-            deviceNumber == '10771003' /*Sonnensensor-smart*/ ||) {
+            deviceNumber == '10771003' /*Sonnensensor-smart*/) {
             setCorrectState(path, '.vibration_detected', result.readings.vibration_detected, result.did + '-' + type); 
         }
 		

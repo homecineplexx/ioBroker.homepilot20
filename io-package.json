@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "homepilot20",
-        "version": "0.0.56",
+        "version": "0.0.57",
 		"news": {
+          "0.0.57":{
+            "en": "bugfix for device 10771003",
+            "de": "Bugfix für Gerät 10771003",
+            "ru": "исправление для устройства 10771003",
+            "pt": "correção de bug para o dispositivo 10771003",
+            "nl": "bugfix voor apparaat 10771003",
+            "fr": "correction d'un bug pour l'appareil 10771003",
+            "it": "correzione bug per il dispositivo 10771003",
+            "es": "corrección de errores para el dispositivo 10771003",
+            "pl": "poprawka błędu dla urządzenia 10771003",
+            "zh-cn": "设备 10771003 的错误修复"
+          },
           "0.0.56":{
             "en": "added device: Sonnensensor-smart-10771003",
             "de": "hinzugefügtes Gerät: Sonnensensor-smart-10771003",
