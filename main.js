@@ -1017,6 +1017,10 @@ function calculatePath(result, type) {
         case "32210069":
 			deviceType = 'DuoFern-Sonnensensor-9478-1';
 			break;
+
+		case "10771003":
+            deviceType = 'Sonnensensor-smart';
+            break;
         
         case "32004464":
             deviceType = 'DuoFern Sonnen-/Windsensor 9499';
@@ -1734,6 +1738,7 @@ function createSensorStates(result, type) {
 			deviceNumber == '32000064' /*DuoFern-Umweltsensor*/ ||
 			deviceNumber == '32000069' /*DuoFern-Sonnensensor-9478*/ ||
             deviceNumber == '32210069' /*DuoFern-Sonnensensor-9478-1*/ ||
+            deviceNumber == '10771003' /*Sonnensensor-smart*/ ||
             deviceNumber == '32004464' /*DuoFern Sonnen-/Windsensor 9499*/ ||
             deviceNumber == '10771002' /*DuoFern Sonnen-/Windsensor smart mit Solarbetrieb*/ ||
 			deviceNumber == '16234511' /*DuoFern-RolloTron-Comfort-1800/1805/1840*/) {
@@ -1769,7 +1774,8 @@ function createSensorStates(result, type) {
             });
 		}
 
-        if (deviceNumber == '32210069' /*DuoFern-Sonnensensor-9478-1*/) {
+        if (deviceNumber == '32210069' /*DuoFern-Sonnensensor-9478-1*/ ||
+            deviceNumber == '10771003' /*Sonnensensor-smart*/ ||) {
             adapter.setObjectNotExists(path + '.vibration_detected', {
 				type: 'state',
 				common: {
@@ -2170,6 +2176,7 @@ function writeSensorStates(result, type) {
 			deviceNumber == '32000064' /*DuoFern-Umweltsensor*/ ||
 			deviceNumber == '32000069' /*DuoFern-Sonnensensor-9478*/ ||
             deviceNumber == '32210069' /*DuoFern-Sonnensensor-9478-1*/ ||
+            deviceNumber == '10771003' /*Sonnensensor-smart*/ ||
             deviceNumber == '32004464' /*DuoFern Sonnen-/Windsensor 9499*/ ||
             deviceNumber == '10771002' /*DuoFern Sonnen-/Windsensor smart mit Solarbetrieb*/ ||
 			deviceNumber == '16234511' /*DuoFern-RolloTron-Comfort-1800/1805/1840*/) {
@@ -2181,7 +2188,8 @@ function writeSensorStates(result, type) {
 		    setCorrectState(path, '.wind_detected', result.readings.wind_detected, result.did + '-' + type);
 		}
 
-        if (deviceNumber == '32210069' /*DuoFern-Sonnensensor-9478-1*/) {
+        if (deviceNumber == '32210069' /*DuoFern-Sonnensensor-9478-1*/ ||
+            deviceNumber == '10771003' /*Sonnensensor-smart*/ ||) {
             setCorrectState(path, '.vibration_detected', result.readings.vibration_detected, result.did + '-' + type); 
         }
 		

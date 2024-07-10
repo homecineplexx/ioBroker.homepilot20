@@ -21,6 +21,9 @@ If you like my work, please consider a personal donation
 
 
 ## Changelog
+### 0.0.56      (10.07.2024)
+* (homecineplexx) added device: Sonnensensor-smart-10771003
+
 ### 0.0.55      (08.07.2024)
 * (homecineplexx) bugfix for device 13501001
 
