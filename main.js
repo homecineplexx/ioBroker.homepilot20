@@ -158,7 +158,7 @@ function controlHomepilot(id, input) {
 		//role == level.blind
 		} else if (deviceNumberId == '35000864' /*DuoFern-Connect-Aktor-9477*/ ||
 					deviceNumberId == '14234511' /*DuoFern-RolloTronStandard*/ ||
-					deviceNumberId == '10142345' /*Gurtwickler RolloTron classic smart 10142345*/
+					deviceNumberId == '10142345' /*Gurtwickler RolloTron classic smart 10142345*/ ||
 					deviceNumberId == '10251530' /*DuoFern-RolloTron pure smart Aufputz Minigurt*/ ||
 					deviceNumberId == '35000662' /*DuoFern-Rohrmotor-Aktor*/ ||
 					deviceNumberId == '10941001' /*DuoFern-Rollladenaktor smart Unterputz*/ ||
