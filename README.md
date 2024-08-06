@@ -21,6 +21,9 @@ If you like my work, please consider a personal donation
 
 
 ## Changelog
+### 0.0.59      (06.08.2024)
+* (homecineplexx) added device: Gurtwickler RolloTron classic smart 10142345
+
 ### 0.0.58      (10.07.2024)
 * (homecineplexx) added device: Wandtaster-smart-1-Gruppe-12501001
 * (homecineplexx) added device: Wandtaster-smart-3-Gruppen-12501006

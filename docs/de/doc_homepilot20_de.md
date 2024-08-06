@@ -31,6 +31,7 @@ Für Sensor und Transmitter ist hartkodiert 3s eingestellt. Cameras werden momen
 |   32501772    |  DuoFern Bewegungsmelder                     |                            | switch/text            |  9484   | Actuator/Sensor      | true/false |
 |   35000864    |  DuoFern Connect Aktor                       |                            | level.blind            |  9477   | Actuator             | 0 - 100 %  |
 |   14234511    |  DuoFern RolloTron Standard 1400/1405/1440   |                            | level.blind            |         | Actuator             | 0 - 100 %  |
+|   10142345    |  Gurtwickler RolloTron classic smart         |                            | level.blind            |         | Actuator             | 0 - 100 %  |
 |   35000662    |  DuoFern Rohrmotor Aktor                     |                            | level.blind            |  9471   | Actuator             | 0 - 100 %  |
 |   31500162    |  DuoFern Rohrmotorsteuerung                  |                            | level.blind            |         | Actuator             | 0 - 100 %  |
 |   36500172    |  DuoFern TrollBasis                          |                            | level.blind            |  5615   | Actuator             | 0 - 100 %  |
