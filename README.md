@@ -21,6 +21,9 @@ If you like my work, please consider a personal donation
 
 
 ## Changelog
+### 0.0.60      (06.08.2024)
+* (homecineplexx) fixed typo
+
 ### 0.0.59      (06.08.2024)
 * (homecineplexx) added device: Gurtwickler RolloTron classic smart 10142345
 
