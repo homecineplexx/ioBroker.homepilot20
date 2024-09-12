@@ -148,7 +148,12 @@ function controlHomepilot(id, input) {
 			deviceNumberId == '35001164' /*DuoFern-Zwischenstecker-Schalten-9472*/ ||
 			deviceNumberId == '11301001' /*Zwischenstecker smart-11301001*/ ||
 			deviceNumberId == '32501972' /*DuoFern-Mehrfachwandtaster-230V-9494-2*/ ||
-			deviceNumberId == '32501772' /*DuoFern-Bewegungsmelder-9484*/) {
+			deviceNumberId == '32501772' /*DuoFern-Bewegungsmelder-9484*/ ||
+			deviceNumberId == '1010341' /*NoName Zwischenstecker*/ ||
+			deviceNumberId == '1010353' /*NoName Zwischenstecker*/ ||
+			deviceNumberId == '1010356' /*NoName Zwischenstecker*/ ||
+			deviceNumberId == '1010333' /*NoName Zwischenstecker*/ ||
+			deviceNumberId == '1010340' /*NoName Zwischenstecker*/ ||) {
 			
 			data = '{"name":"TURN_OFF_CMD"}'; 
 			
@@ -228,7 +233,18 @@ function controlHomepilot(id, input) {
 		} else if (deviceNumberId == '99999981' /*Philips-Hue-Weiße-Lampe*/ ||
 				   deviceNumberId == '99999982' /*Philips-Hue-Ambiance-Spot*/ ||
 				   deviceNumberId == '99999983' /*Philips-Hue-RGB-Lampe*/ ||
-                   deviceNumberId == '35144001' /*addZ White + Colour E14 LED*/) {
+                   deviceNumberId == '35144001' /*addZ White + Colour E14 LED*/ ||
+                   deviceNumberId == '1010343' /*Innr GUI10 (white ambiance)*/ ||
+                   deviceNumberId == '1010336' /*Innr GUI10 (white ambiance)*/ ||
+                   deviceNumberId == '1010344' /*Innr GUI10 (white ambiance)*/ ||
+                   deviceNumberId == '1010342' /*Innr GUI10 (white ambiance)*/ ||
+                   deviceNumberId == '1010262' /*Innr GUI10 (white ambiance)*/ ||
+                   deviceNumberId == '1010261' /*Innr GUI10 (white ambiance)*/ ||
+                   deviceNumberId == '1010264' /*Innr GUI10 (white ambiance)*/ ||
+                   deviceNumberId == '1010263' /*Innr GUI10 (white ambiance)*/ ||
+                   deviceNumberId == '1010327' /*Rademacher addZ GU10*/ ||
+                   deviceNumberId == '1010328' /*Rademacher addZ GU10*/ ||
+                   deviceNumberId == '1010329' /*Rademacher addZ GU10*/ ) {
 			if (0 >= parseInt(input)) {
 				input = 0;
 			} else if (parseInt(input) >= 100) {
@@ -262,7 +278,18 @@ function controlHomepilot(id, input) {
 		if (deviceNumberId == '99999981' /*Philips-Hue-Weiße-Lampe*/ ||
 			deviceNumberId == '99999982' /*Philips-Hue-Ambiance-Spot*/ ||
 			deviceNumberId == '99999983' /*Philips-Hue-RGB-Lampe*/ ||
-            deviceNumberId == '35144001' /*addZ White + Colour E14 LED*/) {
+            deviceNumberId == '35144001' /*addZ White + Colour E14 LED*/ ||
+            deviceNumberId == '1010343' /*Innr GUI10 (white ambiance)*/ ||
+            deviceNumberId == '1010336' /*Innr GUI10 (white ambiance)*/ ||
+            deviceNumberId == '1010344' /*Innr GUI10 (white ambiance)*/ ||
+            deviceNumberId == '1010342' /*Innr GUI10 (white ambiance)*/ ||
+            deviceNumberId == '1010262' /*Innr GUI10 (white ambiance)*/ ||
+            deviceNumberId == '1010261' /*Innr GUI10 (white ambiance)*/ ||
+            deviceNumberId == '1010264' /*Innr GUI10 (white ambiance)*/ ||
+            deviceNumberId == '1010263' /*Innr GUI10 (white ambiance)*/ ||
+            deviceNumberId == '1010327' /*Rademacher addZ GU10*/ ||
+            deviceNumberId == '1010328' /*Rademacher addZ GU10*/ ||
+            deviceNumberId == '1010329' /*Rademacher addZ GU10*/) {
 			if (input == 'AN' || input == 'ON') {			
 				data = '{"name":"TURN_ON_CMD"}';
 			} else if (input == 'AUS' || input == 'OFF') {			
@@ -769,6 +796,15 @@ function calculatePath(result, type) {
 			}
             break;
 
+        case "1010341":
+        case "1010353":
+        case "1010356":
+        case "1010333":
+        case "1010340":
+            deviceType = 'NoName Zwischenstecker';
+            dviceRole = 'switch' ;
+            break;
+
         case "11301001":
             deviceType = 'Zwischenstecker smart-11301001';
             deviceRole = 'switch' ;
@@ -1058,6 +1094,17 @@ function calculatePath(result, type) {
 		case "99999981":
 			deviceType = 'Philips-Hue-Weiße-Lampe';
             break;
+
+        case "1010343":
+        case "1010336":
+        case "1010344":
+        case "1010342":
+        case "1010262":
+        case "1010261":
+        case "1010264":
+        case "1010263":
+            deviceType = 'Innr GUI10 (white ambiance)';
+            break;
 		
 		case "99999982":
 			deviceType = 'Philips-Hue-Ambiance-Spot';
@@ -1066,7 +1113,13 @@ function calculatePath(result, type) {
 		case "99999983":
 			deviceType = 'Philips-Hue-RGB-Lampe';
             break;
-			
+
+		case "1010327":
+		case "1010328":
+		case "1010329":
+            deviceType = 'Rademacher addZ GU10';
+            break;
+
 		case "32004219":
 			deviceType = 'HD-Kamera-9486';
             break;
@@ -1390,7 +1443,18 @@ function createActuatorStates(result, type) {
 				deviceNumber != '99999981' /*Philips-Hue-Weiße-Lampe*/ &&
 				deviceNumber != '99999982' /*Philips-Hue-Ambiance-Spot*/ &&
 				deviceNumber != '99999983' /*Philips-Hue-RGB-Lampe*/ &&
-                deviceNumber != '35144001' /*addZ White + Colour E14 LED*/) {
+                deviceNumber != '35144001' /*addZ White + Colour E14 LED*/ &&
+                deviceNumber != '1010343' /*Innr GUI10 (white ambiance)*/ &&
+                deviceNumber != '1010336' /*Innr GUI10 (white ambiance)*/ &&
+                deviceNumber != '1010344' /*Innr GUI10 (white ambiance)*/ &&
+                deviceNumber != '1010342' /*Innr GUI10 (white ambiance)*/ &&
+                deviceNumber != '1010262' /*Innr GUI10 (white ambiance)*/ &&
+                deviceNumber != '1010261' /*Innr GUI10 (white ambiance)*/ &&
+                deviceNumber != '1010264' /*Innr GUI10 (white ambiance)*/ &&
+                deviceNumber != '1010263' /*Innr GUI10 (white ambiance)*/ &&
+                deviceNumber != '1010327' /*Rademacher addZ GU10*/ &&
+                deviceNumber != '1010328' /*Rademacher addZ GU10*/ &&
+                deviceNumber != '1010329' /*Rademacher addZ GU10*/ ) {
 				adapter.setObjectNotExists(path + '.Position', {
 					type: 'state',
 					common: {
@@ -1530,7 +1594,18 @@ function createActuatorStates(result, type) {
 		if (deviceNumber == '99999981' /*Philips-Hue-Weiße-Lampe*/ ||
 			deviceNumber == '99999982' /*Philips-Hue-Ambiance-Spot*/ ||
 			deviceNumber == '99999983' /*Philips-Hue-RGB-Lampe*/ ||
-            deviceNumber == '35144001' /*addZ White + Colour E14 LED*/) {
+            deviceNumber == '35144001' /*addZ White + Colour E14 LED*/ ||
+            deviceNumber == '1010343' /*Innr GUI10 (white ambiance)*/ ||
+            deviceNumber == '1010336' /*Innr GUI10 (white ambiance)*/ ||
+            deviceNumber == '1010344' /*Innr GUI10 (white ambiance)*/ ||
+            deviceNumber == '1010342' /*Innr GUI10 (white ambiance)*/ ||
+            deviceNumber == '1010262' /*Innr GUI10 (white ambiance)*/ ||
+            deviceNumber == '1010261' /*Innr GUI10 (white ambiance)*/ ||
+            deviceNumber == '1010264' /*Innr GUI10 (white ambiance)*/ ||
+            deviceNumber == '1010263' /*Innr GUI10 (white ambiance)*/ ||
+            deviceNumber == '1010327' /*Rademacher addZ GU10*/ ||
+            deviceNumber == '1010328' /*Rademacher addZ GU10*/ ||
+            deviceNumber == '1010329' /*Rademacher addZ GU10*/) {
 			adapter.setObjectNotExists(path + '.Position', {
 				type: 'state',
 				common: {
@@ -1563,7 +1638,15 @@ function createActuatorStates(result, type) {
 					native: {}
 				});
 				
-				if (deviceNumber != '99999982' /*Philips-Hue-Ambiance-Spot*/) {
+				if (deviceNumber != '99999982' /*Philips-Hue-Ambiance-Spot*/ &&
+				    deviceNumber != '1010343' /*Innr GUI10 (white ambiance)*/ &&
+                    deviceNumber != '1010336' /*Innr GUI10 (white ambiance)*/ &&
+                    deviceNumber != '1010344' /*Innr GUI10 (white ambiance)*/ &&
+                    deviceNumber != '1010342' /*Innr GUI10 (white ambiance)*/ &&
+                    deviceNumber != '1010262' /*Innr GUI10 (white ambiance)*/ &&
+                    deviceNumber != '1010261' /*Innr GUI10 (white ambiance)*/ &&
+                    deviceNumber != '1010264' /*Innr GUI10 (white ambiance)*/ &&
+                    deviceNumber != '1010263' /*Innr GUI10 (white ambiance)*/ ) {
 					adapter.setObjectNotExists(path + '.RGB', {
 						type: 'state',
 						common: {
@@ -2100,7 +2183,18 @@ function writeActuatorStates(result, type) {
 			deviceNumber != '99999981' /*Philips-Hue-Weiße-Lampe*/ &&
 			deviceNumber != '99999982' /*Philips-Hue-Ambiance-Spot*/ &&
 			deviceNumber != '99999983' /*Philips-Hue-RGB-Lampe*/ &&
-            deviceNumber != '35144001' /*addZ White + Colour E14 LED*/) {
+            deviceNumber != '35144001' /*addZ White + Colour E14 LED*/ &&
+            deviceNumber != '1010343' /*Innr GUI10 (white ambiance)*/ &&
+            deviceNumber != '1010336' /*Innr GUI10 (white ambiance)*/ &&
+            deviceNumber != '1010344' /*Innr GUI10 (white ambiance)*/ &&
+            deviceNumber != '1010342' /*Innr GUI10 (white ambiance)*/ &&
+            deviceNumber != '1010262' /*Innr GUI10 (white ambiance)*/ &&
+            deviceNumber != '1010261' /*Innr GUI10 (white ambiance)*/ &&
+            deviceNumber != '1010264' /*Innr GUI10 (white ambiance)*/ &&
+            deviceNumber != '1010263' /*Innr GUI10 (white ambiance)*/ &&
+            deviceNumber != '1010327' /*Rademacher addZ GU10*/ &&
+            deviceNumber != '1010328' /*Rademacher addZ GU10*/ &&
+            deviceNumber != '1010329' /*Rademacher addZ GU10*/ ) {
 			setCorrectState(path, '.Position', value, result.did + '-' + type);
 		}
 		
@@ -2137,13 +2231,32 @@ function writeActuatorStates(result, type) {
 		if (deviceNumber == '99999981' /*Philips-Hue-Weiße-Lampe*/ ||
 			deviceNumber == '99999982' /*Philips-Hue-Ambiance-Spot*/ ||
 			deviceNumber == '99999983' /*Philips-Hue-RGB-Lampe*/ ||
-            deviceNumber == '35144001' /*addZ White + Colour E14 LED*/) {
+            deviceNumber == '35144001' /*addZ White + Colour E14 LED*/ ||
+            deviceNumber == '1010343' /*Innr GUI10 (white ambiance)*/ ||
+            deviceNumber == '1010336' /*Innr GUI10 (white ambiance)*/ ||
+            deviceNumber == '1010344' /*Innr GUI10 (white ambiance)*/ ||
+            deviceNumber == '1010342' /*Innr GUI10 (white ambiance)*/ ||
+            deviceNumber == '1010262' /*Innr GUI10 (white ambiance)*/ ||
+            deviceNumber == '1010261' /*Innr GUI10 (white ambiance)*/ ||
+            deviceNumber == '1010264' /*Innr GUI10 (white ambiance)*/ ||
+            deviceNumber == '1010263' /*Innr GUI10 (white ambiance)*/ ||
+            deviceNumber == '1010327' /*Rademacher addZ GU10*/ ||
+            deviceNumber == '1010328' /*Rademacher addZ GU10*/ ||
+            deviceNumber == '1010329' /*Rademacher addZ GU10*/ ) {
 			setCorrectState(path, '.Position', result.statusesMap.Position, result.did + '-' + type);
 			
 			if (deviceNumber != '99999981' /*Philips-Hue-RGB-Lampe*/) {
 			    setCorrectState(path, '.ColorTemperature', result.statusesMap.colortemperature, result.did + '-' + type);
 
-				if (deviceNumber != '99999982' /*Philips-Hue-Ambiance-Spot*/) {
+				if (deviceNumber != '99999982' /*Philips-Hue-Ambiance-Spot*/ &&
+				    deviceNumber != '1010343' /*Innr GUI10 (white ambiance)*/ &&
+                    deviceNumber != '1010336' /*Innr GUI10 (white ambiance)*/ &&
+                    deviceNumber != '1010344' /*Innr GUI10 (white ambiance)*/ &&
+                    deviceNumber != '1010342' /*Innr GUI10 (white ambiance)*/ &&
+                    deviceNumber != '1010262' /*Innr GUI10 (white ambiance)*/ &&
+                    deviceNumber != '1010261' /*Innr GUI10 (white ambiance)*/ &&
+                    deviceNumber != '1010264' /*Innr GUI10 (white ambiance)*/ &&
+                    deviceNumber != '1010263' /*Innr GUI10 (white ambiance)*/ ) {
 					var rgbValue = result.statusesMap.rgb;
 					rgbValue = rgbValue.startsWith('0x') ? rgbValue.substring(2, rgbValue.length) : rgbValue;
 

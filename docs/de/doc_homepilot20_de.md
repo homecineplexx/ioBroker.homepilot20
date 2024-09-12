@@ -96,8 +96,40 @@ Für Sensor und Transmitter ist hartkodiert 3s eingestellt. Cameras werden momen
 |   10941001    |  DuoFern-Rollladenaktor smart Unterputz      |                            | level.blind            |         | Actuator             | 0 - 100 %  |
 |   11301001    |  Zwischenstecker smart-11301001              |                            | switch                 |         | Actuator             | true/false |
 |   13501001    |  Thermostat premium smart-13501001           |                            | level.temperature/text |         | Actuator/Sensor      | 4 - 40°C   |
+|   1010341     |  NoName Zwischenstecker                      |                            | switch                 |         | Actuator             | true/false |
+|   1010353     |  NoName Zwischenstecker                      |                            | switch                 |         | Actuator             | true/false |
+|   1010356     |  NoName Zwischenstecker                      |                            | switch                 |         | Actuator             | true/false |
+|   1010333     |  NoName Zwischenstecker                      |                            | switch                 |         | Actuator             | true/false |
+|   1010340     |  NoName Zwischenstecker                      |                            | switch                 |         | Actuator             | true/false |
+|   1010343     |  Innr GUI10 (white ambiance)                 |                            | level.dimmer           |         | Actuator             | 0 - 100 %  |
+|               |                                              |                            | level.color.temperature|         | Actuator             | 153 - 500  |
+|   1010336     |  Innr GUI10 (white ambiance)                 |                            | level.dimmer           |         | Actuator             | 0 - 100 %  |
+|               |                                              |                            | level.color.temperature|         | Actuator             | 153 - 500  |
+|   1010344     |  Innr GUI10 (white ambiance)                 |                            | level.dimmer           |         | Actuator             | 0 - 100 %  |
+|               |                                              |                            | level.color.temperature|         | Actuator             | 153 - 500  |
+|   1010342     |  Innr GUI10 (white ambiance)                 |                            | level.dimmer           |         | Actuator             | 0 - 100 %  |
+|               |                                              |                            | level.color.temperature|         | Actuator             | 153 - 500  |
+|   1010262     |  Innr GUI10 (white ambiance)                 |                            | level.dimmer           |         | Actuator             | 0 - 100 %  |
+|               |                                              |                            | level.color.temperature|         | Actuator             | 153 - 500  |
+|   1010261     |  Innr GUI10 (white ambiance)                 |                            | level.dimmer           |         | Actuator             | 0 - 100 %  |
+|               |                                              |                            | level.color.temperature|         | Actuator             | 153 - 500  |
+|   1010264     |  Innr GUI10 (white ambiance)                 |                            | level.dimmer           |         | Actuator             | 0 - 100 %  |
+|               |                                              |                            | level.color.temperature|         | Actuator             | 153 - 500  |
+|   1010263     |  Innr GUI10 (white ambiance)                 |                            | level.dimmer           |         | Actuator             | 0 - 100 %  |
+|               |                                              |                            | level.color.temperature|         | Actuator             | 153 - 500  |
+|   1010327     |  Rademacher addZ GU10                        |                            | level.dimmer           |         | Actuator             | 0 - 100 %  |
+|               |                                              |                            | level.color.temperature|         | Actuator             | 153 - 500  |
+|               |                                              |                            | level.rgb              |         | Actuator             |   RGB      |
+|   1010328     |  Rademacher addZ GU10                        |                            | level.dimmer           |         | Actuator             | 0 - 100 %  |
+|               |                                              |                            | level.color.temperature|         | Actuator             | 153 - 500  |
+|               |                                              |                            | level.rgb              |         | Actuator             |   RGB      |
+|   1010329     |  Rademacher addZ GU10                        |                            | level.dimmer           |         | Actuator             | 0 - 100 %  |
+|               |                                              |                            | level.color.temperature|         | Actuator             | 153 - 500  |
+|               |                                              |                            | level.rgb              |         | Actuator             |   RGB      |
 
-__99999983__ , __99999982__ , __99999981__ und __35144001__ haben zusätzlich auch einen Datenpunkt __Action__ erhalten.
+
+
+einige Devices haben zusätzlich auch einen Datenpunkt __Action__ erhalten.
 Hier sind folgende Werte erlaubt:
 * AN/AUS
 * ON/OFF

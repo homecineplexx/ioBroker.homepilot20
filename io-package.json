@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "homepilot20",
-        "version": "0.0.60",
+        "version": "0.0.61",
 		"news": {
+          "0.0.61":{
+            "en": "added some devices for the Homepilot2 AddZ-Stick",
+            "de": "einige Geräte für den Homepilot2 AddZ-Stick hinzugefügt",
+            "ru": "добавлены некоторые устройства для Homepilot2 AddZ-Stick",
+            "pt": "adicionou alguns dispositivos para o Homepilot2 AddZ-Stick",
+            "nl": "enkele apparaten toegevoegd voor de Homepilot2 AddZ-Stick",
+            "fr": "ajout de quelques appareils pour le Homepilot2 AddZ-Stick",
+            "it": "aggiunti alcuni dispositivi per Homepilot2 AddZ-Stick",
+            "es": "Se agregaron algunos dispositivos para el Homepilot2 AddZ-Stick",
+            "pl": "dodano kilka urządzeń dla Homepilot2 AddZ-Stick",
+            "zh-cn": "为 Homepilot2 AddZ-Stick 添加了一些设备"
+          },
           "0.0.60":{
             "en": "fixed typo",
             "de": "Tippfehler behoben",

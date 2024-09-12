@@ -21,6 +21,9 @@ If you like my work, please consider a personal donation
 
 
 ## Changelog
+### 0.0.61      (12.09.2024)
+* (homecineplexx) added some devices for the Homepilot2 AddZ-Stick
+
 ### 0.0.60      (06.08.2024)
 * (homecineplexx) fixed typo
 
