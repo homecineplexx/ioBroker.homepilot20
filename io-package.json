@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "homepilot20",
-        "version": "0.0.61",
+        "version": "0.0.62",
 		"news": {
+          "0.0.62":{
+            "en": "fixed typo",
+            "de": "Tippfehler behoben",
+            "ru": "исправлена \u200B\u200Bопечатка",
+            "pt": "erro de digitação corrigido",
+            "nl": "typfout opgelost",
+            "fr": "correction d'une erreur typographique",
+            "it": "corretto errore di battitura",
+            "es": "error tipográfico corregido",
+            "pl": "naprawiona literówka",
+            "zh-cn": "修正了拼写错误"
+          },
           "0.0.61":{
             "en": "added some devices for the Homepilot2 AddZ-Stick",
             "de": "einige Geräte für den Homepilot2 AddZ-Stick hinzugefügt",

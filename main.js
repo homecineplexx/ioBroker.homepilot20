@@ -153,7 +153,7 @@ function controlHomepilot(id, input) {
 			deviceNumberId == '1010353' /*NoName Zwischenstecker*/ ||
 			deviceNumberId == '1010356' /*NoName Zwischenstecker*/ ||
 			deviceNumberId == '1010333' /*NoName Zwischenstecker*/ ||
-			deviceNumberId == '1010340' /*NoName Zwischenstecker*/ ||) {
+			deviceNumberId == '1010340' /*NoName Zwischenstecker*/ ) {
 			
 			data = '{"name":"TURN_OFF_CMD"}'; 
 			
