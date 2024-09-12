@@ -776,7 +776,7 @@ function calculatePath(result, type) {
 
         case "99999960":
             deviceType = 'NoName Zwischenstecker';
-            dviceRole = 'switch' ;
+            deviceRole = 'switch' ;
             break;
 
         case "11301001":

@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "homepilot20",
-        "version": "0.0.63",
+        "version": "0.0.64",
 		"news": {
+          "0.0.64":{
+            "en": "fixed typo",
+            "de": "Tippfehler behoben",
+            "ru": "исправлена \u200B\u200Bопечатка",
+            "pt": "erro de digitação corrigido",
+            "nl": "typfout opgelost",
+            "fr": "correction d'une erreur typographique",
+            "it": "corretto errore di battitura",
+            "es": "error tipográfico corregido",
+            "pl": "naprawiona literówka",
+            "zh-cn": "修正了拼写错误"
+          },
           "0.0.63":{
             "en": "fixed typo",
             "de": "Tippfehler behoben",

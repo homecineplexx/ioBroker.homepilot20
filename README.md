@@ -21,6 +21,9 @@ If you like my work, please consider a personal donation
 
 
 ## Changelog
+### 0.0.64      (12.09.2024)
+* (homecineplexx) fixed typo
+
 ### 0.0.63      (12.09.2024)
 * (homecineplexx) fixed typo
 
