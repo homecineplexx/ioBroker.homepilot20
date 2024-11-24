@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "homepilot20",
-        "version": "0.0.64",
+        "version": "0.0.65",
 		"news": {
+          "0.0.65":{
+            "en": "added new device DeltaDore-Zigbee-Stick-Easy Plug F16EM",
+            "de": "neues Gerät DeltaDore-Zigbee-Stick-Easy Plug F16EM hinzugefügt",
+            "ru": "добавлено новое устройство DeltaDore-Zigbee-Stick-Easy Plug F16EM",
+            "pt": "adicionado novo dispositivo DeltaDore-Zigbee-Stick-Easy Plug F16EM",
+            "nl": "nieuw apparaat toegevoegd DeltaDore-Zigbee-Stick-Easy Plug F16EM",
+            "fr": "ajout d'un nouvel appareil DeltaDore-Zigbee-Stick-Easy Plug F16EM",
+            "it": "aggiunto nuovo dispositivo DeltaDore-Zigbee-Stick-Easy Plug F16EM",
+            "es": "Se agregó el nuevo dispositivo DeltaDore-Zigbee-Stick-Easy Plug F16EM",
+            "pl": "dodano nowe urządzenie DeltaDore-Zigbee-Stick-Easy Plug F16EM",
+            "zh-cn": "添加了新设备 DeltaDore-Zigbee-Stick-Easy Plug F16EM"
+          },
           "0.0.64":{
             "en": "fixed typo",
             "de": "Tippfehler behoben",

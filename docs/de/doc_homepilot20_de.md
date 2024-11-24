@@ -102,6 +102,7 @@ Für Sensor und Transmitter ist hartkodiert 3s eingestellt. Cameras werden momen
 |   35104001    |  Rademacher addZ GU10                        |                            | level.dimmer           |         | Actuator             | 0 - 100 %  |
 |               |                                              |                            | level.color.temperature|         | Actuator             | 153 - 500  |
 |               |                                              |                            | level.rgb              |         | Actuator             |   RGB      |
+|   35204011    |  DeltaDore-Zigbee-Stick-Easy Plug F16EM      |                            | switch                 |         | Actuator             | true/false |
 
 
 einige Devices haben zusätzlich auch einen Datenpunkt __Action__ erhalten.

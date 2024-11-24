@@ -21,6 +21,9 @@ If you like my work, please consider a personal donation
 
 
 ## Changelog
+### 0.0.65      (24.10.2024)
+* (homecineplexx) added new device DeltaDore-Zigbee-Stick-Easy Plug F16EM
+
 ### 0.0.64      (12.09.2024)
 * (homecineplexx) fixed typo
 

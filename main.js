@@ -149,7 +149,8 @@ function controlHomepilot(id, input) {
 			deviceNumberId == '11301001' /*Zwischenstecker smart-11301001*/ ||
 			deviceNumberId == '32501972' /*DuoFern-Mehrfachwandtaster-230V-9494-2*/ ||
 			deviceNumberId == '32501772' /*DuoFern-Bewegungsmelder-9484*/ ||
-			deviceNumberId == '99999960' /*NoName Zwischenstecker*/ ) {
+			deviceNumberId == '99999960' /*NoName Zwischenstecker*/ ||
+			deviceNumberId == '35204011' /*DeltaDore-Zigbee-Stick-Easy Plug F16EM*/) {
 			
 			data = '{"name":"TURN_OFF_CMD"}'; 
 			
@@ -772,6 +773,13 @@ function calculatePath(result, type) {
 			if (type == 'Actuator' && !isBridge) {
 				additionalDeviceSettings.push(deviceId);
 			}
+            break;
+
+
+        case "35204011":
+            deviceType = 'DeltaDore-Zigbee-Stick-Easy Plug F16EM';
+            deviceRole = 'switch' ;
+
             break;
 
         case "99999960":
@@ -1426,7 +1434,70 @@ function createActuatorStates(result, type) {
 				});
 			}
 		}
-	
+
+	    if (deviceNumber == '35204011' /*DeltaDore-Zigbee-Stick-Easy Plug F16EM*/) {
+            adapter.setObjectNotExists(path + '.Voltage', {
+                type: 'state',
+                common: {
+                    name: 'Voltage',
+                    desc: 'Voltage stored in homepilot for device ' + deviceId,
+                    type: 'number',
+                    role: 'value.voltage',
+                    unit: 'V',
+                    min: 0,
+                    read: true,
+                    write: false
+                },
+                native: {}
+            });
+
+            adapter.setObjectNotExists(path + '.Current', {
+                type: 'state',
+                common: {
+                    name: 'Current',
+                    desc: 'Current stored in homepilot for device ' + deviceId,
+                    type: 'number',
+                    role: 'value.current',
+                    unit: 'A',
+                    min: 0,
+                    read: true,
+                    write: false
+                },
+                native: {}
+            });
+
+            adapter.setObjectNotExists(path + '.Power', {
+                type: 'state',
+                common: {
+                    name: 'Power',
+                    desc: 'Power stored in homepilot for device ' + deviceId,
+                    type: 'number',
+                    role: 'value.power',
+                    unit: 'W',
+                    min: 0,
+                    read: true,
+                    write: false
+                },
+                native: {}
+            });
+
+            adapter.setObjectNotExists(path + '.EnergyTotal', {
+                type: 'state',
+                common: {
+                    name: 'EnergyTotal',
+                    desc: 'EnergyTotal stored in homepilot for device ' + deviceId,
+                    type: 'number',
+                    role: 'value.power.consumption',
+                    unit: 'kWh',
+                    min: 0,
+                    max: 100000000000,
+                    read: true,
+                    write: false
+                },
+                native: {}
+            });
+	    }
+
 		if (deviceNumber == '35003064' || deviceNumber == '13601001') {
 			adapter.setObjectNotExists(path + '.batteryStatus', {
 				type: 'state',
@@ -2143,6 +2214,13 @@ function writeActuatorStates(result, type) {
 			setCorrectState(path, '.batteryLow', result.batteryLow, result.did + '-' + type);
 			setCorrectState(path, '.posMin', result.posMin / 10, result.did + '-' + type);
 			setCorrectState(path, '.posMax', result.posMax / 10, result.did + '-' + type);
+		}
+
+		if (deviceNumber == '35204011' /*DeltaDore-Zigbee-Stick-Easy Plug F16EM*/) {
+		    setCorrectState(path, '.Voltage', result.statusesMap.voltage, result.did + '-' + type);
+		    setCorrectState(path, '.Current', result.statusesMap.current, result.did + '-' + type);
+		    setCorrectState(path, '.Power', result.statusesMap.power, result.did + '-' + type);
+		    setCorrectState(path, '.EnergyTotal', result.statusesMap.cumulatedpower, result.did + '-' + type);
 		}
 	
 		if (deviceNumber == '35003064' ||
