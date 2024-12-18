@@ -1,7 +1,7 @@
 {
     "common": {
         "name": "homepilot20",
-        "version": "0.0.65",
+        "version": "0.0.66",
 		"news": {
           "0.0.65":{
             "en": "added new device DeltaDore-Zigbee-Stick-Easy Plug F16EM",
@@ -568,7 +568,22 @@
             },
             "native":{  
 			}
+      
         },
+        {  
+            "_id":"station.Sync_Sensors_Time",
+            "type":"state",
+            "common":{  
+                "name":"Synchronize sensors time",
+                "desc":"Last timestamp of synchronize sensors for performance optimization.",
+                "type":"string",
+                "role":"text",
+                "read":true,
+                "write":false
+            },
+            "native":{  
+			}
+        },        
         {  
             "_id":"Actuator-json",
             "type":"state",
@@ -582,7 +597,64 @@
             },
             "native":{  
 			}
+        },        
+        {  
+            "_id":"station.Sync_Actuators_Time",
+            "type":"state",
+            "common":{  
+                "name":"Synchronize actuators time",
+                "desc":"Last timestamp of synchronize actuators for performance optimization.",
+                "type":"string",
+                "role":"text",
+                "read":true,
+                "write":false
+            },
+            "native":{  
+			}
         },
+        {  
+            "_id":"station.Sync_Transmitters_Time",
+            "type":"state",
+            "common":{  
+                "name":"Synchronize transmitters time",
+                "desc":"Last timestamp of synchronize transmitters for performance optimization.",
+                "type":"string",
+                "role":"text",
+                "read":true,
+                "write":false
+            },
+            "native":{  
+			}        
+        },
+        {  
+            "_id":"station.Sync_Scenes_Time",
+            "type":"state",
+            "common":{  
+                "name":"Synchronize scenes time",
+                "desc":"Last timestamp of synchronize scenes for performance optimization.",
+                "type":"string",
+                "role":"text",
+                "read":true,
+                "write":false
+            },
+            "native":{  
+			}
+        },
+        {  
+            "_id":"station.Overall_Sync_Time",
+            "type":"state",
+            "common":{  
+                "name":"Overall sync time",
+                "desc":"Last timestamp of the overall sync for performance optimization.",
+                "type":"string",
+                "role":"text",
+                "read":true,
+                "write":false
+            },
+            "native":{  
+			}
+        },
+        
 		{  
             "_id":"Sensor-json",
             "type":"state",

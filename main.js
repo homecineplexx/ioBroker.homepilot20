@@ -15,7 +15,10 @@ var writeStateHashmap = new HashMap();
 
 var lang = 'de';
 var ip = '';
-var sync = 12;
+var sync_actuators = 12;
+var sync_sensors = 3;
+var sync_transmitters = 7;
+var sync_scenes = 23;
 var password;
 var saltedPassword;
 var passwordSalt;
@@ -29,12 +32,31 @@ var deviceType;
 var additionalDeviceSettings = [];
 var additionalSensorSettings = [];
 var additionalTransmitterSettings = [];
-var callReadActuator = null;
-var callReadSensor = null;
-var callReadTransmitter = null;
-var calReadScenes = null;
+var callMainInterval = null;
 
 request = request.defaults({jar: true})
+
+const requestPromise = (url) => {
+    return new Promise((resolve, reject) => {
+        request(url, (error, response, body) => {
+            if (error) {
+                reject(error);
+            } else {
+                resolve({ response, body });
+            }
+        });
+    });
+};
+
+async function asyncRequest(url) {
+	try {
+        const { response, body } = await requestPromise(url);
+        return { statusCode: response.statusCode, body };
+    } catch (error) {
+        console.error('Fehler beim Request:', error);
+        throw error;
+    }
+}
 
 let adapter;
 function startAdapter(options) {
@@ -338,8 +360,17 @@ function readSettings() {
     } else ip = (adapter.config.homepilotport.length > 0) ? adapter.config.homepilotip + ':' + adapter.config.homepilotport : adapter.config.homepilotip;
 		
 	//check if sync time is entered in settings
-	sync = (adapter.config.synctime === undefined || adapter.config.synctime.length === 0) ? 12 : parseInt(adapter.config.synctime,10);
-	adapter.log.debug('Homepilot station and ioBroker synchronize every ' + sync + 's');
+	sync_actuators = (adapter.config.sync_actuators === undefined || adapter.config.sync_actuators.length === 0) ? 4 : parseInt(adapter.config.sync_actuators,10);
+	adapter.log.info('Homepilot station and ioBroker synchronize actuators every ' + sync_actuators + 's');
+		
+	sync_sensors = (adapter.config.sync_sensors === undefined || adapter.config.sync_sensors.length === 0) ? 3 : parseInt(adapter.config.sync_sensors,10);
+	adapter.log.info('Homepilot station and ioBroker synchronize sensors every ' + sync_sensors + 's');
+
+	sync_transmitters = (adapter.config.sync_transmitters === undefined || adapter.config.sync_transmitters.length === 0) ? 1 : parseInt(adapter.config.sync_transmitters,10);
+	adapter.log.info('Homepilot station and ioBroker synchronize transmitters every ' + sync_transmitters + 's');
+	
+	sync_scenes = (adapter.config.sync_scenes === undefined || adapter.config.sync_scenes.length === 0) ? 5 : parseInt(adapter.config.sync_scenes,10);
+	adapter.log.info('Homepilot station and ioBroker synchronize scenes every ' + sync_scenes + 's');
 	
 	//check if password is set
 	password = adapter.config.password;
@@ -357,27 +388,21 @@ function readSettings() {
 }
 
 function stopReadHomepilot() {
-	if (callReadActuator !== null) {
-		clearInterval(callReadActuator);
-		adapter.log.debug('callReadActuator cleared');
+	if (callMainInterval !== null) {
+		clearInterval(callMainInterval);
+		adapter.log.debug('callMainInterval cleared');
 	}
-    
-	if (callReadSensor !== null) {
-		clearInterval(callReadSensor);
-		adapter.log.debug('callReadSensor cleared');
-	}
-
-	if (callReadTransmitter !== null) {
-		clearInterval(callReadTransmitter);
-		adapter.log.debug('callReadTransmitter cleared');
-	}
-	
-	if (calReadScenes !== null) {
-		clearInterval(calReadScenes);
-		adapter.log.debug('calReadScenes cleared');
-	}
-	
     adapter.log.error('Adapter will be stopped');
+}
+
+async function Measure(stateId, callback) {
+	var start = performance.now();
+	await callback();
+	var end = performance.now();
+	adapter.setState(stateId, {
+		val: `${end - start} ms`,
+		ack: true
+	});
 }
 
 function main() {
@@ -412,25 +437,55 @@ function main() {
 		saltedPassword = undefined;
 	}
 	
-    callReadActuator = setInterval(function() {
-        adapter.log.debug('reading homepilot actuator JSON ...');
-        readActuator('http://' + ip + '/v4/devices?devtype=Actuator');
-    }, sync * 1000);
-	
-	callReadSensor = setInterval(function() {
-        adapter.log.debug('reading homepilot sensor JSON ...');
-        readSensor('http://' + ip + '/v4/devices?devtype=Sensor');
-    }, 3000);
-	
-	callReadTransmitter = setInterval(function() {
-        adapter.log.debug('reading homepilot transmitter JSON ...');
-        readTransmitter('http://' + ip + '/v4/devices?devtype=Transmitter');
-    }, 3000);
-	
-	calReadScenes = setInterval(function() {
-        adapter.log.debug('reading homepilot scenes JSON ...');
-        readScenes('http://' + ip + '/v4/scenes');
-    }, 5000);
+	const mainInterval = 1000; 
+    let counter = 0;
+    let isRunning = false;
+
+	callMainInterval = setInterval( async function() {
+		try{			
+			if (isRunning) {				
+				return;
+			}
+			isRunning = true;		
+			counter++;	
+			await Measure('station.Overall_Sync_Time', async () => {					
+				if (counter % sync_sensors === 0){				
+					adapter.log.debug('reading homepilot sensor JSON ...');
+					await Measure('station.Sync_Sensors_Time', async () => {						
+						await readSensor('http://' + ip + '/v4/devices?devtype=Sensor');
+					});
+				}
+				if(counter % sync_transmitters === 0){				
+					adapter.log.debug('reading homepilot transmitter JSON ...');
+					await Measure('station.Sync_Transmitters_Time', async () => {						
+						await readTransmitter('http://' + ip + '/v4/devices?devtype=Transmitter');
+					});
+				}
+				if (counter % sync_scenes === 0){ 
+					adapter.log.debug('reading homepilot scenes JSON ...');
+					await Measure('station.Sync_Scenes_Time', async () => {		
+						await readScenes('http://' + ip + '/v4/scenes');
+					});
+				}			
+				if (counter % sync_actuators === 0){ 
+					adapter.log.debug('reading homepilot actuator JSON ...');
+					await Measure('station.Sync_Actuators_Time', async () => {
+						await readActuator('http://' + ip + '/v4/devices?devtype=Actuator');
+					});
+				}
+			});
+			if(counter > 3000){
+				counter = 0;
+			}
+		}
+		catch (e) {
+			adapter.log.warn('Error during update: ' + e);			
+			adapter.log.warn(e.stack);
+		}
+		finally{
+			isRunning = false;
+		}
+    }, mainInterval);
 }
 
 function getPasswordSalt() {
@@ -478,23 +533,23 @@ function getPasswordSalt() {
 	);
 }
 
-function readActuator(link) {
+async function readActuator(link) {
     var unreach = false;
 	
 	//request(link, function(error, response, body) {
-    request({
+		try {
+			let response = await asyncRequest({
 			method: 'GET',
 			uri: link,
 			headers: [
 				{ 'Cookie': cookie },
 				{ 'Content-Type': 'application/json' }
 			]
-		},
-		function(error, response, body) {
-			if (!error && response.statusCode == 200) {
+			});
+		 	if(response.statusCode == 200) {
 				var result;
 				try {
-					result = JSON.parse(body);
+					result = JSON.parse(response.body);
 					var data = JSON.stringify(result, null, 2);
 					adapter.log.debug('Homepilot actuator data: ' + data);
 					adapter.setState('Actuator-json', {
@@ -504,54 +559,54 @@ function readActuator(link) {
 				} catch (e) {
 					adapter.log.warn('Parse Error: ' + e);
 					unreach = true;
-				}
-				
-				if (result) {					
+				}			
+							
+				if (result) {												 
 					for (var i = 0; i < result.devices.length; i++) {
-						createActuatorStates(result.devices[i], 'Actuator'); 
-						writeActuatorStates(result.devices[i], 'Actuator'); 
-					}
+						createActuatorStates(result.devices[i], 'Actuator');
+						writeActuatorStates(result.devices[i], 'Actuator');
+					  };
 					adapter.setState('station.ip', {
 						val: ip,
 						ack: true
-					});
-					
-					doAdditional(additionalDeviceSettings, 'Actuator');
+					});						
+					await doAdditional(additionalDeviceSettings, 'Actuator');	
 				}
 			} else {
-				adapter.log.warn('Read actuator -> Cannot connect to Homepilot: ' + (error ? error : JSON.stringify(response)));
+				adapter.log.warn('Read actuator -> Cannot connect to Homepilot: ' +  JSON.stringify(response));
 				unreach = true;
 			}
+		}catch(error){
+			adapter.log.warn('Read actuator -> Cannot connect to Homepilot: ' +  error);
+			unreach = true;
+		}
 			// Write connection status
 			adapter.setState('station.UNREACH', {
 				val: unreach,
 				ack: true
-			});
-		}
-	); // End request 
-
+			});		
 	additionalDeviceSettings = [];
 	
 	adapter.log.debug('finished reading Homepilot actuator data');
 }
 
-function readSensor(link) {
+async function readSensor(link) {
     var unreach = false;
 	
     //request(link, function(error, response, body) {
-	request({
+		try {
+			let response = await asyncRequest({
 			method: 'GET',
 			uri: link,
 			headers: [
 				{ 'Cookie': cookie },
 				{ 'Content-Type': 'application/json' }
 			]
-		},	
-		function(error, response, body) {
-			if (!error && response.statusCode == 200) {
+			});
+		 	if(response.statusCode == 200) {
 				var result;
 				try {
-					result = JSON.parse(body);
+					result = JSON.parse(response.body);
 					var data = JSON.stringify(result, null, 2);
 					adapter.log.debug('Homepilot sensor data: ' + data);
 					adapter.setState('Sensor-json', {
@@ -569,41 +624,43 @@ function readSensor(link) {
 						writeSensorStates(result.meters[i], 'Sensor'); 
 					}
 					
-					doAdditional(additionalSensorSettings, 'Sensor');
+					await doAdditional(additionalSensorSettings, 'Sensor');
 				}
 			} else {
-				adapter.log.warn('Read sensors -> Cannot connect to Homepilot: ' + (error ? error : JSON.stringify(response)));
+				adapter.log.warn('Read sensors -> Cannot connect to Homepilot: ' + JSON.stringify(response));
 				unreach = true;
 			}
+		}catch (error){
+			adapter.log.warn('Read sensors -> Cannot connect to Homepilot: ' + error);
+			unreach = true;
+		}
 			// Write connection status
 			adapter.setState('station.UNREACH', {
 				val: unreach,
 				ack: true
 			});
-		}
-	); // End request 
+
 	
 	additionalSensorSettings = [];
     adapter.log.debug('Finished reading Homepilot sensor data');
 }
 
-function readTransmitter(link) {
-    var unreach = false;
-	
+async function readTransmitter(link) {
+    var unreach = false;	
     //request(link, function(error, response, body) {
-	request({
+		try {
+			let response = await asyncRequest({
 			method: 'GET',
 			uri: link,
 			headers: [
 				{ 'Cookie': cookie },
 				{ 'Content-Type': 'application/json' }
 			]
-		},	
-		function(error, response, body) {
-			if (!error && response.statusCode == 200) {
+			});
+		 	if(response.statusCode == 200) {
 				var result;
 				try {
-					result = JSON.parse(body);
+					result = JSON.parse(response.body);
 					var data = JSON.stringify(result, null, 2);
 					adapter.log.debug('Homepilot transmitter data: ' + data);
 					adapter.setState('Transmitter-json', {
@@ -613,53 +670,53 @@ function readTransmitter(link) {
 				} catch (e) {
 					adapter.log.warn('Parse Error: ' + e);
 					unreach = true;
-				}
-
+				}				
 				if (result) {
 					for (var i = 0; i < result.transmitters.length; i++) {
 						createTransmitterStates(result.transmitters[i], 'Transmitter'); 
 						writeTransmitterStates(result.transmitters[i], 'Transmitter'); 
 					}
 					
-					doAdditional(additionalTransmitterSettings, 'Transmitter');	
+					await doAdditional(additionalTransmitterSettings, 'Transmitter');	
 				}
 			} else {
-				adapter.log.warn('Transmitter sensors -> Cannot connect to Homepilot: ' + (error ? error : JSON.stringify(response)));
+				adapter.log.warn('Transmitter sensors -> Cannot connect to Homepilot: ' +  JSON.stringify(response));
+				unreach = true;
+			}
+		}
+			catch(error){
+				adapter.log.warn('Transmitter sensors -> Cannot connect to Homepilot: ' +  error);
 				unreach = true;
 			}
 			// Write connection status
 			adapter.setState('station.UNREACH', {
 				val: unreach,
 				ack: true
-			});
-		}
-	); // End request 
-	
+			});		
 	additionalTransmitterSettings = [];
 	
     adapter.log.debug('Finished reading Homepilot transmitter data');
 }
 
-function readScenes(link) {
+async function readScenes(link) {
 	if (isBridge) {
        return;
     }
 
     var unreach = false;
-	
-	request({
-			method: 'GET',
-			uri: link,
-			headers: [
-				{ 'Cookie': cookie },
-				{ 'Content-Type': 'application/json' }
-			]
-		},	
-		function(error, response, body) {
-			if (!error && response.statusCode == 200) {
-				var result;
-				try {
-					result = JSON.parse(body);
+	try {
+	let response = await asyncRequest({
+		method: 'GET',
+		uri: link,
+		headers: [
+			{ 'Cookie': cookie },
+			{ 'Content-Type': 'application/json' }
+		]
+		});
+		 if(response.statusCode == 200) {
+			var result;
+			try {
+				result = JSON.parse(response.body);
 					var data = JSON.stringify(result, null, 2);
 					adapter.log.debug('Homepilot scene data: ' + data);
 					adapter.setState('Scene-json', {
@@ -673,22 +730,23 @@ function readScenes(link) {
 
 				if (result) {
 					for (var i = 0; i < result.scenes.length; i++) {
-						createSceneStates(result.scenes[i], 'Scene'); 
-						writeSceneStates(result.scenes[i], 'Scene'); 
+						await createSceneStates(result.scenes[i], 'Scene'); 
+						await writeSceneStates(result.scenes[i], 'Scene'); 
 					}					
 				}
 			} else {
-				adapter.log.warn('Scenes -> Cannot connect to Homepilot: ' + (error ? error : JSON.stringify(response)));
+				adapter.log.warn('Scenes -> Cannot connect to Homepilot: ' + JSON.stringify(response));
 				unreach = true;
-			}
-			// Write connection status
-			adapter.setState('station.UNREACH', {
-				val: unreach,
-				ack: true
-			});
-		}
-	); // End request 
-	
+			}			
+		}catch(error){
+			adapter.log.warn('Scenes -> Cannot connect to Homepilot: ' + error);
+			unreach = true;
+		}	
+		// Write connection status
+		adapter.setState('station.UNREACH', {
+			val: unreach,
+			ack: true
+		});
     adapter.log.debug('Finished reading Homepilot scene data');
 }
 
@@ -2401,308 +2459,354 @@ function writeSceneStates(result, type) {
 	}
 }
 
-function doAdditional(toDoList, type) {
+function delay(ms) {
+	return new Promise(resolve => setTimeout(resolve, ms));
+  }
+
+const MAX_CONCURRENT = 2;
+let runningPromises = 0;
+const queue = [];
+
+async function limitedGetSpecificAdditional(element) {
+  if (runningPromises >= MAX_CONCURRENT) {
+    await new Promise(resolve => queue.push(resolve));
+  }
+  runningPromises++;
+  try {
+	await delay(10);
+    return await getSpecificAdditional(element);
+  } finally {
+    runningPromises--;
+    if (queue.length > 0) {
+      queue.shift()();
+    }
+  }
+}
+
+async function getSpecificAdditional(element) {
+	var response = await asyncRequest({
+		method: 'GET',
+		uri: 'http://' + ip + '/devices/' + element,
+		headers: [
+			{ 'Cookie': cookie },
+			{ 'Content-Type': 'application/json' }
+		]
+	});		
+	if (response.statusCode == 200) {
+		return JSON.parse(response.body).payload.device;
+	}
+}
+
+async function doAdditional(toDoList, type) {
 	var unreach = false;
-	
-	if (toDoList.length > 0) {
-		toDoList = unique(toDoList);
-	
-		toDoList.forEach(function(element) {	  
-			request({
-				method: 'GET',
-				uri: 'http://' + ip + '/devices/' + element,
-				headers: [
-					{ 'Cookie': cookie },
-					{ 'Content-Type': 'application/json' }
-				]
-			},	
-				function(error, response, body) {
-					if (!error && response.statusCode == 200) {
-						var result;
-						try {
-							result = JSON.parse(body);
-							var data = JSON.stringify(result, null, 2);
-							adapter.log.debug('Homepilot additional ' + type + ' (' + element + ') data: ' + data);
-						} catch (e) {
-							adapter.log.warn('Parse Error: ' + e);
-							unreach = true;
-						}
-						if (result) {
-							var deviceHelper = (result.payload.device.capabilities.filter((x)=>x.name === "PROD_CODE_DEVICE_LOC"))[0].value;
+	try {
+		toDoList = unique(toDoList);					
+		var response = await asyncRequest({
+			method: 'GET',
+			uri: 'http://' + ip + '/devices',
+			headers: [
+				{ 'Cookie': cookie },
+				{ 'Content-Type': 'application/json' }
+			]
+		});		
+		if (response.statusCode == 200) {
+			var result;
+			try {				
+				result = JSON.parse(response.body);				
+			} catch (e) {
+				adapter.log.warn('Parse Error: ' + e);
+				unreach = true;
+			}
+			if (result) {
+				var elementsToWork = [];
+				for (var i = 0; i< result.payload.devices.length ; i++) {					
+					var elementJSON = result.payload.devices[i];					
+					var element = (elementJSON.capabilities.filter((x)=>x.name === "ID_DEVICE_LOC"))[0].value;						
+					if(element && toDoList.includes(Number(element))){											
+						elementsToWork.push({elementJSON : elementJSON, element : element});
+					}
+				}
+				for (let index = 0; index < elementsToWork.length; index+=20) {			
+					let batch = elementsToWork.slice(index, index + 20);
+					await Promise.all(batch.map(async (item) => {	
+						try{
+							var elementJSON = item.elementJSON;
+							var element = item.element;
+							var deviceHelper = (elementJSON.capabilities.filter((x)=>x.name === "PROD_CODE_DEVICE_LOC"))[0].value;
 							var deviceNumberId = deviceNumberNormalize(deviceHelper);
-                            var hashMapName = element + '-' + type;
+							var hashMapName = element + '-' + type;
 							
 							switch(deviceNumberId) {
 								case "35003064": /*DuoFern-Heizkörperstellantrieb-9433*/
-									var value = (result.payload.device.capabilities.filter((x)=>x.name === "AUTO_MODE_CFG"))[0].value;
+									var value = (elementJSON.capabilities.filter((x)=>x.name === "AUTO_MODE_CFG"))[0].value;
 									doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'AUTO_MODE_CFG', value == 'true' ? true : false, 'switch', 'Automatikbetrieb', true, hashMapName);
 
-									var value = (result.payload.device.capabilities.filter((x)=>x.name === "TIME_AUTO_CFG"))[0].value;
+									var value = (elementJSON.capabilities.filter((x)=>x.name === "TIME_AUTO_CFG"))[0].value;
 									doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'TIME_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Zeit', true, hashMapName);
 
-									var value = (result.payload.device.capabilities.filter((x)=>x.name === "CONTACT_AUTO_CFG"))[0].value;
+									var value = (elementJSON.capabilities.filter((x)=>x.name === "CONTACT_AUTO_CFG"))[0].value;
 									doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'CONTACT_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Schließkontakt', true, hashMapName);
 									break;
 
 								case "35000262": /*DuoFernUniversal-Aktor2-Kanal-9470-2*/
-									var value = (result.payload.device.capabilities.filter((x)=>x.name === "AUTO_MODE_CFG"))[0].value;
+									var value = (elementJSON.capabilities.filter((x)=>x.name === "AUTO_MODE_CFG"))[0].value;
 									doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'AUTO_MODE_CFG', value == 'true' ? true : false, 'switch', 'Automatikbetrieb', true, hashMapName);
 									
-									var value = (result.payload.device.capabilities.filter((x)=>x.name === "TIME_AUTO_CFG"))[0].value;
+									var value = (elementJSON.capabilities.filter((x)=>x.name === "TIME_AUTO_CFG"))[0].value;
 									doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'TIME_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Zeit', true, hashMapName);
 									
-									var value = (result.payload.device.capabilities.filter((x)=>x.name === "SUN_AUTO_CFG"))[0].value;
+									var value = (elementJSON.capabilities.filter((x)=>x.name === "SUN_AUTO_CFG"))[0].value;
 									doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'SUN_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Sonne', true, hashMapName);
 
-									var value = (result.payload.device.capabilities.filter((x)=>x.name === "DAWN_AUTO_CFG"))[0].value;
+									var value = (elementJSON.capabilities.filter((x)=>x.name === "DAWN_AUTO_CFG"))[0].value;
 									doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'DAWN_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Morgendämmerung', true, hashMapName);
 
-									var value = (result.payload.device.capabilities.filter((x)=>x.name === "DUSK_AUTO_CFG"))[0].value;
+									var value = (elementJSON.capabilities.filter((x)=>x.name === "DUSK_AUTO_CFG"))[0].value;
 									doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'DUSK_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Abenddämmerung', true, hashMapName);
 									break;
 									
 								case "14234511": /*DuoFern-RolloTronStandard*/
 								case "10251530": /*DuoFern-RolloTron pure smart Aufputz Minigurt*/
-									var value = (result.payload.device.capabilities.filter((x)=>x.name === "AUTO_MODE_CFG"))[0].value;
+									var value = (elementJSON.capabilities.filter((x)=>x.name === "AUTO_MODE_CFG"))[0].value;
 									doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'AUTO_MODE_CFG', value == 'true' ? true : false, 'switch', 'Automatikbetrieb', true, hashMapName);
 									
-									var value = (result.payload.device.capabilities.filter((x)=>x.name === "TIME_AUTO_CFG"))[0].value;
-                                    doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'TIME_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Zeit', true, hashMapName);
+									var value = (elementJSON.capabilities.filter((x)=>x.name === "TIME_AUTO_CFG"))[0].value;
+									doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'TIME_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Zeit', true, hashMapName);
 
-									var value = (result.payload.device.capabilities.filter((x)=>x.name === "SUN_AUTO_CFG"))[0].value;
+									var value = (elementJSON.capabilities.filter((x)=>x.name === "SUN_AUTO_CFG"))[0].value;
 									doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'SUN_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Sonne', true, hashMapName);
 									
-									var value = (result.payload.device.capabilities.filter((x)=>x.name === "DAWN_AUTO_CFG"))[0].value;
+									var value = (elementJSON.capabilities.filter((x)=>x.name === "DAWN_AUTO_CFG"))[0].value;
 									doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'DAWN_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Morgendämmerung', true, hashMapName);
 									
-									var value = (result.payload.device.capabilities.filter((x)=>x.name === "DUSK_AUTO_CFG"))[0].value;
+									var value = (elementJSON.capabilities.filter((x)=>x.name === "DUSK_AUTO_CFG"))[0].value;
 									doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'DUSK_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Abenddämmerung', true, hashMapName);
 									break;
 
 								case "14236011": /*DuoFern-RolloTron-Pro-Comfort-9800*/
-									var value = (result.payload.device.capabilities.filter((x)=>x.name === "AUTO_MODE_CFG"))[0].value;
+									var value = (elementJSON.capabilities.filter((x)=>x.name === "AUTO_MODE_CFG"))[0].value;
 									doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'AUTO_MODE_CFG', value == 'true' ? true : false, 'switch', 'Automatikbetrieb', true, hashMapName);
 									
-									var value = (result.payload.device.capabilities.filter((x)=>x.name === "TIME_AUTO_CFG"))[0].value;
+									var value = (elementJSON.capabilities.filter((x)=>x.name === "TIME_AUTO_CFG"))[0].value;
 									doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'TIME_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Zeit', true, hashMapName);
 									
-									var value = (result.payload.device.capabilities.filter((x)=>x.name === "SUN_AUTO_CFG"))[0].value;
+									var value = (elementJSON.capabilities.filter((x)=>x.name === "SUN_AUTO_CFG"))[0].value;
 									doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'SUN_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Sonne', true, hashMapName);
 									
-									var value = (result.payload.device.capabilities.filter((x)=>x.name === "DAWN_AUTO_CFG"))[0].value;
+									var value = (elementJSON.capabilities.filter((x)=>x.name === "DAWN_AUTO_CFG"))[0].value;
 									doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'DAWN_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Morgendämmerung', true, hashMapName);
 									
-									var value = (result.payload.device.capabilities.filter((x)=>x.name === "DUSK_AUTO_CFG"))[0].value;
+									var value = (elementJSON.capabilities.filter((x)=>x.name === "DUSK_AUTO_CFG"))[0].value;
 									doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'DUSK_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Abenddämmerung', true, hashMapName);
 									break;	
 									
 								case "35000864": /*DuoFern-Connect-Aktor-9477*/
-									var value = (result.payload.device.capabilities.filter((x)=>x.name === "AUTO_MODE_CFG"))[0].value;
+									var value = (elementJSON.capabilities.filter((x)=>x.name === "AUTO_MODE_CFG"))[0].value;
 									doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'AUTO_MODE_CFG', value == 'true' ? true : false, 'switch', 'Automatikbetrieb', true, hashMapName);
 									
-									var value = (result.payload.device.capabilities.filter((x)=>x.name === "TIME_AUTO_CFG"))[0].value;
+									var value = (elementJSON.capabilities.filter((x)=>x.name === "TIME_AUTO_CFG"))[0].value;
 									doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'TIME_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Zeit', true, hashMapName);
 									
-									var value = (result.payload.device.capabilities.filter((x)=>x.name === "SUN_AUTO_CFG"))[0].value;
+									var value = (elementJSON.capabilities.filter((x)=>x.name === "SUN_AUTO_CFG"))[0].value;
 									doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'SUN_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Sonne', true, hashMapName);
 									
-									var value = (result.payload.device.capabilities.filter((x)=>x.name === "DAWN_AUTO_CFG"))[0].value;
+									var value = (elementJSON.capabilities.filter((x)=>x.name === "DAWN_AUTO_CFG"))[0].value;
 									doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'DAWN_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Morgendämmerung', true, hashMapName);
 									
-									var value = (result.payload.device.capabilities.filter((x)=>x.name === "DUSK_AUTO_CFG"))[0].value;
+									var value = (elementJSON.capabilities.filter((x)=>x.name === "DUSK_AUTO_CFG"))[0].value;
 									doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'DUSK_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Abenddämmerung', true, hashMapName);
 									
-									var value = (result.payload.device.capabilities.filter((x)=>x.name === "WIND_AUTO_CFG"))[0].value;
+									var value = (elementJSON.capabilities.filter((x)=>x.name === "WIND_AUTO_CFG"))[0].value;
 									doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'WIND_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Wind', true, hashMapName);
 
-									var value = (result.payload.device.capabilities.filter((x)=>x.name === "RAIN_AUTO_CFG"))[0].value;
+									var value = (elementJSON.capabilities.filter((x)=>x.name === "RAIN_AUTO_CFG"))[0].value;
 									doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'RAIN_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Regen', true, hashMapName);
 									break;
 
 								case "32000064": /*DuoFern-Umweltsensor-9475*/
-									var value = (result.payload.device.capabilities.filter((x)=>x.name === "AUTO_MODE_CFG"))[0].value;
+									var value = (elementJSON.capabilities.filter((x)=>x.name === "AUTO_MODE_CFG"))[0].value;
 									doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'AUTO_MODE_CFG', value == 'true' ? true : false, 'switch', 'Automatikbetrieb', true, hashMapName);
 									
-									var value = (result.payload.device.capabilities.filter((x)=>x.name === "TIME_AUTO_CFG"))[0].value;
+									var value = (elementJSON.capabilities.filter((x)=>x.name === "TIME_AUTO_CFG"))[0].value;
 									doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'TIME_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Zeit', true, hashMapName);
 									
-									var value = (result.payload.device.capabilities.filter((x)=>x.name === "SUN_AUTO_CFG"))[0].value;
+									var value = (elementJSON.capabilities.filter((x)=>x.name === "SUN_AUTO_CFG"))[0].value;
 									doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'SUN_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Sonne', true, hashMapName);
 									
-									var value = (result.payload.device.capabilities.filter((x)=>x.name === "DAWN_AUTO_CFG"))[0].value;
+									var value = (elementJSON.capabilities.filter((x)=>x.name === "DAWN_AUTO_CFG"))[0].value;
 									doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'DAWN_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Morgendämmerung', true, hashMapName);
 									
-									var value = (result.payload.device.capabilities.filter((x)=>x.name === "DUSK_AUTO_CFG"))[0].value;
+									var value = (elementJSON.capabilities.filter((x)=>x.name === "DUSK_AUTO_CFG"))[0].value;
 									doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'DUSK_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Abenddämmerung', true, hashMapName);
 									
-									var value = (result.payload.device.capabilities.filter((x)=>x.name === "WIND_AUTO_CFG"))[0].value;
+									var value = (elementJSON.capabilities.filter((x)=>x.name === "WIND_AUTO_CFG"))[0].value;
 									doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'WIND_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Wind', true, hashMapName);
 									
-									var value = (result.payload.device.capabilities.filter((x)=>x.name === "RAIN_AUTO_CFG"))[0].value;
+									var value = (elementJSON.capabilities.filter((x)=>x.name === "RAIN_AUTO_CFG"))[0].value;
 									doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'RAIN_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Regen', true, hashMapName);
 									break;
 									
 								case "32501812": /*DuoFern-Raumthermostat-9485*/
-									var value = (result.payload.device.capabilities.filter((x)=>x.name === "AUTO_MODE_CFG"))[0].value;
+									var value = (elementJSON.capabilities.filter((x)=>x.name === "AUTO_MODE_CFG"))[0].value;
 									doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'AUTO_MODE_CFG', value == 'true' ? true : false, 'switch', 'Automatikbetrieb', true, hashMapName);
 									
-									var value = (result.payload.device.capabilities.filter((x)=>x.name === "TIME_AUTO_CFG"))[0].value;
+									var value = (elementJSON.capabilities.filter((x)=>x.name === "TIME_AUTO_CFG"))[0].value;
 									doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'TIME_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Zeit', true, hashMapName);
 									break;	
 									
 								case "35001164": /*DuoFern-Zwischenstecker-Schalten-9472*/
-									var value = (result.payload.device.capabilities.filter((x)=>x.name === "AUTO_MODE_CFG"))[0].value;
+									var value = (elementJSON.capabilities.filter((x)=>x.name === "AUTO_MODE_CFG"))[0].value;
 									doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'AUTO_MODE_CFG', value == 'true' ? true : false, 'switch', 'Automatikbetrieb', true, hashMapName);
 									
-									var value = (result.payload.device.capabilities.filter((x)=>x.name === "TIME_AUTO_CFG"))[0].value;
+									var value = (elementJSON.capabilities.filter((x)=>x.name === "TIME_AUTO_CFG"))[0].value;
 									doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'TIME_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Zeit', true, hashMapName);
 									
-									var value = (result.payload.device.capabilities.filter((x)=>x.name === "SUN_AUTO_CFG"))[0].value;
+									var value = (elementJSON.capabilities.filter((x)=>x.name === "SUN_AUTO_CFG"))[0].value;
 									doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'SUN_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Sonne', true, hashMapName);
 									
-									var value = (result.payload.device.capabilities.filter((x)=>x.name === "DAWN_AUTO_CFG"))[0].value;
+									var value = (elementJSON.capabilities.filter((x)=>x.name === "DAWN_AUTO_CFG"))[0].value;
 									doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'DAWN_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Morgendämmerung', true, hashMapName);
 									
-									var value = (result.payload.device.capabilities.filter((x)=>x.name === "DUSK_AUTO_CFG"))[0].value;
+									var value = (elementJSON.capabilities.filter((x)=>x.name === "DUSK_AUTO_CFG"))[0].value;
 									doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'DUSK_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Abenddämmerung', true, hashMapName);
 									break;
 
 								case "32501772": /*DuoFern-Bewegungsmelder-9484*/
-								    if (type == 'Actuator') {
-                                        var value = (result.payload.device.capabilities.filter((x)=>x.name === "AUTO_MODE_CFG"))[0].value;
-                                        doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'AUTO_MODE_CFG', value == 'true' ? true : false, 'switch', 'Automatikbetrieb', true, hashMapName);
+									if (type == 'Actuator') {
+										var value = (elementJSON.capabilities.filter((x)=>x.name === "AUTO_MODE_CFG"))[0].value;
+										doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'AUTO_MODE_CFG', value == 'true' ? true : false, 'switch', 'Automatikbetrieb', true, hashMapName);
 
-                                        var value = (result.payload.device.capabilities.filter((x)=>x.name === "TIME_AUTO_CFG"))[0].value;
-                                        doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'TIME_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Zeit', true, hashMapName);
+										var value = (elementJSON.capabilities.filter((x)=>x.name === "TIME_AUTO_CFG"))[0].value;
+										doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'TIME_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Zeit', true, hashMapName);
 
-                                        var value = (result.payload.device.capabilities.filter((x)=>x.name === "SUN_AUTO_CFG"))[0].value;
-                                        doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'SUN_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Sonne', true, hashMapName);
+										var value = (elementJSON.capabilities.filter((x)=>x.name === "SUN_AUTO_CFG"))[0].value;
+										doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'SUN_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Sonne', true, hashMapName);
 
-                                        var value = (result.payload.device.capabilities.filter((x)=>x.name === "DAWN_AUTO_CFG"))[0].value;
-                                        doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'DAWN_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Morgendämmerung', true, hashMapName);
+										var value = (elementJSON.capabilities.filter((x)=>x.name === "DAWN_AUTO_CFG"))[0].value;
+										doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'DAWN_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Morgendämmerung', true, hashMapName);
 
-                                        var value = (result.payload.device.capabilities.filter((x)=>x.name === "DUSK_AUTO_CFG"))[0].value;
-                                        doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'DUSK_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Abenddämmerung', true, hashMapName);
-								    } else  if (type == 'Sensor') {
-                                        var value = (result.payload.device.capabilities.filter((x)=>x.name === "ON_DURATION_CFG"))[0].value;
-                                        doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'ON_DURATION_CFG.value', value, 'text', 'value', false, "string", hashMapName);
+										var value = (elementJSON.capabilities.filter((x)=>x.name === "DUSK_AUTO_CFG"))[0].value;
+										doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'DUSK_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Abenddämmerung', true, hashMapName);
+									} else  if (type == 'Sensor') {
+										var value = (elementJSON.capabilities.filter((x)=>x.name === "ON_DURATION_CFG"))[0].value;
+										doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'ON_DURATION_CFG.value', value, 'text', 'value', false, "string", hashMapName);
 
-                                        value = (result.payload.device.capabilities.filter((x)=>x.name === "ON_DURATION_CFG"))[0].timestamp;
-                                        doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'ON_DURATION_CFG.timestamp', value, 'value.datetime', 'timestamp', false, "number", hashMapName);
+										value = (elementJSON.capabilities.filter((x)=>x.name === "ON_DURATION_CFG"))[0].timestamp;
+										doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'ON_DURATION_CFG.timestamp', value, 'value.datetime', 'timestamp', false, "number", hashMapName);
 
-                                        value = (result.payload.device.capabilities.filter((x)=>x.name === "BUTTON_MODE_CFG"))[0].value;
-                                        doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'BUTTON_MODE_CFG.value', value, 'text', 'value', false, "string", hashMapName);
+										value = (elementJSON.capabilities.filter((x)=>x.name === "BUTTON_MODE_CFG"))[0].value;
+										doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'BUTTON_MODE_CFG.value', value, 'text', 'value', false, "string", hashMapName);
 
-                                        value = (result.payload.device.capabilities.filter((x)=>x.name === "BUTTON_MODE_CFG"))[0].timestamp;
-                                        doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'BUTTON_MODE_CFG.timestamp', value, 'value.datetime', 'timestamp', false, "number", hashMapName);
+										value = (elementJSON.capabilities.filter((x)=>x.name === "BUTTON_MODE_CFG"))[0].timestamp;
+										doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'BUTTON_MODE_CFG.timestamp', value, 'value.datetime', 'timestamp', false, "number", hashMapName);
 
-                                        value = (result.payload.device.capabilities.filter((x)=>x.name === "SENSOR_SENSITIVITY_CFG"))[0].value;
-                                        doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'SENSOR_SENSITIVITY_CFG.value', value, 'text', 'value', false, "string", hashMapName);
+										value = (elementJSON.capabilities.filter((x)=>x.name === "SENSOR_SENSITIVITY_CFG"))[0].value;
+										doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'SENSOR_SENSITIVITY_CFG.value', value, 'text', 'value', false, "string", hashMapName);
 
-                                        value = (result.payload.device.capabilities.filter((x)=>x.name === "SENSOR_SENSITIVITY_CFG"))[0].timestamp;
-                                        doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'SENSOR_SENSITIVITY_CFG.timestamp', value, 'value.datetime', 'timestamp', false, "number", hashMapName);
+										value = (elementJSON.capabilities.filter((x)=>x.name === "SENSOR_SENSITIVITY_CFG"))[0].timestamp;
+										doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'SENSOR_SENSITIVITY_CFG.timestamp', value, 'value.datetime', 'timestamp', false, "number", hashMapName);
 
-                                        value = (result.payload.device.capabilities.filter((x)=>x.name === "MOVE_STOP_EVT"))[0].timestamp;
-                                        doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'MOVE_STOP_EVT', value, 'value.datetime', 'timestamp', false, "number", hashMapName);
+										value = (elementJSON.capabilities.filter((x)=>x.name === "MOVE_STOP_EVT"))[0].timestamp;
+										doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'MOVE_STOP_EVT', value, 'value.datetime', 'timestamp', false, "number", hashMapName);
 
-                                        value = (result.payload.device.capabilities.filter((x)=>x.name === "MOVE_START_EVT"))[0].timestamp;
-                                        doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'MOVE_START_EVT', value, 'value.datetime', 'timestamp', false, "number", hashMapName);
+										value = (elementJSON.capabilities.filter((x)=>x.name === "MOVE_START_EVT"))[0].timestamp;
+										doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'MOVE_START_EVT', value, 'value.datetime', 'timestamp', false, "number", hashMapName);
 
-                                        value = (result.payload.device.capabilities.filter((x)=>x.name === "LIGHT_VAL_LUX_MEA"))[0].value;
-                                        doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'LIGHT_VAL_LUX_MEA.value', value, 'text', 'value', false, "string", hashMapName);
+										value = (elementJSON.capabilities.filter((x)=>x.name === "LIGHT_VAL_LUX_MEA"))[0].value;
+										doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'LIGHT_VAL_LUX_MEA.value', value, 'text', 'value', false, "string", hashMapName);
 
-                                        value = (result.payload.device.capabilities.filter((x)=>x.name === "LIGHT_VAL_LUX_MEA"))[0].timestamp;
-                                        doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'LIGHT_VAL_LUX_MEA.timestamp', value, 'value.datetime', 'timestamp', false, "number", hashMapName);
+										value = (elementJSON.capabilities.filter((x)=>x.name === "LIGHT_VAL_LUX_MEA"))[0].timestamp;
+										doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'LIGHT_VAL_LUX_MEA.timestamp', value, 'value.datetime', 'timestamp', false, "number", hashMapName);
 
-                                        value = (result.payload.device.capabilities.filter((x)=>x.name === "LED_BEHAV_MODE_CFG"))[0].value;
-                                        doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'LED_BEHAV_MODE_CFG.value', value, 'text', 'value', false, "string", hashMapName);
+										value = (elementJSON.capabilities.filter((x)=>x.name === "LED_BEHAV_MODE_CFG"))[0].value;
+										doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'LED_BEHAV_MODE_CFG.value', value, 'text', 'value', false, "string", hashMapName);
 
-                                        value = (result.payload.device.capabilities.filter((x)=>x.name === "LED_BEHAV_MODE_CFG"))[0].timestamp;
-                                        doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'LED_BEHAV_MODE_CFG.timestamp', value, 'value.datetime', 'timestamp', false, "number", hashMapName);
+										value = (elementJSON.capabilities.filter((x)=>x.name === "LED_BEHAV_MODE_CFG"))[0].timestamp;
+										doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'LED_BEHAV_MODE_CFG.timestamp', value, 'value.datetime', 'timestamp', false, "number", hashMapName);
 
-                                        value = (result.payload.device.capabilities.filter((x)=>x.name === "CURR_BRIGHTN_CFG"))[0].value;
-                                        doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'CURR_BRIGHTN_CFG.value', value, 'text', 'value', false, "string", hashMapName);
+										value = (elementJSON.capabilities.filter((x)=>x.name === "CURR_BRIGHTN_CFG"))[0].value;
+										doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'CURR_BRIGHTN_CFG.value', value, 'text', 'value', false, "string", hashMapName);
 
-                                        value = (result.payload.device.capabilities.filter((x)=>x.name === "CURR_BRIGHTN_CFG"))[0].timestamp;
-                                        doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'CURR_BRIGHTN_CFG.timestamp', value, 'value.datetime', 'timestamp', false, "number", hashMapName);
+										value = (elementJSON.capabilities.filter((x)=>x.name === "CURR_BRIGHTN_CFG"))[0].timestamp;
+										doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'CURR_BRIGHTN_CFG.timestamp', value, 'value.datetime', 'timestamp', false, "number", hashMapName);
 
-                                        value = (result.payload.device.capabilities.filter((x)=>x.name === "MOTION_DETECTION_MEA"))[0].value;
-                                        doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'MOTION_DETECTION_MEA.value', value, 'text', 'value', false, "string", hashMapName);
+										value = (elementJSON.capabilities.filter((x)=>x.name === "MOTION_DETECTION_MEA"))[0].value;
+										doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'MOTION_DETECTION_MEA.value', value, 'text', 'value', false, "string", hashMapName);
 
-                                        value = (result.payload.device.capabilities.filter((x)=>x.name === "MOTION_DETECTION_MEA"))[0].timestamp;
-                                        doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'MOTION_DETECTION_MEA.timestamp', value, 'value.datetime', 'timestamp', false, "number", hashMapName);
-								    }
+										value = (elementJSON.capabilities.filter((x)=>x.name === "MOTION_DETECTION_MEA"))[0].timestamp;
+										doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'MOTION_DETECTION_MEA.timestamp', value, 'value.datetime', 'timestamp', false, "number", hashMapName);
+									}
 
-                                    break;
-	
+									break;
+
 								case "35000662": /*DuoFern-Rohrmotor-Aktor*/
-									var value = (result.payload.device.capabilities.filter((x)=>x.name === "AUTO_MODE_CFG"))[0].value;
+									var value = (elementJSON.capabilities.filter((x)=>x.name === "AUTO_MODE_CFG"))[0].value;
 									doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'AUTO_MODE_CFG', value == 'true' ? true : false, 'switch', 'Automatikbetrieb', true, hashMapName);
 									
-									var value = (result.payload.device.capabilities.filter((x)=>x.name === "TIME_AUTO_CFG"))[0].value;
+									var value = (elementJSON.capabilities.filter((x)=>x.name === "TIME_AUTO_CFG"))[0].value;
 									doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'TIME_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Zeit', true, hashMapName);
 									
-									var value = (result.payload.device.capabilities.filter((x)=>x.name === "SUN_AUTO_CFG"))[0].value;
+									var value = (elementJSON.capabilities.filter((x)=>x.name === "SUN_AUTO_CFG"))[0].value;
 									doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'SUN_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Sonne', true, hashMapName);
 									
-									var value = (result.payload.device.capabilities.filter((x)=>x.name === "DAWN_AUTO_CFG"))[0].value;
+									var value = (elementJSON.capabilities.filter((x)=>x.name === "DAWN_AUTO_CFG"))[0].value;
 									doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'DAWN_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Morgendämmerung', true, hashMapName);
 									
-									var value = (result.payload.device.capabilities.filter((x)=>x.name === "DUSK_AUTO_CFG"))[0].value;
+									var value = (elementJSON.capabilities.filter((x)=>x.name === "DUSK_AUTO_CFG"))[0].value;
 									doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'DUSK_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Abenddämmerung', true, hashMapName);
 									
-									var value = (result.payload.device.capabilities.filter((x)=>x.name === "WIND_AUTO_CFG"))[0].value;
+									var value = (elementJSON.capabilities.filter((x)=>x.name === "WIND_AUTO_CFG"))[0].value;
 									doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'WIND_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Wind', true, hashMapName);
 									
-									var value = (result.payload.device.capabilities.filter((x)=>x.name === "RAIN_AUTO_CFG"))[0].value;
+									var value = (elementJSON.capabilities.filter((x)=>x.name === "RAIN_AUTO_CFG"))[0].value;
 									doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'RAIN_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Regen', true, hashMapName);
 									break;
 									
 								case "35002414": /*ZWave-RepeaterMitSchaltfunktion-8434*/
-									var value = (result.payload.device.capabilities.filter((x)=>x.name === "AUTO_MODE_CFG"))[0].value;
+									var value = (elementJSON.capabilities.filter((x)=>x.name === "AUTO_MODE_CFG"))[0].value;
 									doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'AUTO_MODE_CFG', value == 'true' ? true : false, 'switch', 'Automatikbetrieb', true, hashMapName);
 									
-									var value = (result.payload.device.capabilities.filter((x)=>x.name === "TIME_AUTO_CFG"))[0].value;
+									var value = (elementJSON.capabilities.filter((x)=>x.name === "TIME_AUTO_CFG"))[0].value;
 									doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'TIME_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Zeit', true, hashMapName);
 									
-									var value = (result.payload.device.capabilities.filter((x)=>x.name === "DAWN_AUTO_CFG"))[0].value;
+									var value = (elementJSON.capabilities.filter((x)=>x.name === "DAWN_AUTO_CFG"))[0].value;
 									doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'DAWN_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Morgendämmerung', true, hashMapName);
 									
-									var value = (result.payload.device.capabilities.filter((x)=>x.name === "DUSK_AUTO_CFG"))[0].value;
+									var value = (elementJSON.capabilities.filter((x)=>x.name === "DUSK_AUTO_CFG"))[0].value;
 									doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'DUSK_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Abenddämmerung', true, hashMapName);
 									break;
 
 								case "16234511": /*DuoFern-RolloTron-Comfort-1800/1805/1840*/
-									var value = (result.payload.device.capabilities.filter((x)=>x.name === "AUTO_MODE_CFG"))[0].value;
+									var value = (elementJSON.capabilities.filter((x)=>x.name === "AUTO_MODE_CFG"))[0].value;
 									doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'AUTO_MODE_CFG', value == 'true' ? true : false, 'switch', 'Automatikbetrieb', true, hashMapName);
 									
-									var value = (result.payload.device.capabilities.filter((x)=>x.name === "TIME_AUTO_CFG"))[0].value;
+									var value = (elementJSON.capabilities.filter((x)=>x.name === "TIME_AUTO_CFG"))[0].value;
 									doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'TIME_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Zeit', true, hashMapName);
 									
-									var value = (result.payload.device.capabilities.filter((x)=>x.name === "SUN_AUTO_CFG"))[0].value;
+									var value = (elementJSON.capabilities.filter((x)=>x.name === "SUN_AUTO_CFG"))[0].value;
 									doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'SUN_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Sonne', true, hashMapName);
 									
-									var value = (result.payload.device.capabilities.filter((x)=>x.name === "DAWN_AUTO_CFG"))[0].value;
+									var value = (elementJSON.capabilities.filter((x)=>x.name === "DAWN_AUTO_CFG"))[0].value;
 									doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'DAWN_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Morgendämmerung', true, hashMapName);
 									
-									var value = (result.payload.device.capabilities.filter((x)=>x.name === "DUSK_AUTO_CFG"))[0].value;
+									var value = (elementJSON.capabilities.filter((x)=>x.name === "DUSK_AUTO_CFG"))[0].value;
 									doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'DUSK_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Abenddämmerung', true, hashMapName);
 									break;
 									
 								case "23602075": /*DuoFern-S-Line-Motor-Typ-SLDM-10/16-PZ*/
-									var value = (result.payload.device.capabilities.filter((x)=>x.name === "AUTO_MODE_CFG"))[0].value;
+									var value = (elementJSON.capabilities.filter((x)=>x.name === "AUTO_MODE_CFG"))[0].value;
 									doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'AUTO_MODE_CFG', value == 'true' ? true : false, 'switch', 'Automatikbetrieb', true, hashMapName);
 									
-									var value = (result.payload.device.capabilities.filter((x)=>x.name === "TIME_AUTO_CFG"))[0].value;
+									var value = (elementJSON.capabilities.filter((x)=>x.name === "TIME_AUTO_CFG"))[0].value;
 									doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'TIME_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Zeit', true, hashMapName);
 									
-									var value = (result.payload.device.capabilities.filter((x)=>x.name === "SUN_AUTO_CFG"))[0].value;
+									var value = (elementJSON.capabilities.filter((x)=>x.name === "SUN_AUTO_CFG"))[0].value;
 									doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'SUN_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Sonne', true, hashMapName);
 									
-									var value = (result.payload.device.capabilities.filter((x)=>x.name === "DAWN_AUTO_CFG"))[0].value;
+									var value = (elementJSON.capabilities.filter((x)=>x.name === "DAWN_AUTO_CFG"))[0].value;
 									doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'DAWN_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Morgendämmerung', true, hashMapName);
 									
-									var value = (result.payload.device.capabilities.filter((x)=>x.name === "DUSK_AUTO_CFG"))[0].value;
+									var value = (elementJSON.capabilities.filter((x)=>x.name === "DUSK_AUTO_CFG"))[0].value;
 									doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'DUSK_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Abenddämmerung', true, hashMapName);
 									break;
 
@@ -2710,88 +2814,99 @@ function doAdditional(toDoList, type) {
 								case "23784076": /*RolloTube S-line Sun DuoFern SLDSM 40/16PZ*/
 								case "23782076": /*RolloTube S-line Sun DuoFern SLDSM 50/12PZ*/
 								case "23785076": /*RolloTube S-line Sun DuoFern SLDSM 50/12PZ*/
-                                case "25782075": /*RolloTube S-line Zip DuoFern SLDZS 06/28Z, SLDZS 10/16Z, SLDZM 10/16Z, SLDZM 20/16Z, SLDZM 30/16Z, SLDZM 40/16Z, SLDZM 50/12Z*/
-								    var value = (result.payload.device.capabilities.filter((x)=>x.name === "AUTO_MODE_CFG"))[0].value;
-                                    doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'AUTO_MODE_CFG', value == 'true' ? true : false, 'switch', 'Automatikbetrieb', true, hashMapName);
+								case "25782075": /*RolloTube S-line Zip DuoFern SLDZS 06/28Z, SLDZS 10/16Z, SLDZM 10/16Z, SLDZM 20/16Z, SLDZM 30/16Z, SLDZM 40/16Z, SLDZM 50/12Z*/
+									var value = (elementJSON.capabilities.filter((x)=>x.name === "AUTO_MODE_CFG"))[0].value;
+									doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'AUTO_MODE_CFG', value == 'true' ? true : false, 'switch', 'Automatikbetrieb', true, hashMapName);
 
-                                    var value = (result.payload.device.capabilities.filter((x)=>x.name === "TIME_AUTO_CFG"))[0].value;
-                                    doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'TIME_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Zeit', true, hashMapName);
+									var value = (elementJSON.capabilities.filter((x)=>x.name === "TIME_AUTO_CFG"))[0].value;
+									doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'TIME_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Zeit', true, hashMapName);
 
-                                    var value = (result.payload.device.capabilities.filter((x)=>x.name === "SUN_AUTO_CFG"))[0].value;
-                                    doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'SUN_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Sonne', true, hashMapName);
+									var value = (elementJSON.capabilities.filter((x)=>x.name === "SUN_AUTO_CFG"))[0].value;
+									doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'SUN_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Sonne', true, hashMapName);
 
-                                    var value = (result.payload.device.capabilities.filter((x)=>x.name === "DAWN_AUTO_CFG"))[0].value;
-                                    doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'DAWN_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Morgendämmerung', true, hashMapName);
+									var value = (elementJSON.capabilities.filter((x)=>x.name === "DAWN_AUTO_CFG"))[0].value;
+									doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'DAWN_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Morgendämmerung', true, hashMapName);
 
-                                    var value = (result.payload.device.capabilities.filter((x)=>x.name === "DUSK_AUTO_CFG"))[0].value;
-                                    doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'DUSK_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Abenddämmerung', true, hashMapName);
-								    break;
+									var value = (elementJSON.capabilities.filter((x)=>x.name === "DUSK_AUTO_CFG"))[0].value;
+									doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'DUSK_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Abenddämmerung', true, hashMapName);
+									break;
 
 								case "32501972": /*DuoFern-Mehrfachwandtaster*/		
 								case "32501974": /*DuoFern-Mehrfachwandtaster-BAT-9494-1*/
-									var timestamp = (result.payload.device.capabilities.filter((x)=>x.name === "KEY_PUSH_CH1_EVT"))[0].timestamp;
+									elementJSON = await limitedGetSpecificAdditional(element);
+									var timestamp = (elementJSON.capabilities.filter((x)=>x.name === "KEY_PUSH_CH1_EVT"))[0].timestamp;
 									doAttributeWithTypeNumber(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'KEY_PUSH_CH1_EVT', timestamp, 'value.datetime', 'timestamp', hashMapName);
 									
-									timestamp = (result.payload.device.capabilities.filter((x)=>x.name === "KEY_PUSH_CH2_EVT"))[0].timestamp;
+									timestamp = (elementJSON.capabilities.filter((x)=>x.name === "KEY_PUSH_CH2_EVT"))[0].timestamp;
 									doAttributeWithTypeNumber(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'KEY_PUSH_CH2_EVT', timestamp, 'value.datetime', 'timestamp', hashMapName);
 									
-									timestamp = (result.payload.device.capabilities.filter((x)=>x.name === "KEY_PUSH_CH3_EVT"))[0].timestamp;
+									timestamp = (elementJSON.capabilities.filter((x)=>x.name === "KEY_PUSH_CH3_EVT"))[0].timestamp;
 									doAttributeWithTypeNumber(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'KEY_PUSH_CH3_EVT', timestamp, 'value.datetime', 'timestamp', hashMapName);
 									
-									timestamp = (result.payload.device.capabilities.filter((x)=>x.name === "KEY_PUSH_CH4_EVT"))[0].timestamp;
+									timestamp = (elementJSON.capabilities.filter((x)=>x.name === "KEY_PUSH_CH4_EVT"))[0].timestamp;
 									doAttributeWithTypeNumber(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'KEY_PUSH_CH4_EVT', timestamp, 'value.datetime', 'timestamp', hashMapName);
 									
-									timestamp = (result.payload.device.capabilities.filter((x)=>x.name === "KEY_PUSH_CH5_EVT"))[0].timestamp;
+									timestamp = (elementJSON.capabilities.filter((x)=>x.name === "KEY_PUSH_CH5_EVT"))[0].timestamp;
 									doAttributeWithTypeNumber(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'KEY_PUSH_CH5_EVT', timestamp, 'value.datetime', 'timestamp', hashMapName);
 									
-									timestamp = (result.payload.device.capabilities.filter((x)=>x.name === "KEY_PUSH_CH6_EVT"))[0].timestamp;
+									timestamp = (elementJSON.capabilities.filter((x)=>x.name === "KEY_PUSH_CH6_EVT"))[0].timestamp;
 									doAttributeWithTypeNumber(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'KEY_PUSH_CH6_EVT', timestamp, 'value.datetime', 'timestamp', hashMapName);
 									break;
 								
 								case "32160211": /*DuoFern-Wandtaster-9494*/
-									var timestamp = (result.payload.device.capabilities.filter((x)=>x.name === "KEY_OFF_CH1_EVT"))[0].timestamp;
+									elementJSON = await limitedGetSpecificAdditional(element);
+									var timestamp = (elementJSON.capabilities.filter((x)=>x.name === "KEY_OFF_CH1_EVT"))[0].timestamp;
 									doAttributeWithTypeNumber(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'KEY_OFF_CH1_EVT', timestamp, 'value.datetime', 'timestamp', hashMapName);
 									
-									timestamp = (result.payload.device.capabilities.filter((x)=>x.name === "KEY_OFF_CH2_EVT"))[0].timestamp;
+									timestamp = (elementJSON.capabilities.filter((x)=>x.name === "KEY_OFF_CH2_EVT"))[0].timestamp;
 									doAttributeWithTypeNumber(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'KEY_OFF_CH2_EVT', timestamp, 'value.datetime', 'timestamp', hashMapName);
 									
-									timestamp = (result.payload.device.capabilities.filter((x)=>x.name === "KEY_ON_CH1_EVT"))[0].timestamp;
+									timestamp = (elementJSON.capabilities.filter((x)=>x.name === "KEY_ON_CH1_EVT"))[0].timestamp;
 									doAttributeWithTypeNumber(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'KEY_ON_CH1_EVT', timestamp, 'value.datetime', 'timestamp', hashMapName);
 									
-									timestamp = (result.payload.device.capabilities.filter((x)=>x.name === "KEY_ON_CH2_EVT"))[0].timestamp;
+									timestamp = (elementJSON.capabilities.filter((x)=>x.name === "KEY_ON_CH2_EVT"))[0].timestamp;
 									doAttributeWithTypeNumber(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'KEY_ON_CH2_EVT', timestamp, 'value.datetime', 'timestamp', hashMapName);
 									break;
 
 								case "32501973": /*DuoFern-Wandtaster-1-Kanal-9494-3*/
-									var timestamp = (result.payload.device.capabilities.filter((x)=>x.name === "KEY_PUSH_CH1_EVT"))[0].timestamp;
+									elementJSON =await limitedGetSpecificAdditional(element);
+									var timestamp = (elementJSON.capabilities.filter((x)=>x.name === "KEY_PUSH_CH1_EVT"))[0].timestamp;
 									doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'KEY_PUSH_CH1_EVT', timestamp, 'value.datetime', 'timestamp', false, "number", hashMapName);
 									
-									timestamp = (result.payload.device.capabilities.filter((x)=>x.name === "KEY_PUSH_CH2_EVT"))[0].timestamp;
+									timestamp = (elementJSON.capabilities.filter((x)=>x.name === "KEY_PUSH_CH2_EVT"))[0].timestamp;
 									doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'KEY_PUSH_CH2_EVT', timestamp, 'value.datetime', 'timestamp', false, "number", hashMapName);
 									break;
 									
 								default:
 									adapter.log.debug('Unknown ' + type + ' additional for deviceNumber=' + deviceNumber +'. For implementation, please contact the developer on GIT repo.');
 							}
-							
+						}catch(error){
+							adapter.log.warn('Read ' + type + '/additional info -> Cannot connect to Homepilot: ' + error );		
 						}
-					} else {
-						adapter.log.warn('Read ' + type + '/additional info -> Cannot connect to Homepilot: ' + (error ? error : JSON.stringify(response)));
-						unreach = true;
-					}
+					}));
 				}
-			); // End request 
-			
-			adapter.log.debug('finished reading Homepilot additional ' + type + ' data for deviceId=' + element);
-		});
-		
-		// Write connection status
-		adapter.setState('station.UNREACH', {
-			val: unreach,
-			ack: true
-		});
+			}
+		} 
+		else {
+			adapter.log.warn('Read ' + type + '/additional info -> Cannot connect to Homepilot: ' + JSON.stringify(response));
+			unreach = true;
+		}
 	}
+	catch(error){
+		adapter.log.warn('Read ' + type + '/additional info -> Cannot connect to Homepilot: ' + error );
+		unreach = true;	
+	}
+		
+	adapter.log.debug('finished reading Homepilot additional ' + type);
+
+	
+	// Write connection status
+	adapter.setState('station.UNREACH', {
+		val: unreach,
+		ack: true
+	});
 }
+
 
 async function doAttributeWithTypeNumber(did, path, name, value, role, description, hashMapName) {
 	doAttribute(did, path, name, value, role, description, false, "number", hashMapName);
