@@ -15,10 +15,10 @@ var writeStateHashmap = new HashMap();
 
 var lang = 'de';
 var ip = '';
-var sync_actuators = 12;
+var sync_actuators = 4;
 var sync_sensors = 3;
-var sync_transmitters = 7;
-var sync_scenes = 23;
+var sync_transmitters = 2;
+var sync_scenes = 5;
 var password;
 var saltedPassword;
 var passwordSalt;
