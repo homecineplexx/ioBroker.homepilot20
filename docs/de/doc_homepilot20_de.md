@@ -126,8 +126,38 @@ Ab Version __0.0.3_ sind auch die Szenen vom Homepilot 2 abgebildet. Hier gibt e
 ### IP und Port
 Die IP Adresse der Homepilot Basisstation im lokalen Netzwerk. Ohne Eingabe verwendet der Adapter __homepilot.local__. Die Portnummer ist optional und wird nur bei Eingabe einer IP-Adresse berücksichtigt.
 
-### Synchronisation
-Dauer zwischen den Abfragen der Homepilot Basistation durch ioBroker. Die Eingabe ist optional. Standard ist 12s.
+### Synchronisationszeit Aktoren
+Gwünschte Zeit zwischen zwei Aktualisierungsabfragen der angeschlossenen Aktoren. Die Eingabe ist optional. Standard ist 4s.
+
+### Synchronisationszeit Sensoren
+Gwünschte Zeit zwischen zwei Aktualisierungsabfragen der angeschlossenen Sensoren. Die Eingabe ist optional. Standard ist 3s.
+
+### Synchronisationszeit Transmitter
+Gwünschte Zeit zwischen zwei Aktualisierungsabfragen der angeschlossenen Transmitter. Die Eingabe ist optional. Standard ist 2s.
+
+### Synchronisationszeit Szenen
+Gwünschte Zeit zwischen zwei Aktualisierungsabfragen der Szenen des Homepilot. Die Eingabe ist optional. Standard ist 5s.
 
 ### Sicherheit
 Seit dieser Version des Homepilot2 gibt es auch die Möglichkeit ein lokales Passwort zu setzen, welches dann hier im Adapter ebenfalls gleich gesetzt werden muß.
+
+### Finetuning des Abfragezyklus (pollig cycles)
+#### Möliche Gründe für ein Finetuning des Abfragezyklus
+1. Der Homepilot hat viele Geräte angeschlossen und die Web-Oberfläche oder die App sind sehr träge.
+2. Der Homepilot stürzt bei der Verwendung des Adapters ab und zu ab.
+3. Die Reaktion im IO-Broker auf Ereignisse der verwendeten Sender, wie z.B Wandtaster, etc. ist zu träge und soll schneller funktionieren.
+4. Optimierung der Kommunikations- und Rechenlast des IO-Broker.
+
+#### Grundlegende Funktionsweise des Abfragezyklus
+TODO
+
+#### Optimierungsmöglichkeiten
+TODO
+
+##### Synchronisationszeiten für Aktoren, Sensoren, Transmitter, 
+TODO
+
+##### Der Zustand "AutomaticRefreshAttribute"
+TODO
+
+
