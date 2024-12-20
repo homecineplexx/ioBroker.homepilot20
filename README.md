@@ -21,6 +21,9 @@ If you like my work, please consider a personal donation
 
 
 ## Changelog
+### 0.0.66      (24.12.2024)
+* (MrTomRocker) added sequential polling and the possibilty to control the polling cycles
+
 ### 0.0.65      (24.10.2024)
 * (homecineplexx) added new device DeltaDore-Zigbee-Stick-Easy Plug F16EM
 

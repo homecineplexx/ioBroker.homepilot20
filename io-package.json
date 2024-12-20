@@ -3,6 +3,9 @@
         "name": "homepilot20",
         "version": "0.0.66",
 		"news": {
+          "0.0.66":{
+            "en": "added sequential polling and the possibilty to control the polling cycles"
+          },
           "0.0.65":{
             "en": "added new device DeltaDore-Zigbee-Stick-Easy Plug F16EM",
             "de": "neues Gerät DeltaDore-Zigbee-Stick-Easy Plug F16EM hinzugefügt",
