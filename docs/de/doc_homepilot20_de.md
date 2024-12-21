@@ -142,22 +142,27 @@ Gwünschte Zeit zwischen zwei Aktualisierungsabfragen der Szenen des Homepilot. 
 Seit dieser Version des Homepilot2 gibt es auch die Möglichkeit ein lokales Passwort zu setzen, welches dann hier im Adapter ebenfalls gleich gesetzt werden muß.
 
 ### Finetuning des Abfragezyklus (pollig cycles)
-#### Möliche Gründe für ein Finetuning des Abfragezyklus
+#### Mögliche Gründe für ein Finetuning des Abfragezyklus
 1. Der Homepilot hat viele Geräte angeschlossen und die Web-Oberfläche oder die App sind sehr träge.
 2. Der Homepilot stürzt bei der Verwendung des Adapters ab und zu ab.
 3. Die Reaktion im IO-Broker auf Ereignisse der verwendeten Sender, wie z.B Wandtaster, etc. ist zu träge und soll schneller funktionieren.
 4. Optimierung der Kommunikations- und Rechenlast des IO-Broker.
 
 #### Grundlegende Funktionsweise des Abfragezyklus
-TODO
+Dieser Adapter aktualisiert die Zustände für Transmitter, Aktoren, Sensoren und Szenen gesondert. Da es sich beim Homepilot um ein Gerät handelt, welches gewisse Rechen- und Netzwerkressourcen hat, wird die Aktualisierung nacheinander ausgeführt, um parallele Anfragen an den Homepilot zu minimieren und diesen nicht zu stark zu beeinträchtigen.
+Der Adapter prüft jede Sekunde ob ein Aktualisierungsinterval für Transmitter, Aktoren, Sensoren oder Szenen ansteht und führt dies dann aus. Stehen z.B. für Transmitter und Sensoren zwei Aktualisierungsintervalle an, werden diese nacheinander ausgeführt. Dauert ein Aktualisierungszyklus länger wie eine Sekunde, so wird der nächste Aktualisierungszyklus blockiert und erst wieder ausgeführt, wenn die Bearbeitung des vorherigen Aktualisierungszyklus abgeschlossen ist.
+
+Über folgende Zustände im Objektbaum dieses Adapters kann der Aktualisierungszyklus beobachtet werden: 
+-  **homepilot20.X.station.Overall_Sync_Time**
+-  **homepilot20.X.station.Sync_Actuators_Time**
+-  **homepilot20.X.station.Sync_Sensors_Time**
+-  **homepilot20.X.station.Sync_Transmitters_Time**
+-  **homepilot20.X.station.Sync_Scenes_Time**
 
 #### Optimierungsmöglichkeiten
-TODO
-
-##### Synchronisationszeiten für Aktoren, Sensoren, Transmitter, 
-TODO
-
-##### Der Zustand "AutomaticRefreshAttribute"
-TODO
-
+Um den Abfragezyklus zu optimieren, können die Synchronisationszeiten für Aktoren, Sensoren, Transmitter und Szenen eingestellt werden. 
+Die Aktualisierung der Sensoren, Transmitter und Aktoren benötigt jeweils zwei Netzwerkanfragen an den IO Broker. Die Aktualisierung der Szenen benötigt eine Netzwerkanfrage. 
+Einige Transmitter, wie z.B. der DuoFern-Wandtaster-9494 benötigen noch eine weitere Netzwerkanfrage pro Gerät für zusätzliche Informationen wie z.B. Zeitstempel. 
+Wenn die Aktualisierung der zusätzlichen Informationen am Gerät nicht gewünscht oder benötigt wird, kann man im Objektbaum des Geräts folgenden Zustand auf false setzen: 
+**homepilot20.X.Transmitter.YY-ZZZZZZ.Attribute.AutomaticRefreshAttributes**
 
