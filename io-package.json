@@ -528,7 +528,10 @@
     "native":{  
         "homepilotip":"",
         "homepilotport":"",
-        "synctime":"",
+        "sync_actuators": 4,
+        "sync_sensors": 3,
+        "sync_transmitters": 1,
+        "sync_scenes": 5,
 		"password":""
     },
     "objects": [],
