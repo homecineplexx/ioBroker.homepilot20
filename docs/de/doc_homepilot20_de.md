@@ -141,7 +141,7 @@ Gwünschte Zeit zwischen zwei Aktualisierungsabfragen der Szenen des Homepilot. 
 ### Sicherheit
 Seit dieser Version des Homepilot2 gibt es auch die Möglichkeit ein lokales Passwort zu setzen, welches dann hier im Adapter ebenfalls gleich gesetzt werden muß.
 
-### Finetuning des Abfragezyklus (pollig cycles)
+### Optionales Finetuning des Abfragezyklus (pollig cycles)
 #### Mögliche Gründe für ein Finetuning des Abfragezyklus
 1. Der Homepilot hat viele Geräte angeschlossen und die Web-Oberfläche oder die App sind sehr träge.
 2. Der Homepilot stürzt bei der Verwendung des Adapters ab und zu ab.
