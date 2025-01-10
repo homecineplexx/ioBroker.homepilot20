@@ -1,10 +1,31 @@
 {
     "common": {
         "name": "homepilot20",
-        "version": "0.0.66",
+        "version": "0.0.67",
 		"news": {
+            "0.0.67":{
+                "en": "different changes for adapter check and set default SyncTime if 0",
+                "de": "verschiedene Änderungen für Adapterprüfung und Standard-SyncTime auf 0 setzen",
+                "ru": "различные изменения для проверки адаптера и установки SyncTime по умолчанию, если 0",
+                "pt": "diferentes alterações para a verificação do adaptador e definição do SyncTime padrão se 0",
+                "nl": "verschillende wijzigingen voor adaptercontrole en instellen van standaard SyncTime als 0",
+                "fr": "différentes modifications pour la vérification de l'adaptateur et la définition de SyncTime par défaut si 0",
+                "it": "diverse modifiche per il controllo dell'adattatore e l'impostazione predefinita di SyncTime se 0",
+                "es": "Diferentes cambios para la verificación del adaptador y la configuración del SyncTime predeterminado si es 0",
+                "pl": "różne zmiany w sprawdzaniu adaptera i ustawieniu domyślnego SyncTime, jeśli 0",
+                "zh-cn": "适配器检查的不同变化，如果为 0，则设置默认 SyncTime"
+            },
           "0.0.66":{
-            "en": "added sequential polling and the possibilty to control the polling cycles"
+            "en": "added sequential polling and the possibility to control the polling cycles",
+            "de": "Sequentielles Polling und die Möglichkeit zur Steuerung der Polling-Zyklen hinzugefügt",
+            "ru": "добавлен последовательный опрос и возможность управления циклами опроса",
+            "pt": "acrescentou a votação sequencial e a possibilidade de controlar os ciclos de votação",
+            "nl": "sequentiële polling toegevoegd en de mogelijkheid om de pollingcycli te controleren",
+            "fr": "ajout d'un sondage séquentiel et de la possibilité de contrôler les cycles de sondage",
+            "it": "aggiunto il polling sequenziale e la possibilità di controllare i cicli di polling",
+            "es": "Se agregó sondeo secuencial y la posibilidad de controlar los ciclos de sondeo",
+            "pl": "dodano sondowanie sekwencyjne i możliwość kontrolowania cykli sondowania",
+            "zh-cn": "增加了顺序轮询和控制轮询周期的可能性"
           },
           "0.0.65":{
             "en": "added new device DeltaDore-Zigbee-Stick-Easy Plug F16EM",
@@ -29,443 +50,11 @@
             "es": "error tipográfico corregido",
             "pl": "naprawiona literówka",
             "zh-cn": "修正了拼写错误"
-          },
-          "0.0.63":{
-            "en": "fixed typo",
-            "de": "Tippfehler behoben",
-            "ru": "исправлена \u200B\u200Bопечатка",
-            "pt": "erro de digitação corrigido",
-            "nl": "typfout opgelost",
-            "fr": "correction d'une erreur typographique",
-            "it": "corretto errore di battitura",
-            "es": "error tipográfico corregido",
-            "pl": "naprawiona literówka",
-            "zh-cn": "修正了拼写错误"
-          },
-          "0.0.62":{
-            "en": "fixed typo",
-            "de": "Tippfehler behoben",
-            "ru": "исправлена \u200B\u200Bопечатка",
-            "pt": "erro de digitação corrigido",
-            "nl": "typfout opgelost",
-            "fr": "correction d'une erreur typographique",
-            "it": "corretto errore di battitura",
-            "es": "error tipográfico corregido",
-            "pl": "naprawiona literówka",
-            "zh-cn": "修正了拼写错误"
-          },
-          "0.0.61":{
-            "en": "added some devices for the Homepilot2 AddZ-Stick",
-            "de": "einige Geräte für den Homepilot2 AddZ-Stick hinzugefügt",
-            "ru": "добавлены некоторые устройства для Homepilot2 AddZ-Stick",
-            "pt": "adicionou alguns dispositivos para o Homepilot2 AddZ-Stick",
-            "nl": "enkele apparaten toegevoegd voor de Homepilot2 AddZ-Stick",
-            "fr": "ajout de quelques appareils pour le Homepilot2 AddZ-Stick",
-            "it": "aggiunti alcuni dispositivi per Homepilot2 AddZ-Stick",
-            "es": "Se agregaron algunos dispositivos para el Homepilot2 AddZ-Stick",
-            "pl": "dodano kilka urządzeń dla Homepilot2 AddZ-Stick",
-            "zh-cn": "为 Homepilot2 AddZ-Stick 添加了一些设备"
-          },
-          "0.0.60":{
-            "en": "fixed typo",
-            "de": "Tippfehler behoben",
-            "ru": "исправлена \u200B\u200Bопечатка",
-            "pt": "erro de digitação corrigido",
-            "nl": "typfout opgelost",
-            "fr": "correction d'une erreur typographique",
-            "it": "corretto errore di battitura",
-            "es": "error tipográfico corregido",
-            "pl": "naprawiona literówka",
-            "zh-cn": "修正了拼写错误"
-          },
-          "0.0.59":{
-            "en": "added Homepilot device 10142345",
-            "de": "Homepilot-Geräte 10142345 hinzugefügt",
-            "ru": "добавлены устройства Homepilot 10142345",
-            "pt": "dispositivos Homepilot adicionados 10142345",
-            "nl": "Homepilot-apparaten 10142345 toegevoegd",
-            "fr": "ajout des appareils Homepilot 10142345",
-            "it": "aggiunti i dispositivi Homepilot 10142345",
-            "es": "Se agregaron dispositivos Homepilot 10142345",
-            "pl": "dodano urządzenia Homepilot 10142345",
-            "zh-cn": "添加了 Homepilot 设备 10142345"
-          },
-          "0.0.58":{
-            "en": "added Homepilot devices 12501001 and 12501006",
-            "de": "Homepilot-Geräte 12501001 und 12501006 hinzugefügt",
-            "ru": "добавлены устройства Homepilot 12501001 и 12501006",
-            "pt": "dispositivos Homepilot adicionados 12501001 e 12501006",
-            "nl": "Homepilot-apparaten 12501001 en 12501006 toegevoegd",
-            "fr": "ajout des appareils Homepilot 12501001 et 12501006",
-            "it": "aggiunti i dispositivi Homepilot 12501001 e 12501006",
-            "es": "Se agregaron dispositivos Homepilot 12501001 y 12501006.",
-            "pl": "dodano urządzenia Homepilot 12501001 i 12501006",
-            "zh-cn": "添加了 Homepilot 设备 12501001 和 12501006"
-          },
-          "0.0.57":{
-            "en": "bugfix for device 10771003",
-            "de": "Bugfix für Gerät 10771003",
-            "ru": "исправление для устройства 10771003",
-            "pt": "correção de bug para o dispositivo 10771003",
-            "nl": "bugfix voor apparaat 10771003",
-            "fr": "correction d'un bug pour l'appareil 10771003",
-            "it": "correzione bug per il dispositivo 10771003",
-            "es": "corrección de errores para el dispositivo 10771003",
-            "pl": "poprawka błędu dla urządzenia 10771003",
-            "zh-cn": "设备 10771003 的错误修复"
-          },
-          "0.0.56":{
-            "en": "added device: Sonnensensor-smart-10771003",
-            "de": "hinzugefügtes Gerät: Sonnensensor-smart-10771003",
-            "ru": "добавлено устройство: Sonnenseensor-smart-10771003",
-            "pt": "dispositivo adicionado: Sonnensensor-smart-10771003",
-            "nl": "toegevoegd apparaat: Sonnensensor-smart-10771003",
-            "fr": "appareil ajouté : Sonnensensor-smart-10771003",
-            "it": "dispositivo aggiunto: Sonnensensor-smart-10771003",
-            "es": "dispositivo añadido: Sonnensensor-smart-10771003",
-            "pl": "dodane urządzenie: Sonnensensor-smart-10771003",
-            "zh-cn": "添加的设备：Sonnensensor-smart-10771003"
-          },
-          "0.0.55":{
-            "en": "bugfix for device 13501001",
-            "de": "Bugfix für Gerät 13501001",
-            "ru": "исправление для устройства 13501001",
-            "pt": "correção de bug para o dispositivo 13501001",
-            "nl": "bugfix voor apparaat 13501001",
-            "fr": "correction d'un bug pour l'appareil 13501001",
-            "it": "correzione bug per il dispositivo 13501001",
-            "es": "corrección de errores para el dispositivo 13501001",
-            "pl": "poprawka błędu dla urządzenia 13501001",
-            "zh-cn": "设备 13501001 的错误修复"
-          },
-          "0.0.54":{
-            "en": "added Homepilot devices 11301001 and 13501001_A",
-            "de": "Homepilot-Geräte 11301001 und 13501001_A hinzugefügt",
-            "ru": "добавлены устройства Homepilot 11301001 и 13501001_A",
-            "pt": "dispositivos Homepilot adicionados 11301001 e 13501001_A",
-            "nl": "Homepilot-apparaten 11301001 en 13501001_A toegevoegd",
-            "fr": "ajout des appareils Homepilot 11301001 et 13501001_A",
-            "it": "aggiunti i dispositivi Homepilot 11301001 e 13501001_A",
-            "es": "Se agregaron dispositivos Homepilot 11301001 y 13501001_A.",
-            "pl": "dodano urządzenia Homepilot 11301001 i 13501001_A",
-            "zh-cn": "添加了 Homepilot 设备 11301001 和 13501001_A"
-          },
-          "0.0.53":{
-            "en": "adaption for js-controller 6.x",
-            "de": "Anpassung für js-controller 6.x",
-            "ru": "адаптация для js-контроллера 6.x",
-            "pt": "adaptação para js-controller 6.x",
-            "nl": "aanpassing voor js-controller 6.x",
-            "fr": "adaptation pour js-controller 6.x",
-            "it": "adattamento per js-controller 6.x",
-            "es": "adaptación para js-controller 6.x",
-            "pl": "adaptacja dla kontrolera js 6.x",
-            "zh-cn": "适配 js-controller 6.x"
-          },
-          "0.0.52":{
-            "en": "test",
-            "de": "test",
-            "ru": "test",
-            "pt": "test",
-            "nl": "test",
-            "fr": "test",
-            "it": "test",
-            "es": "test",
-            "pl": "test",
-            "zh-cn": "test"
-          },
-          "0.0.51":{
-            "en": "added new device DuoFern-Rollladenaktor smart Unterputz 10941001",
-            "de": "Neues Gerät DuoFern-Rollladenaktor smart Unterputz 10941001 hinzugefügt",
-            "ru": "добавлено новое устройство DuoFern-Rollladenaktor smart Unterputz 10941001",
-            "pt": "adicionado novo dispositivo DuoFern-Rollladenaktor inteligente Unterputz 10941001",
-            "nl": "nieuw apparaat DuoFern-Rollladenaktor smart Unterputz 10941001 toegevoegd",
-            "fr": "ajouté un nouvel appareil DuoFern-Rollladenaktor smart Unterputz 10941001",
-            "it": "aggiunto nuovo dispositivo DuoFern-Rollladenaktor smart Unterputz 10941001",
-            "es": "añadido nuevo dispositivo DuoFern-Rollladenaktor smart Unterputz 10941001",
-            "pl": "dodano nowe urządzenie DuoFern-Rollladenaktor smart Unterputz 10941001",
-            "zh-cn": "添加了新设备 DuoFern-Rollladenaktor smart Unterputz 10941001"
-          },
-          "0.0.50":{
-            "en": "added new device DuoFern Sonnen-/Windsensor smart mit Solarbetrieb 10771002",
-            "de": "Neues Gerät DuoFern Sonnen-/Windsensor smart mit Solarbetrieb 10771002 hinzugefügt",
-            "ru": "добавлено новое устройство DuoFern Sonnen-/Windsensor smart mit Solarbetrieb 10771002",
-            "pt": "adicionado novo dispositivo DuoFern Sonnen-/Windsensor smart mit Solarbetrieb 10771002",
-            "nl": "nieuw apparaat toegevoegd DuoFern Sonnen-/Windsensor smart mit Solarbetrieb 10771002",
-            "fr": "ajouté un nouvel appareil DuoFern Sonnen-/Windsensor smart mit Solarbetrieb 10771002",
-            "it": "aggiunto nuovo dispositivo DuoFern Sonnen-/Windsensor smart mit Solarbetrieb 10771002",
-            "es": "añadido nuevo dispositivo DuoFern Sonnen-/Windsensor smart mit Solarbetrieb 10771002",
-            "pl": "dodano nowe urządzenie DuoFern Sonnen-/Windsensor smart mit Solarbetrieb 10771002",
-            "zh-cn": "添加了新设备 DuoFern Sonnen-/Windsensor 智能 mit Solarbetrieb 10771002"
-          },
-          "0.0.49":{
-            "en": "added new device DuoFern-RolloTron pure smart Aufputz Minigurt 10251530",
-            "de": "Neues Gerät DuoFern-RolloTron pure smart Aufputz Minigurt 10251530 hinzugefügt",
-            "ru": "добавлено новое устройство DuoFern-RolloTron pure smart Aufputz Minigurt 10251530",
-            "pt": "adicionado novo dispositivo DuoFern-RolloTron pure smart Aufputz Minigurt 10251530",
-            "nl": "nieuw apparaat toegevoegd DuoFern-RolloTron pure smart Aufputz Minigurt 10251530",
-            "fr": "ajouté un nouvel appareil DuoFern-RolloTron pure smart Aufputz Minigurt 10251530",
-            "it": "aggiunto nuovo dispositivo DuoFern-RolloTron pure smart Aufputz Minigurt 10251530",
-            "es": "añadido nuevo dispositivo DuoFern-RolloTron pure smart Aufputz Minigurt 10251530",
-            "pl": "dodano nowe urządzenie DuoFern-RolloTron pure smart Aufputz Minigurt 10251530",
-            "zh-cn": "添加新设备 DuoFern-RolloTron 纯智能 Aufputz Minigurt 10251530"
-          },
-          "0.0.48":{
-            "en": "fixing calling unused function for device",
-            "de": "Behebung des Aufrufs ungenutzter Funktionen für das Gerät",
-            "ru": "исправление вызова неиспользуемой функции для устройства",
-            "pt": "corrigindo a chamada de função não utilizada para o dispositivo",
-            "nl": "repareren van ongebruikte oproepfunctie voor apparaat",
-            "fr": "correction de l'appel de la fonction inutilisée pour l'appareil",
-            "it": "correzione della funzione di chiamata inutilizzata per il dispositivo",
-            "es": "arreglando la función de llamada no utilizada para el dispositivo",
-            "pl": "naprawianie wywoływania nieużywanej funkcji urządzenia",
-            "zh-cn": "修复调用设备未使用的功能"
-          },
-          "0.0.47":{
-            "en": "fixing error from the last commit",
-            "de": "Fehler aus dem letzten Commit beheben",
-            "ru": "исправление ошибки из последнего коммита",
-            "pt": "corrigindo erro do último commit",
-            "nl": "fout van de laatste commit herstellen",
-            "fr": "correction de l'erreur du dernier commit",
-            "it": "correzione dell'errore dell'ultimo commit",
-            "es": "corrigiendo el error de la última confirmación",
-            "pl": "naprawianie błędu z ostatniego zatwierdzenia",
-            "zh-cn": "修复上次提交的错误"
-          },
-          "0.0.46":{
-            "en": "added new device DuoFern-Heizkörper-Thermostat smart 13601001",
-            "de": "Neues Gerät DuoFern-Heizkörper-Thermostat smart 13601001 hinzugefügt",
-            "ru": "добавлено новое устройство DuoFern-Heizkörper-Thermostat smart 13601001",
-            "pt": "adicionado novo dispositivo DuoFern-Heizkörper-Thermostat smart 13601001",
-            "nl": "nieuw apparaat DuoFern-Heizkörper-Thermostaat smart 13601001 toegevoegd",
-            "fr": "ajout d'un nouvel appareil DuoFern-Heizkörper-Thermostat intelligent 13601001",
-            "it": "aggiunto nuovo dispositivo DuoFern-Heizkörper-Thermostat smart 13601001",
-            "es": "añadido nuevo dispositivo DuoFern-Heizkörper-Thermostat smart 13601001",
-            "pl": "dodano nowe urządzenie DuoFern-Heizkörper-Thermostat smart 13601001",
-            "zh-cn": "添加了新设备 DuoFern-Heizkörper-Thermostat smart 13601001"
-          },
-        "0.0.45":{
-            "en": "added new devices: DuoFern-Rollladenmotor premium smart m10/m20/m30/m40/s10",
-            "de": "Neue Geräte hinzugefügt: DuoFern-Rollladenmotor premium smart m10/m20/m30/m40/s10",
-            "ru": "добавлены новые устройства: DuoFern-Rollladenmotor premium smart m10/m20/m30/m40/s10",
-            "pt": "novos dispositivos adicionados: DuoFern-Rollladenmotor premium smart m10/m20/m30/m40/s10",
-            "nl": "nieuwe apparaten toegevoegd: DuoFern-Rollladenmotor premium smart m10/m20/m30/m40/s10",
-            "fr": "nouveaux appareils ajoutés : DuoFern-Rollladenmotor premium smart m10/m20/m30/m40/s10",
-            "it": "aggiunti nuovi dispositivi: DuoFern-Rollladenmotor premium smart m10/m20/m30/m40/s10",
-            "es": "Se agregaron nuevos dispositivos: DuoFern-Rollladenmotor premium smart m10/m20/m30/m40/s10.",
-            "pl": "dodano nowe urządzenia: DuoFern-Rollladenmotor premium smart m10/m20/m30/m40/s10",
-            "zh-cn": "添加了新设备：DuoFern-Rollladenmotor premium smart m10/m20/m30/m40/s10"
-          },
-        "0.0.44":{
-            "en": "added new device DuoFern RolloTron pure smart 10122345",
-            "de": "Neues Gerät DuoFern RolloTron pure smart 10122345 hinzugefügt",
-            "ru": "добавлено новое устройство DuoFern RolloTron pure smart 10122345",
-            "pt": "adicionado novo dispositivo DuoFern RolloTron pure smart 10122345",
-            "nl": "nieuw apparaat DuoFern RolloTron pure smart 10122345 toegevoegd",
-            "fr": "ajout d'un nouvel appareil DuoFern RolloTron pure smart 10122345",
-            "it": "aggiunto nuovo dispositivo DuoFern RolloTron pure smart 10122345",
-            "es": "añadido nuevo dispositivo DuoFern RolloTron pure smart 10122345",
-            "pl": "dodano nowe urządzenie DuoFern RolloTron pure smart 10122345",
-            "zh-cn": "添加新设备 DuoFern RolloTron pure smart 10122345"
-          },
-        "0.0.43":{
-            "en": "added new device DuoFern RolloTron premium smart 10182345",
-            "de": "Neues Gerät DuoFern RolloTron premium smart 10182345 hinzugefügt",
-            "ru": "добавлено новое устройство DuoFern RolloTron premium smart 10182345",
-            "pt": "adicionado novo dispositivo DuoFern RolloTron premium smart 10182345",
-            "nl": "nieuw apparaat DuoFern RolloTron premium smart 10182345 toegevoegd",
-            "fr": "ajout d'un nouvel appareil DuoFern RolloTron premium smart 10182345",
-            "it": "aggiunto nuovo dispositivo DuoFern RolloTron premium smart 10182345",
-            "es": "añadido nuevo dispositivo DuoFern RolloTron premium smart 10182345",
-            "pl": "dodano nowe urządzenie DuoFern RolloTron premium smart 10182345",
-            "zh-cn": "添加了新设备 DuoFern RolloTron premium smart 10182345"
-          },
-        "0.0.42":{
-            "en": "added new device DuoFern Sonnen-/Windsensor 9499",
-            "de": "neues Gerät DuoFern Sonnen-/Windsensor 9499 hinzugefügt",
-            "ru": "добавлено новое устройство DuoFern Sonnen-/Windsensor 9499",
-            "pt": "adicionado novo dispositivo DuoFern Sonnen-/Windsensor 9499",
-            "nl": "nieuw apparaat toegevoegd DuoFern Sonnen-/Windsensor 9499",
-            "fr": "ajout d'un nouvel appareil DuoFern Sonnen-/Windsensor 9499",
-            "it": "aggiunto nuovo dispositivo DuoFern Sonnen-/Windsensor 9499",
-            "es": "agregado nuevo dispositivo DuoFern Sonnen-/Windsensor 9499",
-            "pl": "dodano nowe urządzenie DuoFern Sonnen-/Windsensor 9499",
-            "zh-cn": "添加了新设备 DuoFern Sonnen-/Windsensor 9499"
-          },
-        "0.0.41":{
-            "en": "added parameter vibration_detected for DuoFern-Sonnensensor-9478-1",
-            "de": "Parameter vibration_detected für DuoFern-Sonnensensor-9478-1 hinzugefügt",
-            "ru": "добавлен параметр вибрация_detected для DuoFern-Sonnensensor-9478-1",
-            "pt": "adicionado parâmetro vibração_detectado para DuoFern-Sonnensensor-9478-1",
-            "nl": "toegevoegde parameter vibration_detected voor DuoFern-Sonnensensor-9478-1",
-            "fr": "ajout du paramètre vibration_detected pour DuoFern-Sonnensensor-9478-1",
-            "it": "aggiunto parametro vibration_detected per DuoFern-Sonnensensor-9478-1",
-            "es": "parámetro agregado vibración_detectada para DuoFern-Sonnensensor-9478-1",
-            "pl": "dodany parametr wibracji_wykryto dla DuoFern-Sonnensensor-9478-1",
-            "zh-cn": "为 DuoFern-Sonnensensor-9478-1 添加了参数vibration_detected"
-          },
-        "0.0.40":{
-            "en": "added parameter vibration_detected for DuoFern-Sonnensensor-9478-1",
-            "de": "Parameter vibration_detected für DuoFern-Sonnensensor-9478-1 hinzugefügt",
-            "ru": "добавлен параметр вибрация_detected для DuoFern-Sonnensensor-9478-1",
-            "pt": "adicionado parâmetro vibração_detectado para DuoFern-Sonnensensor-9478-1",
-            "nl": "toegevoegde parameter vibration_detected voor DuoFern-Sonnensensor-9478-1",
-            "fr": "ajout du paramètre vibration_detected pour DuoFern-Sonnensensor-9478-1",
-            "it": "aggiunto parametro vibration_detected per DuoFern-Sonnensensor-9478-1",
-            "es": "parámetro agregado vibración_detectada para DuoFern-Sonnensensor-9478-1",
-            "pl": "dodany parametr wibracji_wykryto dla DuoFern-Sonnensensor-9478-1",
-            "zh-cn": "为 DuoFern-Sonnensensor-9478-1 添加了参数vibration_detected"
-          },
-        "0.0.39":{
-            "en": "added new device: DuoFern-Sonnensensor-9478-1",
-            "de": "neues Gerät hinzugefügt: DuoFern-Sonnensensor-9478-1",
-            "ru": "добавлено новое устройство: DuoFern-Sonnensensor-9478-1",
-            "pt": "adicionado novo dispositivo: DuoFern-Sonnensensor-9478-1",
-            "nl": "nieuw apparaat toegevoegd: DuoFern-Sonnensensor-9478-1",
-            "fr": "ajout d'un nouvel appareil : DuoFern-Sonnensensor-9478-1",
-            "it": "aggiunto nuovo dispositivo: DuoFern-Sonnensensor-9478-1",
-            "es": "nuevo dispositivo agregado: DuoFern-Sonnensensor-9478-1",
-            "pl": "dodane nowe urządzenie: DuoFern-Sonnensensor-9478-1",
-            "zh-cn": "添加新设备：DuoFern-Sonnensensor-9478-1"
-          },
-          "0.0.38":{
-            "en": "added attributes to the device 32501772",
-            "de": "Attribute zum Gerät 32501772 hinzugefügt",
-            "ru": "добавлены атрибуты к устройству 32501772",
-            "pt": "atributos adicionados ao dispositivo 32501772",
-            "nl": "attributen toegevoegd aan het apparaat 32501772",
-            "fr": "ajout d'attributs à l'appareil 32501772",
-            "it": "attributi aggiunti al dispositivo 32501772",
-            "es": "atributos agregados al dispositivo 32501772",
-            "pl": "dodano atrybuty do urządzenia 32501772",
-            "zh-cn": "为设备添加了属性 32501772"
-          },
-          "0.0.37":{
-            "en": "added new device: addZ White + Colour E14 LED",
-            "de": "neues Gerät hinzugefügt: addZ White + Color E14 LED",
-            "ru": "добавлено новое устройство: addZ White + Color E14 LED",
-            "pt": "adicionado novo dispositivo: addZ White + Color E14 LED",
-            "nl": "nieuw apparaat toegevoegd: addZ Wit + Kleur E14 LED",
-            "fr": "ajout d'un nouvel appareil : addZ White + Color E14 LED",
-            "it": "aggiunto nuovo dispositivo: addZ White + Color E14 LED",
-            "es": "nuevo dispositivo agregado: addZ White + Color E14 LED",
-            "pl": "dodane nowe urządzenie: addZ Biały + Kolor E14 LED",
-            "zh-cn": "添加新设备：addZ White + Color E14 LED"
-          },
-          "0.0.36":{
-            "en": "added new devices for RolloTube S-line Zip DuoFern",
-            "de": "neue Geräte für RolloTube S-line Zip DuoFern hinzugefügt",
-            "ru": "добавлены новые устройства для RolloTube S-line Zip DuoFern",
-            "pt": "adicionados novos dispositivos para RolloTube S-line Zip DuoFern",
-            "nl": "nieuwe apparaten toegevoegd voor RolloTube S-line Zip DuoFern",
-            "fr": "ajout de nouveaux dispositifs pour RolloTube S-line Zip DuoFern",
-            "it": "aggiunti nuovi dispositivi per RolloTube S-line Zip DuoFern",
-            "es": "se agregaron nuevos dispositivos para RolloTube S-line Zip DuoFern",
-            "pl": "dodano nowe urządzenia dla RolloTube S-line Zip DuoFern",
-            "zh-cn": "为 RolloTube S-line Zip DuoFern 添加了新设备"
-          },
-          "0.0.35":{
-            "en": "fixed a problem with slatposition for device 35000662",
-            "de": "Behebung eines Problems mit der slatposition für Gerät 35000662",
-            "ru": "исправлена проблема с slatposition для устройства 35000662",
-            "pt": "corrigido um problema com slatposition para o dispositivo 35000662",
-            "nl": "probleem opgelost met lamellenpositie voor apparaat 35000662",
-            "fr": "correction d'un problème avec la position des lamelles pour l'appareil 35000662",
-            "it": "risolto un problema con la posizione delle lamelle per il dispositivo 35000662",
-            "es": "solucionó un problema con la posición de las tablillas para el dispositivo 35000662",
-            "pl": "naprawiono problem z położeniem listew dla urządzenia 35000662",
-            "zh-cn": "修复了设备 35000662 的 slatposition 问题"
-          },
-          "0.0.34":{
-            "en": "name in the object-name deleted",
-            "de": "Name im Objektnamen gelöscht",
-            "ru": "имя в имени объекта удалено",
-            "pt": "nome no nome do objeto excluído",
-            "nl": "naam in de objectnaam verwijderd",
-            "fr": "nom dans le nom d'objet supprimé",
-            "it": "nome nel nome dell'oggetto eliminato",
-            "es": "nombre en el objeto-nombre eliminado",
-            "pl": "usunięta nazwa w nazwie obiektu",
-            "zh-cn": "对象名称中的名称已删除"
-          },
-          "0.0.33":{
-            "en": "first fix for performance problems",
-            "de": "erste Lösung für Leistungsprobleme",
-            "ru": "первое исправление проблем с производительностью",
-            "pt": "primeira correção para problemas de desempenho",
-            "nl": "eerste oplossing voor prestatieproblemen",
-            "fr": "premier correctif pour les problèmes de performances",
-            "it": "prima soluzione per problemi di prestazioni",
-            "es": "primera solución para problemas de rendimiento",
-            "pl": "pierwsza poprawka problemów z wydajnością",
-            "zh-cn": "首次修复性能问题"
-          },
-          "0.0.32":{
-            "en": "Fixed issue for activating scene",
-            "de": "Problem beim Aktivieren der Szene behoben",
-            "ru": "Исправлена проблема с активацией сцены",
-            "pt": "Corrigido problema para ativação de cena",
-            "nl": "Probleem opgelost voor het activeren van scène",
-            "fr": "Correction d'un problème pour l'activation de la scène",
-            "it": "Risolto problema per l'attivazione della scena",
-            "es": "Problema solucionado para activar la escena",
-            "pl": "Naprawiono problem z aktywacją sceny",
-            "zh-cn": "修复了激活场景的问题"
-          },
-          "0.0.31":{
-            "en": "Fixed issues with motion detector",
-            "de": "Probleme mit dem Bewegungsmelder gelöst",
-            "ru": "Исправлены проблемы с детектором движения",
-            "pt": "Problemas corrigidos com detector de movimento",
-            "nl": "Problemen met bewegingsdetector opgelost",
-            "fr": "Correction de problèmes avec le détecteur de mouvement",
-            "it": "Risolti problemi con il rilevatore di movimento",
-            "es": "Problemas resueltos con el detector de movimiento",
-            "pl": "Naprawiono problemy z detektorem ruchu",
-            "zh-cn": "修复了运动检测器的问题"
-          },
-          "0.0.30":{
-            "en": "added slatposition to device 35000662",
-            "de": "slatposition zum Gerät hinzugefügt 3500662",
-            "ru": "добавлено положение предкрылка к устройству 35000662",
-            "pt": "adicionou slatposition ao dispositivo 35000662",
-            "nl": "toegevoegde lamellenpositie aan apparaat 35000662",
-            "fr": "ajout de la position des lamelles à l'appareil 350000662",
-            "it": "aggiunta la posizione delle lamelle al dispositivo 35000662",
-            "es": "posición de lamas añadida al dispositivo 35000662",
-            "pl": "dodano pozycję listew do urządzenia 35000662",
-            "zh-cn": "将 slatposition 添加到设备 35000662"
-          },
-          "0.0.29":{
-            "en": "fix some issues found by adapter checker",
-            "de": "einige Probleme behoben, die vom Adapter-Checker gefunden wurden",
-            "ru": "исправить некоторые проблемы, обнаруженные программой проверки адаптеров",
-            "pt": "corrigir alguns problemas encontrados pelo verificador de adaptador",
-            "nl": "enkele problemen oplossen die zijn gevonden door adaptercontrole",
-            "fr": "résoudre certains problèmes détectés par le vérificateur d'adaptateur",
-            "it": "risolvere alcuni problemi rilevati dal controllo adattatore",
-            "es": "solucionar algunos problemas encontrados por el verificador de adaptadores",
-            "pl": "napraw niektóre problemy znalezione przez kontroler adaptera",
-            "zh-cn": "修复适配器检查器发现的一些问题"
-          },
-          "0.0.28":{
-            "en": "fix some issues found by adapter checker",
-            "de": "einige Probleme behoben, die vom Adapter-Checker gefunden wurden",
-            "ru": "исправить некоторые проблемы, обнаруженные программой проверки адаптеров",
-            "pt": "corrigir alguns problemas encontrados pelo verificador de adaptador",
-            "nl": "enkele problemen oplossen die zijn gevonden door adaptercontrole",
-            "fr": "résoudre certains problèmes détectés par le vérificateur d'adaptateur",
-            "it": "risolvere alcuni problemi rilevati dal controllo adattatore",
-            "es": "solucionar algunos problemas encontrados por el verificador de adaptadores",
-            "pl": "napraw niektóre problemy znalezione przez kontroler adaptera",
-            "zh-cn": "修复适配器检查器发现的一些问题"
           }
         },
-        "title": "Homepilot 2.0",
         "titleLang": {
             "en": "Homepilot 2.0",
+            "uk": "Homepilot 2.0",
             "de": "Homepilot 2.0",
 			"ru": "Homepilot 2.0",
 			"pt": "Homepilot 2.0",
@@ -478,6 +67,7 @@
         },
         "desc": {
             "en": "Rademacher Homepilot Adapter",
+            "uk": "Rademacher Homepilot Adapter",
             "de": "Rademacher Homepilot Adapter",
 			"ru": "Rademacher Homepilot Adapter",
 			"pt": "Rademacher Homepilot Adapter",
@@ -489,12 +79,10 @@
 			"zh-cn": "Rademacher Homepilot Adapter"
         },
         "authors": [
-            "Christian Koller <chris.homecineplexx@gmail.com>"
+            "Christian Koller-Kink <chris.homecineplexx@gmail.com>"
         ],
         "keywords": [
-            "ioBroker",
 			"homepilot",
-			"Smart Home",
 			"home automation",
 			"rollo",
 			"rollladen",
@@ -502,9 +90,11 @@
 			"homecineplexx"
         ],
 		"compact": true,
-        "license": "MIT",
+        "licenseInformation": {
+            "license": "MIT",
+            "type": "free"
+        },
         "platform": "Javascript/Node.js",
-        "main": "main.js",
         "icon": "homepilot.png",
         "enabled": true,
         "extIcon": "https://raw.githubusercontent.com/homecineplexx/ioBroker.homepilot20/master/admin/homepilot.png",
@@ -519,11 +109,12 @@
         "materializeTab": true,
         "dependencies": [
             {
-                "js-controller": ">=1.4.2"
+                "js-controller": ">=5.0.19"
             }
         ],
         "connectionType": "local",
-        "dataSource": "poll"
+        "dataSource": "poll",
+        "tier": 2
     },
     "native":{  
         "homepilotip":"",

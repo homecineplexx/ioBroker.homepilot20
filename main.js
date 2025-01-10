@@ -360,16 +360,16 @@ function readSettings() {
     } else ip = (adapter.config.homepilotport.length > 0) ? adapter.config.homepilotip + ':' + adapter.config.homepilotport : adapter.config.homepilotip;
 		
 	//check if sync time is entered in settings
-	sync_actuators = (adapter.config.sync_actuators === undefined || adapter.config.sync_actuators.length === 0) ? 4 : parseInt(adapter.config.sync_actuators,10);
+	sync_actuators = (adapter.config.sync_actuators === undefined || adapter.config.sync_actuators.length === 0 || parseInt(adapter.config.sync_actuators,10) == 0) ? 4 : parseInt(adapter.config.sync_actuators,10);
 	adapter.log.info('Homepilot station and ioBroker synchronize actuators every ' + sync_actuators + 's');
 		
-	sync_sensors = (adapter.config.sync_sensors === undefined || adapter.config.sync_sensors.length === 0) ? 3 : parseInt(adapter.config.sync_sensors,10);
+	sync_sensors = (adapter.config.sync_sensors === undefined || adapter.config.sync_sensors.length === 0 || parseInt(adapter.config.sync_sensors,10) == 0) ? 3 : parseInt(adapter.config.sync_sensors,10);
 	adapter.log.info('Homepilot station and ioBroker synchronize sensors every ' + sync_sensors + 's');
 
-	sync_transmitters = (adapter.config.sync_transmitters === undefined || adapter.config.sync_transmitters.length === 0) ? 1 : parseInt(adapter.config.sync_transmitters,10);
+	sync_transmitters = (adapter.config.sync_transmitters === undefined || adapter.config.sync_transmitters.length === 0 || parseInt(adapter.config.sync_transmitters,10) == 0) ? 1 : parseInt(adapter.config.sync_transmitters,10);
 	adapter.log.info('Homepilot station and ioBroker synchronize transmitters every ' + sync_transmitters + 's');
 	
-	sync_scenes = (adapter.config.sync_scenes === undefined || adapter.config.sync_scenes.length === 0) ? 5 : parseInt(adapter.config.sync_scenes,10);
+	sync_scenes = (adapter.config.sync_scenes === undefined || adapter.config.sync_scenes.length === 0 || parseInt(adapter.config.sync_scenes,10) == 0) ? 5 : parseInt(adapter.config.sync_scenes,10);
 	adapter.log.info('Homepilot station and ioBroker synchronize scenes every ' + sync_scenes + 's');
 	
 	//check if password is set

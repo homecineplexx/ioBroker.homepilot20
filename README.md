@@ -21,6 +21,9 @@ If you like my work, please consider a personal donation
 
 
 ## Changelog
+### 0.0.67      (10.01.2025)
+* (homecineplexx) different changes for adapter check and set default SyncTime if 0
+
 ### 0.0.66      (24.12.2024)
 * (MrTomRocker) added sequential polling and the possibilty to control the polling cycles
 
@@ -265,7 +268,7 @@ If you like my work, please consider a personal donation
 ## License
 MIT License
 
-Copyright (c) 2021 homecineplexx <chris.homecineplexx@gmail.com>
+Copyright (c) 2024 Christian Koller-Kink <chris.homecineplexx@gmail.com>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
