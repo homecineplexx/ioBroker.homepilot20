@@ -360,16 +360,16 @@ function readSettings() {
     } else ip = (adapter.config.homepilotport.length > 0) ? adapter.config.homepilotip + ':' + adapter.config.homepilotport : adapter.config.homepilotip;
 		
 	//check if sync time is entered in settings
-	sync_actuators = (adapter.config.sync_actuators === undefined || adapter.config.sync_actuators.length === 0 || parseInt(adapter.config.sync_actuators,10) == 0) ? 4 : parseInt(adapter.config.sync_actuators,10);
+	sync_actuators = (adapter.config.sync_actuators === undefined || adapter.config.sync_actuators.length === 0) ? 4 : parseInt(adapter.config.sync_actuators,10);
 	adapter.log.info('Homepilot station and ioBroker synchronize actuators every ' + sync_actuators + 's');
 		
-	sync_sensors = (adapter.config.sync_sensors === undefined || adapter.config.sync_sensors.length === 0 || parseInt(adapter.config.sync_sensors,10) == 0) ? 3 : parseInt(adapter.config.sync_sensors,10);
+	sync_sensors = (adapter.config.sync_sensors === undefined || adapter.config.sync_sensors.length === 0) ? 3 : parseInt(adapter.config.sync_sensors,10);
 	adapter.log.info('Homepilot station and ioBroker synchronize sensors every ' + sync_sensors + 's');
 
-	sync_transmitters = (adapter.config.sync_transmitters === undefined || adapter.config.sync_transmitters.length === 0 || parseInt(adapter.config.sync_transmitters,10) == 0) ? 1 : parseInt(adapter.config.sync_transmitters,10);
+	sync_transmitters = (adapter.config.sync_transmitters === undefined || adapter.config.sync_transmitters.length === 0) ? 1 : parseInt(adapter.config.sync_transmitters,10);
 	adapter.log.info('Homepilot station and ioBroker synchronize transmitters every ' + sync_transmitters + 's');
 	
-	sync_scenes = (adapter.config.sync_scenes === undefined || adapter.config.sync_scenes.length === 0 || parseInt(adapter.config.sync_scenes,10) == 0) ? 5 : parseInt(adapter.config.sync_scenes,10);
+	sync_scenes = (adapter.config.sync_scenes === undefined || adapter.config.sync_scenes.length === 0) ? 5 : parseInt(adapter.config.sync_scenes,10);
 	adapter.log.info('Homepilot station and ioBroker synchronize scenes every ' + sync_scenes + 's');
 	
 	//check if password is set
@@ -448,30 +448,38 @@ function main() {
 			}
 			isRunning = true;		
 			counter++;	
-			await Measure('station.Overall_Sync_Time', async () => {					
-				if (counter % sync_sensors === 0){				
-					adapter.log.debug('reading homepilot sensor JSON ...');
-					await Measure('station.Sync_Sensors_Time', async () => {						
-						await readSensor('http://' + ip + '/v4/devices?devtype=Sensor');
-					});
+			await Measure('station.Overall_Sync_Time', async () => {
+			    if (sync_sensors > 0) {
+                    if (counter % sync_sensors === 0){
+                        adapter.log.debug('reading homepilot sensor JSON ...');
+                        await Measure('station.Sync_Sensors_Time', async () => {
+                            await readSensor('http://' + ip + '/v4/devices?devtype=Sensor');
+                        });
+                    }
 				}
-				if(counter % sync_transmitters === 0){				
-					adapter.log.debug('reading homepilot transmitter JSON ...');
-					await Measure('station.Sync_Transmitters_Time', async () => {						
-						await readTransmitter('http://' + ip + '/v4/devices?devtype=Transmitter');
-					});
+				if (sync_transmitters > 0) {
+                    if(counter % sync_transmitters === 0){
+                        adapter.log.debug('reading homepilot transmitter JSON ...');
+                        await Measure('station.Sync_Transmitters_Time', async () => {
+                            await readTransmitter('http://' + ip + '/v4/devices?devtype=Transmitter');
+                        });
+                    }
 				}
-				if (counter % sync_scenes === 0){ 
-					adapter.log.debug('reading homepilot scenes JSON ...');
-					await Measure('station.Sync_Scenes_Time', async () => {		
-						await readScenes('http://' + ip + '/v4/scenes');
-					});
-				}			
-				if (counter % sync_actuators === 0){ 
-					adapter.log.debug('reading homepilot actuator JSON ...');
-					await Measure('station.Sync_Actuators_Time', async () => {
-						await readActuator('http://' + ip + '/v4/devices?devtype=Actuator');
-					});
+				if (sync_scenes > 0) {
+                    if (counter % sync_scenes === 0){
+                        adapter.log.debug('reading homepilot scenes JSON ...');
+                        await Measure('station.Sync_Scenes_Time', async () => {
+                            await readScenes('http://' + ip + '/v4/scenes');
+                        });
+                    }
+				}
+				if (sync_actuators > 0) {
+                    if (counter % sync_actuators === 0){
+                        adapter.log.debug('reading homepilot actuator JSON ...');
+                        await Measure('station.Sync_Actuators_Time', async () => {
+                            await readActuator('http://' + ip + '/v4/devices?devtype=Actuator');
+                        });
+                    }
 				}
 			});
 			if(counter > 3000){

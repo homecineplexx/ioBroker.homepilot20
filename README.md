@@ -21,6 +21,9 @@ If you like my work, please consider a personal donation
 
 
 ## Changelog
+### 0.0.68      (11.01.2025)
+* (homecineplexx)  SyncTime is 0 means deactivated sync
+
 ### 0.0.67      (10.01.2025)
 * (homecineplexx) different changes for adapter check and set default SyncTime if 0
 

@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "homepilot20",
-        "version": "0.0.67",
+        "version": "0.0.68",
 		"news": {
+            "0.0.68":{
+                "en": "SyncTime is 0 means deactivated sync",
+                "de": "SyncTime ist 0 bedeutet deaktivierte Synchronisierung",
+                "ru": "SyncTime = 0 означает отключенную синхронизацию.",
+                "pt": "SyncTime é 0 significa sincronização desativada",
+                "nl": "SyncTime is 0 betekent gedeactiveerde synchronisatie",
+                "fr": "SyncTime est 0, ce qui signifie que la synchronisation est désactivée",
+                "it": "SyncTime è 0 significa sincronizzazione disattivata",
+                "es": "SyncTime es 0 significa sincronización desactivada",
+                "pl": "SyncTime wynosi 0, co oznacza wyłączoną synchronizację",
+                "zh-cn": "SyncTime 为 0 表示已停用同步"
+            },
             "0.0.67":{
                 "en": "different changes for adapter check and set default SyncTime if 0",
                 "de": "verschiedene Änderungen für Adapterprüfung und Standard-SyncTime auf 0 setzen",
