@@ -2719,53 +2719,79 @@ async function doAdditional(toDoList, type) {
 										var value = (elementJSON.capabilities.filter((x)=>x.name === "DUSK_AUTO_CFG"))[0].value;
 										doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'DUSK_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Abenddämmerung', true, hashMapName);
 									} else  if (type == 'Sensor') {
-										var value = (elementJSON.capabilities.filter((x)=>x.name === "ON_DURATION_CFG"))[0].value;
-										doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'ON_DURATION_CFG.value', value, 'text', 'value', false, "string", hashMapName);
+									    var value;
 
-										value = (elementJSON.capabilities.filter((x)=>x.name === "ON_DURATION_CFG"))[0].timestamp;
-										doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'ON_DURATION_CFG.timestamp', value, 'value.datetime', 'timestamp', false, "number", hashMapName);
+									    var searchElement = elementJSON.capabilities.filter((x)=>x.name === "ON_DURATION_CFG");
+									    if (searchElement) {
+									        value = (searchElement)[0].value;
+                                            doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'ON_DURATION_CFG.value', value, 'text', 'value', false, "string", hashMapName);
 
-										value = (elementJSON.capabilities.filter((x)=>x.name === "BUTTON_MODE_CFG"))[0].value;
-										doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'BUTTON_MODE_CFG.value', value, 'text', 'value', false, "string", hashMapName);
+                                            value = (searchElement)[0].timestamp;
+                                            doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'ON_DURATION_CFG.timestamp', value, 'value.datetime', 'timestamp', false, "number", hashMapName);
+									    }
 
-										value = (elementJSON.capabilities.filter((x)=>x.name === "BUTTON_MODE_CFG"))[0].timestamp;
-										doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'BUTTON_MODE_CFG.timestamp', value, 'value.datetime', 'timestamp', false, "number", hashMapName);
+										searchElement = elementJSON.capabilities.filter((x)=>x.name === "BUTTON_MODE_CFG");
+										if (searchElement) {
+                                            value = (searchElement)[0].value;
+                                            doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'BUTTON_MODE_CFG.value', value, 'text', 'value', false, "string", hashMapName);
 
-										value = (elementJSON.capabilities.filter((x)=>x.name === "SENSOR_SENSITIVITY_CFG"))[0].value;
-										doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'SENSOR_SENSITIVITY_CFG.value', value, 'text', 'value', false, "string", hashMapName);
+                                            value = (searchElement)[0].timestamp;
+                                            doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'BUTTON_MODE_CFG.timestamp', value, 'value.datetime', 'timestamp', false, "number", hashMapName);
+                                        }
 
-										value = (elementJSON.capabilities.filter((x)=>x.name === "SENSOR_SENSITIVITY_CFG"))[0].timestamp;
-										doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'SENSOR_SENSITIVITY_CFG.timestamp', value, 'value.datetime', 'timestamp', false, "number", hashMapName);
+                                        searchElement = elementJSON.capabilities.filter((x)=>x.name === "SENSOR_SENSITIVITY_CFG");
+                                        if (searchElement) {
+                                            value = (searchElement)[0].value;
+                                            doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'SENSOR_SENSITIVITY_CFG.value', value, 'text', 'value', false, "string", hashMapName);
 
-										value = (elementJSON.capabilities.filter((x)=>x.name === "MOVE_STOP_EVT"))[0].timestamp;
-										doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'MOVE_STOP_EVT', value, 'value.datetime', 'timestamp', false, "number", hashMapName);
+                                            value = (searchElement)[0].timestamp;
+                                            doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'SENSOR_SENSITIVITY_CFG.timestamp', value, 'value.datetime', 'timestamp', false, "number", hashMapName);
+                                        }
 
-										value = (elementJSON.capabilities.filter((x)=>x.name === "MOVE_START_EVT"))[0].timestamp;
-										doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'MOVE_START_EVT', value, 'value.datetime', 'timestamp', false, "number", hashMapName);
+                                        searchElement = elementJSON.capabilities.filter((x)=>x.name === "MOVE_STOP_EVT");
+                                        if (searchElement) {
+                                            value = (searchElement)[0].timestamp;
+                                            doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'MOVE_STOP_EVT', value, 'value.datetime', 'timestamp', false, "number", hashMapName);
 
-										value = (elementJSON.capabilities.filter((x)=>x.name === "LIGHT_VAL_LUX_MEA"))[0].value;
-										doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'LIGHT_VAL_LUX_MEA.value', value, 'text', 'value', false, "string", hashMapName);
+                                            value = (searchElement)[0].timestamp;
+                                            doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'MOVE_START_EVT', value, 'value.datetime', 'timestamp', false, "number", hashMapName);
+                                        }
 
-										value = (elementJSON.capabilities.filter((x)=>x.name === "LIGHT_VAL_LUX_MEA"))[0].timestamp;
-										doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'LIGHT_VAL_LUX_MEA.timestamp', value, 'value.datetime', 'timestamp', false, "number", hashMapName);
+                                        searchElement = elementJSON.capabilities.filter((x)=>x.name === "LIGHT_VAL_LUX_MEA");
+                                        if (searchElement) {
+                                            value = (searchElement)[0].value;
+                                            doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'LIGHT_VAL_LUX_MEA.value', value, 'text', 'value', false, "string", hashMapName);
 
-										value = (elementJSON.capabilities.filter((x)=>x.name === "LED_BEHAV_MODE_CFG"))[0].value;
-										doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'LED_BEHAV_MODE_CFG.value', value, 'text', 'value', false, "string", hashMapName);
+                                            value = (searchElement)[0].timestamp;
+                                            doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'LIGHT_VAL_LUX_MEA.timestamp', value, 'value.datetime', 'timestamp', false, "number", hashMapName);
+                                        }
 
-										value = (elementJSON.capabilities.filter((x)=>x.name === "LED_BEHAV_MODE_CFG"))[0].timestamp;
-										doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'LED_BEHAV_MODE_CFG.timestamp', value, 'value.datetime', 'timestamp', false, "number", hashMapName);
+                                        searchElement = elementJSON.capabilities.filter((x)=>x.name === "LED_BEHAV_MODE_CFG");
+                                        if (searchElement) {
+                                            value = (searchElement)[0].value;
+                                            doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'LED_BEHAV_MODE_CFG.value', value, 'text', 'value', false, "string", hashMapName);
 
-										value = (elementJSON.capabilities.filter((x)=>x.name === "CURR_BRIGHTN_CFG"))[0].value;
-										doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'CURR_BRIGHTN_CFG.value', value, 'text', 'value', false, "string", hashMapName);
+                                            value = (searchElement)[0].timestamp;
+                                            doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'LED_BEHAV_MODE_CFG.timestamp', value, 'value.datetime', 'timestamp', false, "number", hashMapName);
+                                        }
 
-										value = (elementJSON.capabilities.filter((x)=>x.name === "CURR_BRIGHTN_CFG"))[0].timestamp;
-										doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'CURR_BRIGHTN_CFG.timestamp', value, 'value.datetime', 'timestamp', false, "number", hashMapName);
+                                        searchElement = elementJSON.capabilities.filter((x)=>x.name === "CURR_BRIGHTN_CFG");
+                                        if (searchElement) {
+                                            value = (searchElement)[0].value;
+                                            doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'CURR_BRIGHTN_CFG.value', value, 'text', 'value', false, "string", hashMapName);
 
-										value = (elementJSON.capabilities.filter((x)=>x.name === "MOTION_DETECTION_MEA"))[0].value;
-										doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'MOTION_DETECTION_MEA.value', value, 'text', 'value', false, "string", hashMapName);
+                                            value = (searchElement)[0].timestamp;
+                                            doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'CURR_BRIGHTN_CFG.timestamp', value, 'value.datetime', 'timestamp', false, "number", hashMapName);
+                                        }
 
-										value = (elementJSON.capabilities.filter((x)=>x.name === "MOTION_DETECTION_MEA"))[0].timestamp;
-										doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'MOTION_DETECTION_MEA.timestamp', value, 'value.datetime', 'timestamp', false, "number", hashMapName);
+                                        searchElement = elementJSON.capabilities.filter((x)=>x.name === "MOTION_DETECTION_MEA");
+                                        if (searchElement) {
+                                            value = (searchElement)[0].value;
+                                            doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'MOTION_DETECTION_MEA.value', value, 'text', 'value', false, "string", hashMapName);
+
+                                            value = (searchElement)[0].timestamp;
+                                            doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'MOTION_DETECTION_MEA.timestamp', value, 'value.datetime', 'timestamp', false, "number", hashMapName);
+										}
 									}
 
 									break;

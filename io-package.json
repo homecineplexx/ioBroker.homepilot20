@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "homepilot20",
-        "version": "0.0.68",
+        "version": "0.0.69",
 		"news": {
+            "0.0.69":{
+                "en": "fixed an issue during reading new sensor",
+                "de": "ein Problem beim Lesen neuer Sensoren behoben",
+                "ru": "исправлена \u200B\u200Bпроблема при считывании нового датчика",
+                "pt": "corrigiu um problema durante a leitura do novo sensor",
+                "nl": "een probleem opgelost tijdens het lezen van een nieuwe sensor",
+                "fr": "correction d'un problème lors de la lecture d'un nouveau capteur",
+                "it": "risolto un problema durante la lettura del nuovo sensore",
+                "es": "Se solucionó un problema durante la lectura del nuevo sensor.",
+                "pl": "naprawiono problem podczas odczytu nowego czujnika",
+                "zh-cn": "修复了读取新传感器时出现的问题"
+            },
             "0.0.68":{
                 "en": "SyncTime is 0 means deactivated sync",
                 "de": "SyncTime ist 0 bedeutet deaktivierte Synchronisierung",

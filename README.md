@@ -21,6 +21,9 @@ If you like my work, please consider a personal donation
 
 
 ## Changelog
+### 0.0.69      (27.03.2025)
+* (homecineplexx)  fixed an issue during reading new sensor
+* 
 ### 0.0.68      (11.01.2025)
 * (homecineplexx)  SyncTime is 0 means deactivated sync
 
