@@ -507,7 +507,7 @@ function getPasswordSalt() {
 				try {
 					result = JSON.parse(body);
 				} catch (e) {
-					adapter.log.warn('Parse Error: ' + e);
+					adapter.log.warn('Parse Error Authentication: ' + e);
 				}
 				if (result) {
 					passwordSalt = result.password_salt;
@@ -565,7 +565,7 @@ async function readActuator(link) {
 						ack: true
 					});
 				} catch (e) {
-					adapter.log.warn('Parse Error: ' + e);
+					adapter.log.warn('Parse Error Actuator: ' + e);
 					unreach = true;
 				}			
 							
@@ -601,54 +601,54 @@ async function readActuator(link) {
 async function readSensor(link) {
     var unreach = false;
 	
-    //request(link, function(error, response, body) {
-		try {
-			let response = await asyncRequest({
-			method: 'GET',
-			uri: link,
-			headers: [
-				{ 'Cookie': cookie },
-				{ 'Content-Type': 'application/json' }
-			]
-			});
-		 	if(response.statusCode == 200) {
-				var result;
-				try {
-					result = JSON.parse(response.body);
-					var data = JSON.stringify(result, null, 2);
-					adapter.log.debug('Homepilot sensor data: ' + data);
-					adapter.setState('Sensor-json', {
-						val: data,
-						ack: true
-					});
-				} catch (e) {
-					adapter.log.warn('Parse Error: ' + e);
-					unreach = true;
-				}
+    try {
+        let response = await asyncRequest({
+            method: 'GET',
+            uri: link,
+            headers: [
+                { 'Cookie': cookie },
+                { 'Content-Type': 'application/json' }
+            ]
+        });
 
-				if (result) {
-					for (var i = 0; i < result.meters.length; i++) {
-						createSensorStates(result.meters[i], 'Sensor'); 
-						writeSensorStates(result.meters[i], 'Sensor'); 
-					}
-					
-					await doAdditional(additionalSensorSettings, 'Sensor');
-				}
-			} else {
-				adapter.log.warn('Read sensors -> Cannot connect to Homepilot: ' + JSON.stringify(response));
-				unreach = true;
-			}
-		}catch (error){
-			adapter.log.warn('Read sensors -> Cannot connect to Homepilot: ' + error);
-			unreach = true;
-		}
-			// Write connection status
-			adapter.setState('station.UNREACH', {
-				val: unreach,
-				ack: true
-			});
+        if(response.statusCode == 200) {
+            var result;
+            try {
+                result = JSON.parse(response.body);
+                var data = JSON.stringify(result, null, 2);
+                adapter.log.debug('Homepilot sensor data: ' + data);
+                adapter.setState('Sensor-json', {
+                    val: data,
+                    ack: true
+                });
+            } catch (e) {
+                adapter.log.warn('Parse Error 2: ' + e);
+                unreach = true;
+            }
 
-	
+            if (result) {
+                for (var i = 0; i < result.meters.length; i++) {
+                    createSensorStates(result.meters[i], 'Sensor');
+                    writeSensorStates(result.meters[i], 'Sensor');
+                }
+
+                await doAdditional(additionalSensorSettings, 'Sensor');
+            }
+        } else {
+            adapter.log.warn('Read sensors -> Cannot connect to Homepilot: ' + JSON.stringify(response));
+            unreach = true;
+        }
+    } catch (error){
+        adapter.log.warn('Read sensors -> Cannot connect to Homepilot: ' + error);
+        unreach = true;
+    }
+
+    // Write connection status
+    adapter.setState('station.UNREACH', {
+        val: unreach,
+        ack: true
+    });
+
 	additionalSensorSettings = [];
     adapter.log.debug('Finished reading Homepilot sensor data');
 }
@@ -676,7 +676,7 @@ async function readTransmitter(link) {
 						ack: true
 					});
 				} catch (e) {
-					adapter.log.warn('Parse Error: ' + e);
+					adapter.log.warn('Parse Error Transmitter: ' + e);
 					unreach = true;
 				}				
 				if (result) {
@@ -732,7 +732,7 @@ async function readScenes(link) {
 						ack: true
 					});
 				} catch (e) {
-					adapter.log.warn('Parse Error: ' + e);
+					adapter.log.warn('Parse Error Scenes: ' + e);
 					unreach = true;
 				}
 
@@ -2539,13 +2539,14 @@ async function doAdditional(toDoList, type) {
 				{ 'Cookie': cookie },
 				{ 'Content-Type': 'application/json' }
 			]
-		});		
+		});
+
 		if (response.statusCode == 200) {
 			var result;
 			try {				
-				result = JSON.parse(response.body);				
+				result = JSON.parse(response.body);
 			} catch (e) {
-				adapter.log.warn('Parse Error: ' + e);
+				adapter.log.warn('Parse Error doAdditional: ' + e);
 				unreach = true;
 			}
 			if (result) {
@@ -2557,7 +2558,7 @@ async function doAdditional(toDoList, type) {
 						elementsToWork.push({elementJSON : elementJSON, element : element});
 					}
 				}
-				for (let index = 0; index < elementsToWork.length; index+=20) {			
+				for (let index = 0; index < elementsToWork.length; index+=20) {
 					let batch = elementsToWork.slice(index, index + 20);
 					await Promise.all(batch.map(async (item) => {	
 						try{
@@ -2566,7 +2567,7 @@ async function doAdditional(toDoList, type) {
 							var deviceHelper = (elementJSON.capabilities.filter((x)=>x.name === "PROD_CODE_DEVICE_LOC"))[0].value;
 							var deviceNumberId = deviceNumberNormalize(deviceHelper);
 							var hashMapName = element + '-' + type;
-							
+
 							switch(deviceNumberId) {
 								case "35003064": /*DuoFern-Heizkörperstellantrieb-9433*/
 									var value = (elementJSON.capabilities.filter((x)=>x.name === "AUTO_MODE_CFG"))[0].value;
@@ -2722,7 +2723,7 @@ async function doAdditional(toDoList, type) {
 									    var value;
 
 									    var searchElement = elementJSON.capabilities.filter((x)=>x.name === "ON_DURATION_CFG");
-									    if (searchElement) {
+									    if (searchElement && searchElement != '') {
 									        value = (searchElement)[0].value;
                                             doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'ON_DURATION_CFG.value', value, 'text', 'value', false, "string", hashMapName);
 
@@ -2731,7 +2732,7 @@ async function doAdditional(toDoList, type) {
 									    }
 
 										searchElement = elementJSON.capabilities.filter((x)=>x.name === "BUTTON_MODE_CFG");
-										if (searchElement) {
+										if (searchElement && searchElement != '') {
                                             value = (searchElement)[0].value;
                                             doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'BUTTON_MODE_CFG.value', value, 'text', 'value', false, "string", hashMapName);
 
@@ -2740,7 +2741,7 @@ async function doAdditional(toDoList, type) {
                                         }
 
                                         searchElement = elementJSON.capabilities.filter((x)=>x.name === "SENSOR_SENSITIVITY_CFG");
-                                        if (searchElement) {
+                                        if (searchElement && searchElement != '') {
                                             value = (searchElement)[0].value;
                                             doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'SENSOR_SENSITIVITY_CFG.value', value, 'text', 'value', false, "string", hashMapName);
 
@@ -2749,7 +2750,7 @@ async function doAdditional(toDoList, type) {
                                         }
 
                                         searchElement = elementJSON.capabilities.filter((x)=>x.name === "MOVE_STOP_EVT");
-                                        if (searchElement) {
+                                        if (searchElement && searchElement != '') {
                                             value = (searchElement)[0].timestamp;
                                             doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'MOVE_STOP_EVT', value, 'value.datetime', 'timestamp', false, "number", hashMapName);
 
@@ -2758,7 +2759,7 @@ async function doAdditional(toDoList, type) {
                                         }
 
                                         searchElement = elementJSON.capabilities.filter((x)=>x.name === "LIGHT_VAL_LUX_MEA");
-                                        if (searchElement) {
+                                        if (searchElement && searchElement != '') {
                                             value = (searchElement)[0].value;
                                             doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'LIGHT_VAL_LUX_MEA.value', value, 'text', 'value', false, "string", hashMapName);
 
@@ -2767,7 +2768,7 @@ async function doAdditional(toDoList, type) {
                                         }
 
                                         searchElement = elementJSON.capabilities.filter((x)=>x.name === "LED_BEHAV_MODE_CFG");
-                                        if (searchElement) {
+                                        if (searchElement && searchElement != '') {
                                             value = (searchElement)[0].value;
                                             doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'LED_BEHAV_MODE_CFG.value', value, 'text', 'value', false, "string", hashMapName);
 
@@ -2776,7 +2777,7 @@ async function doAdditional(toDoList, type) {
                                         }
 
                                         searchElement = elementJSON.capabilities.filter((x)=>x.name === "CURR_BRIGHTN_CFG");
-                                        if (searchElement) {
+                                        if (searchElement && searchElement != '') {
                                             value = (searchElement)[0].value;
                                             doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'CURR_BRIGHTN_CFG.value', value, 'text', 'value', false, "string", hashMapName);
 
@@ -2785,7 +2786,7 @@ async function doAdditional(toDoList, type) {
                                         }
 
                                         searchElement = elementJSON.capabilities.filter((x)=>x.name === "MOTION_DETECTION_MEA");
-                                        if (searchElement) {
+                                        if (searchElement && searchElement != '') {
                                             value = (searchElement)[0].value;
                                             doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'MOTION_DETECTION_MEA.value', value, 'text', 'value', false, "string", hashMapName);
 
@@ -2949,20 +2950,17 @@ async function doAdditional(toDoList, type) {
 					}));
 				}
 			}
-		} 
-		else {
+		} else {
 			adapter.log.warn('Read ' + type + '/additional info -> Cannot connect to Homepilot: ' + JSON.stringify(response));
 			unreach = true;
 		}
-	}
-	catch(error){
+	} catch(error){
 		adapter.log.warn('Read ' + type + '/additional info -> Cannot connect to Homepilot: ' + error );
 		unreach = true;	
 	}
 		
 	adapter.log.debug('finished reading Homepilot additional ' + type);
 
-	
 	// Write connection status
 	adapter.setState('station.UNREACH', {
 		val: unreach,
