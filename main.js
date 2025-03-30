@@ -2568,161 +2568,302 @@ async function doAdditional(toDoList, type) {
 							var deviceNumberId = deviceNumberNormalize(deviceHelper);
 							var hashMapName = element + '-' + type;
 
+                            var value;
+                            var searchElement;
+
 							switch(deviceNumberId) {
 								case "35003064": /*DuoFern-Heizkörperstellantrieb-9433*/
-									var value = (elementJSON.capabilities.filter((x)=>x.name === "AUTO_MODE_CFG"))[0].value;
-									doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'AUTO_MODE_CFG', value == 'true' ? true : false, 'switch', 'Automatikbetrieb', true, hashMapName);
+                                    searchElement = elementJSON.capabilities.filter((x)=>x.name === "AUTO_MODE_CFG");
+								    if (searchElement && searchElement != '') {
+								        value = (searchElement)[0].value;
+                                        doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'AUTO_MODE_CFG', value == 'true' ? true : false, 'switch', 'Automatikbetrieb', true, hashMapName);
+								    }
 
-									var value = (elementJSON.capabilities.filter((x)=>x.name === "TIME_AUTO_CFG"))[0].value;
-									doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'TIME_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Zeit', true, hashMapName);
+									searchElement = elementJSON.capabilities.filter((x)=>x.name === "TIME_AUTO_CFG");
+                                    if (searchElement && searchElement != '') {
+                                        value = (searchElement)[0].value;
+                                        doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'TIME_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Zeit', true, hashMapName);
+                                    }
 
-									var value = (elementJSON.capabilities.filter((x)=>x.name === "CONTACT_AUTO_CFG"))[0].value;
-									doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'CONTACT_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Schließkontakt', true, hashMapName);
+                                    searchElement = elementJSON.capabilities.filter((x)=>x.name === "CONTACT_AUTO_CFG");
+                                    if (searchElement && searchElement != '') {
+                                        value = (searchElement)[0].value;
+                                        doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'CONTACT_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Schließkontakt', true, hashMapName);
+                                    }
+
 									break;
 
 								case "35000262": /*DuoFernUniversal-Aktor2-Kanal-9470-2*/
-									var value = (elementJSON.capabilities.filter((x)=>x.name === "AUTO_MODE_CFG"))[0].value;
-									doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'AUTO_MODE_CFG', value == 'true' ? true : false, 'switch', 'Automatikbetrieb', true, hashMapName);
-									
-									var value = (elementJSON.capabilities.filter((x)=>x.name === "TIME_AUTO_CFG"))[0].value;
-									doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'TIME_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Zeit', true, hashMapName);
-									
-									var value = (elementJSON.capabilities.filter((x)=>x.name === "SUN_AUTO_CFG"))[0].value;
-									doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'SUN_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Sonne', true, hashMapName);
+								    searchElement = elementJSON.capabilities.filter((x)=>x.name === "AUTO_MODE_CFG");
+                                    if (searchElement && searchElement != '') {
+                                        value = (searchElement)[0].value;
+                                        doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'AUTO_MODE_CFG', value == 'true' ? true : false, 'switch', 'Automatikbetrieb', true, hashMapName);
+                                    }
 
-									var value = (elementJSON.capabilities.filter((x)=>x.name === "DAWN_AUTO_CFG"))[0].value;
-									doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'DAWN_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Morgendämmerung', true, hashMapName);
+									searchElement = elementJSON.capabilities.filter((x)=>x.name === "TIME_AUTO_CFG");
+                                    if (searchElement && searchElement != '') {
+                                        value = (searchElement)[0].value;
+                                        doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'TIME_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Zeit', true, hashMapName);
+                                    }
 
-									var value = (elementJSON.capabilities.filter((x)=>x.name === "DUSK_AUTO_CFG"))[0].value;
-									doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'DUSK_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Abenddämmerung', true, hashMapName);
+									searchElement = elementJSON.capabilities.filter((x)=>x.name === "SUN_AUTO_CFG");
+                                    if (searchElement && searchElement != '') {
+                                        value = (searchElement)[0].value;
+                                        doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'SUN_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Sonne', true, hashMapName);
+                                    }
+
+									searchElement = elementJSON.capabilities.filter((x)=>x.name === "DAWN_AUTO_CFG");
+                                    if (searchElement && searchElement != '') {
+                                        value = (searchElement)[0].value;
+                                        doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'DAWN_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Morgendämmerung', true, hashMapName);
+                                    }
+									
+									searchElement = elementJSON.capabilities.filter((x)=>x.name === "DUSK_AUTO_CFG");
+                                    if (searchElement && searchElement != '') {
+                                        value = (searchElement)[0].value;
+                                        doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'DUSK_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Abenddämmerung', true, hashMapName);
+                                    }
+
 									break;
 									
 								case "14234511": /*DuoFern-RolloTronStandard*/
 								case "10251530": /*DuoFern-RolloTron pure smart Aufputz Minigurt*/
-									var value = (elementJSON.capabilities.filter((x)=>x.name === "AUTO_MODE_CFG"))[0].value;
-									doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'AUTO_MODE_CFG', value == 'true' ? true : false, 'switch', 'Automatikbetrieb', true, hashMapName);
-									
-									var value = (elementJSON.capabilities.filter((x)=>x.name === "TIME_AUTO_CFG"))[0].value;
-									doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'TIME_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Zeit', true, hashMapName);
+								    searchElement = elementJSON.capabilities.filter((x)=>x.name === "AUTO_MODE_CFG");
+                                    if (searchElement && searchElement != '') {
+                                        value = (searchElement)[0].value;
+                                        doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'AUTO_MODE_CFG', value == 'true' ? true : false, 'switch', 'Automatikbetrieb', true, hashMapName);
+                                    }
 
-									var value = (elementJSON.capabilities.filter((x)=>x.name === "SUN_AUTO_CFG"))[0].value;
-									doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'SUN_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Sonne', true, hashMapName);
-									
-									var value = (elementJSON.capabilities.filter((x)=>x.name === "DAWN_AUTO_CFG"))[0].value;
-									doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'DAWN_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Morgendämmerung', true, hashMapName);
-									
-									var value = (elementJSON.capabilities.filter((x)=>x.name === "DUSK_AUTO_CFG"))[0].value;
-									doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'DUSK_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Abenddämmerung', true, hashMapName);
+									searchElement = elementJSON.capabilities.filter((x)=>x.name === "TIME_AUTO_CFG");
+                                    if (searchElement && searchElement != '') {
+                                        value = (searchElement)[0].value;
+                                        doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'TIME_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Zeit', true, hashMapName);
+                                    }
+
+									searchElement = elementJSON.capabilities.filter((x)=>x.name === "SUN_AUTO_CFG");
+                                    if (searchElement && searchElement != '') {
+                                        value = (searchElement)[0].value;
+                                        doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'SUN_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Sonne', true, hashMapName);
+                                    }
+
+									searchElement = elementJSON.capabilities.filter((x)=>x.name === "DAWN_AUTO_CFG");
+                                    if (searchElement && searchElement != '') {
+                                        value = (searchElement)[0].value;
+                                        doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'DAWN_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Morgendämmerung', true, hashMapName);
+                                    }
+
+                                    searchElement = elementJSON.capabilities.filter((x)=>x.name === "DUSK_AUTO_CFG");
+                                    if (searchElement && searchElement != '') {
+                                        value = (searchElement)[0].value;
+                                        doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'DUSK_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Abenddämmerung', true, hashMapName);
+                                    }
+
 									break;
 
 								case "14236011": /*DuoFern-RolloTron-Pro-Comfort-9800*/
-									var value = (elementJSON.capabilities.filter((x)=>x.name === "AUTO_MODE_CFG"))[0].value;
-									doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'AUTO_MODE_CFG', value == 'true' ? true : false, 'switch', 'Automatikbetrieb', true, hashMapName);
-									
-									var value = (elementJSON.capabilities.filter((x)=>x.name === "TIME_AUTO_CFG"))[0].value;
-									doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'TIME_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Zeit', true, hashMapName);
-									
-									var value = (elementJSON.capabilities.filter((x)=>x.name === "SUN_AUTO_CFG"))[0].value;
-									doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'SUN_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Sonne', true, hashMapName);
-									
-									var value = (elementJSON.capabilities.filter((x)=>x.name === "DAWN_AUTO_CFG"))[0].value;
-									doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'DAWN_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Morgendämmerung', true, hashMapName);
-									
-									var value = (elementJSON.capabilities.filter((x)=>x.name === "DUSK_AUTO_CFG"))[0].value;
-									doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'DUSK_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Abenddämmerung', true, hashMapName);
+								    searchElement = elementJSON.capabilities.filter((x)=>x.name === "AUTO_MODE_CFG");
+                                    if (searchElement && searchElement != '') {
+                                        value = (searchElement)[0].value;
+                                        doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'AUTO_MODE_CFG', value == 'true' ? true : false, 'switch', 'Automatikbetrieb', true, hashMapName);
+                                    }
+
+                                    searchElement = elementJSON.capabilities.filter((x)=>x.name === "TIME_AUTO_CFG");
+                                    if (searchElement && searchElement != '') {
+                                        value = (searchElement)[0].value;
+                                        doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'TIME_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Zeit', true, hashMapName);
+                                    }
+
+                                    searchElement = elementJSON.capabilities.filter((x)=>x.name === "SUN_AUTO_CFG");
+                                    if (searchElement && searchElement != '') {
+                                        value = (searchElement)[0].value;
+                                        doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'SUN_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Sonne', true, hashMapName);
+                                    }
+
+                                    searchElement = elementJSON.capabilities.filter((x)=>x.name === "DAWN_AUTO_CFG");
+                                    if (searchElement && searchElement != '') {
+                                        value = (searchElement)[0].value;
+                                        doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'DAWN_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Morgendämmerung', true, hashMapName);
+                                    }
+
+                                    searchElement = elementJSON.capabilities.filter((x)=>x.name === "DUSK_AUTO_CFG");
+                                    if (searchElement && searchElement != '') {
+                                        value = (searchElement)[0].value;
+                                        doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'DUSK_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Abenddämmerung', true, hashMapName);
+                                    }
+
 									break;	
 									
 								case "35000864": /*DuoFern-Connect-Aktor-9477*/
-									var value = (elementJSON.capabilities.filter((x)=>x.name === "AUTO_MODE_CFG"))[0].value;
-									doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'AUTO_MODE_CFG', value == 'true' ? true : false, 'switch', 'Automatikbetrieb', true, hashMapName);
-									
-									var value = (elementJSON.capabilities.filter((x)=>x.name === "TIME_AUTO_CFG"))[0].value;
-									doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'TIME_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Zeit', true, hashMapName);
-									
-									var value = (elementJSON.capabilities.filter((x)=>x.name === "SUN_AUTO_CFG"))[0].value;
-									doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'SUN_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Sonne', true, hashMapName);
-									
-									var value = (elementJSON.capabilities.filter((x)=>x.name === "DAWN_AUTO_CFG"))[0].value;
-									doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'DAWN_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Morgendämmerung', true, hashMapName);
-									
-									var value = (elementJSON.capabilities.filter((x)=>x.name === "DUSK_AUTO_CFG"))[0].value;
-									doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'DUSK_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Abenddämmerung', true, hashMapName);
-									
-									var value = (elementJSON.capabilities.filter((x)=>x.name === "WIND_AUTO_CFG"))[0].value;
-									doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'WIND_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Wind', true, hashMapName);
+								    searchElement = elementJSON.capabilities.filter((x)=>x.name === "AUTO_MODE_CFG");
+                                    if (searchElement && searchElement != '') {
+                                        value = (searchElement)[0].value;
+                                        doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'AUTO_MODE_CFG', value == 'true' ? true : false, 'switch', 'Automatikbetrieb', true, hashMapName);
+                                    }
 
-									var value = (elementJSON.capabilities.filter((x)=>x.name === "RAIN_AUTO_CFG"))[0].value;
-									doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'RAIN_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Regen', true, hashMapName);
+                                    searchElement = elementJSON.capabilities.filter((x)=>x.name === "TIME_AUTO_CFG");
+                                    if (searchElement && searchElement != '') {
+                                        value = (searchElement)[0].value;
+                                        doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'TIME_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Zeit', true, hashMapName);
+                                    }
+
+                                    searchElement = elementJSON.capabilities.filter((x)=>x.name === "SUN_AUTO_CFG");
+                                    if (searchElement && searchElement != '') {
+                                        value = (searchElement)[0].value;
+                                        doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'SUN_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Sonne', true, hashMapName);
+                                    }
+
+                                    searchElement = elementJSON.capabilities.filter((x)=>x.name === "DAWN_AUTO_CFG");
+                                    if (searchElement && searchElement != '') {
+                                        value = (searchElement)[0].value;
+                                        doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'DAWN_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Morgendämmerung', true, hashMapName);
+                                    }
+
+                                    searchElement = elementJSON.capabilities.filter((x)=>x.name === "DUSK_AUTO_CFG");
+                                    if (searchElement && searchElement != '') {
+                                        value = (searchElement)[0].value;
+                                        doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'DUSK_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Abenddämmerung', true, hashMapName);
+                                    }
+
+									searchElement = elementJSON.capabilities.filter((x)=>x.name === "WIND_AUTO_CFG");
+                                    if (searchElement && searchElement != '') {
+                                        value = (searchElement)[0].value;
+                                        doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'WIND_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Wind', true, hashMapName);
+                                    }
+
+                                    searchElement = elementJSON.capabilities.filter((x)=>x.name === "RAIN_AUTO_CFG");
+                                    if (searchElement && searchElement != '') {
+                                        value = (searchElement)[0].value;
+                                        doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'RAIN_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Regen', true, hashMapName);
+                                    }
+
 									break;
 
 								case "32000064": /*DuoFern-Umweltsensor-9475*/
-									var value = (elementJSON.capabilities.filter((x)=>x.name === "AUTO_MODE_CFG"))[0].value;
-									doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'AUTO_MODE_CFG', value == 'true' ? true : false, 'switch', 'Automatikbetrieb', true, hashMapName);
-									
-									var value = (elementJSON.capabilities.filter((x)=>x.name === "TIME_AUTO_CFG"))[0].value;
-									doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'TIME_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Zeit', true, hashMapName);
-									
-									var value = (elementJSON.capabilities.filter((x)=>x.name === "SUN_AUTO_CFG"))[0].value;
-									doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'SUN_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Sonne', true, hashMapName);
-									
-									var value = (elementJSON.capabilities.filter((x)=>x.name === "DAWN_AUTO_CFG"))[0].value;
-									doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'DAWN_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Morgendämmerung', true, hashMapName);
-									
-									var value = (elementJSON.capabilities.filter((x)=>x.name === "DUSK_AUTO_CFG"))[0].value;
-									doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'DUSK_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Abenddämmerung', true, hashMapName);
-									
-									var value = (elementJSON.capabilities.filter((x)=>x.name === "WIND_AUTO_CFG"))[0].value;
-									doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'WIND_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Wind', true, hashMapName);
-									
-									var value = (elementJSON.capabilities.filter((x)=>x.name === "RAIN_AUTO_CFG"))[0].value;
-									doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'RAIN_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Regen', true, hashMapName);
+								    searchElement = elementJSON.capabilities.filter((x)=>x.name === "AUTO_MODE_CFG");
+                                    if (searchElement && searchElement != '') {
+                                        value = (searchElement)[0].value;
+                                        doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'AUTO_MODE_CFG', value == 'true' ? true : false, 'switch', 'Automatikbetrieb', true, hashMapName);
+                                    }
+
+                                    searchElement = elementJSON.capabilities.filter((x)=>x.name === "TIME_AUTO_CFG");
+                                    if (searchElement && searchElement != '') {
+                                        value = (searchElement)[0].value;
+                                        doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'TIME_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Zeit', true, hashMapName);
+                                    }
+
+                                    searchElement = elementJSON.capabilities.filter((x)=>x.name === "SUN_AUTO_CFG");
+                                    if (searchElement && searchElement != '') {
+                                        value = (searchElement)[0].value;
+                                        doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'SUN_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Sonne', true, hashMapName);
+                                    }
+
+                                    searchElement = elementJSON.capabilities.filter((x)=>x.name === "DAWN_AUTO_CFG");
+                                    if (searchElement && searchElement != '') {
+                                        value = (searchElement)[0].value;
+                                        doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'DAWN_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Morgendämmerung', true, hashMapName);
+                                    }
+
+                                    searchElement = elementJSON.capabilities.filter((x)=>x.name === "DUSK_AUTO_CFG");
+                                    if (searchElement && searchElement != '') {
+                                        value = (searchElement)[0].value;
+                                        doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'DUSK_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Abenddämmerung', true, hashMapName);
+                                    }
+
+                                    searchElement = elementJSON.capabilities.filter((x)=>x.name === "WIND_AUTO_CFG");
+                                    if (searchElement && searchElement != '') {
+                                        value = (searchElement)[0].value;
+                                        doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'WIND_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Wind', true, hashMapName);
+                                    }
+
+                                    searchElement = elementJSON.capabilities.filter((x)=>x.name === "RAIN_AUTO_CFG");
+                                    if (searchElement && searchElement != '') {
+                                        value = (searchElement)[0].value;
+                                        doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'RAIN_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Regen', true, hashMapName);
+                                    }
+
 									break;
 									
 								case "32501812": /*DuoFern-Raumthermostat-9485*/
-									var value = (elementJSON.capabilities.filter((x)=>x.name === "AUTO_MODE_CFG"))[0].value;
-									doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'AUTO_MODE_CFG', value == 'true' ? true : false, 'switch', 'Automatikbetrieb', true, hashMapName);
-									
-									var value = (elementJSON.capabilities.filter((x)=>x.name === "TIME_AUTO_CFG"))[0].value;
-									doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'TIME_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Zeit', true, hashMapName);
+								    searchElement = elementJSON.capabilities.filter((x)=>x.name === "AUTO_MODE_CFG");
+                                    if (searchElement && searchElement != '') {
+                                        value = (searchElement)[0].value;
+                                        doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'AUTO_MODE_CFG', value == 'true' ? true : false, 'switch', 'Automatikbetrieb', true, hashMapName);
+                                    }
+
+                                    searchElement = elementJSON.capabilities.filter((x)=>x.name === "TIME_AUTO_CFG");
+                                    if (searchElement && searchElement != '') {
+                                        value = (searchElement)[0].value;
+                                        doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'TIME_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Zeit', true, hashMapName);
+                                    }
+
 									break;	
 									
 								case "35001164": /*DuoFern-Zwischenstecker-Schalten-9472*/
-									var value = (elementJSON.capabilities.filter((x)=>x.name === "AUTO_MODE_CFG"))[0].value;
-									doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'AUTO_MODE_CFG', value == 'true' ? true : false, 'switch', 'Automatikbetrieb', true, hashMapName);
-									
-									var value = (elementJSON.capabilities.filter((x)=>x.name === "TIME_AUTO_CFG"))[0].value;
-									doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'TIME_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Zeit', true, hashMapName);
-									
-									var value = (elementJSON.capabilities.filter((x)=>x.name === "SUN_AUTO_CFG"))[0].value;
-									doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'SUN_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Sonne', true, hashMapName);
-									
-									var value = (elementJSON.capabilities.filter((x)=>x.name === "DAWN_AUTO_CFG"))[0].value;
-									doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'DAWN_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Morgendämmerung', true, hashMapName);
-									
-									var value = (elementJSON.capabilities.filter((x)=>x.name === "DUSK_AUTO_CFG"))[0].value;
-									doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'DUSK_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Abenddämmerung', true, hashMapName);
+								    searchElement = elementJSON.capabilities.filter((x)=>x.name === "AUTO_MODE_CFG");
+                                    if (searchElement && searchElement != '') {
+                                        value = (searchElement)[0].value;
+                                        doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'AUTO_MODE_CFG', value == 'true' ? true : false, 'switch', 'Automatikbetrieb', true, hashMapName);
+                                    }
+
+                                    searchElement = elementJSON.capabilities.filter((x)=>x.name === "TIME_AUTO_CFG");
+                                    if (searchElement && searchElement != '') {
+                                        value = (searchElement)[0].value;
+                                        doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'TIME_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Zeit', true, hashMapName);
+                                    }
+
+                                    searchElement = elementJSON.capabilities.filter((x)=>x.name === "SUN_AUTO_CFG");
+                                    if (searchElement && searchElement != '') {
+                                        value = (searchElement)[0].value;
+                                        doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'SUN_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Sonne', true, hashMapName);
+                                    }
+
+                                    searchElement = elementJSON.capabilities.filter((x)=>x.name === "DAWN_AUTO_CFG");
+                                    if (searchElement && searchElement != '') {
+                                        value = (searchElement)[0].value;
+                                        doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'DAWN_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Morgendämmerung', true, hashMapName);
+                                    }
+
+                                    searchElement = elementJSON.capabilities.filter((x)=>x.name === "DUSK_AUTO_CFG");
+                                    if (searchElement && searchElement != '') {
+                                        value = (searchElement)[0].value;
+                                        doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'DUSK_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Abenddämmerung', true, hashMapName);
+                                    }
+
 									break;
 
 								case "32501772": /*DuoFern-Bewegungsmelder-9484*/
 									if (type == 'Actuator') {
-										var value = (elementJSON.capabilities.filter((x)=>x.name === "AUTO_MODE_CFG"))[0].value;
-										doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'AUTO_MODE_CFG', value == 'true' ? true : false, 'switch', 'Automatikbetrieb', true, hashMapName);
+									    searchElement = elementJSON.capabilities.filter((x)=>x.name === "AUTO_MODE_CFG");
+                                        if (searchElement && searchElement != '') {
+                                            value = (searchElement)[0].value;
+                                            doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'AUTO_MODE_CFG', value == 'true' ? true : false, 'switch', 'Automatikbetrieb', true, hashMapName);
+                                        }
 
-										var value = (elementJSON.capabilities.filter((x)=>x.name === "TIME_AUTO_CFG"))[0].value;
-										doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'TIME_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Zeit', true, hashMapName);
+                                        searchElement = elementJSON.capabilities.filter((x)=>x.name === "TIME_AUTO_CFG");
+                                        if (searchElement && searchElement != '') {
+                                            value = (searchElement)[0].value;
+                                            doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'TIME_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Zeit', true, hashMapName);
+                                        }
 
-										var value = (elementJSON.capabilities.filter((x)=>x.name === "SUN_AUTO_CFG"))[0].value;
-										doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'SUN_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Sonne', true, hashMapName);
+                                        searchElement = elementJSON.capabilities.filter((x)=>x.name === "SUN_AUTO_CFG");
+                                        if (searchElement && searchElement != '') {
+                                            value = (searchElement)[0].value;
+                                            doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'SUN_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Sonne', true, hashMapName);
+                                        }
 
-										var value = (elementJSON.capabilities.filter((x)=>x.name === "DAWN_AUTO_CFG"))[0].value;
-										doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'DAWN_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Morgendämmerung', true, hashMapName);
+                                        searchElement = elementJSON.capabilities.filter((x)=>x.name === "DAWN_AUTO_CFG");
+                                        if (searchElement && searchElement != '') {
+                                            value = (searchElement)[0].value;
+                                            doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'DAWN_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Morgendämmerung', true, hashMapName);
+                                        }
 
-										var value = (elementJSON.capabilities.filter((x)=>x.name === "DUSK_AUTO_CFG"))[0].value;
-										doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'DUSK_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Abenddämmerung', true, hashMapName);
+                                        searchElement = elementJSON.capabilities.filter((x)=>x.name === "DUSK_AUTO_CFG");
+                                        if (searchElement && searchElement != '') {
+                                            value = (searchElement)[0].value;
+                                            doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'DUSK_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Abenddämmerung', true, hashMapName);
+                                        }
 									} else  if (type == 'Sensor') {
-									    var value;
-
-									    var searchElement = elementJSON.capabilities.filter((x)=>x.name === "ON_DURATION_CFG");
+									    searchElement = elementJSON.capabilities.filter((x)=>x.name === "ON_DURATION_CFG");
 									    if (searchElement && searchElement != '') {
 									        value = (searchElement)[0].value;
                                             doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'ON_DURATION_CFG.value', value, 'text', 'value', false, "string", hashMapName);
@@ -2798,74 +2939,141 @@ async function doAdditional(toDoList, type) {
 									break;
 
 								case "35000662": /*DuoFern-Rohrmotor-Aktor*/
-									var value = (elementJSON.capabilities.filter((x)=>x.name === "AUTO_MODE_CFG"))[0].value;
-									doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'AUTO_MODE_CFG', value == 'true' ? true : false, 'switch', 'Automatikbetrieb', true, hashMapName);
-									
-									var value = (elementJSON.capabilities.filter((x)=>x.name === "TIME_AUTO_CFG"))[0].value;
-									doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'TIME_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Zeit', true, hashMapName);
-									
-									var value = (elementJSON.capabilities.filter((x)=>x.name === "SUN_AUTO_CFG"))[0].value;
-									doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'SUN_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Sonne', true, hashMapName);
-									
-									var value = (elementJSON.capabilities.filter((x)=>x.name === "DAWN_AUTO_CFG"))[0].value;
-									doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'DAWN_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Morgendämmerung', true, hashMapName);
-									
-									var value = (elementJSON.capabilities.filter((x)=>x.name === "DUSK_AUTO_CFG"))[0].value;
-									doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'DUSK_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Abenddämmerung', true, hashMapName);
-									
-									var value = (elementJSON.capabilities.filter((x)=>x.name === "WIND_AUTO_CFG"))[0].value;
-									doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'WIND_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Wind', true, hashMapName);
-									
-									var value = (elementJSON.capabilities.filter((x)=>x.name === "RAIN_AUTO_CFG"))[0].value;
-									doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'RAIN_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Regen', true, hashMapName);
+								    searchElement = elementJSON.capabilities.filter((x)=>x.name === "AUTO_MODE_CFG");
+                                    if (searchElement && searchElement != '') {
+                                        value = (searchElement)[0].value;
+                                        doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'AUTO_MODE_CFG', value == 'true' ? true : false, 'switch', 'Automatikbetrieb', true, hashMapName);
+                                    }
+
+                                    searchElement = elementJSON.capabilities.filter((x)=>x.name === "TIME_AUTO_CFG");
+                                    if (searchElement && searchElement != '') {
+                                        value = (searchElement)[0].value;
+                                        doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'TIME_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Zeit', true, hashMapName);
+                                    }
+
+                                    searchElement = elementJSON.capabilities.filter((x)=>x.name === "SUN_AUTO_CFG");
+                                    if (searchElement && searchElement != '') {
+                                        value = (searchElement)[0].value;
+                                        doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'SUN_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Sonne', true, hashMapName);
+                                    }
+
+                                    searchElement = elementJSON.capabilities.filter((x)=>x.name === "DAWN_AUTO_CFG");
+                                    if (searchElement && searchElement != '') {
+                                        value = (searchElement)[0].value;
+                                        doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'DAWN_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Morgendämmerung', true, hashMapName);
+                                    }
+
+                                    searchElement = elementJSON.capabilities.filter((x)=>x.name === "DUSK_AUTO_CFG");
+                                    if (searchElement && searchElement != '') {
+                                        value = (searchElement)[0].value;
+                                        doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'DUSK_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Abenddämmerung', true, hashMapName);
+                                    }
+
+                                    searchElement = elementJSON.capabilities.filter((x)=>x.name === "WIND_AUTO_CFG");
+                                    if (searchElement && searchElement != '') {
+                                        value = (searchElement)[0].value;
+                                        doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'WIND_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Wind', true, hashMapName);
+                                    }
+
+                                    searchElement = elementJSON.capabilities.filter((x)=>x.name === "RAIN_AUTO_CFG");
+                                    if (searchElement && searchElement != '') {
+                                        value = (searchElement)[0].value;
+                                        doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'RAIN_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Regen', true, hashMapName);
+                                    }
+
 									break;
 									
 								case "35002414": /*ZWave-RepeaterMitSchaltfunktion-8434*/
-									var value = (elementJSON.capabilities.filter((x)=>x.name === "AUTO_MODE_CFG"))[0].value;
-									doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'AUTO_MODE_CFG', value == 'true' ? true : false, 'switch', 'Automatikbetrieb', true, hashMapName);
-									
-									var value = (elementJSON.capabilities.filter((x)=>x.name === "TIME_AUTO_CFG"))[0].value;
-									doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'TIME_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Zeit', true, hashMapName);
-									
-									var value = (elementJSON.capabilities.filter((x)=>x.name === "DAWN_AUTO_CFG"))[0].value;
-									doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'DAWN_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Morgendämmerung', true, hashMapName);
-									
-									var value = (elementJSON.capabilities.filter((x)=>x.name === "DUSK_AUTO_CFG"))[0].value;
-									doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'DUSK_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Abenddämmerung', true, hashMapName);
+								    searchElement = elementJSON.capabilities.filter((x)=>x.name === "AUTO_MODE_CFG");
+                                    if (searchElement && searchElement != '') {
+                                        value = (searchElement)[0].value;
+                                        doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'AUTO_MODE_CFG', value == 'true' ? true : false, 'switch', 'Automatikbetrieb', true, hashMapName);
+                                    }
+
+                                    searchElement = elementJSON.capabilities.filter((x)=>x.name === "TIME_AUTO_CFG");
+                                    if (searchElement && searchElement != '') {
+                                        value = (searchElement)[0].value;
+                                        doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'TIME_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Zeit', true, hashMapName);
+                                    }
+
+                                    searchElement = elementJSON.capabilities.filter((x)=>x.name === "DAWN_AUTO_CFG");
+                                    if (searchElement && searchElement != '') {
+                                        value = (searchElement)[0].value;
+                                        doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'DAWN_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Morgendämmerung', true, hashMapName);
+                                    }
+
+                                    searchElement = elementJSON.capabilities.filter((x)=>x.name === "DUSK_AUTO_CFG");
+                                    if (searchElement && searchElement != '') {
+                                        value = (searchElement)[0].value;
+                                        doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'DUSK_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Abenddämmerung', true, hashMapName);
+                                    }
+
 									break;
 
 								case "16234511": /*DuoFern-RolloTron-Comfort-1800/1805/1840*/
-									var value = (elementJSON.capabilities.filter((x)=>x.name === "AUTO_MODE_CFG"))[0].value;
-									doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'AUTO_MODE_CFG', value == 'true' ? true : false, 'switch', 'Automatikbetrieb', true, hashMapName);
-									
-									var value = (elementJSON.capabilities.filter((x)=>x.name === "TIME_AUTO_CFG"))[0].value;
-									doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'TIME_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Zeit', true, hashMapName);
-									
-									var value = (elementJSON.capabilities.filter((x)=>x.name === "SUN_AUTO_CFG"))[0].value;
-									doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'SUN_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Sonne', true, hashMapName);
-									
-									var value = (elementJSON.capabilities.filter((x)=>x.name === "DAWN_AUTO_CFG"))[0].value;
-									doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'DAWN_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Morgendämmerung', true, hashMapName);
-									
-									var value = (elementJSON.capabilities.filter((x)=>x.name === "DUSK_AUTO_CFG"))[0].value;
-									doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'DUSK_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Abenddämmerung', true, hashMapName);
+								    searchElement = elementJSON.capabilities.filter((x)=>x.name === "AUTO_MODE_CFG");
+                                    if (searchElement && searchElement != '') {
+                                        value = (searchElement)[0].value;
+                                        doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'AUTO_MODE_CFG', value == 'true' ? true : false, 'switch', 'Automatikbetrieb', true, hashMapName);
+                                    }
+
+                                    searchElement = elementJSON.capabilities.filter((x)=>x.name === "TIME_AUTO_CFG");
+                                    if (searchElement && searchElement != '') {
+                                        value = (searchElement)[0].value;
+                                        doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'TIME_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Zeit', true, hashMapName);
+                                    }
+
+                                    searchElement = elementJSON.capabilities.filter((x)=>x.name === "SUN_AUTO_CFG");
+                                    if (searchElement && searchElement != '') {
+                                        value = (searchElement)[0].value;
+                                        doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'SUN_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Sonne', true, hashMapName);
+                                    }
+
+                                    searchElement = elementJSON.capabilities.filter((x)=>x.name === "DAWN_AUTO_CFG");
+                                    if (searchElement && searchElement != '') {
+                                        value = (searchElement)[0].value;
+                                        doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'DAWN_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Morgendämmerung', true, hashMapName);
+                                    }
+
+                                    searchElement = elementJSON.capabilities.filter((x)=>x.name === "DUSK_AUTO_CFG");
+                                    if (searchElement && searchElement != '') {
+                                        value = (searchElement)[0].value;
+                                        doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'DUSK_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Abenddämmerung', true, hashMapName);
+                                    }
+
 									break;
 									
 								case "23602075": /*DuoFern-S-Line-Motor-Typ-SLDM-10/16-PZ*/
-									var value = (elementJSON.capabilities.filter((x)=>x.name === "AUTO_MODE_CFG"))[0].value;
-									doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'AUTO_MODE_CFG', value == 'true' ? true : false, 'switch', 'Automatikbetrieb', true, hashMapName);
-									
-									var value = (elementJSON.capabilities.filter((x)=>x.name === "TIME_AUTO_CFG"))[0].value;
-									doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'TIME_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Zeit', true, hashMapName);
-									
-									var value = (elementJSON.capabilities.filter((x)=>x.name === "SUN_AUTO_CFG"))[0].value;
-									doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'SUN_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Sonne', true, hashMapName);
-									
-									var value = (elementJSON.capabilities.filter((x)=>x.name === "DAWN_AUTO_CFG"))[0].value;
-									doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'DAWN_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Morgendämmerung', true, hashMapName);
-									
-									var value = (elementJSON.capabilities.filter((x)=>x.name === "DUSK_AUTO_CFG"))[0].value;
-									doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'DUSK_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Abenddämmerung', true, hashMapName);
+								    searchElement = elementJSON.capabilities.filter((x)=>x.name === "AUTO_MODE_CFG");
+                                    if (searchElement && searchElement != '') {
+                                        value = (searchElement)[0].value;
+                                        doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'AUTO_MODE_CFG', value == 'true' ? true : false, 'switch', 'Automatikbetrieb', true, hashMapName);
+                                    }
+
+                                    searchElement = elementJSON.capabilities.filter((x)=>x.name === "TIME_AUTO_CFG");
+                                    if (searchElement && searchElement != '') {
+                                        value = (searchElement)[0].value;
+                                        doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'TIME_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Zeit', true, hashMapName);
+                                    }
+
+                                    searchElement = elementJSON.capabilities.filter((x)=>x.name === "SUN_AUTO_CFG");
+                                    if (searchElement && searchElement != '') {
+                                        value = (searchElement)[0].value;
+                                        doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'SUN_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Sonne', true, hashMapName);
+                                    }
+
+                                    searchElement = elementJSON.capabilities.filter((x)=>x.name === "DAWN_AUTO_CFG");
+                                    if (searchElement && searchElement != '') {
+                                        value = (searchElement)[0].value;
+                                        doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'DAWN_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Morgendämmerung', true, hashMapName);
+                                    }
+
+                                    searchElement = elementJSON.capabilities.filter((x)=>x.name === "DUSK_AUTO_CFG");
+                                    if (searchElement && searchElement != '') {
+                                        value = (searchElement)[0].value;
+                                        doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'DUSK_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Abenddämmerung', true, hashMapName);
+                                    }
+
 									break;
 
 								case "23783076": /*RolloTube S-line Sun DuoFern SLDSM 30/16PZ*/
@@ -2873,71 +3081,129 @@ async function doAdditional(toDoList, type) {
 								case "23782076": /*RolloTube S-line Sun DuoFern SLDSM 50/12PZ*/
 								case "23785076": /*RolloTube S-line Sun DuoFern SLDSM 50/12PZ*/
 								case "25782075": /*RolloTube S-line Zip DuoFern SLDZS 06/28Z, SLDZS 10/16Z, SLDZM 10/16Z, SLDZM 20/16Z, SLDZM 30/16Z, SLDZM 40/16Z, SLDZM 50/12Z*/
-									var value = (elementJSON.capabilities.filter((x)=>x.name === "AUTO_MODE_CFG"))[0].value;
-									doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'AUTO_MODE_CFG', value == 'true' ? true : false, 'switch', 'Automatikbetrieb', true, hashMapName);
+								    searchElement = elementJSON.capabilities.filter((x)=>x.name === "AUTO_MODE_CFG");
+                                    if (searchElement && searchElement != '') {
+                                        value = (searchElement)[0].value;
+                                        doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'AUTO_MODE_CFG', value == 'true' ? true : false, 'switch', 'Automatikbetrieb', true, hashMapName);
+                                    }
 
-									var value = (elementJSON.capabilities.filter((x)=>x.name === "TIME_AUTO_CFG"))[0].value;
-									doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'TIME_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Zeit', true, hashMapName);
+                                    searchElement = elementJSON.capabilities.filter((x)=>x.name === "TIME_AUTO_CFG");
+                                    if (searchElement && searchElement != '') {
+                                        value = (searchElement)[0].value;
+                                        doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'TIME_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Zeit', true, hashMapName);
+                                    }
 
-									var value = (elementJSON.capabilities.filter((x)=>x.name === "SUN_AUTO_CFG"))[0].value;
-									doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'SUN_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Sonne', true, hashMapName);
+                                    searchElement = elementJSON.capabilities.filter((x)=>x.name === "SUN_AUTO_CFG");
+                                    if (searchElement && searchElement != '') {
+                                        value = (searchElement)[0].value;
+                                        doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'SUN_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Sonne', true, hashMapName);
+                                    }
 
-									var value = (elementJSON.capabilities.filter((x)=>x.name === "DAWN_AUTO_CFG"))[0].value;
-									doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'DAWN_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Morgendämmerung', true, hashMapName);
+                                    searchElement = elementJSON.capabilities.filter((x)=>x.name === "DAWN_AUTO_CFG");
+                                    if (searchElement && searchElement != '') {
+                                        value = (searchElement)[0].value;
+                                        doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'DAWN_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Morgendämmerung', true, hashMapName);
+                                    }
 
-									var value = (elementJSON.capabilities.filter((x)=>x.name === "DUSK_AUTO_CFG"))[0].value;
-									doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'DUSK_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Abenddämmerung', true, hashMapName);
+                                    searchElement = elementJSON.capabilities.filter((x)=>x.name === "DUSK_AUTO_CFG");
+                                    if (searchElement && searchElement != '') {
+                                        value = (searchElement)[0].value;
+                                        doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'DUSK_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Abenddämmerung', true, hashMapName);
+                                    }
+
 									break;
 
 								case "32501972": /*DuoFern-Mehrfachwandtaster*/		
 								case "32501974": /*DuoFern-Mehrfachwandtaster-BAT-9494-1*/
 									if(await IsAutomaticRefreshAttributesActivated(type + '.' + element + '-' + deviceNumberId)){										
 										elementJSON = await limitedGetSpecificAdditional(element);
-										var timestamp = (elementJSON.capabilities.filter((x)=>x.name === "KEY_PUSH_CH1_EVT"))[0].timestamp;
-										doAttributeWithTypeNumber(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'KEY_PUSH_CH1_EVT', timestamp, 'value.datetime', 'timestamp', hashMapName);
+										var timestamp;
+
+										searchElement = elementJSON.capabilities.filter((x)=>x.name === "KEY_PUSH_CH1_EVT");
+                                        if (searchElement && searchElement != '') {
+                                            timestamp = (searchElement)[0].timestamp;
+                                            doAttributeWithTypeNumber(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'KEY_PUSH_CH1_EVT', timestamp, 'value.datetime', 'timestamp', hashMapName);
+                                        }
+
+										searchElement = elementJSON.capabilities.filter((x)=>x.name === "KEY_PUSH_CH2_EVT");
+                                        if (searchElement && searchElement != '') {
+                                            timestamp = (searchElement)[0].timestamp;
+                                            doAttributeWithTypeNumber(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'KEY_PUSH_CH2_EVT', timestamp, 'value.datetime', 'timestamp', hashMapName);
+                                        }
+
+										searchElement = elementJSON.capabilities.filter((x)=>x.name === "KEY_PUSH_CH3_EVT");
+                                        if (searchElement && searchElement != '') {
+                                            timestamp = (searchElement)[0].timestamp;
+                                            doAttributeWithTypeNumber(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'KEY_PUSH_CH3_EVT', timestamp, 'value.datetime', 'timestamp', hashMapName);
+                                        }
+
+										searchElement = elementJSON.capabilities.filter((x)=>x.name === "KEY_PUSH_CH4_EVT");
+                                        if (searchElement && searchElement != '') {
+                                            timestamp = (searchElement)[0].timestamp;
+                                            doAttributeWithTypeNumber(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'KEY_PUSH_CH4_EVT', timestamp, 'value.datetime', 'timestamp', hashMapName);
+                                        }
+
+                                        searchElement = elementJSON.capabilities.filter((x)=>x.name === "KEY_PUSH_CH5_EVT");
+                                        if (searchElement && searchElement != '') {
+                                            timestamp = (searchElement)[0].timestamp;
+                                            doAttributeWithTypeNumber(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'KEY_PUSH_CH5_EVT', timestamp, 'value.datetime', 'timestamp', hashMapName);
+                                        }
 										
-										timestamp = (elementJSON.capabilities.filter((x)=>x.name === "KEY_PUSH_CH2_EVT"))[0].timestamp;
-										doAttributeWithTypeNumber(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'KEY_PUSH_CH2_EVT', timestamp, 'value.datetime', 'timestamp', hashMapName);
-										
-										timestamp = (elementJSON.capabilities.filter((x)=>x.name === "KEY_PUSH_CH3_EVT"))[0].timestamp;
-										doAttributeWithTypeNumber(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'KEY_PUSH_CH3_EVT', timestamp, 'value.datetime', 'timestamp', hashMapName);
-										
-										timestamp = (elementJSON.capabilities.filter((x)=>x.name === "KEY_PUSH_CH4_EVT"))[0].timestamp;
-										doAttributeWithTypeNumber(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'KEY_PUSH_CH4_EVT', timestamp, 'value.datetime', 'timestamp', hashMapName);
-										
-										timestamp = (elementJSON.capabilities.filter((x)=>x.name === "KEY_PUSH_CH5_EVT"))[0].timestamp;
-										doAttributeWithTypeNumber(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'KEY_PUSH_CH5_EVT', timestamp, 'value.datetime', 'timestamp', hashMapName);
-										
-										timestamp = (elementJSON.capabilities.filter((x)=>x.name === "KEY_PUSH_CH6_EVT"))[0].timestamp;
-										doAttributeWithTypeNumber(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'KEY_PUSH_CH6_EVT', timestamp, 'value.datetime', 'timestamp', hashMapName);
+										searchElement = elementJSON.capabilities.filter((x)=>x.name === "KEY_PUSH_CH6_EVT");
+                                        if (searchElement && searchElement != '') {
+                                            timestamp = (searchElement)[0].timestamp;
+                                            doAttributeWithTypeNumber(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'KEY_PUSH_CH6_EVT', timestamp, 'value.datetime', 'timestamp', hashMapName);
+                                        }
 									}
 									break;
 								
 								case "32160211": /*DuoFern-Wandtaster-9494*/
 									if(await IsAutomaticRefreshAttributesActivated(type + '.' + element + '-' + deviceNumberId)){										
 										elementJSON = await limitedGetSpecificAdditional(element);
-										var timestamp = (elementJSON.capabilities.filter((x)=>x.name === "KEY_OFF_CH1_EVT"))[0].timestamp;
-										doAttributeWithTypeNumber(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'KEY_OFF_CH1_EVT', timestamp, 'value.datetime', 'timestamp', hashMapName);
+										var timestamp;
+
+                                        searchElement = elementJSON.capabilities.filter((x)=>x.name === "KEY_OFF_CH1_EVT");
+                                        if (searchElement && searchElement != '') {
+                                            timestamp = (searchElement)[0].timestamp;
+                                            doAttributeWithTypeNumber(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'KEY_OFF_CH1_EVT', timestamp, 'value.datetime', 'timestamp', hashMapName);
+                                        }
+
+                                        searchElement = elementJSON.capabilities.filter((x)=>x.name === "KEY_OFF_CH2_EVT");
+                                        if (searchElement && searchElement != '') {
+                                            timestamp = (searchElement)[0].timestamp;
+                                            doAttributeWithTypeNumber(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'KEY_OFF_CH2_EVT', timestamp, 'value.datetime', 'timestamp', hashMapName);
+                                        }
+
+										searchElement = elementJSON.capabilities.filter((x)=>x.name === "KEY_ON_CH1_EVT");
+                                        if (searchElement && searchElement != '') {
+                                            timestamp = (searchElement)[0].timestamp;
+                                            doAttributeWithTypeNumber(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'KEY_ON_CH1_EVT', timestamp, 'value.datetime', 'timestamp', hashMapName);
+                                        }
 										
-										timestamp = (elementJSON.capabilities.filter((x)=>x.name === "KEY_OFF_CH2_EVT"))[0].timestamp;
-										doAttributeWithTypeNumber(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'KEY_OFF_CH2_EVT', timestamp, 'value.datetime', 'timestamp', hashMapName);
-										
-										timestamp = (elementJSON.capabilities.filter((x)=>x.name === "KEY_ON_CH1_EVT"))[0].timestamp;
-										doAttributeWithTypeNumber(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'KEY_ON_CH1_EVT', timestamp, 'value.datetime', 'timestamp', hashMapName);
-										
-										timestamp = (elementJSON.capabilities.filter((x)=>x.name === "KEY_ON_CH2_EVT"))[0].timestamp;
-										doAttributeWithTypeNumber(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'KEY_ON_CH2_EVT', timestamp, 'value.datetime', 'timestamp', hashMapName);
+										searchElement = elementJSON.capabilities.filter((x)=>x.name === "KEY_ON_CH2_EVT");
+                                        if (searchElement && searchElement != '') {
+                                            timestamp = (searchElement)[0].timestamp;
+                                            doAttributeWithTypeNumber(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'KEY_ON_CH2_EVT', timestamp, 'value.datetime', 'timestamp', hashMapName);
+                                        }
 									}
 									break;
 					
 								case "32501973": /*DuoFern-Wandtaster-1-Kanal-9494-3*/
 									if(await IsAutomaticRefreshAttributesActivated(type + '.' + element + '-' + deviceNumberId)){
 										elementJSON =await limitedGetSpecificAdditional(element);
-										var timestamp = (elementJSON.capabilities.filter((x)=>x.name === "KEY_PUSH_CH1_EVT"))[0].timestamp;
-										doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'KEY_PUSH_CH1_EVT', timestamp, 'value.datetime', 'timestamp', false, "number", hashMapName);
-										
-										timestamp = (elementJSON.capabilities.filter((x)=>x.name === "KEY_PUSH_CH2_EVT"))[0].timestamp;
-										doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'KEY_PUSH_CH2_EVT', timestamp, 'value.datetime', 'timestamp', false, "number", hashMapName);
+										var timestamp;
+
+                                        searchElement = elementJSON.capabilities.filter((x)=>x.name === "KEY_PUSH_CH1_EVT");
+                                        if (searchElement && searchElement != '') {
+                                            timestamp = (searchElement)[0].timestamp;
+                                            doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'KEY_PUSH_CH1_EVT', timestamp, 'value.datetime', 'timestamp', false, "number", hashMapName);
+                                        }
+
+                                        searchElement = elementJSON.capabilities.filter((x)=>x.name === "KEY_PUSH_CH2_EVT");
+                                        if (searchElement && searchElement != '') {
+                                            timestamp = (searchElement)[0].timestamp;
+                                            doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'KEY_PUSH_CH2_EVT', timestamp, 'value.datetime', 'timestamp', false, "number", hashMapName);
+                                        }
 									}
 									break;
 									

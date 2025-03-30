@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "homepilot20",
-        "version": "0.0.70",
+        "version": "0.0.71",
 		"news": {
+            "0.0.71":{
+                "en": "fixed an issue during reading new sensor - part3",
+                "de": "ein Problem beim Lesen neuer Sensoren behoben - Teil3",
+                "ru": "исправлена \u200B\u200Bпроблема при считывании нового датчика - часть 3",
+                "pt": "corrigido um problema durante a leitura do novo sensor - parte 3",
+                "nl": "een probleem opgelost tijdens het lezen van een nieuwe sensor - deel 3",
+                "fr": "correction d'un problème lors de la lecture d'un nouveau capteur - partie 3",
+                "it": "risolto un problema durante la lettura del nuovo sensore - parte 3",
+                "es": "Se solucionó un problema durante la lectura del nuevo sensor - parte 3",
+                "pl": "naprawiono problem podczas odczytu nowego czujnika - część 3",
+                "zh-cn": "修复了读取新传感器时出现的问题 - 第 3 部分"
+            },
             "0.0.70":{
                 "en": "fixed an issue during reading new sensor - part2",
                 "de": "ein Problem beim Lesen neuer Sensoren behoben - Teil2",

@@ -21,6 +21,9 @@ If you like my work, please consider a personal donation
 
 
 ## Changelog
+### 0.0.71      (30.03.2025)
+* (homecineplexx)  fixed an issue during reading new sensor - part3
+
 ### 0.0.70      (30.03.2025)
 * (homecineplexx)  fixed an issue during reading new sensor - part2
 
