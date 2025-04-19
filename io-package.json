@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "homepilot20",
-        "version": "0.0.71",
+        "version": "0.0.72",
 		"news": {
+            "0.0.72":{
+                "en": "Neues Gerät 14771002 Tür- und Fensterkontakt smart hinzugefügt",
+                "de": "added new device 14771002 Tür- und Fensterkontakt smart",
+                "ru": "добавлено новое устройство 14771002 Tür- und Fensterkontakt smart",
+                "pt": "adicionado novo dispositivo 14771002 Tür- und Fensterkontakt smart",
+                "nl": "nieuw apparaat toegevoegd 14771002 Tür- und Fensterkontakt smart",
+                "fr": "ajout d'un nouvel appareil 14771002 Tür- und Fensterkontakt smart",
+                "it": "aggiunto nuovo dispositivo 14771002 Tür- und Fensterkontakt smart",
+                "es": "añadido nuevo dispositivo 14771002 Tür- und Fensterkontakt smart",
+                "pl": "dodano nowe urządzenie 14771002 Tür- und Fensterkontakt smart",
+                "zh-cn": "添加了新设备 14771002 Tür- und Fensterkontakt smart"
+            },
             "0.0.71":{
                 "en": "fixed an issue during reading new sensor - part3",
                 "de": "ein Problem beim Lesen neuer Sensoren behoben - Teil3",

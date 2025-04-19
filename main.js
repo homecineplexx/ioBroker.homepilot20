@@ -136,7 +136,20 @@ function controlHomepilot(id, input) {
 	} else if (id.indexOf('RAIN_AUTO_CFG') !== -1) {
 		calcUri = 'http://' + ip + '/devices/' + deviceId;
 		data = '{"name":"RAIN_AUTO_CFG", "value":"' + input + '"}';
-	} else 
+	} else if (id.indexOf('BOOST_ACTIVE_CFG') !== -1) {
+        calcUri = 'http://' + ip + '/devices/' + deviceId;
+        data = '{"name":"BOOST_ACTIVE_CFG", "value":"' + input + '"}';
+    } else if (id.indexOf('BOOST_TIME_CFG') !== -1) {
+        calcUri = 'http://' + ip + '/devices/' + deviceId;
+
+        if (parseInt(input) < 4) {
+            input = 4;
+        } else if (parseInt(input) > 60) {
+            input = 60;
+        }
+
+        data = '{"name":"BOOST_TIME_CFG", "value":"' + input + '"}';
+    } else
 	
 	//role == switch or role == light.switch
 	if (id.indexOf('Position_inverted') !== -1) {
@@ -424,6 +437,8 @@ function main() {
 	adapter.subscribeStates('*DUSK_AUTO_CFG');
 	adapter.subscribeStates('*WIND_AUTO_CFG');
 	adapter.subscribeStates('*RAIN_AUTO_CFG');
+	adapter.subscribeStates('*BOOST_ACTIVE_CFG');
+	adapter.subscribeStates('*BOOST_TIME_CFG');
 		
     readSettings();
     adapter.log.debug('Homepilot adapter started...');
@@ -790,7 +805,7 @@ function calculatePath(result, type) {
             deviceRole = 'level.temperature';
 
             if (type == 'Actuator' && !isBridge) {
-                //additionalDeviceSettings.push(deviceId);
+                additionalDeviceSettings.push(deviceId);
             }
             break;
 			
@@ -1044,6 +1059,10 @@ function calculatePath(result, type) {
 			
 		case "32003164":
 			deviceType = 'DuoFern-Fenster-Türkontakt-9431';
+            break;
+
+        case "14771002":
+            deviceType = 'DuoFern-Tür-und-Fensterkontakt-smart-14771002';
             break;
 		
 		case "99999998":
@@ -1564,7 +1583,8 @@ function createActuatorStates(result, type) {
             });
 	    }
 
-		if (deviceNumber == '35003064' || deviceNumber == '13601001') {
+		if (deviceNumber == '35003064' ||
+		    deviceNumber == '13601001') {
 			adapter.setObjectNotExists(path + '.batteryStatus', {
 				type: 'state',
 				common: {
@@ -2010,7 +2030,8 @@ function createSensorStates(result, type) {
 		if (deviceNumber == '32002119' /*Z-Wave-FensterTürkontakt*/ ||
 			deviceNumber == '32003164' /*DuoFern-FensterTürkontakt-9431*/ ||
 			deviceNumber == '32000062' /*DuoFern-Funksender-UP-9497*/ ||
-			deviceNumber == '32001664' /*DuoFern-Rauchmelder-9481*/) {
+			deviceNumber == '32001664' /*DuoFern-Rauchmelder-9481*/ ||
+			deviceNumber == '14771002' /*DuoFern-Tür-und-Fensterkontakt-smart-14771002*/) {
 			
 			if (deviceNumber != '32001664' /*DuoFern-Rauchmelder-9481*/) {
 				adapter.setObjectNotExists(path + '.contact_state', {
@@ -2044,7 +2065,8 @@ function createSensorStates(result, type) {
 			}
 			
 			if (deviceNumber == '32003164' /*DuoFern-FensterTürkontakt-9431*/ ||
-				deviceNumber == '32001664' /*DuoFern-Rauchmelder-9481*/) {
+				deviceNumber == '32001664' /*DuoFern-Rauchmelder-9481*/ ||
+				deviceNumber == '14771002' /*DuoFern-Tür-und-Fensterkontakt-smart-14771002*/) {
 				adapter.setObjectNotExists(path + '.batteryLow', {
 					type: 'state',
 					common: {
@@ -2298,7 +2320,8 @@ function writeActuatorStates(result, type) {
 		    setCorrectState(path, '.slatposition', result.statusesMap.slatposition, result.did + '-' + type);
 		}
 		
-		if (deviceNumber == '35003064' || deviceNumber == '13601001') {
+		if (deviceNumber == '35003064' ||
+		    deviceNumber == '13601001') {
 		    setCorrectState(path, '.batteryStatus', result.batteryStatus, result.did + '-' + type);
 			setCorrectState(path, '.batteryLow', result.batteryLow, result.did + '-' + type);
 			setCorrectState(path, '.posMin', result.posMin / 10, result.did + '-' + type);
@@ -2425,7 +2448,8 @@ function writeSensorStates(result, type) {
 		if (deviceNumber == '32002119' /*Z-Wave-FensterTürkontakt*/ ||
 			deviceNumber == '32003164' /*DuoFern-FensterTürkontakt-9431*/ ||
 			deviceNumber == '32000062' /*DuoFern-Funksender-UP-9497*/ ||
-			deviceNumber == '32001664' /*DuoFern-Rauchmelder-9481*/) {
+			deviceNumber == '32001664' /*DuoFern-Rauchmelder-9481*/ ||
+			deviceNumber == '14771002' /*DuoFern-Tür-und-Fensterkontakt-smart-14771002*/) {
 			
 			if (deviceNumber != '32001664' /*DuoFern-Rauchmelder-9481*/) {
 			    setCorrectState(path, '.contact_state', result.readings.contact_state, result.did + '-' + type);
@@ -2436,7 +2460,8 @@ function writeSensorStates(result, type) {
 			}
 			
 			if (deviceNumber == '32003164' /*DuoFern-FensterTürkontakt-9431*/ ||
-				deviceNumber == '32001664' /*DuoFern-Rauchmelder-9481*/) {
+				deviceNumber == '32001664' /*DuoFern-Rauchmelder-9481*/ ||
+				deviceNumber == '14771002' /*DuoFern-Tür-und-Fensterkontakt-smart-14771002*/) {
 				setCorrectState(path, '.batteryLow', result.batteryLow, result.did + '-' + type);
 			}
 		}
@@ -2528,6 +2553,68 @@ async function getSpecificAdditional(element) {
 	}
 }
 
+async function doSpecialAdditional(element, type, deviceNumberId, hashMapName) {
+    var unreach = false;
+    try {
+        var response = await asyncRequest({
+            method: 'GET',
+            uri: 'http://' + ip + '/devices/' + element,
+            headers: [
+                { 'Cookie': cookie },
+                { 'Content-Type': 'application/json' }
+            ]
+        });
+
+        if (response.statusCode == 200) {
+            var result;
+            try {
+                result = JSON.parse(response.body);
+            } catch (e) {
+                adapter.log.warn('Parse Error doSpecialAdditional: ' + e);
+                unreach = true;
+            }
+            if (result) {
+                var elementJSON = result.payload.device;
+                var value;
+                var searchElement;
+
+                switch(deviceNumberId) {
+                	case "35003064": /*DuoFern-Heizkörperstellantrieb-9433*/
+                	case "13601001":
+                	    searchElement = elementJSON.capabilities.filter((x)=>x.name === "BOOST_ACTIVE_CFG");
+                        if (searchElement && searchElement != '') {
+                            value = (searchElement)[0].value;
+                            doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'BOOST_ACTIVE_CFG', value == 'true' ? true : false, 'switch', 'Heizungsboost', true, hashMapName);
+                        }
+
+                        searchElement = elementJSON.capabilities.filter((x)=>x.name === "BOOST_TIME_CFG");
+                        if (searchElement && searchElement != '') {
+                            value = (searchElement)[0].value;
+                            doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'BOOST_TIME_CFG', value, 'text', 'value', true, "number", hashMapName);
+                        }
+                	    break;
+                }
+            }
+        } else {
+            adapter.log.warn('doSpecialAdditional for ' + element + ' -> Cannot connect to Homepilot: ' + JSON.stringify(response));
+            unreach = true;
+        }
+
+
+    } catch(error){
+		adapter.log.warn('Do doSpecialAdditional for '+ element + ': ' + error );
+		unreach = true;
+	}
+
+	adapter.log.debug('finished reading Homepilot doSpecialAdditional for ' + element);
+
+	// Write connection status
+	adapter.setState('station.UNREACH', {
+		val: unreach,
+		ack: true
+	});
+}
+
 async function doAdditional(toDoList, type) {
 	var unreach = false;
 	try {
@@ -2551,10 +2638,10 @@ async function doAdditional(toDoList, type) {
 			}
 			if (result) {
 				var elementsToWork = [];
-				for (var i = 0; i< result.payload.devices.length ; i++) {					
+				for (var i = 0; i < result.payload.devices.length ; i++) {
 					var elementJSON = result.payload.devices[i];					
 					var element = (elementJSON.capabilities.filter((x)=>x.name === "ID_DEVICE_LOC"))[0].value;						
-					if(element && toDoList.includes(Number(element))){											
+					if (element && toDoList.includes(Number(element))) {
 						elementsToWork.push({elementJSON : elementJSON, element : element});
 					}
 				}
@@ -2591,7 +2678,12 @@ async function doAdditional(toDoList, type) {
                                         doAttributeWithTypeBoolean(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'CONTACT_AUTO_CFG', value == 'true' ? true : false, 'switch', 'Schließkontakt', true, hashMapName);
                                     }
 
+                                    await doSpecialAdditional(element, type, deviceNumberId, hashMapName);
 									break;
+
+                                case "13601001":
+                                    await doSpecialAdditional(element, type, deviceNumberId, hashMapName);
+                                    break;
 
 								case "35000262": /*DuoFernUniversal-Aktor2-Kanal-9470-2*/
 								    searchElement = elementJSON.capabilities.filter((x)=>x.name === "AUTO_MODE_CFG");
@@ -3269,33 +3361,49 @@ async function doAttribute(did, path, name, value, role, description, changeable
 
     if (description == 'timestamp') {
         adapter.setObjectNotExists(path + name, {
-        		type: 'state',
-        		common: {
-        			name: name + '-' + description,
-        			desc: 'name stored in homepilot for device ' + did,
-        			"type": type,
-        			"role": role,
-        			"read": true,
-        			"def": def,
-        			"write": changeable,
-        			"min": -1
-        		},
-        		native: {}
-        	});
+            type: 'state',
+            common: {
+                name: name + '-' + description,
+                desc: 'name stored in homepilot for device ' + did,
+                "type": type,
+                "role": role,
+                "read": true,
+                "def": def,
+                "write": changeable,
+                "min": -1
+            },
+            native: {}
+        });
+    } else if (name == 'BOOST_TIME_CFG') {
+        adapter.setObjectNotExists(path + name, {
+            type: 'state',
+            common: {
+                name: name + '-' + description,
+                desc: 'name stored in homepilot for device ' + did,
+                "type": type,
+                "role": role,
+                "read": true,
+                "def": 15,
+                "write": changeable,
+                "min": 4,
+                "max": 60
+            },
+            native: {}
+        });
     } else {
         adapter.setObjectNotExists(path + name, {
-        		type: 'state',
-        		common: {
-        			name: name + '-' + description,
-        			desc: 'name stored in homepilot for device ' + did,
-        			"type": type,
-        			"role": role,
-        			"read": true,
-        			"def": def,
-        			"write": changeable
-        		},
-        		native: {}
-        	});
+            type: 'state',
+            common: {
+                name: name + '-' + description,
+                desc: 'name stored in homepilot for device ' + did,
+                "type": type,
+                "role": role,
+                "read": true,
+                "def": def,
+                "write": changeable
+            },
+            native: {}
+        });
     }
 
     setCorrectState(path, name, value, hashMapName);
