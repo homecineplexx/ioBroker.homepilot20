@@ -90,6 +90,19 @@ function startAdapter(options) {
 	return adapter;
 };
 
+
+// Wrapper-Funktion für neues API-Format
+function wrapCapabilities(name, value) {
+        return JSON.stringify({
+		capabilities: [
+			{
+				name: name,
+				value: String(value)
+			}
+		]
+	});
+}
+
 function controlHomepilot(id, input) {
 	adapter.log.debug('id: ' + id + ', command: ' + input);
 	
@@ -101,6 +114,8 @@ function controlHomepilot(id, input) {
 	var calcMethod = 'PUT';
 	var data; 
 	var calcUri;
+	
+	
 	
 	if (id.indexOf('.Scene.') !== -1) {
 		sid = controller_array[3];
@@ -114,31 +129,31 @@ function controlHomepilot(id, input) {
 		
 	if (id.indexOf('AUTO_MODE_CFG') !== -1) {
 		calcUri = 'http://' + ip + '/devices/' + deviceId;
-		data = '{"name":"AUTO_MODE_CFG", "value":"' + input + '"}';
+		data = wrapCapabilities('AUTO_MODE_CFG', input);
 	} else if (id.indexOf('TIME_AUTO_CFG') !== -1) {
 		calcUri = 'http://' + ip + '/devices/' + deviceId;
-		data = '{"name":"TIME_AUTO_CFG", "value":"' + input + '"}';
+		data = wrapCapabilities('TIME_AUTO_CFG', input);
 	} else if (id.indexOf('CONTACT_AUTO_CFG') !== -1) {
 		calcUri = 'http://' + ip + '/devices/' + deviceId;
-		data = '{"name":"CONTACT_AUTO_CFG", "value":"' + input + '"}';
+		data = wrapCapabilities('CONTACT_AUTO_CFG', input);
 	} else if (id.indexOf('SUN_AUTO_CFG') !== -1) {
 		calcUri = 'http://' + ip + '/devices/' + deviceId;
-		data = '{"name":"SUN_AUTO_CFG", "value":"' + input + '"}';
+		data = wrapCapabilities('SUN_AUTO_CFG', input);
 	} else if (id.indexOf('DAWN_AUTO_CFG') !== -1) {
 		calcUri = 'http://' + ip + '/devices/' + deviceId;
-		data = '{"name":"DAWN_AUTO_CFG", "value":"' + input + '"}';
+		data = wrapCapabilities('DAWN_AUTO_CFG', input);
 	} else if (id.indexOf('DUSK_AUTO_CFG') !== -1) {
 		calcUri = 'http://' + ip + '/devices/' + deviceId;
-		data = '{"name":"DUSK_AUTO_CFG", "value":"' + input + '"}';
+		data = wrapCapabilities('DUSK_AUTO_CFG', input);
 	} else if (id.indexOf('WIND_AUTO_CFG') !== -1) {
 		calcUri = 'http://' + ip + '/devices/' + deviceId;
-		data = '{"name":"WIND_AUTO_CFG", "value":"' + input + '"}';
+		data = wrapCapabilities('WIND_AUTO_CFG', input);
 	} else if (id.indexOf('RAIN_AUTO_CFG') !== -1) {
 		calcUri = 'http://' + ip + '/devices/' + deviceId;
-		data = '{"name":"RAIN_AUTO_CFG", "value":"' + input + '"}';
+		data = wrapCapabilities('RAIN_AUTO_CFG', input);
 	} else if (id.indexOf('BOOST_ACTIVE_CFG') !== -1) {
         calcUri = 'http://' + ip + '/devices/' + deviceId;
-        data = '{"name":"BOOST_ACTIVE_CFG", "value":"' + input + '"}';
+        data = wrapCapabilities('BOOST_ACTIVE_CFG', input);
     } else if (id.indexOf('BOOST_TIME_CFG') !== -1) {
         calcUri = 'http://' + ip + '/devices/' + deviceId;
 
@@ -148,11 +163,9 @@ function controlHomepilot(id, input) {
             input = 60;
         }
 
-        data = '{"name":"BOOST_TIME_CFG", "value":"' + input + '"}';
-    } else
-	
-	//role == switch or role == light.switch
-	if (id.indexOf('Position_inverted') !== -1) {
+        data = wrapCapabilities('BOOST_TIME_CFG', input);
+    } else if (id.indexOf('Position_inverted') !== -1) {
+		//role == switch or role == light.switch
 		calcUri = 'http://' + ip + '/devices/' + deviceId;
 		
 		if (0 >= parseInt(input)) {
@@ -161,7 +174,7 @@ function controlHomepilot(id, input) {
 			input = 100;
 		}
 
-		data = '{"name":"GOTO_POS_CMD", "value":"' + (100 - parseInt(input)) + '"}';		 
+		data = wrapCapabilities('GOTO_POS_CMD', (100 - parseInt(input)));		 
 	} else if (id.indexOf('slatposition') !== -1) {
 		calcUri = 'http://' + ip + '/devices/' + deviceId;
 		
@@ -173,7 +186,7 @@ function controlHomepilot(id, input) {
 				input = 100;
 			}
 
-			data = '{"name":"SET_SLAT_POS_CMD", "value":"' + parseInt(input) + '"}';
+			data = wrapCapabilities('SET_SLAT_POS_CMD', parseInt(input));
 		}
 	} else if (id.indexOf('Position') !== -1) {
 		calcUri = 'http://' + ip + '/devices/' + deviceId;
@@ -187,10 +200,10 @@ function controlHomepilot(id, input) {
 			deviceNumberId == '99999960' /*NoName Zwischenstecker*/ ||
 			deviceNumberId == '35204011' /*DeltaDore-Zigbee-Stick-Easy Plug F16EM*/) {
 			
-			data = '{"name":"TURN_OFF_CMD"}'; 
+			data = wrapCapabilities('TURN_OFF_CMD', '');
 			
 			if (input == 'true') {
-				data = '{"name":"TURN_ON_CMD"}';
+				data = wrapCapabilities('TURN_ON_CMD', '');
 			}
 		//role == level.blind
 		} else if (deviceNumberId == '35000864' /*DuoFern-Connect-Aktor-9477*/ ||
@@ -228,7 +241,7 @@ function controlHomepilot(id, input) {
 				input = 100;
 			}
 
-			data = '{"name":"GOTO_POS_CMD", "value":"' + parseInt(input) + '"}';
+			data = wrapCapabilities('GOTO_POS_CMD', parseInt(input));
 			
 		//role == temperature
 		} else if (deviceNumberId == '35003064' /*DuoFern-Heizkörperstellantrieb-9433*/ ||
@@ -245,7 +258,7 @@ function controlHomepilot(id, input) {
 			
 			val = (val%5<3 ? (val%5===0 ? val : Math.floor(val/5)*5) : Math.ceil(val/5)*5) / 10;
 			
-			data = '{"name":"TARGET_TEMPERATURE_CFG", "value":"' + val + '"}';
+			data = wrapCapabilities('TARGET_TEMPERATURE_CFG', val);
 		//role == temperature
 		} else if (deviceNumberId == '32501812' /*DuoFern-Raumthermostat-9485*/ ||
 		           deviceNumberId == '13501001' /*Thermostat premium smart-13501001*/) {
@@ -260,7 +273,7 @@ function controlHomepilot(id, input) {
 			
 			val = (val%5<3 ? (val%5===0 ? val : Math.floor(val/5)*5) : Math.ceil(val/5)*5) / 10;
 					
-			data = '{"name":"TARGET_TEMPERATURE_CFG", "value":"' + val + '"}';
+			data = wrapCapabilities('TARGET_TEMPERATURE_CFG', val);
 		// Philips Hue (99999983 || 99999981 || 99999982)
 		} else if (deviceNumberId == '99999981' /*Philips-Hue-Weiße-Lampe*/ ||
 				   deviceNumberId == '99999982' /*Philips-Hue-Ambiance-Spot*/ ||
@@ -274,7 +287,7 @@ function controlHomepilot(id, input) {
 				input = 100;
 			}
 			
-			data = '{"name":"GOTO_POS_CMD", "value":"' + parseInt(input) + '"}';
+			data = wrapCapabilities('GOTO_POS_CMD', parseInt(input));
 		}
 	
 	// Philips Hue (99999983 || 99999982)
@@ -286,13 +299,13 @@ function controlHomepilot(id, input) {
 		}
 			
 		calcUri = 'http://' + ip + '/devices/' + deviceId;
-		data = '{"name":"SET_COLOR_TEMP_CMD", "value":"' + parseInt(input) + '"}';
+		data = wrapCapabilities('SET_COLOR_TEMP_CMD', parseInt(input));
 	// Philips Hue (99999983)	
 	} else if (id.indexOf('RGB') !== -1) {
 		input = '0x' + input; 
 		
 		calcUri = 'http://' + ip + '/devices/' + deviceId;
-		data = '{"name":"SET_RGB_CMD", "value":"' + input + '"}';
+		data = wrapCapabilities('SET_RGB_CMD', input);
 	} else if (id.indexOf('Action') !== -1) {
 		calcUri = 'http://' + ip + '/devices/' + deviceId;
 		
@@ -305,23 +318,23 @@ function controlHomepilot(id, input) {
             deviceNumberId == '99999974' /*Innr GUI10 (white ambiance)*/ ||
             deviceNumberId == '35104001' /*Rademacher addZ GU10*/ ) {
 			if (input == 'AN' || input == 'ON') {			
-				data = '{"name":"TURN_ON_CMD"}';
+				data = wrapCapabilities('TURN_ON_CMD', '');
 			} else if (input == 'AUS' || input == 'OFF') {			
-				data = '{"name":"TURN_OFF_CMD"}';
+				data = wrapCapabilities('TURN_OFF_CMD', '');
 			} else {
 				adapter.log.error( 'Command=' + input + ' is not allowed. Allowed values are AN/ON/AUS/OFF.');
 			}
 		} else {
 			if (input == 'RAUF' || input == 'UP' || input == 'HOCH' || input == 'REIN' || input == 'IN') {			
-				data = '{"name":"POS_UP_CMD"}';
+				data = wrapCapabilities('POS_UP_CMD', '');
 			} else if (input == 'RUNTER' || input == 'DOWN' || input == 'RAUS' || input == 'OUT') {			
-				data = '{"name":"POS_DOWN_CMD"}';
+				data = wrapCapabilities('POS_DOWN_CMD', '');
 			} else if (input == 'STOPP' || input == 'STOP') {
-				data = '{"name":"STOP_CMD"}';
+				data = wrapCapabilities('STOP_CMD', '');
 			} else if (input == 'SCHRITT_RAUF') {
-				data = '{"name":"DEC_CMD"}';
+				data = wrapCapabilities('DEC_CMD', '');
 			} else if (input == 'SCHRITT_RUNTER') {
-				data = '{"name":"INC_CMD"}';
+				data = wrapCapabilities('INC_CMD', '');
 			} else {
 				adapter.log.error( 'Command=' + input + ' is not allowed. Allowed values are RAUF/RAUS/REIN/RUNTER/STOPP/SCHRITT_RAUF/SCHRITT_RUNTER.');
 			}
@@ -341,21 +354,23 @@ function controlHomepilot(id, input) {
 		adapter.log.warn(id + ' can not be changed.');
 	}
 	
-	if (data !== undefined) {
-		request({
-			method: calcMethod,
-			uri: calcUri,
-			headers: [
-				{ 'Cookie': cookie },
-				{ 'Content-Type': 'application/json' }
-			],
-			body: data
-		  },
-		  function (error, response, body) {
+        if (data !== undefined) {                 
+		  request({
+                           method: calcMethod,
+                           uri: calcUri,
+                           headers: {
+                                   'Content-Type': 'application/json',
+                                   'User-Agent': 'node-request',
+                                   'Accept': '*/*',
+                                   'Cookie': cookie
+                           },
+                           body: data
+		 }, function (error, response, body) {
+                        adapter.log.debug('response: ' + JSON.stringify(response));
 			if (error) {
-				return adapter.log.error('Change Request Error:' +  error + ', Body: ' + body);
+				return adapter.log.error('Change Request Error:' +  error + ', Body: ' + JSON.stringify(body));
 			} else {
-				return adapter.log.debug('Change Request OK body:' + body);
+				return adapter.log.debug('Change Request OK body:' + JSON.stringify(body));
 			}
 		});
 	} else {

@@ -21,6 +21,9 @@ If you like my work, please consider a personal donation
 
 
 ## Changelog
+### 0.0.73      (02.04.2026)
+* (homecineplexx)  adapt request method after Rademacher changed API
+* 
 ### 0.0.72      (19.04.2025)
 * (homecineplexx)  added new device 14771002 Tür- und Fensterkontakt smart 
 

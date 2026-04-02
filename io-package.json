@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "homepilot20",
-        "version": "0.0.72",
+        "version": "0.0.73",
 		"news": {
+            "0.0.73":{
+                "en": "adapt request method after Rademacher changed API",
+                "de": "Anpassung der Anfragemethode nach Rademachers API-Änderung",
+                "ru": "адаптировать метод запроса после изменения API Rademacher",
+                "pt": "адаптировать метод запроса после изменения API Rademacher",
+                "nl": "De aanvraagmethode aanpassen nadat Rademacher de API heeft gewijzigd.",
+                "fr": "Adaptation de la méthode de requête après la modification de l'API par Rademacher",
+                "it": "Adattare il metodo di richiesta dopo che Rademacher ha modificato l'API.",
+                "es": "Adaptar el método de solicitud después de que Rademacher cambiara la API",
+                "pl": "metoda żądania adaptacji po zmianie API przez Rademachera",
+                "zh-cn": "在 Rademacher 更改 API 后，调整请求方法"
+            },
             "0.0.72":{
                 "en": "Neues Gerät 14771002 Tür- und Fensterkontakt smart hinzugefügt",
                 "de": "added new device 14771002 Tür- und Fensterkontakt smart",
