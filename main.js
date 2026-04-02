@@ -529,7 +529,11 @@ function main() {
 function getPasswordSalt() {
 	request({
 			method: 'POST',
-			uri: 'http://' + ip + '/authentication/password_salt'
+			uri: 'http://' + ip + '/authentication/password_salt',
+			headers: {
+			       'User-Agent': 'node-request',
+			       'Accept': '*/*'
+			}
 		},
 		function (error, response, body) {
 			if (!error && response.statusCode == 200) {
@@ -548,9 +552,11 @@ function getPasswordSalt() {
 					request({
 						method: 'POST',
 						uri: 'http://' + ip + '/authentication/login',
-						headers: [
-							{ 'Content-Type': 'application/json' }
-						  ],
+						headers: {
+						       'Content-Type': 'application/json',
+						       'User-Agent': 'node-request',
+						       'Accept': '*/*'
+						},
 						body: data
 					  },
 					  function (error, response, body) {

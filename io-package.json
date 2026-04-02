@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "homepilot20",
-        "version": "0.0.73",
+        "version": "0.0.74",
 		"news": {
+            "0.0.74":{
+                "en": "adapt Login Request method after Rademacher changed API",
+                "de": "Die Login-Anfragemethode wurde nach der API-Änderung von Rademacher angepasst.",
+                "ru": "Адаптировать метод запроса на вход в систему после изменения API в Rademacher.",
+                "pt": "Adaptar o método de pedido de login após Rademacher alterar a API.",
+                "nl": "De inlogmethode aanpassen nadat Rademacher de API heeft gewijzigd.",
+                "fr": "Adapter la méthode de requête de connexion après la modification de l'API par Rademacher",
+                "it": "Adattare il metodo di richiesta di accesso dopo che Rademacher ha modificato l'API.",
+                "es": "Adaptar el método de solicitud de inicio de sesión después de que Rademacher cambiara la API.",
+                "pl": "dostosuj metodę żądania logowania po zmianie API przez Rademachera",
+                "zh-cn": "在 Rademacher 更改 API 后，调整登录请求方法"
+            },
             "0.0.73":{
                 "en": "adapt request method after Rademacher changed API",
                 "de": "Anpassung der Anfragemethode nach Rademachers API-Änderung",
