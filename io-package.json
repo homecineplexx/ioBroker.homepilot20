@@ -198,7 +198,10 @@
         ],
         "connectionType": "local",
         "dataSource": "poll",
-        "tier": 2
+        "tier": 2,
+        "encryptedNative": [
+            "password"
+        ]
     },
     "native":{  
         "homepilotip":"",
@@ -211,6 +214,46 @@
     },
     "objects": [],
     "instanceObjects":[  
+        {
+            "_id":"info.connection",
+            "type":"state",
+            "common":{
+                "name":"Connection status",
+                "type":"boolean",
+                "role":"indicator.connected",
+                "def":false,
+                "read":true,
+                "write":false
+            },
+            "native":{}
+        },
+        {
+            "_id":"info.lastSuccessfulPoll",
+            "type":"state",
+            "common":{
+                "name":"Last successful poll",
+                "type":"number",
+                "role":"value.time",
+                "def":0,
+                "read":true,
+                "write":false
+            },
+            "native":{}
+        },
+        {
+            "_id":"info.failedRequests",
+            "type":"state",
+            "common":{
+                "name":"Failed request sources",
+                "type":"number",
+                "role":"value",
+                "def":0,
+                "min":0,
+                "read":true,
+                "write":false
+            },
+            "native":{}
+        },
         {  
             "_id":"station",
             "type":"channel",
@@ -256,9 +299,10 @@
             "type":"state",
             "common":{  
                 "name":"Synchronize sensors time",
-                "desc":"Last timestamp of synchronize sensors for performance optimization.",
-                "type":"string",
-                "role":"text",
+                "desc":"Duration of the last sensor synchronization.",
+                "type":"number",
+                "role":"value.interval",
+                "unit":"ms",
                 "read":true,
                 "write":false
             },
@@ -284,9 +328,10 @@
             "type":"state",
             "common":{  
                 "name":"Synchronize actuators time",
-                "desc":"Last timestamp of synchronize actuators for performance optimization.",
-                "type":"string",
-                "role":"text",
+                "desc":"Duration of the last actuator synchronization.",
+                "type":"number",
+                "role":"value.interval",
+                "unit":"ms",
                 "read":true,
                 "write":false
             },
@@ -298,9 +343,10 @@
             "type":"state",
             "common":{  
                 "name":"Synchronize transmitters time",
-                "desc":"Last timestamp of synchronize transmitters for performance optimization.",
-                "type":"string",
-                "role":"text",
+                "desc":"Duration of the last transmitter synchronization.",
+                "type":"number",
+                "role":"value.interval",
+                "unit":"ms",
                 "read":true,
                 "write":false
             },
@@ -312,9 +358,10 @@
             "type":"state",
             "common":{  
                 "name":"Synchronize scenes time",
-                "desc":"Last timestamp of synchronize scenes for performance optimization.",
-                "type":"string",
-                "role":"text",
+                "desc":"Duration of the last scene synchronization.",
+                "type":"number",
+                "role":"value.interval",
+                "unit":"ms",
                 "read":true,
                 "write":false
             },
@@ -326,9 +373,10 @@
             "type":"state",
             "common":{  
                 "name":"Overall sync time",
-                "desc":"Last timestamp of the overall sync for performance optimization.",
-                "type":"string",
-                "role":"text",
+                "desc":"Duration of the last synchronization cycle.",
+                "type":"number",
+                "role":"value.interval",
+                "unit":"ms",
                 "read":true,
                 "write":false
             },

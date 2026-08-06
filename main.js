@@ -2,10 +2,13 @@
 /*jslint node: true */
 
 "use strict";
-var CryptoJS = require("crypto-js");			//used from Rademacher to encrypt the password
 var utils = require('@iobroker/adapter-core'); // Get common adapter utils
-var request = require('request');
 var HashMap = require('hashmap');
+var getAggregateConnectionStatus = require('./lib/connection-status');
+var parseBoostTime = require('./lib/values').parseBoostTime;
+var createSaltedPassword = require('./lib/authentication');
+var httpRequest = require('./lib/http-client');
+var configHelpers = require('./lib/config');
 
 var actuatorCreateHashmap = new HashMap();
 var sensorCreateHashmap = new HashMap();
@@ -24,6 +27,7 @@ var saltedPassword;
 var passwordSalt;
 var cookie;
 var isBridge = false;
+var authenticationPromise = null;
 
 // needed variable
 var path;
@@ -33,25 +37,23 @@ var additionalDeviceSettings = [];
 var additionalSensorSettings = [];
 var additionalTransmitterSettings = [];
 var callMainInterval = null;
+var connectionStatus = new Map();
 
-request = request.defaults({jar: true})
+const REQUEST_TIMEOUT = 10000;
 
 const requestPromise = (url) => {
-    return new Promise((resolve, reject) => {
-        request(url, (error, response, body) => {
-            if (error) {
-                reject(error);
-            } else {
-                resolve({ response, body });
-            }
-        });
-    });
+    return httpRequest(url, REQUEST_TIMEOUT);
 };
 
 async function asyncRequest(url) {
 	try {
-        const { response, body } = await requestPromise(url);
-        return { statusCode: response.statusCode, body };
+        let result = await requestPromise(url);
+        if ((result.response.statusCode === 401 || result.response.statusCode === 403) && password) {
+            adapter.log.warn('HomePilot session expired. Re-authenticating once.');
+            await authenticate();
+            result = await requestPromise(url);
+        }
+        return { statusCode: result.response.statusCode, body: result.body };
     } catch (error) {
         console.error('Fehler beim Request:', error);
         throw error;
@@ -65,11 +67,11 @@ function startAdapter(options) {
 		name: 'homepilot20',
 		systemConfig: true,
 		useFormatDate: true,
-		stateChange: function(id, state) {
+		stateChange: async function(id, state) {
         if (!id || !state || state.ack) return;
 			adapter.log.debug('stateChange ' + id + ' ' + JSON.stringify(state));
 			adapter.log.debug('input value: ' + state.val.toString());
-			controlHomepilot(id, state.val.toString());
+			await controlHomepilot(id, state.val.toString());
 		},
 		unload: function(callback) {
 			try {
@@ -80,9 +82,14 @@ function startAdapter(options) {
 				callback();
 			}
 		},
-		ready: function() {
+		ready: async function() {
 			adapter.log.debug('initializing objects');
-			main();
+			try {
+				await main();
+			} catch (error) {
+				adapter.log.error('HomePilot initialization failed: ' + error.message);
+				updateConnectionStatus('authentication', true);
+			}
 		}
 		});
 	adapter = new utils.Adapter(options);
@@ -103,7 +110,7 @@ function wrapCapabilities(name, value) {
 	});
 }
 
-function controlHomepilot(id, input) {
+async function controlHomepilot(id, input) {
 	adapter.log.debug('id: ' + id + ', command: ' + input);
 	
 	var sid;
@@ -354,25 +361,27 @@ function controlHomepilot(id, input) {
 		adapter.log.warn(id + ' can not be changed.');
 	}
 	
-        if (data !== undefined) {                 
-		  request({
-                           method: calcMethod,
-                           uri: calcUri,
-                           headers: {
-                                   'Content-Type': 'application/json',
-                                   'User-Agent': 'node-request',
-                                   'Accept': '*/*',
-                                   'Cookie': cookie
-                           },
-                           body: data
-		 }, function (error, response, body) {
-                        adapter.log.debug('response: ' + JSON.stringify(response));
-			if (error) {
-				return adapter.log.error('Change Request Error:' +  error + ', Body: ' + JSON.stringify(body));
-			} else {
-				return adapter.log.debug('Change Request OK body:' + JSON.stringify(body));
+        if (data !== undefined) {
+		try {
+			const response = await asyncRequest({
+				method: calcMethod,
+				uri: calcUri,
+				headers: {
+					'Content-Type': 'application/json',
+					'User-Agent': 'iobroker.homepilot20',
+					'Accept': '*/*',
+					'Cookie': cookie
+				},
+				body: data
+			});
+			if (response.statusCode < 200 || response.statusCode >= 300) {
+				adapter.log.error('Change request failed with HTTP ' + response.statusCode);
+				return;
 			}
-		});
+			adapter.log.debug('Change request successful');
+		} catch (error) {
+			adapter.log.error('Change request failed: ' + error.message);
+		}
 	} else {
 		adapter.log.warn('Change Request could not be done, because data = undefined.');
 	}
@@ -380,24 +389,22 @@ function controlHomepilot(id, input) {
 
 function readSettings() {
     //check if IP is entered in settings
-    if (adapter.config.homepilotip === undefined || adapter.config.homepilotip.length === 0) {
-        ip = 'homepilot.local';
-        adapter.log.error('No IP adress of Homepilot station set up - "' + ip + '" used');
-		//adapter.log.error('Adapter will be stopped');
-		stopReadHomepilot();
-    } else ip = (adapter.config.homepilotport.length > 0) ? adapter.config.homepilotip + ':' + adapter.config.homepilotport : adapter.config.homepilotip;
-		
+    ip = configHelpers.buildHost(adapter.config.homepilotip, adapter.config.homepilotport);
+	if (!adapter.config.homepilotip || String(adapter.config.homepilotip).trim() === '') {
+		adapter.log.warn('No HomePilot address configured; using homepilot.local');
+	}
+
 	//check if sync time is entered in settings
-	sync_actuators = (adapter.config.sync_actuators === undefined || adapter.config.sync_actuators.length === 0) ? 4 : parseInt(adapter.config.sync_actuators,10);
+	sync_actuators = configHelpers.parsePollInterval(adapter.config.sync_actuators, 4, 'Actuator interval');
 	adapter.log.info('Homepilot station and ioBroker synchronize actuators every ' + sync_actuators + 's');
 		
-	sync_sensors = (adapter.config.sync_sensors === undefined || adapter.config.sync_sensors.length === 0) ? 3 : parseInt(adapter.config.sync_sensors,10);
+	sync_sensors = configHelpers.parsePollInterval(adapter.config.sync_sensors, 3, 'Sensor interval');
 	adapter.log.info('Homepilot station and ioBroker synchronize sensors every ' + sync_sensors + 's');
 
-	sync_transmitters = (adapter.config.sync_transmitters === undefined || adapter.config.sync_transmitters.length === 0) ? 1 : parseInt(adapter.config.sync_transmitters,10);
+	sync_transmitters = configHelpers.parsePollInterval(adapter.config.sync_transmitters, 1, 'Transmitter interval');
 	adapter.log.info('Homepilot station and ioBroker synchronize transmitters every ' + sync_transmitters + 's');
 	
-	sync_scenes = (adapter.config.sync_scenes === undefined || adapter.config.sync_scenes.length === 0) ? 5 : parseInt(adapter.config.sync_scenes,10);
+	sync_scenes = configHelpers.parsePollInterval(adapter.config.sync_scenes, 5, 'Scene interval');
 	adapter.log.info('Homepilot station and ioBroker synchronize scenes every ' + sync_scenes + 's');
 	
 	//check if password is set
@@ -420,7 +427,7 @@ function stopReadHomepilot() {
 		clearInterval(callMainInterval);
 		adapter.log.debug('callMainInterval cleared');
 	}
-    adapter.log.error('Adapter will be stopped');
+    adapter.log.debug('Adapter polling stopped');
 }
 
 async function Measure(stateId, callback) {
@@ -428,12 +435,37 @@ async function Measure(stateId, callback) {
 	await callback();
 	var end = performance.now();
 	adapter.setState(stateId, {
-		val: `${end - start} ms`,
+		val: end - start,
 		ack: true
 	});
 }
 
-function main() {
+function updateConnectionStatus(source, unreach) {
+	connectionStatus.set(source, unreach);
+	const isUnreachable = getAggregateConnectionStatus(connectionStatus);
+	const failedRequests = getAggregateConnectionStatus.countFailedSources(connectionStatus);
+
+	adapter.setState('station.UNREACH', {
+		val: isUnreachable,
+		ack: true
+	});
+	adapter.setState('info.connection', {
+		val: !isUnreachable,
+		ack: true
+	});
+	adapter.setState('info.failedRequests', {
+		val: failedRequests,
+		ack: true
+	});
+	if (!isUnreachable) {
+		adapter.setState('info.lastSuccessfulPoll', {
+			val: Date.now(),
+			ack: true
+		});
+	}
+}
+
+async function main() {
     //adapter.subscribeStates('*'); 
 	adapter.subscribeStates('*Position');
 	adapter.subscribeStates('*Position_inverted');
@@ -459,7 +491,8 @@ function main() {
     adapter.log.debug('Homepilot adapter started...');
 	
 	if (password !== undefined && password != null && password.length > 0) {
-		getPasswordSalt();
+		await authenticate();
+		updateConnectionStatus('authentication', false);
 	} else {
 		password = undefined;
 		
@@ -526,55 +559,59 @@ function main() {
     }, mainInterval);
 }
 
-function getPasswordSalt() {
-	request({
-			method: 'POST',
-			uri: 'http://' + ip + '/authentication/password_salt',
-			headers: {
-			       'User-Agent': 'node-request',
-			       'Accept': '*/*'
-			}
-		},
-		function (error, response, body) {
-			if (!error && response.statusCode == 200) {
-				var result;
-				try {
-					result = JSON.parse(body);
-				} catch (e) {
-					adapter.log.warn('Parse Error Authentication: ' + e);
-				}
-				if (result) {
-					passwordSalt = result.password_salt;
-					saltedPassword = CryptoJS.SHA256(passwordSalt + CryptoJS.SHA256(password).toString(CryptoJS.enc.Hex)).toString(CryptoJS.enc.Hex);
-					
-					const data = JSON.stringify({"password":saltedPassword, "password_salt":passwordSalt});
-					
-					request({
-						method: 'POST',
-						uri: 'http://' + ip + '/authentication/login',
-						headers: {
-						       'Content-Type': 'application/json',
-						       'User-Agent': 'node-request',
-						       'Accept': '*/*'
-						},
-						body: data
-					  },
-					  function (error, response, body) {
-							if (!error && response.statusCode == 200) {
-								cookie = response.headers['set-cookie'];
-								adapter.log.debug('Authentication successfull');
-							} else {
-								adapter.log.error('Authentication failed' + (error ? error : JSON.stringify(response)));
-								stopReadHomepilot();
-							}
-					  });	
-				}
-			} else {
-				adapter.log.error('Login/get password-salt -> Cannot connect to Homepilot: ' + (error ? error : JSON.stringify(response)));
-				stopReadHomepilot();
-			}
+async function authenticate() {
+	if (!authenticationPromise) {
+		authenticationPromise = performAuthentication().finally(function() {
+			authenticationPromise = null;
+		});
+	}
+	return authenticationPromise;
+}
+
+async function performAuthentication() {
+	const saltResponse = await requestPromise({
+		method: 'POST',
+		uri: 'http://' + ip + '/authentication/password_salt',
+		headers: {
+			'User-Agent': 'node-request',
+			'Accept': '*/*'
 		}
-	);
+	});
+
+	if (saltResponse.response.statusCode !== 200) {
+		throw new Error('Password salt request failed with HTTP ' + saltResponse.response.statusCode);
+	}
+
+	let result;
+	try {
+		result = JSON.parse(saltResponse.body);
+	} catch (error) {
+		throw new Error('Invalid password salt response: ' + error.message);
+	}
+	if (!result || !result.password_salt) {
+		throw new Error('Password salt response is missing password_salt');
+	}
+
+	passwordSalt = result.password_salt;
+	saltedPassword = createSaltedPassword(password, passwordSalt);
+
+	const loginResponse = await requestPromise({
+		method: 'POST',
+		uri: 'http://' + ip + '/authentication/login',
+		headers: {
+			'Content-Type': 'application/json',
+			'User-Agent': 'node-request',
+			'Accept': '*/*'
+		},
+		body: JSON.stringify({"password": saltedPassword, "password_salt": passwordSalt})
+	});
+
+	if (loginResponse.response.statusCode !== 200) {
+		throw new Error('Authentication failed with HTTP ' + loginResponse.response.statusCode);
+	}
+
+	cookie = loginResponse.response.headers['set-cookie'];
+	adapter.log.debug('Authentication successful');
 }
 
 async function readActuator(link) {
@@ -625,10 +662,7 @@ async function readActuator(link) {
 			unreach = true;
 		}
 			// Write connection status
-			adapter.setState('station.UNREACH', {
-				val: unreach,
-				ack: true
-			});		
+			updateConnectionStatus('actuators', unreach);
 	additionalDeviceSettings = [];
 	
 	adapter.log.debug('finished reading Homepilot actuator data');
@@ -680,10 +714,7 @@ async function readSensor(link) {
     }
 
     // Write connection status
-    adapter.setState('station.UNREACH', {
-        val: unreach,
-        ack: true
-    });
+    updateConnectionStatus('sensors', unreach);
 
 	additionalSensorSettings = [];
     adapter.log.debug('Finished reading Homepilot sensor data');
@@ -733,10 +764,7 @@ async function readTransmitter(link) {
 				unreach = true;
 			}
 			// Write connection status
-			adapter.setState('station.UNREACH', {
-				val: unreach,
-				ack: true
-			});		
+			updateConnectionStatus('transmitters', unreach);
 	additionalTransmitterSettings = [];
 	
     adapter.log.debug('Finished reading Homepilot transmitter data');
@@ -787,10 +815,7 @@ async function readScenes(link) {
 			unreach = true;
 		}	
 		// Write connection status
-		adapter.setState('station.UNREACH', {
-			val: unreach,
-			ack: true
-		});
+		updateConnectionStatus('scenes', unreach);
     adapter.log.debug('Finished reading Homepilot scene data');
 }
 
@@ -2610,8 +2635,12 @@ async function doSpecialAdditional(element, type, deviceNumberId, hashMapName) {
 
                         searchElement = elementJSON.capabilities.filter((x)=>x.name === "BOOST_TIME_CFG");
                         if (searchElement && searchElement != '') {
-                            value = (searchElement)[0].value;
-                            doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'BOOST_TIME_CFG', value, 'text', 'value', true, "number", hashMapName);
+                            value = parseBoostTime((searchElement)[0].value);
+                            if (value === null) {
+                                adapter.log.warn('Invalid BOOST_TIME_CFG value for device ' + element);
+                            } else {
+                                doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'BOOST_TIME_CFG', value, 'level.timer', 'value', true, "number", hashMapName);
+                            }
                         }
                 	    break;
                 }
@@ -2630,10 +2659,7 @@ async function doSpecialAdditional(element, type, deviceNumberId, hashMapName) {
 	adapter.log.debug('finished reading Homepilot doSpecialAdditional for ' + element);
 
 	// Write connection status
-	adapter.setState('station.UNREACH', {
-		val: unreach,
-		ack: true
-	});
+	updateConnectionStatus('special-' + element, unreach);
 }
 
 async function doAdditional(toDoList, type) {
@@ -3341,10 +3367,7 @@ async function doAdditional(toDoList, type) {
 	adapter.log.debug('finished reading Homepilot additional ' + type);
 
 	// Write connection status
-	adapter.setState('station.UNREACH', {
-		val: unreach,
-		ack: true
-	});
+	updateConnectionStatus('additional-' + type, unreach);
 }
 
 async function IsAutomaticRefreshAttributesActivated(path){
@@ -3406,6 +3429,7 @@ async function doAttribute(did, path, name, value, role, description, changeable
                 "read": true,
                 "def": 15,
                 "write": changeable,
+                "unit": "min",
                 "min": 4,
                 "max": 60
             },

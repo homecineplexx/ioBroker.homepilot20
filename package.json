@@ -14,8 +14,7 @@
 	"dependencies": {
 		"@apollon/iobroker-tools": "^0.1.0",
 		"@iobroker/adapter-core": "^3.2.2",
-		"crypto-js": "^3.1.9-1",
-        "hashmap": "^2.4.0"
+		"hashmap": "^2.4.0"
 	},
 	"description": "Homepilot 2.0 adapter",
 	"devDependencies": {
@@ -44,7 +43,7 @@
 	"scripts": {
 		"test": "npm run test:package && npm run test:unit",
 		"test:package": "mocha test/package --exit",
-		"test:unit": "mocha test/unit --exit",
+		"test:unit": "mocha test/unit test/connection-status test/http-client --exit",
 		"test:integration": "mocha test/integration --exit"
 	}
 }
