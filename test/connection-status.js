@@ -4,6 +4,7 @@ const { expect } = require('chai');
 const getAggregateConnectionStatus = require('../lib/connection-status');
 const { parseBoostTime } = require('../lib/values');
 const createSaltedPassword = require('../lib/authentication');
+const { buildHost, parsePollInterval } = require('../lib/config');
 
 describe('aggregated connection status', () => {
     it('reports reachable when all requests succeeded', () => {
@@ -64,5 +65,28 @@ describe('HomePilot authentication', () => {
         expect(createSaltedPassword('test-password', 'test-salt')).to.equal(
             'd835ac95ac95a396ef5c406e253915e57d2ee0f84d85b0b35c2dc55ec952784b'
         );
+    });
+});
+
+describe('HomePilot configuration', () => {
+    it('normalizes host and port settings', () => {
+        expect(buildHost(' 172.20.1.4 ', '')).to.equal('172.20.1.4');
+        expect(buildHost('homepilot.local', '8080')).to.equal('homepilot.local:8080');
+        expect(buildHost('', '')).to.equal('homepilot.local');
+    });
+
+    it('rejects invalid ports', () => {
+        expect(() => buildHost('homepilot.local', 'invalid')).to.throw('HomePilot port');
+        expect(() => buildHost('homepilot.local', '70000')).to.throw('HomePilot port');
+    });
+
+    it('keeps zero as the disabled polling interval', () => {
+        expect(parsePollInterval('0', 4, 'Actuator interval')).to.equal(0);
+        expect(parsePollInterval('', 4, 'Actuator interval')).to.equal(4);
+    });
+
+    it('rejects invalid polling intervals', () => {
+        expect(() => parsePollInterval('-1', 4, 'Actuator interval')).to.throw('non-negative integer');
+        expect(() => parsePollInterval('1.5', 4, 'Actuator interval')).to.throw('non-negative integer');
     });
 });

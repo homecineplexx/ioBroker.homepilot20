@@ -8,6 +8,7 @@ var getAggregateConnectionStatus = require('./lib/connection-status');
 var parseBoostTime = require('./lib/values').parseBoostTime;
 var createSaltedPassword = require('./lib/authentication');
 var httpRequest = require('./lib/http-client');
+var configHelpers = require('./lib/config');
 
 var actuatorCreateHashmap = new HashMap();
 var sensorCreateHashmap = new HashMap();
@@ -388,24 +389,22 @@ async function controlHomepilot(id, input) {
 
 function readSettings() {
     //check if IP is entered in settings
-    if (adapter.config.homepilotip === undefined || adapter.config.homepilotip.length === 0) {
-        ip = 'homepilot.local';
-        adapter.log.error('No IP adress of Homepilot station set up - "' + ip + '" used');
-		//adapter.log.error('Adapter will be stopped');
-		stopReadHomepilot();
-    } else ip = (adapter.config.homepilotport.length > 0) ? adapter.config.homepilotip + ':' + adapter.config.homepilotport : adapter.config.homepilotip;
-		
+    ip = configHelpers.buildHost(adapter.config.homepilotip, adapter.config.homepilotport);
+	if (!adapter.config.homepilotip || String(adapter.config.homepilotip).trim() === '') {
+		adapter.log.warn('No HomePilot address configured; using homepilot.local');
+	}
+
 	//check if sync time is entered in settings
-	sync_actuators = (adapter.config.sync_actuators === undefined || adapter.config.sync_actuators.length === 0) ? 4 : parseInt(adapter.config.sync_actuators,10);
+	sync_actuators = configHelpers.parsePollInterval(adapter.config.sync_actuators, 4, 'Actuator interval');
 	adapter.log.info('Homepilot station and ioBroker synchronize actuators every ' + sync_actuators + 's');
 		
-	sync_sensors = (adapter.config.sync_sensors === undefined || adapter.config.sync_sensors.length === 0) ? 3 : parseInt(adapter.config.sync_sensors,10);
+	sync_sensors = configHelpers.parsePollInterval(adapter.config.sync_sensors, 3, 'Sensor interval');
 	adapter.log.info('Homepilot station and ioBroker synchronize sensors every ' + sync_sensors + 's');
 
-	sync_transmitters = (adapter.config.sync_transmitters === undefined || adapter.config.sync_transmitters.length === 0) ? 1 : parseInt(adapter.config.sync_transmitters,10);
+	sync_transmitters = configHelpers.parsePollInterval(adapter.config.sync_transmitters, 1, 'Transmitter interval');
 	adapter.log.info('Homepilot station and ioBroker synchronize transmitters every ' + sync_transmitters + 's');
 	
-	sync_scenes = (adapter.config.sync_scenes === undefined || adapter.config.sync_scenes.length === 0) ? 5 : parseInt(adapter.config.sync_scenes,10);
+	sync_scenes = configHelpers.parsePollInterval(adapter.config.sync_scenes, 5, 'Scene interval');
 	adapter.log.info('Homepilot station and ioBroker synchronize scenes every ' + sync_scenes + 's');
 	
 	//check if password is set
@@ -436,7 +435,7 @@ async function Measure(stateId, callback) {
 	await callback();
 	var end = performance.now();
 	adapter.setState(stateId, {
-		val: `${end - start} ms`,
+		val: end - start,
 		ack: true
 	});
 }

@@ -299,9 +299,10 @@
             "type":"state",
             "common":{  
                 "name":"Synchronize sensors time",
-                "desc":"Last timestamp of synchronize sensors for performance optimization.",
-                "type":"string",
-                "role":"text",
+                "desc":"Duration of the last sensor synchronization.",
+                "type":"number",
+                "role":"value.interval",
+                "unit":"ms",
                 "read":true,
                 "write":false
             },
@@ -327,9 +328,10 @@
             "type":"state",
             "common":{  
                 "name":"Synchronize actuators time",
-                "desc":"Last timestamp of synchronize actuators for performance optimization.",
-                "type":"string",
-                "role":"text",
+                "desc":"Duration of the last actuator synchronization.",
+                "type":"number",
+                "role":"value.interval",
+                "unit":"ms",
                 "read":true,
                 "write":false
             },
@@ -341,9 +343,10 @@
             "type":"state",
             "common":{  
                 "name":"Synchronize transmitters time",
-                "desc":"Last timestamp of synchronize transmitters for performance optimization.",
-                "type":"string",
-                "role":"text",
+                "desc":"Duration of the last transmitter synchronization.",
+                "type":"number",
+                "role":"value.interval",
+                "unit":"ms",
                 "read":true,
                 "write":false
             },
@@ -355,9 +358,10 @@
             "type":"state",
             "common":{  
                 "name":"Synchronize scenes time",
-                "desc":"Last timestamp of synchronize scenes for performance optimization.",
-                "type":"string",
-                "role":"text",
+                "desc":"Duration of the last scene synchronization.",
+                "type":"number",
+                "role":"value.interval",
+                "unit":"ms",
                 "read":true,
                 "write":false
             },
@@ -369,9 +373,10 @@
             "type":"state",
             "common":{  
                 "name":"Overall sync time",
-                "desc":"Last timestamp of the overall sync for performance optimization.",
-                "type":"string",
-                "role":"text",
+                "desc":"Duration of the last synchronization cycle.",
+                "type":"number",
+                "role":"value.interval",
+                "unit":"ms",
                 "read":true,
                 "write":false
             },
