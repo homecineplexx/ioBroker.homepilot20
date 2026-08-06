@@ -7,6 +7,7 @@ var utils = require('@iobroker/adapter-core'); // Get common adapter utils
 var request = require('request');
 var HashMap = require('hashmap');
 var getAggregateConnectionStatus = require('./lib/connection-status');
+var parseBoostTime = require('./lib/values').parseBoostTime;
 
 var actuatorCreateHashmap = new HashMap();
 var sensorCreateHashmap = new HashMap();
@@ -439,6 +440,7 @@ async function Measure(stateId, callback) {
 function updateConnectionStatus(source, unreach) {
 	connectionStatus.set(source, unreach);
 	const isUnreachable = getAggregateConnectionStatus(connectionStatus);
+	const failedRequests = getAggregateConnectionStatus.countFailedSources(connectionStatus);
 
 	adapter.setState('station.UNREACH', {
 		val: isUnreachable,
@@ -448,6 +450,16 @@ function updateConnectionStatus(source, unreach) {
 		val: !isUnreachable,
 		ack: true
 	});
+	adapter.setState('info.failedRequests', {
+		val: failedRequests,
+		ack: true
+	});
+	if (!isUnreachable) {
+		adapter.setState('info.lastSuccessfulPoll', {
+			val: Date.now(),
+			ack: true
+		});
+	}
 }
 
 function main() {
@@ -2615,8 +2627,12 @@ async function doSpecialAdditional(element, type, deviceNumberId, hashMapName) {
 
                         searchElement = elementJSON.capabilities.filter((x)=>x.name === "BOOST_TIME_CFG");
                         if (searchElement && searchElement != '') {
-                            value = (searchElement)[0].value;
-                            doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'BOOST_TIME_CFG', value, 'text', 'value', true, "number", hashMapName);
+                            value = parseBoostTime((searchElement)[0].value);
+                            if (value === null) {
+                                adapter.log.warn('Invalid BOOST_TIME_CFG value for device ' + element);
+                            } else {
+                                doAttribute(element, type + '.' + element + '-' + deviceNumberId + '.Attribute.', 'BOOST_TIME_CFG', value, 'level.timer', 'value', true, "number", hashMapName);
+                            }
                         }
                 	    break;
                 }
@@ -3405,6 +3421,7 @@ async function doAttribute(did, path, name, value, role, description, changeable
                 "read": true,
                 "def": 15,
                 "write": changeable,
+                "unit": "min",
                 "min": 4,
                 "max": 60
             },

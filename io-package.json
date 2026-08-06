@@ -227,6 +227,33 @@
             },
             "native":{}
         },
+        {
+            "_id":"info.lastSuccessfulPoll",
+            "type":"state",
+            "common":{
+                "name":"Last successful poll",
+                "type":"number",
+                "role":"value.time",
+                "def":0,
+                "read":true,
+                "write":false
+            },
+            "native":{}
+        },
+        {
+            "_id":"info.failedRequests",
+            "type":"state",
+            "common":{
+                "name":"Failed request sources",
+                "type":"number",
+                "role":"value",
+                "def":0,
+                "min":0,
+                "read":true,
+                "write":false
+            },
+            "native":{}
+        },
         {  
             "_id":"station",
             "type":"channel",
