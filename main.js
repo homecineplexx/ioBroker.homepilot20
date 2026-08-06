@@ -6,6 +6,7 @@ var CryptoJS = require("crypto-js");			//used from Rademacher to encrypt the pas
 var utils = require('@iobroker/adapter-core'); // Get common adapter utils
 var request = require('request');
 var HashMap = require('hashmap');
+var getAggregateConnectionStatus = require('./lib/connection-status');
 
 var actuatorCreateHashmap = new HashMap();
 var sensorCreateHashmap = new HashMap();
@@ -33,8 +34,10 @@ var additionalDeviceSettings = [];
 var additionalSensorSettings = [];
 var additionalTransmitterSettings = [];
 var callMainInterval = null;
+var connectionStatus = new Map();
 
-request = request.defaults({jar: true})
+const REQUEST_TIMEOUT = 10000;
+request = request.defaults({jar: true, timeout: REQUEST_TIMEOUT})
 
 const requestPromise = (url) => {
     return new Promise((resolve, reject) => {
@@ -420,7 +423,7 @@ function stopReadHomepilot() {
 		clearInterval(callMainInterval);
 		adapter.log.debug('callMainInterval cleared');
 	}
-    adapter.log.error('Adapter will be stopped');
+    adapter.log.debug('Adapter polling stopped');
 }
 
 async function Measure(stateId, callback) {
@@ -429,6 +432,20 @@ async function Measure(stateId, callback) {
 	var end = performance.now();
 	adapter.setState(stateId, {
 		val: `${end - start} ms`,
+		ack: true
+	});
+}
+
+function updateConnectionStatus(source, unreach) {
+	connectionStatus.set(source, unreach);
+	const isUnreachable = getAggregateConnectionStatus(connectionStatus);
+
+	adapter.setState('station.UNREACH', {
+		val: isUnreachable,
+		ack: true
+	});
+	adapter.setState('info.connection', {
+		val: !isUnreachable,
 		ack: true
 	});
 }
@@ -625,10 +642,7 @@ async function readActuator(link) {
 			unreach = true;
 		}
 			// Write connection status
-			adapter.setState('station.UNREACH', {
-				val: unreach,
-				ack: true
-			});		
+			updateConnectionStatus('actuators', unreach);
 	additionalDeviceSettings = [];
 	
 	adapter.log.debug('finished reading Homepilot actuator data');
@@ -680,10 +694,7 @@ async function readSensor(link) {
     }
 
     // Write connection status
-    adapter.setState('station.UNREACH', {
-        val: unreach,
-        ack: true
-    });
+    updateConnectionStatus('sensors', unreach);
 
 	additionalSensorSettings = [];
     adapter.log.debug('Finished reading Homepilot sensor data');
@@ -733,10 +744,7 @@ async function readTransmitter(link) {
 				unreach = true;
 			}
 			// Write connection status
-			adapter.setState('station.UNREACH', {
-				val: unreach,
-				ack: true
-			});		
+			updateConnectionStatus('transmitters', unreach);
 	additionalTransmitterSettings = [];
 	
     adapter.log.debug('Finished reading Homepilot transmitter data');
@@ -787,10 +795,7 @@ async function readScenes(link) {
 			unreach = true;
 		}	
 		// Write connection status
-		adapter.setState('station.UNREACH', {
-			val: unreach,
-			ack: true
-		});
+		updateConnectionStatus('scenes', unreach);
     adapter.log.debug('Finished reading Homepilot scene data');
 }
 
@@ -2630,10 +2635,7 @@ async function doSpecialAdditional(element, type, deviceNumberId, hashMapName) {
 	adapter.log.debug('finished reading Homepilot doSpecialAdditional for ' + element);
 
 	// Write connection status
-	adapter.setState('station.UNREACH', {
-		val: unreach,
-		ack: true
-	});
+	updateConnectionStatus('special-' + element, unreach);
 }
 
 async function doAdditional(toDoList, type) {
@@ -3341,10 +3343,7 @@ async function doAdditional(toDoList, type) {
 	adapter.log.debug('finished reading Homepilot additional ' + type);
 
 	// Write connection status
-	adapter.setState('station.UNREACH', {
-		val: unreach,
-		ack: true
-	});
+	updateConnectionStatus('additional-' + type, unreach);
 }
 
 async function IsAutomaticRefreshAttributesActivated(path){

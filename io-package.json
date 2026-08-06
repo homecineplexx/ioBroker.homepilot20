@@ -198,7 +198,10 @@
         ],
         "connectionType": "local",
         "dataSource": "poll",
-        "tier": 2
+        "tier": 2,
+        "encryptedNative": [
+            "password"
+        ]
     },
     "native":{  
         "homepilotip":"",
@@ -211,6 +214,19 @@
     },
     "objects": [],
     "instanceObjects":[  
+        {
+            "_id":"info.connection",
+            "type":"state",
+            "common":{
+                "name":"Connection status",
+                "type":"boolean",
+                "role":"indicator.connected",
+                "def":false,
+                "read":true,
+                "write":false
+            },
+            "native":{}
+        },
         {  
             "_id":"station",
             "type":"channel",
