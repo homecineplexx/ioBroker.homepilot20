@@ -3,11 +3,11 @@
 
 "use strict";
 var utils = require('@iobroker/adapter-core'); // Get common adapter utils
-var request = require('request');
 var HashMap = require('hashmap');
 var getAggregateConnectionStatus = require('./lib/connection-status');
 var parseBoostTime = require('./lib/values').parseBoostTime;
 var createSaltedPassword = require('./lib/authentication');
+var httpRequest = require('./lib/http-client');
 
 var actuatorCreateHashmap = new HashMap();
 var sensorCreateHashmap = new HashMap();
@@ -39,18 +39,9 @@ var callMainInterval = null;
 var connectionStatus = new Map();
 
 const REQUEST_TIMEOUT = 10000;
-request = request.defaults({jar: true, timeout: REQUEST_TIMEOUT})
 
 const requestPromise = (url) => {
-    return new Promise((resolve, reject) => {
-        request(url, (error, response, body) => {
-            if (error) {
-                reject(error);
-            } else {
-                resolve({ response, body });
-            }
-        });
-    });
+    return httpRequest(url, REQUEST_TIMEOUT);
 };
 
 async function asyncRequest(url) {
@@ -75,11 +66,11 @@ function startAdapter(options) {
 		name: 'homepilot20',
 		systemConfig: true,
 		useFormatDate: true,
-		stateChange: function(id, state) {
+		stateChange: async function(id, state) {
         if (!id || !state || state.ack) return;
 			adapter.log.debug('stateChange ' + id + ' ' + JSON.stringify(state));
 			adapter.log.debug('input value: ' + state.val.toString());
-			controlHomepilot(id, state.val.toString());
+			await controlHomepilot(id, state.val.toString());
 		},
 		unload: function(callback) {
 			try {
@@ -118,7 +109,7 @@ function wrapCapabilities(name, value) {
 	});
 }
 
-function controlHomepilot(id, input) {
+async function controlHomepilot(id, input) {
 	adapter.log.debug('id: ' + id + ', command: ' + input);
 	
 	var sid;
@@ -369,25 +360,27 @@ function controlHomepilot(id, input) {
 		adapter.log.warn(id + ' can not be changed.');
 	}
 	
-        if (data !== undefined) {                 
-		  request({
-                           method: calcMethod,
-                           uri: calcUri,
-                           headers: {
-                                   'Content-Type': 'application/json',
-                                   'User-Agent': 'node-request',
-                                   'Accept': '*/*',
-                                   'Cookie': cookie
-                           },
-                           body: data
-		 }, function (error, response, body) {
-                        adapter.log.debug('response: ' + JSON.stringify(response));
-			if (error) {
-				return adapter.log.error('Change Request Error:' +  error + ', Body: ' + JSON.stringify(body));
-			} else {
-				return adapter.log.debug('Change Request OK body:' + JSON.stringify(body));
+        if (data !== undefined) {
+		try {
+			const response = await asyncRequest({
+				method: calcMethod,
+				uri: calcUri,
+				headers: {
+					'Content-Type': 'application/json',
+					'User-Agent': 'iobroker.homepilot20',
+					'Accept': '*/*',
+					'Cookie': cookie
+				},
+				body: data
+			});
+			if (response.statusCode < 200 || response.statusCode >= 300) {
+				adapter.log.error('Change request failed with HTTP ' + response.statusCode);
+				return;
 			}
-		});
+			adapter.log.debug('Change request successful');
+		} catch (error) {
+			adapter.log.error('Change request failed: ' + error.message);
+		}
 	} else {
 		adapter.log.warn('Change Request could not be done, because data = undefined.');
 	}
