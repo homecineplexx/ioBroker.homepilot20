@@ -3,6 +3,7 @@
 const { expect } = require('chai');
 const getAggregateConnectionStatus = require('../lib/connection-status');
 const { parseBoostTime } = require('../lib/values');
+const createSaltedPassword = require('../lib/authentication');
 
 describe('aggregated connection status', () => {
     it('reports reachable when all requests succeeded', () => {
@@ -55,5 +56,13 @@ describe('HomePilot value conversion', () => {
         expect(parseBoostTime(undefined)).to.equal(null);
         expect(parseBoostTime('')).to.equal(null);
         expect(parseBoostTime('not-a-number')).to.equal(null);
+    });
+});
+
+describe('HomePilot authentication', () => {
+    it('creates the password hash required by the HomePilot API', () => {
+        expect(createSaltedPassword('test-password', 'test-salt')).to.equal(
+            'd835ac95ac95a396ef5c406e253915e57d2ee0f84d85b0b35c2dc55ec952784b'
+        );
     });
 });

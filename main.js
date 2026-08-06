@@ -2,12 +2,12 @@
 /*jslint node: true */
 
 "use strict";
-var CryptoJS = require("crypto-js");			//used from Rademacher to encrypt the password
 var utils = require('@iobroker/adapter-core'); // Get common adapter utils
 var request = require('request');
 var HashMap = require('hashmap');
 var getAggregateConnectionStatus = require('./lib/connection-status');
 var parseBoostTime = require('./lib/values').parseBoostTime;
+var createSaltedPassword = require('./lib/authentication');
 
 var actuatorCreateHashmap = new HashMap();
 var sensorCreateHashmap = new HashMap();
@@ -26,6 +26,7 @@ var saltedPassword;
 var passwordSalt;
 var cookie;
 var isBridge = false;
+var authenticationPromise = null;
 
 // needed variable
 var path;
@@ -54,8 +55,13 @@ const requestPromise = (url) => {
 
 async function asyncRequest(url) {
 	try {
-        const { response, body } = await requestPromise(url);
-        return { statusCode: response.statusCode, body };
+        let result = await requestPromise(url);
+        if ((result.response.statusCode === 401 || result.response.statusCode === 403) && password) {
+            adapter.log.warn('HomePilot session expired. Re-authenticating once.');
+            await authenticate();
+            result = await requestPromise(url);
+        }
+        return { statusCode: result.response.statusCode, body: result.body };
     } catch (error) {
         console.error('Fehler beim Request:', error);
         throw error;
@@ -84,9 +90,14 @@ function startAdapter(options) {
 				callback();
 			}
 		},
-		ready: function() {
+		ready: async function() {
 			adapter.log.debug('initializing objects');
-			main();
+			try {
+				await main();
+			} catch (error) {
+				adapter.log.error('HomePilot initialization failed: ' + error.message);
+				updateConnectionStatus('authentication', true);
+			}
 		}
 		});
 	adapter = new utils.Adapter(options);
@@ -462,7 +473,7 @@ function updateConnectionStatus(source, unreach) {
 	}
 }
 
-function main() {
+async function main() {
     //adapter.subscribeStates('*'); 
 	adapter.subscribeStates('*Position');
 	adapter.subscribeStates('*Position_inverted');
@@ -488,7 +499,8 @@ function main() {
     adapter.log.debug('Homepilot adapter started...');
 	
 	if (password !== undefined && password != null && password.length > 0) {
-		getPasswordSalt();
+		await authenticate();
+		updateConnectionStatus('authentication', false);
 	} else {
 		password = undefined;
 		
@@ -555,55 +567,59 @@ function main() {
     }, mainInterval);
 }
 
-function getPasswordSalt() {
-	request({
-			method: 'POST',
-			uri: 'http://' + ip + '/authentication/password_salt',
-			headers: {
-			       'User-Agent': 'node-request',
-			       'Accept': '*/*'
-			}
-		},
-		function (error, response, body) {
-			if (!error && response.statusCode == 200) {
-				var result;
-				try {
-					result = JSON.parse(body);
-				} catch (e) {
-					adapter.log.warn('Parse Error Authentication: ' + e);
-				}
-				if (result) {
-					passwordSalt = result.password_salt;
-					saltedPassword = CryptoJS.SHA256(passwordSalt + CryptoJS.SHA256(password).toString(CryptoJS.enc.Hex)).toString(CryptoJS.enc.Hex);
-					
-					const data = JSON.stringify({"password":saltedPassword, "password_salt":passwordSalt});
-					
-					request({
-						method: 'POST',
-						uri: 'http://' + ip + '/authentication/login',
-						headers: {
-						       'Content-Type': 'application/json',
-						       'User-Agent': 'node-request',
-						       'Accept': '*/*'
-						},
-						body: data
-					  },
-					  function (error, response, body) {
-							if (!error && response.statusCode == 200) {
-								cookie = response.headers['set-cookie'];
-								adapter.log.debug('Authentication successfull');
-							} else {
-								adapter.log.error('Authentication failed' + (error ? error : JSON.stringify(response)));
-								stopReadHomepilot();
-							}
-					  });	
-				}
-			} else {
-				adapter.log.error('Login/get password-salt -> Cannot connect to Homepilot: ' + (error ? error : JSON.stringify(response)));
-				stopReadHomepilot();
-			}
+async function authenticate() {
+	if (!authenticationPromise) {
+		authenticationPromise = performAuthentication().finally(function() {
+			authenticationPromise = null;
+		});
+	}
+	return authenticationPromise;
+}
+
+async function performAuthentication() {
+	const saltResponse = await requestPromise({
+		method: 'POST',
+		uri: 'http://' + ip + '/authentication/password_salt',
+		headers: {
+			'User-Agent': 'node-request',
+			'Accept': '*/*'
 		}
-	);
+	});
+
+	if (saltResponse.response.statusCode !== 200) {
+		throw new Error('Password salt request failed with HTTP ' + saltResponse.response.statusCode);
+	}
+
+	let result;
+	try {
+		result = JSON.parse(saltResponse.body);
+	} catch (error) {
+		throw new Error('Invalid password salt response: ' + error.message);
+	}
+	if (!result || !result.password_salt) {
+		throw new Error('Password salt response is missing password_salt');
+	}
+
+	passwordSalt = result.password_salt;
+	saltedPassword = createSaltedPassword(password, passwordSalt);
+
+	const loginResponse = await requestPromise({
+		method: 'POST',
+		uri: 'http://' + ip + '/authentication/login',
+		headers: {
+			'Content-Type': 'application/json',
+			'User-Agent': 'node-request',
+			'Accept': '*/*'
+		},
+		body: JSON.stringify({"password": saltedPassword, "password_salt": passwordSalt})
+	});
+
+	if (loginResponse.response.statusCode !== 200) {
+		throw new Error('Authentication failed with HTTP ' + loginResponse.response.statusCode);
+	}
+
+	cookie = loginResponse.response.headers['set-cookie'];
+	adapter.log.debug('Authentication successful');
 }
 
 async function readActuator(link) {
