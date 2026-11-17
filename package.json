@@ -9,7 +9,7 @@
 		"url": "https://github.com/homecineplexx/ioBroker.homepilot20/issues"
 	},
 	"engines": {
-		"node": ">=18"
+		"node": ">=22.19.0"
 	},
 	"dependencies": {
 		"@apollon/iobroker-tools": "^0.1.0",
