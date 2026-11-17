@@ -21,6 +21,9 @@ If you like my work, please consider a personal donation
 
 
 ## Changelog
+
+### **WORK IN PROGRESS**
+- (copilot) Adapter requires node.js >= 22.19.0 now
 ### 0.0.74      (02.04.2026)
 * (homecineplexx)  adapt Login Request method after Rademacher changed API
 
