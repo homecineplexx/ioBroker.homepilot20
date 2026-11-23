@@ -21,6 +21,9 @@ If you like my work, please consider a personal donation
 
 
 ## Changelog
+### 0.0.75      (23.11.2026)
+* (Kadoga1210) added device: Gurtwickler Gurtwickler RolloTron pure smart 10122345
+
 ### 0.0.74      (02.04.2026)
 * (homecineplexx)  adapt Login Request method after Rademacher changed API
 
