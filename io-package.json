@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "homepilot20",
-        "version": "0.0.74",
+        "version": "0.0.75",
 		"news": {
+			"0.0.75":{
+                "en": "added new device 10502001 HomePilot Zeitschaltuhr premium smart",
+                "de": "Neues Gerät 10502001 HomePilot Zeitschaltuhr premium smart",
+                "ru": "добавлено новое устройство 10502001 THomePilot Zeitschaltuhr premium smart",
+                "pt": "adicionado novo dispositivo 10502001 HomePilot Zeitschaltuhr premium smart",
+                "nl": "nieuw apparaat toegevoegd 10502001 HomePilot Zeitschaltuhr premium smart",
+                "fr": "ajout d'un nouvel appareil 10502001 HomePilot Zeitschaltuhr premium smart",
+                "it": "aggiunto nuovo dispositivo 10502001 HomePilot Zeitschaltuhr premium smart",
+                "es": "añadido nuevo dispositivo 10502001 HomePilot Zeitschaltuhr premium smart",
+                "pl": "dodano nowe urządzenie 10502001 HomePilot Zeitschaltuhr premium smart",
+                "zh-cn": "添加了新设备 10502001 HomePilot Zeitschaltuhr premium smart"
+            }
             "0.0.74":{
                 "en": "adapt Login Request method after Rademacher changed API",
                 "de": "Die Login-Anfragemethode wurde nach der API-Änderung von Rademacher angepasst.",
