@@ -219,6 +219,7 @@ function controlHomepilot(id, input) {
 					deviceNumberId == '35000462' /*DuoFern-Universal-Dimmaktor*/ ||
 					deviceNumberId == '35140462' /*DuoFern-UniversalDimmer-9476*/ ||
 					deviceNumberId == '36500572' /*Duofern-Troll-Comfort-5665*/ ||
+				    deviceNumberId == '10502001' /*HomePilot-Zeitschaltuhr-premium-smart*/ ||
 					deviceNumberId == '32000064' /*DuoFern-Umweltsensor*/ ||
 					deviceNumberId == '16234511' /*DuoFern-RolloTron-Comfort-1800/1805/1840*/ ||
                     deviceNumberId == '10182345' /*DuoFern-RolloTron premium smart*/ ||
@@ -989,7 +990,12 @@ function calculatePath(result, type) {
 		case "36500572":
 			deviceType = 'DuoFern-Troll-Comfort-5665';
 			deviceRole = 'level.blind';
-			break;		
+			break;
+
+		case "10502001":
+			deviceType = 'HomePilot-Zeitschaltuhr-premium-smart';
+			deviceRole = 'level.blind';
+			break;
 			
 		case "32000064":
 			deviceType = 'DuoFern-Umweltsensor-9475';
@@ -1957,6 +1963,7 @@ function createSensorStates(result, type) {
 		}
 		
 		if (deviceNumber == '36500572' /*Duofern-Troll-Comfort-5665*/ ||
+			deviceNumber == '10502001' /*HomePilot-Zeitschaltuhr-premium-smart*/ ||
 			deviceNumber == '32000064' /*DuoFern-Umweltsensor*/ ||
 			deviceNumber == '32000069' /*DuoFern-Sonnensensor-9478*/ ||
             deviceNumber == '32210069' /*DuoFern-Sonnensensor-9478-1*/ ||
@@ -2435,6 +2442,7 @@ function writeSensorStates(result, type) {
 		}
 		
 		if (deviceNumber == '36500572' /*Duofern-Troll-Comfort-5665*/ ||
+			deviceNumber == '10502001' /*HomePilot-Zeitschaltuhr-premium-smart*/ ||
 			deviceNumber == '32000064' /*DuoFern-Umweltsensor*/ ||
 			deviceNumber == '32000069' /*DuoFern-Sonnensensor-9478*/ ||
             deviceNumber == '32210069' /*DuoFern-Sonnensensor-9478-1*/ ||

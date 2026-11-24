@@ -21,6 +21,9 @@ If you like my work, please consider a personal donation
 
 
 ## Changelog
+### 0.0.75      (24.11.2026)
+* (Kadoga1210)  added new device 10502001 HomePilot Zeitschaltuhr premium smart
+
 ### 0.0.74      (02.04.2026)
 * (homecineplexx)  adapt Login Request method after Rademacher changed API
 
