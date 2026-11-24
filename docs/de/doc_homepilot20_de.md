@@ -39,6 +39,7 @@ Für Sensor und Transmitter ist hartkodiert 3s eingestellt. Cameras werden momen
 |   14236011    |  DuoFern RolloTron Pro Comfort               |                            | level.blind            |  9800   | Actuator             | 0 - 100 %  |
 |   16234511    |  DuoFern RolloTron Comfort 1800/1805/1840    |                            | level.blind            |         | Actuator/Sensor      | 0 - 100 %  |
 |   36500572    |  Duofern Troll Comfort                       |                            | level.blind            |  5665   | Actuator             | 0 - 100 %  |
+|   10502001    |  HomePilot Zeitschaltuhr premium smart       |                            | level.blind            |         | Actuator             | 0 - 100 %  |
 |   45059071    |  RolloPort-SX5-DuoFern-RP-SX5DF-900N-3       |                            | level.blind            |         | Actuator             | 0 - 100 %  |
 |   23602075    |  DuoFern-S-Line-Motor-Typ-SLDM-10/16-PZ      |                            | level.blind            |         | Actuator             | 0 - 100 %  |
 |   23783076    |  RolloTube S-line Sun DuoFern SLDSM 30/16PZ  |                            | level.blind            |         | Actuator             | 0 - 100 %  |
